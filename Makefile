@@ -8,7 +8,7 @@ COMPOSER = $(EXEC_PHP) composer
 .DEFAULT_GOAL := help
 
 help: ## This help dialog.
-	@echo "${GREEN}Skeleton${RESET}"
+	@echo "${GREEN}Des amis, du vin${RESET}"
 	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
 		helpMessage = match(lastLine, /^## (.*)/); \
 		if (helpMessage) { \
@@ -54,7 +54,7 @@ logs: docker-compose.override.yaml ##Logs from docker
 Project:
 
 ## Up the project and load database
-install: build up vendor node-modules assets-build db-load-fixtures
+install: build up vendor db-load-fixtures
 
 ## Reset the project
 reset: down install
@@ -73,11 +73,6 @@ vendor: composer.lock
 	@echo "\nInstalling composer packages...\e[0m"
 	@$(COMPOSER) install
 
-##Install yarn
-node-modules: package.json
-	@echo "\nInstalling yarn packages...\e[0m"
-	@$(EXEC_YARN) install
-
 ## Update composer
 composer-update: composer.json
 	@echo "\nUpdating composer packages...\e[0m"
@@ -93,15 +88,7 @@ wait-db:
 	@echo "\nWaiting for DB...\e[0m"
 	@$(EXEC_PHP) php -r "set_time_limit(60);for(;;){if(@fsockopen('db',3306))die;echo \"\";sleep(1);}"
 
-## Watch assets and do live reload
-watch: node-modules
-	@$(EXEC_YARN) encore dev --watch
-
-## Build assets in dev env
-assets-build:
-	@$(EXEC_YARN) encore dev
-
-.PHONY: install reset start stop vendor composer-update cc wait-db node-modules
+.PHONY: install reset start stop vendor composer-update cc wait-db
 
 #################################
 Database:
@@ -109,7 +96,7 @@ Database:
 ## Load database from dump
 db-load-fixtures: wait-db
 	@echo "\nLoading fixtures from dump...\e[0m"
-	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/skeleton.sql"
+	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv.sql"
 
 ## Recreate database structure
 db-reload-schema: wait-db db-drop db-create db-migrate
@@ -139,7 +126,7 @@ db-reload-fixtures: wait-db db-reload-schema
 	@$(EXEC_SYMFONY) hautelook:fixtures:load --no-interaction
 
 	@echo "\nCreating dump...\e[0m"
-	@$(EXEC_DB) "mysqldump --user=root --password=root --databases skeleton > /home/app/dump/skeleton.sql"
+	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv > /home/app/dump/dadv.sql"
 
 #################################
 Test:
@@ -150,7 +137,7 @@ unit-test:
 	@$(EXEC_PHP) bin/phpunit
 
 ## Launch behat
-behat: vendor node-modules db-load-fixtures
+behat: vendor db-load-fixtures
 	@echo "\nLaunching read-only behat tests...\e[0m"
 	@$(EXEC_PHP) vendor/bin/behat --strict --format=progress --tags="@read-only"
 
@@ -163,7 +150,7 @@ behat: vendor node-modules db-load-fixtures
 Quality assurance:
 
 ## Launch all quality assurance step
-code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan cs eslint db-validate
+code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan cs db-validate
 
 ## Security check on dependencies
 security-checker:
@@ -214,10 +201,6 @@ cs:
 cs-fix:
 	@echo "\nRunning cs fixer...\e[0m"
 	@$(EXEC_PHP) vendor/bin/php-cs-fixer fix --using-cache=no --verbose --diff --config=php-cs-fixer.dist.php
-
-eslint: node-modules
-	@echo "\nRunning eslint\e[0m"
-	@$(EXEC_YARN) run eslint assets/
 
 ## Validate db schema
 db-validate:

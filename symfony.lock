@@ -98,9 +98,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "egulias/email-validator": {
-        "version": "2.1.20"
-    },
     "fakerphp/faker": {
         "version": "v1.12.0"
     },
@@ -410,9 +407,6 @@
             ".env"
         ]
     },
-    "symfony/form": {
-        "version": "v5.1.5"
-    },
     "symfony/framework-bundle": {
         "version": "7.0",
         "recipe": {
@@ -447,18 +441,6 @@
     "symfony/intl": {
         "version": "v5.1.5"
     },
-    "symfony/mailer": {
-        "version": "7.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "4.3",
-            "ref": "df66ee1f226c46f01e85c29c2f7acce0596ba35a"
-        },
-        "files": [
-            "config/packages/mailer.yaml"
-        ]
-    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -467,9 +449,6 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
-    },
-    "symfony/mime": {
-        "version": "v5.1.5"
     },
     "symfony/monolog-bridge": {
         "version": "v5.1.5"
@@ -511,12 +490,6 @@
         ]
     },
     "symfony/polyfill-intl-grapheme": {
-        "version": "v1.18.1"
-    },
-    "symfony/polyfill-intl-icu": {
-        "version": "v1.18.1"
-    },
-    "symfony/polyfill-intl-idn": {
         "version": "v1.18.1"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -672,22 +645,6 @@
         "files": [
             "config/packages/web_profiler.yaml",
             "config/routes/web_profiler.yaml"
-        ]
-    },
-    "symfony/webpack-encore-bundle": {
-        "version": "2.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.0",
-            "ref": "082d754b3bd54b3fc669f278f1eea955cfd23cf5"
-        },
-        "files": [
-            "assets/app.js",
-            "assets/styles/app.css",
-            "config/packages/webpack_encore.yaml",
-            "package.json",
-            "webpack.config.js"
         ]
     },
     "symfony/yaml": {

@@ -56,19 +56,12 @@ services:
     networks:
       - web
 
-  smtp:
-    image: schickling/mailcatcher
-    environment:
-      VIRTUAL_PORT: 1080
-    networks:
-      - web
-
   selenium:
     image: selenium/standalone-chrome
     networks:
       - web
     external_links:
-      - nginx-proxy:skeleton.docker
+      - nginx-proxy:des-amis-du-vin.docker
 
 networks:
     web:

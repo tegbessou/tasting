@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.7.3-MariaDB, for debian-linux-gnu (aarch64)
+-- MariaDB dump 10.19  Distrib 10.11.6-MariaDB, for debian-linux-gnu (aarch64)
 --
--- Host: localhost    Database: skeleton
+-- Host: localhost    Database: dadv
 -- ------------------------------------------------------
--- Server version	10.7.3-MariaDB-1:10.7.3+maria~focal
+-- Server version	10.11.6-MariaDB-1:10.11.6+maria~ubu2204
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `skeleton`
+-- Current Database: `dadv`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `skeleton` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `dadv` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
-USE `skeleton`;
+USE `dadv`;
 
 --
 -- Table structure for table `doctrine_migration_versions`
@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `doctrine_migration_versions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `version` varchar(191) NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
@@ -45,7 +45,7 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20201020095646','2022-03-02 09:46:42',90);
+('DoctrineMigrations\\Version20201020095646','2024-01-22 16:52:40',8);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,9 +58,9 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roles` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `roles` longtext NOT NULL COMMENT '(DC2Type:array)',
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -86,4 +86,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-02  9:46:44
+-- Dump completed on 2024-01-22 16:52:42

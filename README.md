@@ -1,23 +1,23 @@
-# Skeleton
+# Des amis, du vin
 ![CI](https://github.com/tegbessou/skeleton/workflows/CI/badge.svg)
-## Description
-A skeleton of application, which can be used if you have to start a new project with Symfony, Ningx, PHP and Mysql.
+## Distillation document (in French)
+Une bouteille est constituée d'un nom, d'un nom de domaine, un type (blanc, rouge, rosé, champagne, pétillant rouge, pétillant blanc), une année, un cépage, un pays, une région, un prix, une note, une remarque, d'une photo et la date d'ajout.
 
-## Purpose
-This skeleton will be used on new and actual projects in our organization
-In our skeleton we want a stack which is capable to run a Symfony application
+Il faut pouvoir créer une bouteille avec toutes les informations.
+Il faut pouvoir modifier une bouteille.
+Il faut pouvoir supprimer une bouteille.
+On doit pouvoir rechercher les bouteilles par : nom du vin, nom du domaine, type, date d'ajout/de dégustation, année du vin, par note
+Une fois qu'on a ajouté une bouteille il faut pouvoir inviter à déguster la bouteille et le faire soit même.
+Si l'appli est installé chez la personne alors elle recevra une notification.
+Sinon on doit générer un lien pour pouvoir télécharger l'application, l'envoyer à la personne et à la fin il a quand même sa notification.
 
-## What is in Skeleton ?
-### Docker
-- Nginx: 1.19
-- PHP: 8.0
-- Mariadb: 10.7
-- Redis: 6.2
-- Mailcatcher
-- PhpMyAdmin
+Il faut pouvoir déguster du vin la dégustation se déroule en 3 étapes :
+- L'oeil : dans laquelle on doit renseigner, la limpidité (limpide, opalescente, voilée, floue, trouble), la brillance (étincelante, éclatante, brillante, lumineuse, terne), intensité des couleurs (pâle, claire, satane, intense), couleur (si rouge: pourpre, cerise, grenat, tuilé, ambré, si rosé: pivoine, framboise, saumon, vieux rose, pelure d'oignon, si blanc: vert, blanc, doré, paille, roux), larmes (visqueuse, grasses, épaisses, roulantes, fluides), observations
+- Le nez : impression (complexe, franc, simple, douteux, défauts), intensité (intime, ouvert, aromatique, discret fermé), arôme (fruité, florale, végétal boisée, épicée, empyreumatique, animale, balsamique, minérales), des observations.
+- La bouche : le sucre noté sur une échelle (sirupeux, liquoreux, moelleux, doux, sec) si c'est un vin sucré, alcool noté sur une échelle (alcooleux, capiteux, gras, généreux, faible), acide (nerveuse, peintre, vite, fraîche, molle), tanin (âpre, chargé, charpenté, fader, lisse) si vin rouge, matière (massive, corpulace, étoffée, légère, fluette), finale (rémanente, persistance, langue, développée, courte)
 
-### Symfony
-Version 5.3
+Il faut pouvoir supprimé une dégustation.
+Il faut pouvoir partager une dégustation.
 
 ### Functionnal Test
 We use Behat. To run behat use:
@@ -37,45 +37,6 @@ To see all usefull command run:
   make help
 </pre>
 
-## How to start with Skeleton ?
-### First replace "skeleton" occurence with your project name
-- Change all occurences of "skeleton" in Makefile
-- Change host "skeleton.docker" in site.conf
-- Change "skeleton" in .bashrc
-- Change base url "https://skeleton.docker" in behat.yml.dist
-- Change database name "skeleton" in .env
-- Change dump name "skeleton.sql" in FixtureContext
-- Change local domain "https://skeleton.docker" in ErrorHandlerContext.php
-- Change urls which finish with "skeleton.docker" in docker-compose.override.yaml.dist
-- Change urls which finish with "skeleton.docker" in docker-compose.yaml
-- Rename "dump/skeleton.sql" by "dump/your-project.sql"
-
-### Add host in your /etc/hosts
-<pre>
-  sudo vim /etc/hosts
-</pre>
-
-<pre>
-  127.0.0.1 your-host.docker
-  127.0.0.1 pma.your-host.docker
-  127.0.0.1 mailcatcher.your-host.docker
-</pre>
-
-### Install the project
-<pre>
-  make install
-</pre>
-
-### Work with project
-If you have already install the project and you want to switch to another project or stop for today,
-just stop your project:
-<pre>
-  make stop
-</pre>
-And start when you need with:
-<pre>
-  make start
-</pre>
 ## Database management
 We used a dump to reload faster our database. To load your database use:
 <pre>
@@ -152,12 +113,4 @@ This Symfony command check if your database schema is coherent with your entitie
 
 ## Mailcatcher
 If your local app send mail, your mail will be catched by the mailcatcher.
-To see this mail go to: https://mailcatcher.your-host.docker
-
-## Next step
-If you want to help use, you can add some features like:
-- A gitlab-ci.yaml example
-- Add a docker image for S3 storage and some test
-- Add Mac support
-
-This are idea, but feel free to suggest any features you want!!
+To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
