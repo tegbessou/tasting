@@ -14,7 +14,7 @@ jobs:
         run: docker-compose up -d php db
 
       - name: Load database
-        run: make db-load-fixtures
+        run: make db-load-fixtures-test
 
       - name: Get composer cache directory
         id: composercache
@@ -46,7 +46,7 @@ jobs:
         run: docker-compose up -d nginx-proxy nginx redis php db selenium
 
       - name: Load database
-        run: make db-load-fixtures
+        run: make db-load-fixtures-test
 
       - name: Get composer cache directory
         id: composercache

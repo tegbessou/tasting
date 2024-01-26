@@ -106,7 +106,7 @@ env-dev:
 Database:
 
 ## Load database from dump
-db-load-fixtures: wait-db db-drop-test db-create-test
+db-load-fixtures: wait-db db-drop db-create
 	@echo "\nLoading fixtures from dump...\e[0m"
 	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv.sql"
 
