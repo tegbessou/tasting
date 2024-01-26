@@ -1,0 +1,56 @@
+parameters:
+    paths:
+        - ./src/Bottle
+        - ./src/Shared
+        - ./src/User
+
+    layers:
+        - name: Domain
+          collectors:
+              - type: directory
+                regex: .+/Domain/.*
+
+        - name: Application
+          collectors:
+              - type: directory
+                regex: .+/Application/.*
+
+        - name: Infrastructure
+          collectors:
+              - type: directory
+                regex: .+/Infrastructure/.*
+
+        - name: Vendors
+          collectors:
+              - { type: className, regex: ^ApiPlatform\\ }
+              - { type: className, regex: ^Symfony\\(?!(Component\\Uid\\)) }
+              - { type: className, regex: ^Doctrine\\(?!(ORM\\Mapping)) }
+              - { type: className, regex: ^Webmozart\\(?!Assert\\Assert) }
+              - { type: className, regex: ^Kreait\\ }
+              - { type: className, regex: ^Lexik\\ }
+
+        - name: Attributes
+          collectors:
+              - { type: className, regex: ^Doctrine\\ORM\\Mapping }
+              - { type: className, regex: ^Override }
+
+        - name: Helpers
+          collectors:
+              - { type: className, regex: ^Webmozart\\Assert\\Assert }
+
+    ruleset:
+        Domain:
+            - Helpers
+            - Attributes
+
+        Application:
+            - Domain
+            - Helpers
+            - Attributes
+
+        Infrastructure:
+            - Domain
+            - Application
+            - Vendors
+            - Helpers
+            - Attributes

@@ -1,0 +1,22 @@
+api_platform:
+    title: Des amis, du vin
+    version: 1.0.0
+    show_webby: false
+    resource_class_directories:
+        - '%kernel.project_dir%/src/Bottle/Infrastructure/ApiPlatform/Resource'
+        # - '%kernel.project_dir%/src/User/Infrastructure/ApiPlatform/Resources'
+    formats:
+        jsonld: ['application/ld+json']
+    docs_formats:
+        jsonld: ['application/ld+json']
+        jsonopenapi: ['application/vnd.openapi+json']
+        html: ['text/html']
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        extra_properties:
+            standard_put: true
+            rfc_7807_compliant_errors: true
+    event_listeners_backward_compatibility_layer: false
+    keep_legacy_inflector: false

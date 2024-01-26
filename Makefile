@@ -88,26 +88,56 @@ wait-db:
 	@echo "\nWaiting for DB...\e[0m"
 	@$(EXEC_PHP) php -r "set_time_limit(60);for(;;){if(@fsockopen('db',3306))die;echo \"\";sleep(1);}"
 
+## Change env to test
+env-test:
+	@echo "Switch to ${YELLOW}test${RESET}"
+	@-$(EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=test" >> .env.local'
+	@-$(EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=test/g' .env.local
+
+## Change env to dev
+env-dev:
+	@echo "Switch to ${YELLOW}dev${RESET}"
+	@-$(EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=dev" >> .env.local'
+	@-$(EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=dev/g' .env.local
+
 .PHONY: install reset start stop vendor composer-update cc wait-db
 
 #################################
 Database:
 
 ## Load database from dump
-db-load-fixtures: wait-db
+db-load-fixtures: wait-db db-drop-test db-create-test
 	@echo "\nLoading fixtures from dump...\e[0m"
 	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv.sql"
 
+## Load database from dump test
+db-load-fixtures-test: wait-db db-drop-test db-create-test
+	@echo "\nLoading fixtures from dump...\e[0m"
+	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv-test.sql"
+
 ## Recreate database structure
 db-reload-schema: wait-db db-drop db-create db-migrate
+
+## Recreate database structure test
+db-reload-schema-test: wait-db db-drop-test db-create-test db-migrate-test
 
 ## Create database
 db-create: wait-db
 	@echo "\nCreating database...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:database:create --if-not-exists
 
+## Create database test
+db-create-test: env-test wait-db
+	@echo "\nCreating database...\e[0m"
+	@$(EXEC_SYMFONY) doctrine:database:create --if-not-exists
+
 ## Drop database
 db-drop: wait-db
+	@echo "\nDropping database...\e[0m"
+	@$(EXEC_SYMFONY) doctrine:database:drop --force --if-exists
+
+## Drop database test
+db-drop-test: env-test wait-db
 	@echo "\nDropping database...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:database:drop --force --if-exists
 
@@ -120,21 +150,41 @@ db-migrate: wait-db
 	@echo "\nRunning migrations...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:migration:migrate --no-interaction --all-or-nothing
 
+## Load migration
+db-migrate-test: env-test wait-db
+	@echo "\nRunning migrations...\e[0m"
+	@$(EXEC_SYMFONY) doctrine:migration:migrate --no-interaction --all-or-nothing --env=test
+
 ## Reload fixtures
 db-reload-fixtures: wait-db db-reload-schema
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
-	@$(EXEC_SYMFONY) hautelook:fixtures:load --no-interaction
+	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
 
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv > /home/app/dump/dadv.sql"
+
+## Reload fixtures
+db-reload-fixtures-test: env-test wait-db db-reload-schema-test
+	@echo "\nLoading fixtures from fixtures files...\e[0m"
+	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
+
+	@echo "\nCreating dump...\e[0m"
+	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv_test > /home/app/dump/dadv-test.sql"
 
 #################################
 Test:
 
 ## Launch unit test
-unit-test:
+unit-test: env-test
 	@echo "\nLaunching unit tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit
+	@$(EXEC_PHP) bin/phpunit --testsuite unit-test
+	$(MAKE) env-dev
+
+## Launch adapter test
+adapter-test: env-test db-load-fixtures-test
+	@echo "\nLaunching unit tests\e[0m"
+	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test
+	$(MAKE) env-dev
 
 ## Launch behat
 behat: vendor db-load-fixtures
@@ -150,7 +200,7 @@ behat: vendor db-load-fixtures
 Quality assurance:
 
 ## Launch all quality assurance step
-code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan cs db-validate
+code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac cs db-validate
 
 ## Security check on dependencies
 security-checker:
@@ -192,15 +242,23 @@ phpstan:
 	@echo "\nRunning phpstan...\e[0m"
 	@$(EXEC_PHP) vendor/bin/phpstan analyse src/ --level 8
 
+## Deptrac
+deptrac:
+	@echo "\nRunning deptrac for bounded context...\e[0m"
+	@$(EXEC_PHP) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --cache-file .deptrac_bounded_context.cache --config-file deptrac_bounded_context.yaml
+
+	@echo "\nRunning deptrac for hexagonal architecture...\e[0m"
+	@$(EXEC_PHP) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --cache-file .deptrac_hexagonal_architecture.cache --config-file deptrac_hexagonal_architecture.yaml
+
 ## Show cs fixer error
 cs:
 	@echo "\nRunning cs fixer in dry run...\e[0m"
-	@$(EXEC_PHP) vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --verbose --diff --config=php-cs-fixer.dist.php
+	@$(EXEC_PHP) vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --verbose --allow-risky=yes --diff --config=php-cs-fixer.dist.php
 
 ## Fix cs fixer error
 cs-fix:
 	@echo "\nRunning cs fixer...\e[0m"
-	@$(EXEC_PHP) vendor/bin/php-cs-fixer fix --using-cache=no --verbose --diff --config=php-cs-fixer.dist.php
+	@$(EXEC_PHP) vendor/bin/php-cs-fixer fix --using-cache=no --verbose --allow-risky=yes --diff --config=php-cs-fixer.dist.php
 
 ## Validate db schema
 db-validate:
