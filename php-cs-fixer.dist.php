@@ -11,6 +11,7 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         'declare_strict_types' => true,
+        'yoda_style' => ['equal' => false, 'identical' => false, 'less_and_greater' => false],
     ])
     ->setFinder($finder)
 ;

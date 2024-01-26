@@ -21,7 +21,7 @@ final readonly class GetUserQueryHandler
     {
         $user = $this->userRepository->findByEmail($getUserQuery->email);
 
-        if (null === $user) {
+        if ($user === null) {
             throw new UserNotFoundException();
         }
 

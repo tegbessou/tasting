@@ -10,9 +10,9 @@ use App\User\Application\Command\AuthenticateUserCommand;
 use App\User\Application\Query\GetUserQuery;
 use App\User\Domain\Exception\ExpiredTokenException;
 use App\User\Domain\Exception\InvalidPayloadException;
+use App\User\Domain\Exception\InvalidTokenException;
 use App\User\Domain\ValueObject\Email;
 use App\User\Infrastructure\Symfony\Security\Model\User;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\InvalidTokenException;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,7 @@ class FirebaseAuthenticator extends AbstractAuthenticator
     #[\Override]
     public function supports(Request $request): ?bool
     {
-        return false !== $this->tokenExtractor->extract($request)
+        return $this->tokenExtractor->extract($request) !== false
             && $request->headers->has(FirebaseAuthenticatorInterface::HEADER_IDENTITY_PROVIDER)
         ;
     }
@@ -48,15 +48,21 @@ class FirebaseAuthenticator extends AbstractAuthenticator
     {
         $token = $this->tokenExtractor->extract($request);
 
-        if (false === $token || '' === $token) {
+        if ($token === false || $token === '') {
             throw new \LogicException('Unable to extract a JWT token from the request. Also, make sure to call `supports()` before `authenticate()` to get a proper client error.');
+        }
+
+        $providerId = $request->headers->get(FirebaseAuthenticatorInterface::HEADER_IDENTITY_PROVIDER);
+
+        if ($providerId === null) {
+            throw new \LogicException('No provider ID in request.');
         }
 
         try {
             $userAuthenticated = $this->commandBus->dispatch(
                 new AuthenticateUserCommand(
                     $token,
-                    $request->headers->get(FirebaseAuthenticatorInterface::HEADER_IDENTITY_PROVIDER),
+                    $providerId,
                 )
             );
         } catch (InvalidTokenException|ExpiredTokenException|InvalidPayloadException $exception) {
@@ -91,7 +97,7 @@ class FirebaseAuthenticator extends AbstractAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $errorMessage = strtr($exception->getMessageKey(), $exception->getMessageData());
-        if (null !== $this->translator) {
+        if ($this->translator !== null) {
             $errorMessage = $this->translator->trans($exception->getMessageKey(), $exception->getMessageData(), 'security');
         }
 

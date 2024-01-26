@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\User\Infrastructure\Symfony\Security\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,16 +14,19 @@ class User implements UserInterface
     ) {
     }
 
-    #[\Override] public function getRoles(): array
+    #[\Override]
+    public function getRoles(): array
     {
         return [];
     }
 
-    #[\Override] public function eraseCredentials(): void
+    #[\Override]
+    public function eraseCredentials(): void
     {
     }
 
-    #[\Override] public function getUserIdentifier(): string
+    #[\Override]
+    public function getUserIdentifier(): string
     {
         return $this->email;
     }

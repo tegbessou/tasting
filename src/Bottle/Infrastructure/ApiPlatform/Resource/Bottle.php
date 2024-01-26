@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bottle\Infrastructure\ApiPlatform\Resource;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource]

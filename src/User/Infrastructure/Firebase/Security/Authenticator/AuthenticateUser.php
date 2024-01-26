@@ -37,7 +37,7 @@ final readonly class AuthenticateUser implements AuthenticateUserInterface
         $email = $payload->claims()->get('email');
 
         if ($email === null) {
-            throw new InvalidPayloadException($email ?? '');
+            throw new InvalidPayloadException();
         }
 
         return new UserAuthenticated($payload->claims()->get('email'));
