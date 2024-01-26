@@ -12,12 +12,16 @@
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
+        <server name="KERNEL_CLASS" value="App\Shared\Infrastructure\Symfony\Kernel"/>
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.6" />
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="unit-test">
+            <directory>./tests/UnitTest</directory>
+        </testsuite>
+        <testsuite name="adapter-test">
+            <directory>./tests/AdapterTest</directory>
         </testsuite>
     </testsuites>
 

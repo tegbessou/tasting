@@ -10,6 +10,7 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
+/node_modules/
 /public/bundles/
 /var/
 /vendor/
@@ -39,3 +40,11 @@
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+###> qossmic/deptrac-shim ###
+/.deptrac*.cache
+###< qossmic/deptrac-shim ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

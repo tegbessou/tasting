@@ -45,7 +45,7 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20201020095646','2024-01-22 16:52:40',8);
+('DoctrineMigrations\\Version20240124155119','2024-01-24 15:52:56',11);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,12 +57,11 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
   `email` varchar(255) NOT NULL,
-  `roles` longtext NOT NULL COMMENT '(DC2Type:array)',
-  `password` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,8 +71,7 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES
-(1,'user1@skeleton.com','a:1:{i:0;s:9:\"ROLE_USER\";}','skeleton'),
-(2,'user2@skeleton.com','a:1:{i:0;s:10:\"ROLE_ADMIN\";}','skeleton');
+('\îo;ÔˆC¾±ý½\Ë\nl','hugues.gobet@gmail.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -86,4 +84,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-22 16:52:42
+-- Dump completed on 2024-01-24 15:52:57

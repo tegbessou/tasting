@@ -11,3 +11,14 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\User\Domain\Service\AuthenticateUserInterface:
+        alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUser
+
+    DataFixtures\:
+        resource: '../fixtures'
+
+when@test:
+    services:
+        App\User\Domain\Service\AuthenticateUserInterface:
+            alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFake

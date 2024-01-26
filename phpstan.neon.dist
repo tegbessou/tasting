@@ -1,3 +1,7 @@
 parameters:
     checkMissingIterableValueType: false
     tmpDir: var/cache/phpstan
+    ignoreErrors:
+        -
+            message: '#Variable \$userAuthenticated might not be defined.#'
+            path: src/User/Application/Command/AuthenticateUserCommandHandler.php

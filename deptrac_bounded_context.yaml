@@ -1,0 +1,40 @@
+parameters:
+    ignore_uncovered_internal_classes: false
+
+    paths:
+        - ./src
+
+    layers:
+        - name: User
+          collectors:
+              - type: directory
+                regex: src/User/.*
+
+        - name: Bottle
+          collectors:
+              - type: directory
+                regex: src/Bottle/.*
+
+        - name: Shared
+          collectors:
+              - type: directory
+                regex: src/Shared/.*
+
+        - name: Vendors
+          collectors:
+              - { type: className, regex: ^ApiPlatform\\ }
+              - { type: className, regex: ^Lexik\\ }
+              - { type: className, regex: ^Symfony\\ }
+              - { type: className, regex: ^Doctrine\\ }
+              - { type: className, regex: ^Webmozart\\ }
+              - { type: className, regex: ^Kreait\\ }
+              - { type: className, regex: ^Attribute }
+              - { type: className, regex: ^Override }
+              - { type: className, regex: ^Exception }
+              - { type: className, regex: ^LogicException }
+              - { type: className, regex: ^DateTime }
+
+    ruleset:
+        User: [ Shared, Vendors ]
+        Bottle: [ Shared, Vendors ]
+        Shared: [ Vendors ]
