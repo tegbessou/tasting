@@ -23,7 +23,7 @@ parameters:
         - name: Vendors
           collectors:
               - { type: className, regex: ^ApiPlatform\\ }
-              - { type: className, regex: ^Symfony\\(?!(Component\\Uid\\)) }
+              - { type: className, regex: ^Symfony\\ }
               - { type: className, regex: ^Doctrine\\(?!(ORM\\Mapping)) }
               - { type: className, regex: ^Webmozart\\(?!Assert\\Assert) }
               - { type: className, regex: ^Kreait\\ }

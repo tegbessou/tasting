@@ -19,6 +19,16 @@ final readonly class User
     ) {
     }
 
+    public static function create(
+        UserId $id,
+        Email $email,
+    ): self {
+        return new self(
+            $id,
+            $email,
+        );
+    }
+
     public function id(): UserId
     {
         return $this->id;

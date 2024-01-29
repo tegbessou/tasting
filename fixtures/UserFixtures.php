@@ -14,7 +14,7 @@ class UserFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $user = new User(
+        $user = User::create(
             new UserId('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             new Email('hugues.gobet@gmail.com'),
         );
