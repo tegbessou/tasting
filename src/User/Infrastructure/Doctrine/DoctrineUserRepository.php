@@ -39,7 +39,7 @@ class DoctrineUserRepository implements UserRepositoryInterface
     #[\Override]
     public function nextIdentity(): UserId
     {
-        return new UserId(
+        return UserId::fromString(
             Uuid::v4()->toRfc4122()
         );
     }

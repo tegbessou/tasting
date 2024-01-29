@@ -19,7 +19,7 @@ class DoctrineUserRepositoryTest extends KernelTestCase
         $container = static::getContainer();
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
-        $user = $doctrineUserRepository->findByEmail(new Email('hugues.gobet@gmail.com'));
+        $user = $doctrineUserRepository->findByEmail(Email::fromString('hugues.gobet@gmail.com'));
 
         $this->assertNotNull($user);
     }
@@ -32,7 +32,7 @@ class DoctrineUserRepositoryTest extends KernelTestCase
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
         $this->assertTrue(
-            $doctrineUserRepository->isAlreadyExist(new Email('hugues.gobet@gmail.com'))
+            $doctrineUserRepository->isAlreadyExist(Email::fromString('hugues.gobet@gmail.com'))
         );
     }
 
@@ -44,7 +44,7 @@ class DoctrineUserRepositoryTest extends KernelTestCase
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
         $this->assertFalse(
-            $doctrineUserRepository->isAlreadyExist(new Email('pedro@gmail.com'))
+            $doctrineUserRepository->isAlreadyExist(Email::fromString('pedro@gmail.com'))
         );
     }
 
@@ -68,13 +68,13 @@ class DoctrineUserRepositoryTest extends KernelTestCase
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
         $user = User::create(
-            new UserId('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            new Email('pedro@gmail.com'),
+            UserId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            Email::fromString('pedro@gmail.com'),
         );
 
         $doctrineUserRepository->add($user);
 
-        $user = $doctrineUserRepository->findByEmail(new Email('pedro@gmail.com'));
+        $user = $doctrineUserRepository->findByEmail(Email::fromString('pedro@gmail.com'));
 
         $this->assertNotNull($user);
     }

@@ -11,7 +11,7 @@ final readonly class UserAuthenticated
     public function __construct(
         string $email,
     ) {
-        $this->email = new Email($email);
+        $this->email = Email::fromString($email);
     }
 
     public function email(): Email
