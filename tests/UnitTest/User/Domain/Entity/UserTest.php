@@ -13,7 +13,7 @@ class UserTest extends TestCase
 {
     public function testCreateSuccess(): void
     {
-        $user = new User(
+        $user = User::create(
             new UserId('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
             new Email('hugues.gobet@gmail.com'),
         );
@@ -28,7 +28,7 @@ class UserTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        new User(
+        User::create(
             new UserId('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
             new Email('pedro'),
         );
@@ -38,7 +38,7 @@ class UserTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        new User(
+        User::create(
             new UserId('2'),
             new Email('hugues.gobet@gmail.com'),
         );

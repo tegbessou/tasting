@@ -4,7 +4,7 @@ api_platform:
     show_webby: false
     resource_class_directories:
         - '%kernel.project_dir%/src/Bottle/Infrastructure/ApiPlatform/Resource'
-        # - '%kernel.project_dir%/src/User/Infrastructure/ApiPlatform/Resources'
+        - '%kernel.project_dir%/src/User/Infrastructure/ApiPlatform/Resource'
     formats:
         jsonld: ['application/ld+json']
     docs_formats:
