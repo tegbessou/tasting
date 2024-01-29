@@ -22,6 +22,11 @@ final readonly class Email
         $this->email = $email;
     }
 
+    public static function fromString(string $email): self
+    {
+        return new self($email);
+    }
+
     public function email(): string
     {
         return $this->email;

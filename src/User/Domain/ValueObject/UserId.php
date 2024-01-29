@@ -21,6 +21,11 @@ final class UserId
         $this->id = $id;
     }
 
+    public static function fromString(string $id): self
+    {
+        return new self($id);
+    }
+
     public function id(): string
     {
         return $this->id;

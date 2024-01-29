@@ -37,7 +37,7 @@ final readonly class CreateUserProcessor implements ProcessorInterface
         try {
             $this->commandBus->dispatch(
                 new CreateUserCommand(
-                    new Email($data->email)
+                    Email::fromString($data->email)
                 ),
             );
         } catch (UserAlreadyExistsException) {
