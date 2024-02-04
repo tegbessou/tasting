@@ -4,7 +4,13 @@ api_platform:
     show_webby: false
     resource_class_directories:
         - '%kernel.project_dir%/src/Bottle/Infrastructure/ApiPlatform/Resource'
+        - '%kernel.project_dir%/src/Country/Infrastructure/ApiPlatform/Resource'
         - '%kernel.project_dir%/src/User/Infrastructure/ApiPlatform/Resource'
+    swagger:
+        api_keys:
+            key:
+                name: 'Authorization'
+                type: 'header'
     formats:
         jsonld: ['application/ld+json']
     docs_formats:

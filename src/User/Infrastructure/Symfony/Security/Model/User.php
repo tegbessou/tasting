@@ -6,7 +6,7 @@ namespace App\User\Infrastructure\Symfony\Security\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface
+final class User implements UserInterface
 {
     public function __construct(
         public string $id,

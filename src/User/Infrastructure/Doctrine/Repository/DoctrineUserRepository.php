@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Infrastructure\Doctrine;
+namespace App\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\Entity\User;
 use App\User\Domain\Repository\UserRepositoryInterface;
@@ -11,11 +11,11 @@ use App\User\Domain\ValueObject\UserId;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
 
-class DoctrineUserRepository implements UserRepositoryInterface
+final readonly class DoctrineUserRepository implements UserRepositoryInterface
 {
     private const ENTITY_CLASS = User::class;
 
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 

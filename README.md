@@ -1,7 +1,7 @@
 # Des amis, du vin
 ![CI](https://github.com/tegbessou/skeleton/workflows/CI/badge.svg)
 ## Distillation document (in French)
-Une bouteille est constituée d'un nom, d'un nom de domaine, un type (blanc, rouge, rosé, champagne, pétillant rouge, pétillant blanc), une année, un cépage, un pays, une région, un prix, une note, une remarque, d'une photo et la date d'ajout.
+Une bouteille est constituée d'un nom, d'un nom de domaine, un type (blanc, rouge, rosé, champagne, pétillant rouge, pétillant blanc), une année, un cépage, un pays, un prix, une note, une remarque, d'une photo et la date d'ajout.
 
 Il faut pouvoir créer une bouteille avec toutes les informations.
 Il faut pouvoir modifier une bouteille.
@@ -114,3 +114,11 @@ This Symfony command check if your database schema is coherent with your entitie
 ## Mailcatcher
 If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
+
+## Refactoring
+Rework name of our value object, to name them value
+Rework repository because their interface must be domain interface and check if we have another solution to show filterByName, orderByName...
+Rework tests folder to have a better architecture and make visible different adapter test type
+Rework repository to take only value object or entity at parameter
+
+On bottle picture add an assert to verify if the extension is a picture extension and if we support it

@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class FirebaseAuthenticator extends AbstractAuthenticator
+final class FirebaseAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
         protected readonly TokenExtractorInterface $tokenExtractor,
@@ -80,9 +80,7 @@ class FirebaseAuthenticator extends AbstractAuthenticator
         return new SelfValidatingPassport(
             new UserBadge(
                 $email->email(),
-                function () use ($email) {
-                    return $this->loadUser($email);
-                },
+                fn () => $this->loadUser($email),
             )
         );
     }

@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource]
-class Bottle
+final class Bottle
 {
     public function __construct(
         #[ApiProperty(identifier: true)]

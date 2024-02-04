@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\User\Application\Command;
 
 use App\Shared\Application\Command\CommandInterface;
+use App\Shared\Infrastructure\Webmozart\Assert;
 use App\User\Domain\Service\AuthenticateUserInterface;
 use App\User\Domain\ValueObject\UserAuthenticated;
-use Webmozart\Assert\Assert;
 
 /**
  * @implements CommandInterface<UserAuthenticated>

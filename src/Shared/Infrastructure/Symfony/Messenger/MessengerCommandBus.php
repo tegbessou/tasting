@@ -26,6 +26,7 @@ final class MessengerCommandBus implements CommandBusInterface
      *
      * @return T
      */
+    #[\Override]
     public function dispatch(CommandInterface $command): mixed
     {
         try {

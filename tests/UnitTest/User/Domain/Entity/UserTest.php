@@ -9,7 +9,7 @@ use App\User\Domain\ValueObject\Email;
 use App\User\Domain\ValueObject\UserId;
 use PHPUnit\Framework\TestCase;
 
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
     public function testCreateSuccess(): void
     {
