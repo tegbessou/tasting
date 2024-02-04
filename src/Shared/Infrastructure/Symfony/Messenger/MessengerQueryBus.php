@@ -26,6 +26,7 @@ final class MessengerQueryBus implements QueryBusInterface
      *
      * @return T
      */
+    #[\Override]
     public function ask(QueryInterface $query): mixed
     {
         try {

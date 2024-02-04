@@ -18,14 +18,14 @@ parameters:
         - name: Infrastructure
           collectors:
               - type: directory
-                regex: .+/Infrastructure/.*
+                regex: .+/Infrastructure/(?!(Webmozart/Assert)).*
 
         - name: Vendors
           collectors:
               - { type: className, regex: ^ApiPlatform\\ }
               - { type: className, regex: ^Symfony\\ }
               - { type: className, regex: ^Doctrine\\(?!(ORM\\Mapping)) }
-              - { type: className, regex: ^Webmozart\\(?!Assert\\Assert) }
+              - { type: className, regex: ^Webmozart\\Assert\\Assert }
               - { type: className, regex: ^Kreait\\ }
               - { type: className, regex: ^Lexik\\ }
 
@@ -36,7 +36,7 @@ parameters:
 
         - name: Helpers
           collectors:
-              - { type: className, regex: ^Webmozart\\Assert\\Assert }
+              - { type: className, regex: ^App\\Shared\\Infrastructure\\Webmozart\\Assert }
 
     ruleset:
         Domain:
@@ -54,3 +54,6 @@ parameters:
             - Vendors
             - Helpers
             - Attributes
+
+        Helpers:
+            - Vendors

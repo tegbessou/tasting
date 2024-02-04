@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Exception;
 
-class InvalidTokenException extends \Exception
+final class InvalidTokenException extends \Exception
 {
 }

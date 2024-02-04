@@ -6,13 +6,13 @@ namespace App\Tests\AdapterTest\User\Symfony\Security\Authenticator;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 
-class FirebaseAuthenticatorTest extends ApiTestCase
+final class FirebaseAuthenticatorTest extends ApiTestCase
 {
     public function testAuthenticateWithApple(): void
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/bottles', [
+        $client->request('GET', '/api/countries', [
             'json' => [
                 'email' => 'hugues.gobet@gmail.com',
             ],
@@ -23,14 +23,14 @@ class FirebaseAuthenticatorTest extends ApiTestCase
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testAuthenticateWithGoogle(): void
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/bottles', [
+        $client->request('GET', '/api/countries', [
             'json' => [
                 'email' => 'hugues.gobet@gmail.com',
             ],
@@ -41,6 +41,6 @@ class FirebaseAuthenticatorTest extends ApiTestCase
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(200);
     }
 }

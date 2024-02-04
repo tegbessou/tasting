@@ -12,6 +12,7 @@ use Symfony\Component\Uid\AbstractUid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
+    shortName: 'User',
     operations: [
         new Post(
             '/users',
@@ -21,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
     ]
 )]
-class UserResource
+final class UserResource
 {
     public function __construct(
         #[ApiProperty(readable: false, writable: false, identifier: true)]

@@ -10,8 +10,9 @@ use App\User\Domain\ValueObject\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture
+final class UserFixtures extends Fixture
 {
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $user = User::create(

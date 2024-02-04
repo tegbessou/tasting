@@ -15,6 +15,11 @@ parameters:
               - type: directory
                 regex: src/Bottle/.*
 
+        - name: Country
+          collectors:
+              - type: directory
+                regex: src/Country/.*
+
         - name: Shared
           collectors:
               - type: directory
@@ -32,9 +37,16 @@ parameters:
               - { type: className, regex: ^Override }
               - { type: className, regex: ^Exception }
               - { type: className, regex: ^LogicException }
+              - { type: className, regex: ^RuntimeException }
+              - { type: className, regex: ^InvalidArgumentException }
               - { type: className, regex: ^DateTime }
+              - { type: className, regex: ^Iterator }
+              - { type: className, regex: ^Countable }
+              - { type: className, regex: ^Traversable }
+              - { type: className, regex: ^ArrayIterator }
 
     ruleset:
         User: [ Shared, Vendors ]
         Bottle: [ Shared, Vendors ]
+        Country: [ Shared, Vendors ]
         Shared: [ Vendors ]

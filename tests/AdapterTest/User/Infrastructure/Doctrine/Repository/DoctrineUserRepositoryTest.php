@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\User\Infrastructure\Doctrine;
+namespace App\Tests\AdapterTest\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\Entity\User;
 use App\User\Domain\ValueObject\Email;
 use App\User\Domain\ValueObject\UserId;
-use App\User\Infrastructure\Doctrine\DoctrineUserRepository;
+use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class DoctrineUserRepositoryTest extends KernelTestCase
+final class DoctrineUserRepositoryTest extends KernelTestCase
 {
     public function testFindByEmail(): void
     {

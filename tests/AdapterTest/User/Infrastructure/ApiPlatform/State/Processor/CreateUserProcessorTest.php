@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ApiPlatform\State\Processor;
+namespace App\Tests\AdapterTest\User\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 
-class CreateUserProcessorTest extends ApiTestCase
+final class CreateUserProcessorTest extends ApiTestCase
 {
     public function testCreateUser(): void
     {

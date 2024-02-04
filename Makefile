@@ -100,6 +100,16 @@ env-dev:
 	@-$(EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=dev" >> .env.local'
 	@-$(EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=dev/g' .env.local
 
+## Create country from file
+import-country:
+	@echo "Import country from file...\e[0m"
+	@$(EXEC_SYMFONY) country:import
+
+## Create country from file test
+import-country-test: env-test
+	@echo "Import country from file...\e[0m"
+	@$(EXEC_SYMFONY) country:import
+
 .PHONY: install reset start stop vendor composer-update cc wait-db
 
 #################################
@@ -160,6 +170,8 @@ db-reload-fixtures: wait-db db-reload-schema
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
 
+	@$(MAKE) import-country
+
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv > /home/app/dump/dadv.sql"
 
@@ -167,6 +179,8 @@ db-reload-fixtures: wait-db db-reload-schema
 db-reload-fixtures-test: env-test wait-db db-reload-schema-test
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
+
+	@$(MAKE) import-country-test
 
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv_test > /home/app/dump/dadv-test.sql"
@@ -178,13 +192,13 @@ Test:
 unit-test: env-test
 	@echo "\nLaunching unit tests\e[0m"
 	@$(EXEC_PHP) bin/phpunit --testsuite unit-test
-	$(MAKE) env-dev
+	@$(MAKE) env-dev
 
 ## Launch adapter test
 adapter-test: env-test db-load-fixtures-test
-	@echo "\nLaunching unit tests\e[0m"
+	@echo "\nLaunching adapter tests\e[0m"
 	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test
-	$(MAKE) env-dev
+	@$(MAKE) env-dev
 
 ## Launch behat
 behat: vendor db-load-fixtures
@@ -200,7 +214,7 @@ behat: vendor db-load-fixtures
 Quality assurance:
 
 ## Launch all quality assurance step
-code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac cs db-validate
+code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
 
 ## Security check on dependencies
 security-checker:
@@ -249,6 +263,16 @@ deptrac:
 
 	@echo "\nRunning deptrac for hexagonal architecture...\e[0m"
 	@$(EXEC_PHP) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --cache-file .deptrac_hexagonal_architecture.cache --config-file deptrac_hexagonal_architecture.yaml
+
+## Rector
+rector:
+	@echo "\nRunning rector...\e[0m"
+	@$(EXEC_PHP) vendor/bin/rector --clear-cache --dry-run
+
+## Fix rector problem
+rector-apply:
+	@echo "\nRunning rector and fix problem...\e[0m"
+	@$(EXEC_PHP) vendor/bin/rector --clear-cache
 
 ## Show cs fixer error
 cs:

@@ -11,10 +11,11 @@ use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
-class Kernel extends BaseKernel
+final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    #[\Override]
     protected function build(ContainerBuilder $container): void
     {
         $container->registerAttributeForAutoconfiguration(AsQueryHandler::class, static function (ChildDefinition $definition): void {
