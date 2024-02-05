@@ -10,7 +10,7 @@ use ApiPlatform\Symfony\Validator\Exception\ValidationException;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\User\Application\Command\CreateUserCommand;
 use App\User\Domain\Exception\UserAlreadyExistsException;
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 use App\User\Infrastructure\ApiPlatform\Resource\UserResource;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -37,7 +37,7 @@ final readonly class CreateUserProcessor implements ProcessorInterface
         try {
             $this->commandBus->dispatch(
                 new CreateUserCommand(
-                    Email::fromString($data->email)
+                    UserEmail::fromString($data->email)
                 ),
             );
         } catch (UserAlreadyExistsException) {

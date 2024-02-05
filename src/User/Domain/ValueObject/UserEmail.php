@@ -8,7 +8,7 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
-final readonly class Email
+final readonly class UserEmail
 {
     #[ORM\Column(name: 'email', unique: true)]
     private string $value;

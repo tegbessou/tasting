@@ -19,7 +19,7 @@ final readonly class GetUserQueryHandler
 
     public function __invoke(GetUserQuery $getUserQuery): User
     {
-        $user = $this->userRepository->findByEmail($getUserQuery->email);
+        $user = $this->userRepository->ofEmail($getUserQuery->email);
 
         if ($user === null) {
             throw new UserNotFoundException();

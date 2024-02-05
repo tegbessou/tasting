@@ -11,7 +11,7 @@ use App\User\Application\Query\GetUserQuery;
 use App\User\Domain\Exception\ExpiredTokenException;
 use App\User\Domain\Exception\InvalidPayloadException;
 use App\User\Domain\Exception\InvalidTokenException;
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 use App\User\Infrastructure\Symfony\Security\Model\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
@@ -102,7 +102,7 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
         return new JWTAuthenticationFailureResponse($errorMessage);
     }
 
-    private function loadUser(Email $email): User
+    private function loadUser(UserEmail $email): User
     {
         $userEntity = $this->queryBus->ask(
             new GetUserQuery(

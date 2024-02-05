@@ -6,7 +6,7 @@ namespace App\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\Entity\User;
 use App\User\Domain\Repository\UserRepositoryInterface;
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 use App\User\Domain\ValueObject\UserId;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -20,7 +20,7 @@ final readonly class DoctrineUserRepository implements UserRepositoryInterface
     }
 
     #[\Override]
-    public function findByEmail(Email $email): ?User
+    public function ofEmail(UserEmail $email): ?User
     {
         return $this->entityManager->getRepository(self::ENTITY_CLASS)->createQueryBuilder('u')
             ->where('u.email.value = :email')
@@ -31,9 +31,9 @@ final readonly class DoctrineUserRepository implements UserRepositoryInterface
     }
 
     #[\Override]
-    public function isAlreadyExist(Email $email): bool
+    public function exist(UserEmail $email): bool
     {
-        return $this->findByEmail($email) !== null;
+        return $this->ofEmail($email) !== null;
     }
 
     #[\Override]

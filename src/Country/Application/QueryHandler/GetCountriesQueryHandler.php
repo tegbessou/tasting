@@ -6,6 +6,7 @@ namespace App\Country\Application\QueryHandler;
 
 use App\Country\Application\Query\GetCountriesQuery;
 use App\Country\Domain\Repository\CountryRepositoryInterface;
+use App\Country\Domain\ValueObject\CountryName;
 use App\Shared\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
@@ -20,10 +21,10 @@ final readonly class GetCountriesQueryHandler
     {
         $countryRepository = $this->countryRepository;
 
-        $countryRepository = $countryRepository->orderByName();
+        $countryRepository = $countryRepository->sortName();
 
         if ($query->name !== null) {
-            $countryRepository = $countryRepository->filterByName($query->name);
+            $countryRepository = $countryRepository->withName(CountryName::fromString($query->name));
         }
 
         if ($query->page !== null && $query->limit !== null) {

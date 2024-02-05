@@ -21,7 +21,7 @@ final readonly class CreateCountryCommandHandler
 
     public function __invoke(CreateCountryCommand $command): void
     {
-        if ($this->countryRepository->isAlreadyExist(CountryName::fromString($command->name))) {
+        if ($this->countryRepository->exist(CountryName::fromString($command->name))) {
             throw new CountryAlreadyExistsException();
         }
 
