@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\Country\Infrastructure\ApiPlatform\State\Provider;
+namespace AdapterTest\DrivingTest\Country\Infrastructure\ApiPlatform\State\Provider;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 

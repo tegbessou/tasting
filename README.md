@@ -119,3 +119,5 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 Rework tests folder to have a better architecture and make visible different adapter test type
 
 On bottle picture add an assert to verify if the extension is a picture extension and if we support it
+
+Explain architecture choices in the README

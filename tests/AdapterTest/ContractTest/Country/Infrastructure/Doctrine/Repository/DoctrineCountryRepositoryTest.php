@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\Country\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Repository;
 
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\ValueObject\CountryId;
