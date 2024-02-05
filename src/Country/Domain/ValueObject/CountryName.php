@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class CountryName
 {
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private string $name;
+    #[ORM\Column(name: 'name', type: 'string', length: 255, unique: true)]
+    private string $value;
 
     public function __construct(
-        string $name,
+        string $value,
     ) {
-        Assert::string($name);
-        Assert::lengthBetween($name, 1, 255);
+        Assert::string($value);
+        Assert::lengthBetween($value, 1, 255);
 
-        $this->name = $name;
+        $this->value = $value;
     }
 
-    public static function fromString(string $name): self
+    public static function fromString(string $value): self
     {
-        return new self($name);
+        return new self($value);
     }
 
-    public function name(): string
+    public function value(): string
     {
-        return $this->name;
+        return $this->value;
     }
 }

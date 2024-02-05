@@ -11,24 +11,24 @@ use Doctrine\ORM\Mapping as ORM;
 final readonly class GrapeVarietyId
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    private string $id;
+    #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
+    private string $value;
 
     public function __construct(
-        string $id,
+        string $value,
     ) {
-        Assert::uuid($id);
+        Assert::uuid($value);
 
-        $this->id = $id;
+        $this->value = $value;
     }
 
-    public static function fromString(string $id): self
+    public static function fromString(string $value): self
     {
-        return new self($id);
+        return new self($value);
     }
 
-    public function id(): string
+    public function value(): string
     {
-        return $this->id;
+        return $this->value;
     }
 }

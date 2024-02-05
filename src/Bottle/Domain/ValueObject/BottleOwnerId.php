@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottleOwnerId
 {
-    #[ORM\Column(type: 'uuid')]
-    private string $ownerId;
+    #[ORM\Column(name: 'owner_id', type: 'uuid')]
+    private string $id;
 
     public function __construct(
-        string $ownerId,
+        string $id,
     ) {
-        Assert::uuid($ownerId);
+        Assert::uuid($id);
 
-        $this->ownerId = $ownerId;
+        $this->id = $id;
     }
 
     public static function fromString(
-        string $ownerId,
+        string $id,
     ): self {
-        return new self($ownerId);
+        return new self($id);
     }
 
-    public function ownerId(): string
+    public function id(): string
     {
-        return $this->ownerId;
+        return $this->id;
     }
 }

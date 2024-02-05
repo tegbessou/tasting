@@ -23,8 +23,8 @@ final readonly class DoctrineUserRepository implements UserRepositoryInterface
     public function findByEmail(Email $email): ?User
     {
         return $this->entityManager->getRepository(self::ENTITY_CLASS)->createQueryBuilder('u')
-            ->where('u.email.email = :email')
-            ->setParameter('email', $email->email())
+            ->where('u.email.value = :email')
+            ->setParameter('email', $email->value())
             ->getQuery()
             ->getOneOrNullResult()
         ;

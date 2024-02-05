@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottleEstateName
 {
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $estateName;
+    #[ORM\Column(name: 'estate_name', type: 'string', length: 255)]
+    private string $value;
 
     public function __construct(
-        string $estateName,
+        string $value,
     ) {
-        Assert::string($estateName);
-        Assert::lengthBetween($estateName, 1, 255);
+        Assert::string($value);
+        Assert::lengthBetween($value, 1, 255);
 
-        $this->estateName = $estateName;
+        $this->value = $value;
     }
 
-    public static function fromString(string $estateName): self
+    public static function fromString(string $value): self
     {
-        return new self($estateName);
+        return new self($value);
     }
 
-    public function estateName(): string
+    public function value(): string
     {
-        return $this->estateName;
+        return $this->value;
     }
 }

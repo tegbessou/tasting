@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottlePrice
 {
-    #[ORM\Column(type: 'float')]
-    private float $price;
+    #[ORM\Column(name: 'price', type: 'float')]
+    private float $amount;
 
     public function __construct(
-        float $price,
+        float $amount,
     ) {
-        Assert::positiveFloat($price);
+        Assert::positiveFloat($amount);
 
-        $this->price = $price;
+        $this->amount = $amount;
     }
 
     public static function fromFloat(
-        float $price,
+        float $amount,
     ): self {
-        return new self($price);
+        return new self($amount);
     }
 
-    public function price(): float
+    public function amount(): float
     {
-        return $this->price;
+        return $this->amount;
     }
 }

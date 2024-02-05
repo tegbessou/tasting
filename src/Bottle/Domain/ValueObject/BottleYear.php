@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottleYear
 {
-    #[ORM\Column(type: 'integer', length: 4)]
-    private int $year;
+    #[ORM\Column(name: 'year', type: 'integer', length: 4)]
+    private int $value;
 
     public function __construct(
-        int $year,
+        int $value,
     ) {
-        Assert::year($year);
+        Assert::year($value);
 
-        $this->year = $year;
+        $this->value = $value;
     }
 
     public static function fromInt(
-        int $year,
+        int $value,
     ): self {
-        return new self($year);
+        return new self($value);
     }
 
-    public function year(): int
+    public function value(): int
     {
-        return $this->year;
+        return $this->value;
     }
 }

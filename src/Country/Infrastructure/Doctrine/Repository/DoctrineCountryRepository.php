@@ -30,13 +30,13 @@ final class DoctrineCountryRepository extends DoctrineRepository implements Coun
     public function findByName(
         string $name,
     ): ?Country {
-        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.name' => $name]);
+        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name]);
     }
 
     #[\Override]
     public function isAlreadyExist(CountryName $name): bool
     {
-        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.name' => $name->name()]) !== null;
+        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name->value()]) !== null;
     }
 
     #[\Override]
@@ -59,7 +59,7 @@ final class DoctrineCountryRepository extends DoctrineRepository implements Coun
         string $name,
     ): self {
         return $this->filter(static function (QueryBuilder $qb) use ($name): void {
-            $qb->where(sprintf('%s.name.name = :name', self::ALIAS))->setParameter('name', $name);
+            $qb->where(sprintf('%s.name.value = :name', self::ALIAS))->setParameter('name', $name);
         });
     }
 
@@ -67,7 +67,7 @@ final class DoctrineCountryRepository extends DoctrineRepository implements Coun
     public function orderByName(): self
     {
         return $this->filter(static function (QueryBuilder $qb): void {
-            $qb->orderBy(sprintf('%s.name.name', self::ALIAS), 'ASC');
+            $qb->orderBy(sprintf('%s.name.value', self::ALIAS), 'ASC');
         });
     }
 }
