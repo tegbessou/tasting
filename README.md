@@ -116,7 +116,6 @@ If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring
-Rework name of our value object, to name them value
 Rework repository because their interface must be domain interface and check if we have another solution to show filterByName, orderByName...
 Rework tests folder to have a better architecture and make visible different adapter test type
 Rework repository to take only value object or entity at parameter

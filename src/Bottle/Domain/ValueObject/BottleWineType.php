@@ -10,18 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottleWineType
 {
-    public function __construct(#[ORM\Column(type: 'string', length: 255, enumType: WineType::class)]
-        private WineType $type)
+    public function __construct(#[ORM\Column(name: 'type', type: 'string', length: 255, enumType: WineType::class)]
+        private WineType $value)
     {
     }
 
-    public static function fromString(string $wineType): self
+    public static function fromString(string $value): self
     {
-        return new self(WineType::from($wineType));
+        return new self(WineType::from($value));
     }
 
-    public function wineType(): string
+    public function value(): string
     {
-        return $this->type->value;
+        return $this->value->value;
     }
 }

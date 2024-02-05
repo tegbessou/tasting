@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class Email
 {
-    #[ORM\Column(unique: true)]
-    private string $email;
+    #[ORM\Column(name: 'email', unique: true)]
+    private string $value;
 
     public function __construct(
-        string $email,
+        string $value,
     ) {
-        Assert::lengthBetween($email, 1, 255);
-        Assert::email($email);
+        Assert::lengthBetween($value, 1, 255);
+        Assert::email($value);
 
-        $this->email = $email;
+        $this->value = $value;
     }
 
-    public static function fromString(string $email): self
+    public static function fromString(string $value): self
     {
-        return new self($email);
+        return new self($value);
     }
 
-    public function email(): string
+    public function value(): string
     {
-        return $this->email;
+        return $this->value;
     }
 }

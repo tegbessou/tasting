@@ -4,46 +4,45 @@ declare(strict_types=1);
 
 namespace App\Bottle\Domain\ValueObject;
 
-use App\Bottle\Domain\Entity\GrapeVariety;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
 final readonly class BottleGrapeVarieties
 {
-    /** @var GrapeVariety[] */
-    #[ORM\Column(type: 'json')]
-    private array $grapeVarieties;
+    /** @var string[] */
+    #[ORM\Column(name: 'grape_varieties', type: 'json')]
+    private array $values;
 
     public function __construct(
-        array $grapeVariety = [],
+        array $values = [],
     ) {
-        Assert::isArray($grapeVariety);
+        Assert::isArray($values);
 
-        $this->grapeVarieties = $grapeVariety;
+        $this->values = $values;
     }
 
     public static function fromArray(
-        array $grapeVarieties = [],
+        array $values = [],
     ): self {
         return new self(
-            $grapeVarieties,
+            $values,
         );
     }
 
     public function add(
-        GrapeVariety $grapeVariety,
+        string $grapeVariety,
     ): self {
         return new self(
             array_merge(
-                $this->grapeVarieties,
+                $this->values,
                 [$grapeVariety]
             )
         );
     }
 
-    public function grapeVarieties(): array
+    public function values(): array
     {
-        return $this->grapeVarieties;
+        return $this->values;
     }
 }

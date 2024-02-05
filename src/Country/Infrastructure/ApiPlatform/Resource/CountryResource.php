@@ -36,8 +36,8 @@ final class CountryResource
     public static function fromModel(Country $country): self
     {
         return new self(
-            new Uuid($country->id()->id()),
-            $country->name()->name()
+            new Uuid($country->id()->value()),
+            $country->name()->value()
         );
     }
 }

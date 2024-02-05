@@ -10,26 +10,26 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottlePicture
 {
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $picture;
+    #[ORM\Column(name: 'picture', type: 'string', length: 255)]
+    private string $path;
 
     public function __construct(
-        string $picture,
+        string $path,
     ) {
-        Assert::string($picture);
-        Assert::lengthBetween($picture, 1, 255);
+        Assert::string($path);
+        Assert::lengthBetween($path, 1, 255);
 
-        $this->picture = $picture;
+        $this->path = $path;
     }
 
     public static function fromString(
-        string $picture,
+        string $path,
     ): self {
-        return new self($picture);
+        return new self($path);
     }
 
-    public function picture(): string
+    public function path(): string
     {
-        return $this->picture;
+        return $this->path;
     }
 }

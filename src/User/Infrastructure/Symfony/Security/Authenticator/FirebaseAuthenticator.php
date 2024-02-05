@@ -79,7 +79,7 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
 
         return new SelfValidatingPassport(
             new UserBadge(
-                $email->email(),
+                $email->value(),
                 fn () => $this->loadUser($email),
             )
         );
@@ -111,8 +111,8 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
         );
 
         return new User(
-            $userEntity->id()->id(),
-            $userEntity->email()->email()
+            $userEntity->id()->value(),
+            $userEntity->email()->value()
         );
     }
 }

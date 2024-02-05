@@ -57,7 +57,7 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
 
         $nextIdentity = $doctrineUserRepository->nextIdentity();
 
-        $this->assertIsString($nextIdentity->id());
+        $this->assertIsString($nextIdentity->value());
     }
 
     public function testAddUser(): void

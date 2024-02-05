@@ -22,7 +22,7 @@ final class DoctrineCountryRepositoryTest extends KernelTestCase
         $country = $doctrineCountryRepository->findByName('France');
 
         $this->assertNotNull($country);
-        $this->assertEquals('France', $country->name()->name());
+        $this->assertEquals('France', $country->name()->value());
     }
 
     public function testAlreadyExist(): void
@@ -44,7 +44,7 @@ final class DoctrineCountryRepositoryTest extends KernelTestCase
 
         $nextIdentity = $doctrineUserRepository->nextIdentity();
 
-        $this->assertIsString($nextIdentity->id());
+        $this->assertIsString($nextIdentity->value());
     }
 
     public function testAdd(): void
@@ -76,7 +76,7 @@ final class DoctrineCountryRepositoryTest extends KernelTestCase
         $countries = $doctrineCountryRepository->getIterator();
 
         $this->assertNotNull($countries->current());
-        $this->assertEquals('France', $countries->current()->name()->name());
+        $this->assertEquals('France', $countries->current()->name()->value());
     }
 
     public function testOrderByName(): void
@@ -91,6 +91,6 @@ final class DoctrineCountryRepositoryTest extends KernelTestCase
         $countries = $doctrineCountryRepository->getIterator();
 
         $this->assertNotNull($countries->current());
-        $this->assertEquals('Afghanistan', $countries->current()->name()->name());
+        $this->assertEquals('Afghanistan', $countries->current()->name()->value());
     }
 }
