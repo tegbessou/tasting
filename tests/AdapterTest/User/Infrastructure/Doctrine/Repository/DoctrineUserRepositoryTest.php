@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\Entity\User;
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 use App\User\Domain\ValueObject\UserId;
 use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -19,7 +19,7 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
         $container = static::getContainer();
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
-        $user = $doctrineUserRepository->findByEmail(Email::fromString('hugues.gobet@gmail.com'));
+        $user = $doctrineUserRepository->ofEmail(UserEmail::fromString('hugues.gobet@gmail.com'));
 
         $this->assertNotNull($user);
     }
@@ -32,7 +32,7 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
         $this->assertTrue(
-            $doctrineUserRepository->isAlreadyExist(Email::fromString('hugues.gobet@gmail.com'))
+            $doctrineUserRepository->exist(UserEmail::fromString('hugues.gobet@gmail.com'))
         );
     }
 
@@ -44,7 +44,7 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
         $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
 
         $this->assertFalse(
-            $doctrineUserRepository->isAlreadyExist(Email::fromString('pedro@gmail.com'))
+            $doctrineUserRepository->exist(UserEmail::fromString('pedro@gmail.com'))
         );
     }
 
@@ -69,12 +69,12 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
 
         $user = User::create(
             UserId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            Email::fromString('pedro@gmail.com'),
+            UserEmail::fromString('pedro@gmail.com'),
         );
 
         $doctrineUserRepository->add($user);
 
-        $user = $doctrineUserRepository->findByEmail(Email::fromString('pedro@gmail.com'));
+        $user = $doctrineUserRepository->ofEmail(UserEmail::fromString('pedro@gmail.com'));
 
         $this->assertNotNull($user);
     }

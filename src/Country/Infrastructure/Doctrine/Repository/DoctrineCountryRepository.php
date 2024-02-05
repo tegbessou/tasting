@@ -27,14 +27,14 @@ final class DoctrineCountryRepository extends DoctrineRepository implements Coun
     }
 
     #[\Override]
-    public function findByName(
-        string $name,
+    public function ofName(
+        CountryName $name,
     ): ?Country {
-        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name]);
+        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name->value()]);
     }
 
     #[\Override]
-    public function isAlreadyExist(CountryName $name): bool
+    public function exist(CountryName $name): bool
     {
         return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name->value()]) !== null;
     }
@@ -55,16 +55,16 @@ final class DoctrineCountryRepository extends DoctrineRepository implements Coun
     }
 
     #[\Override]
-    public function filterByName(
-        string $name,
+    public function withName(
+        CountryName $name,
     ): self {
         return $this->filter(static function (QueryBuilder $qb) use ($name): void {
-            $qb->where(sprintf('%s.name.value = :name', self::ALIAS))->setParameter('name', $name);
+            $qb->where(sprintf('%s.name.value = :name', self::ALIAS))->setParameter('name', $name->value());
         });
     }
 
     #[\Override]
-    public function orderByName(): self
+    public function sortName(): self
     {
         return $this->filter(static function (QueryBuilder $qb): void {
             $qb->orderBy(sprintf('%s.name.value', self::ALIAS), 'ASC');

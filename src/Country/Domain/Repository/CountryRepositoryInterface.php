@@ -14,15 +14,15 @@ use App\Shared\Domain\Repository\RepositoryInterface;
  */
 interface CountryRepositoryInterface extends RepositoryInterface
 {
-    public function findByName(string $name): ?Country;
+    public function ofName(CountryName $name): ?Country;
 
-    public function isAlreadyExist(CountryName $name): bool;
+    public function exist(CountryName $name): bool;
 
     public function add(Country $country): void;
 
     public function nextIdentity(): CountryId;
 
-    public function filterByName(string $name): self;
+    public function withName(CountryName $name): self;
 
-    public function orderByName(): self;
+    public function sortName(): self;
 }

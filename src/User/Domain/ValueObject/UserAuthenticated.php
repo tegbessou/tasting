@@ -6,15 +6,15 @@ namespace App\User\Domain\ValueObject;
 
 final readonly class UserAuthenticated
 {
-    private Email $email;
+    private UserEmail $email;
 
     public function __construct(
         string $email,
     ) {
-        $this->email = Email::fromString($email);
+        $this->email = UserEmail::fromString($email);
     }
 
-    public function email(): Email
+    public function email(): UserEmail
     {
         return $this->email;
     }

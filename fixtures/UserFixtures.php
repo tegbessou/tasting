@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DataFixtures;
 
 use App\User\Domain\Entity\User;
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 use App\User\Domain\ValueObject\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -17,7 +17,7 @@ final class UserFixtures extends Fixture
     {
         $user = User::create(
             UserId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
-            Email::fromString('hugues.gobet@gmail.com'),
+            UserEmail::fromString('hugues.gobet@gmail.com'),
         );
 
         $manager->persist($user);

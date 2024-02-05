@@ -6,7 +6,7 @@ namespace App\User\Application\Query;
 
 use App\Shared\Application\Query\QueryInterface;
 use App\User\Domain\Entity\User;
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 
 /**
  * @implements QueryInterface<User>
@@ -14,7 +14,7 @@ use App\User\Domain\ValueObject\Email;
 final readonly class GetUserQuery implements QueryInterface
 {
     public function __construct(
-        public Email $email,
+        public UserEmail $email,
     ) {
     }
 }

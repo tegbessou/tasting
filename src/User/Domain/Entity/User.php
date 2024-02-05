@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Entity;
 
-use App\User\Domain\ValueObject\Email;
+use App\User\Domain\ValueObject\UserEmail;
 use App\User\Domain\ValueObject\UserId;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,13 +15,13 @@ final readonly class User
         #[ORM\Embedded(columnPrefix: false)]
         private UserId $id,
         #[ORM\Embedded(columnPrefix: false)]
-        private Email $email,
+        private UserEmail $email,
     ) {
     }
 
     public static function create(
         UserId $id,
-        Email $email,
+        UserEmail $email,
     ): self {
         return new self(
             $id,
@@ -34,7 +34,7 @@ final readonly class User
         return $this->id;
     }
 
-    public function email(): Email
+    public function email(): UserEmail
     {
         return $this->email;
     }
