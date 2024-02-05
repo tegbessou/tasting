@@ -8,74 +8,66 @@ use App\User\Domain\Entity\User;
 use App\User\Domain\ValueObject\UserEmail;
 use App\User\Domain\ValueObject\UserId;
 use App\User\Infrastructure\Doctrine\Repository\DoctrineUserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DoctrineUserRepositoryTest extends KernelTestCase
 {
-    public function testFindByEmail(): void
+    private DoctrineUserRepository $doctrineUserRepository;
+
+    #[\Override]
+    protected function setUp(): void
     {
         self::bootKernel();
 
         $container = static::getContainer();
-        $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
+        $this->doctrineUserRepository = $container->get(DoctrineUserRepository::class);
+    }
 
-        $user = $doctrineUserRepository->ofEmail(UserEmail::fromString('hugues.gobet@gmail.com'));
+    public function testFindByEmail(): void
+    {
+        $user = $this->doctrineUserRepository->ofEmail(UserEmail::fromString('hugues.gobet@gmail.com'));
 
         $this->assertNotNull($user);
     }
 
     public function testIsAlreadyExist(): void
     {
-        self::bootKernel();
-
-        $container = static::getContainer();
-        $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
-
         $this->assertTrue(
-            $doctrineUserRepository->exist(UserEmail::fromString('hugues.gobet@gmail.com'))
+            $this->doctrineUserRepository->exist(UserEmail::fromString('hugues.gobet@gmail.com'))
         );
     }
 
     public function testIsNotAlreadyExist(): void
     {
-        self::bootKernel();
-
-        $container = static::getContainer();
-        $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
-
         $this->assertFalse(
-            $doctrineUserRepository->exist(UserEmail::fromString('pedro@gmail.com'))
+            $this->doctrineUserRepository->exist(UserEmail::fromString('pedro@gmail.com'))
         );
     }
 
     public function testNextIdentity(): void
     {
-        self::bootKernel();
-
-        $container = static::getContainer();
-        $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
-
-        $nextIdentity = $doctrineUserRepository->nextIdentity();
+        $nextIdentity = $this->doctrineUserRepository->nextIdentity();
 
         $this->assertIsString($nextIdentity->value());
     }
 
     public function testAddUser(): void
     {
-        self::bootKernel();
-
-        $container = static::getContainer();
-        $doctrineUserRepository = $container->get(DoctrineUserRepository::class);
-
         $user = User::create(
             UserId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
             UserEmail::fromString('pedro@gmail.com'),
         );
 
-        $doctrineUserRepository->add($user);
+        $this->doctrineUserRepository->add($user);
 
-        $user = $doctrineUserRepository->ofEmail(UserEmail::fromString('pedro@gmail.com'));
+        $user = $this->doctrineUserRepository->ofEmail(UserEmail::fromString('pedro@gmail.com'));
 
         $this->assertNotNull($user);
+
+        $container = static::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
+        $entityManager->remove($user);
+        $entityManager->flush();
     }
 }

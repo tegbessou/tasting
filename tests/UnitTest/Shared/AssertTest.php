@@ -7,7 +7,7 @@ namespace App\Tests\UnitTest\Shared;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use PHPUnit\Framework\TestCase;
 
-class AssertTest extends TestCase
+final class AssertTest extends TestCase
 {
     public function testYearFailedToHigh(): void
     {
