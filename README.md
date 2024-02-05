@@ -116,6 +116,6 @@ If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring
-Rework tests folder to have a better architecture and make visible different adapter test type
-
 On bottle picture add an assert to verify if the extension is a picture extension and if we support it
+
+Explain architecture choices in the README

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\Country\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Repository;
 
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
 use App\Country\Infrastructure\Doctrine\Repository\DoctrineCountryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DoctrineCountryRepositoryTest extends KernelTestCase
@@ -54,6 +55,11 @@ final class DoctrineCountryRepositoryTest extends KernelTestCase
         $country = $this->doctrineCountryRepository->ofName(CountryName::fromString('France2'));
 
         $this->assertNotNull($country);
+
+        $container = static::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
+        $entityManager->remove($country);
+        $entityManager->flush();
     }
 
     public function testWithName(): void
