@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottlePicture
 {
-    #[ORM\Column(name: 'picture', type: 'string', length: 255)]
+    #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: true)]
     private string $path;
 
     public function __construct(

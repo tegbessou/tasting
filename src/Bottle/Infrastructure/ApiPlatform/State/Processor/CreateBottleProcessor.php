@@ -44,7 +44,6 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
         Assert::notNull($data->grapeVarieties);
         Assert::notNull($data->rate);
         Assert::isInstanceOf($data->rate, Rate::class);
-        Assert::notNull($data->picture);
         Assert::notNull($data->ownerId);
         Assert::uuid($data->ownerId);
 
@@ -61,7 +60,6 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
                     $data->year,
                     $data->grapeVarieties,
                     $data->rate->value,
-                    $data->picture,
                     $data->ownerId,
                     $data->country,
                     $data->price,

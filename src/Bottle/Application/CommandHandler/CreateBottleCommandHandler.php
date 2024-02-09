@@ -17,7 +17,6 @@ use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
 use App\Bottle\Domain\ValueObject\BottleName;
 use App\Bottle\Domain\ValueObject\BottleOwnerId;
-use App\Bottle\Domain\ValueObject\BottlePicture;
 use App\Bottle\Domain\ValueObject\BottlePrice;
 use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleWineType;
@@ -55,7 +54,6 @@ final readonly class CreateBottleCommandHandler
             BottleYear::fromInt($createBottleCommand->year),
             BottleGrapeVarieties::fromArray($createBottleCommand->grapeVarieties),
             BottleRate::fromString($createBottleCommand->rate),
-            BottlePicture::fromString($createBottleCommand->picture),
             BottleOwnerId::fromString($createBottleCommand->ownerId),
             $createBottleCommand->country !== null ? BottleCountry::fromString($createBottleCommand->country) : null,
             $createBottleCommand->price !== null ? BottlePrice::fromFloat($createBottleCommand->price) : null,

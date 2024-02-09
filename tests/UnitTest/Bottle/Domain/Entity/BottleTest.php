@@ -30,7 +30,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -54,7 +53,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -73,7 +71,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -92,7 +89,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -111,7 +107,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -130,7 +125,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -149,7 +143,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -168,7 +161,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(1899),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -187,7 +179,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2101),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -206,64 +197,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('top'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
-            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(12.99),
-        );
-    }
-
-    public function testCreateFailedBottlePictureTooLong(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Bottle::create(
-            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            BottleName::fromString('Château de Fonsalette'),
-            BottleEstateName::fromString('Château Rayas'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2000),
-            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
-            BottleRate::fromString('xs'),
-            BottlePicture::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
-            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(12.99),
-        );
-    }
-
-    public function testCreateFailedBottlePictureTooShort(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Bottle::create(
-            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            BottleName::fromString('Château de Fonsalette'),
-            BottleEstateName::fromString('Château Rayas'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2000),
-            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
-            BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.gif'),
-            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(12.99),
-        );
-    }
-
-    public function testCreateFailedBottlePictureBadException(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Bottle::create(
-            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            BottleName::fromString('Château de Fonsalette'),
-            BottleEstateName::fromString('Château Rayas'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2000),
-            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
-            BottleRate::fromString('xs'),
-            BottlePicture::fromString(''),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -282,7 +215,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('12'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
@@ -301,7 +233,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
             BottlePrice::fromFloat(12.99),
@@ -320,7 +251,6 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString(''),
             BottlePrice::fromFloat(12.99),
@@ -339,10 +269,85 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(-12.99),
         );
+    }
+
+    public function testAddPicture(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        )->addPicture(
+            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
+        );
+
+        $this->assertNotNull($bottle->picture());
+    }
+
+    public function testAddPictureFailedBottlePictureTooLong(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        )->addPicture(
+            BottlePicture::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
+        );
+    }
+
+    public function testAddPictureFailedBottlePictureTooShort(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        )->addPicture(BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.gif'));
+    }
+
+    public function testAddPictureFailedBottlePictureBadException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        )->addPicture(BottlePicture::fromString(''));
     }
 }

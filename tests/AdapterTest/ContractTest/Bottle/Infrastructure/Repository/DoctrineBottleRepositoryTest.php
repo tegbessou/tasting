@@ -11,7 +11,6 @@ use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
 use App\Bottle\Domain\ValueObject\BottleId;
 use App\Bottle\Domain\ValueObject\BottleName;
 use App\Bottle\Domain\ValueObject\BottleOwnerId;
-use App\Bottle\Domain\ValueObject\BottlePicture;
 use App\Bottle\Domain\ValueObject\BottlePrice;
 use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleWineType;
@@ -50,7 +49,6 @@ final class DoctrineBottleRepositoryTest extends KernelTestCase
             BottleYear::fromInt(2015),
             BottleGrapeVarieties::fromArray(['Grenache']),
             BottleRate::fromString('+'),
-            BottlePicture::fromString('/images/bottle/chateau-rayas.webp'),
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(129.99),

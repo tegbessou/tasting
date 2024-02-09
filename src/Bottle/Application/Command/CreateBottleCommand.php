@@ -18,7 +18,6 @@ final readonly class CreateBottleCommand implements CommandInterface
         public int $year,
         public array $grapeVarieties,
         public string $rate,
-        public string $picture,
         public string $ownerId,
         public ?string $country,
         public ?float $price,

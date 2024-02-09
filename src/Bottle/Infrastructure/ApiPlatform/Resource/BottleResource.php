@@ -51,9 +51,6 @@ final readonly class BottleResource
         public ?Rate $rate = null,
         #[ApiProperty]
         #[Assert\NotBlank]
-        public ?string $picture = null,
-        #[ApiProperty]
-        #[Assert\NotBlank]
         public ?string $ownerId = null,
         #[ApiProperty]
         public ?string $country = null,

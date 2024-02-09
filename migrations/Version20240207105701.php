@@ -16,7 +16,9 @@ final class Version20240207105701 extends AbstractMigration
         CHANGE
           country country VARCHAR(255) DEFAULT NULL,
         CHANGE
-          price price DOUBLE PRECISION DEFAULT NULL');
+          price price DOUBLE PRECISION DEFAULT NULL,
+        CHANGE
+          picture picture VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -26,6 +28,8 @@ final class Version20240207105701 extends AbstractMigration
         CHANGE
           country country VARCHAR(255) NOT NULL,
         CHANGE
-          price price DOUBLE PRECISION NOT NULL');
+          price price DOUBLE PRECISION NOT NULL,
+        CHANGE
+          picture picture VARCHAR(255) NOT NULL');
     }
 }

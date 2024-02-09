@@ -116,6 +116,8 @@ If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring
+Handle bottle picture upload
+
 Rework test to use true data for the test
 Rework folder structure for command, command handler, query, query handler
 
