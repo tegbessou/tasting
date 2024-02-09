@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottleCountry
 {
-    #[ORM\Column(name: 'country', type: 'string', length: 255)]
+    #[ORM\Column(name: 'country', type: 'string', length: 255, nullable: true)]
     private string $value;
 
     public function __construct(

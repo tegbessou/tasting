@@ -7,13 +7,29 @@ parameters:
     layers:
         - name: User
           collectors:
-              - type: directory
-                regex: src/User/.*
+              - type: bool
+                must:
+                  - type: directory
+                    regex: src/User/.*
+                must_not:
+                  - { type: className, regex: ^App\\User\\Domain\\Event\\OwnerNotExistEvent }
+
+        - name: UserContextMap
+          collectors:
+            - { type: className, regex: ^App\\User\\Domain\\Event\\OwnerNotExistEvent }
 
         - name: Bottle
           collectors:
-              - type: directory
-                regex: src/Bottle/.*
+            - type: bool
+              must:
+                - type: directory
+                  regex: src/Bottle/.*
+              must_not:
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckOwnerExistEvent }
+
+        - name: BottleContextMap
+          collectors:
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckOwnerExistEvent }
 
         - name: Country
           collectors:
@@ -46,7 +62,9 @@ parameters:
               - { type: className, regex: ^ArrayIterator }
 
     ruleset:
-        User: [ Shared, Vendors ]
-        Bottle: [ Shared, Vendors ]
+        User: [ Shared, Vendors, BottleContextMap, UserContextMap ]
+        UserContextMap: [ Shared, Vendors ]
+        Bottle: [ Shared, Vendors, BottleContextMap,UserContextMap ]
+        BottleContextMap: [ Shared, Vendors ]
         Country: [ Shared, Vendors ]
         Shared: [ Vendors ]

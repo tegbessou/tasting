@@ -18,8 +18,11 @@ use App\Bottle\Domain\ValueObject\BottleYear;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final readonly class Bottle
+final class Bottle
 {
+    #[ORM\Embedded(columnPrefix: false)]
+    private ?BottlePicture $picture = null;
+
     public function __construct(
         #[ORM\Embedded(columnPrefix: false)]
         private BottleId $id,
@@ -35,8 +38,6 @@ final readonly class Bottle
         private BottleGrapeVarieties $grapeVarieties,
         #[ORM\Embedded(columnPrefix: false)]
         private BottleRate $rate,
-        #[ORM\Embedded(columnPrefix: false)]
-        private BottlePicture $picture,
         #[ORM\Embedded(columnPrefix: false)]
         private BottleOwnerId $ownerId,
         #[ORM\Embedded(columnPrefix: false)]
@@ -54,7 +55,6 @@ final readonly class Bottle
         BottleYear $year,
         BottleGrapeVarieties $grapeVarieties,
         BottleRate $rate,
-        BottlePicture $picture,
         BottleOwnerId $ownerId,
         BottleCountry $country = null,
         BottlePrice $price = null,
@@ -67,11 +67,17 @@ final readonly class Bottle
             $year,
             $grapeVarieties,
             $rate,
-            $picture,
             $ownerId,
             $country,
             $price,
         );
+    }
+
+    public function addPicture(BottlePicture $picture): Bottle
+    {
+        $this->picture = $picture;
+
+        return $this;
     }
 
     public function id(): BottleId
@@ -109,7 +115,7 @@ final readonly class Bottle
         return $this->rate;
     }
 
-    public function picture(): BottlePicture
+    public function picture(): ?BottlePicture
     {
         return $this->picture;
     }

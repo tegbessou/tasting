@@ -41,18 +41,18 @@ final readonly class CreateUserProcessor implements ProcessorInterface
                 ),
             );
         } catch (UserAlreadyExistsException) {
-            throw new ValidationException($this->buildAlreadyExistViolations($data->email));
+            throw new ValidationException($this->buildAlreadyExistViolation($data->email));
         }
     }
 
-    private function buildAlreadyExistViolations(
+    private function buildAlreadyExistViolation(
         string $email,
     ): ConstraintViolationList {
         $violations = new ConstraintViolationList();
         $violations->add(new ConstraintViolation(
             $this->translator->trans(
                 'user.email.already_exists',
-                ['%email%' => $email],
+                ['email' => $email],
                 'validators'
             ),
             null,

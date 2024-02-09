@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottlePicture
 {
-    #[ORM\Column(name: 'picture', type: 'string', length: 255)]
+    #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: true)]
     private string $path;
 
     public function __construct(
@@ -18,6 +18,7 @@ final readonly class BottlePicture
     ) {
         Assert::string($path);
         Assert::lengthBetween($path, 1, 255);
+        Assert::picture($path);
 
         $this->path = $path;
     }

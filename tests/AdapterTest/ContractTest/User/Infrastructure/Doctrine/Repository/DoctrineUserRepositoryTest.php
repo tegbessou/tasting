@@ -24,24 +24,45 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
         $this->doctrineUserRepository = $container->get(DoctrineUserRepository::class);
     }
 
-    public function testFindByEmail(): void
+    public function testOfEmail(): void
     {
         $user = $this->doctrineUserRepository->ofEmail(UserEmail::fromString('hugues.gobet@gmail.com'));
 
         $this->assertNotNull($user);
     }
 
-    public function testIsAlreadyExist(): void
+    public function testExistWithEmail(): void
     {
         $this->assertTrue(
-            $this->doctrineUserRepository->exist(UserEmail::fromString('hugues.gobet@gmail.com'))
+            $this->doctrineUserRepository->existWithEmail(UserEmail::fromString('hugues.gobet@gmail.com'))
         );
     }
 
-    public function testIsNotAlreadyExist(): void
+    public function testNotExistWithEmail(): void
     {
         $this->assertFalse(
-            $this->doctrineUserRepository->exist(UserEmail::fromString('pedro@gmail.com'))
+            $this->doctrineUserRepository->existWithEmail(UserEmail::fromString('pedro@gmail.com'))
+        );
+    }
+
+    public function testOfId(): void
+    {
+        $user = $this->doctrineUserRepository->ofId(UserId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'));
+
+        $this->assertNotNull($user);
+    }
+
+    public function testExistWithId(): void
+    {
+        $this->assertTrue(
+            $this->doctrineUserRepository->existWithId(UserId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'))
+        );
+    }
+
+    public function testNotExistWithId(): void
+    {
+        $this->assertFalse(
+            $this->doctrineUserRepository->existWithId(UserId::fromString('e90cd120-7b3b-41dc-b369-8055065f648c'))
         );
     }
 
