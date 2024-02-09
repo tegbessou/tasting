@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottlePrice
 {
-    #[ORM\Column(name: 'price', type: 'float')]
+    #[ORM\Column(name: 'price', type: 'float', nullable: true)]
     private float $amount;
 
     public function __construct(

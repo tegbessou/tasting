@@ -28,6 +28,8 @@ services:
       - .:/home/app
     networks:
       - web
+    external_links:
+      - nginx-proxy:des-amis-du-vin.docker
 
   db:
     image: mariadb:10.11

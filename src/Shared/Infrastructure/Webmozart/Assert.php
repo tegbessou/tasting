@@ -8,6 +8,8 @@ use Webmozart\Assert\Assert as BaseAssert;
 
 final class Assert extends BaseAssert
 {
+    private const PICTURE_SUPPORTED_EXTENSION = ['jpg', 'jpeg', 'png', 'webp'];
+
     public static function year(int $value, string $message = ''): void
     {
         if ($value < 1900 || $value > 2100) {
@@ -24,6 +26,27 @@ final class Assert extends BaseAssert
             static::reportInvalidArgument(\sprintf(
                 $message ?: 'Expected a positive float. Got: %s',
                 static::typeToString($value)
+            ));
+        }
+    }
+
+    public static function picture(string $path, string $message = ''): void
+    {
+        $matchExtensionOnce = false;
+
+        foreach (self::PICTURE_SUPPORTED_EXTENSION as $extension) {
+            if (!str_ends_with($path, $extension)) {
+                continue;
+            }
+
+            $matchExtensionOnce = true;
+        }
+
+        if ($matchExtensionOnce === false) {
+            static::reportInvalidArgument(\sprintf(
+                $message ?: 'Expect extension was in this list for picture %s. Got: %s',
+                implode(', ', self::PICTURE_SUPPORTED_EXTENSION),
+                $path,
             ));
         }
     }

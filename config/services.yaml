@@ -14,13 +14,28 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    DataFixtures\:
+        resource: '../fixtures'
+
+    # User
     App\User\Domain\Service\AuthenticateUserInterface:
         alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUser
 
-    DataFixtures\:
-        resource: '../fixtures'
+    App\User\Application\EventListener\OnCheckOwnerExistEventListener:
+        tags: [kernel.event_listener]
+
+    # Bottle
+    App\Bottle\Application\EventListener\OwnerNotExistEventListener:
+        tags: [kernel.event_listener]
+
+    # Country
+    App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
+        alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClient
 
 when@test:
     services:
         App\User\Domain\Service\AuthenticateUserInterface:
             alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFake
+
+        App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
+            alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientFake

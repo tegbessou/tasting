@@ -31,9 +31,21 @@ final readonly class DoctrineUserRepository implements UserRepositoryInterface
     }
 
     #[\Override]
-    public function exist(UserEmail $email): bool
+    public function existWithEmail(UserEmail $email): bool
     {
         return $this->ofEmail($email) !== null;
+    }
+
+    #[\Override]
+    public function ofId(UserId $id): ?User
+    {
+        return $this->entityManager->find(self::ENTITY_CLASS, $id->value());
+    }
+
+    #[\Override]
+    public function existWithId(UserId $id): bool
+    {
+        return $this->ofId($id) !== null;
     }
 
     #[\Override]

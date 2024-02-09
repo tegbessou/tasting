@@ -67,6 +67,21 @@ final class GrapeVarietyFixtures extends Fixture
             GrapeVarietyName::fromString('Nebbiolo')
         );
 
+        $grapeVarieties[] = new GrapeVariety(
+            GrapeVarietyId::fromString('4f723f60-a39a-48f5-bbed-0c162b607f0a'),
+            GrapeVarietyName::fromString('Grenache')
+        );
+
+        $grapeVarieties[] = new GrapeVariety(
+            GrapeVarietyId::fromString('5decae3c-fd54-4acf-a8b9-e1088f09c528'),
+            GrapeVarietyName::fromString('Cinsault')
+        );
+
+        $grapeVarieties[] = new GrapeVariety(
+            GrapeVarietyId::fromString('1dab5088-b0cc-4e75-b40f-7c3e94b1ecb7'),
+            GrapeVarietyName::fromString('Syrah')
+        );
+
         foreach ($grapeVarieties as $grapeVariety) {
             $manager->persist($grapeVariety);
         }

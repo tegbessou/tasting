@@ -18,6 +18,7 @@ final readonly class BottlePicture
     ) {
         Assert::string($path);
         Assert::lengthBetween($path, 1, 255);
+        Assert::picture($path);
 
         $this->path = $path;
     }

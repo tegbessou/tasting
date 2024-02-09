@@ -112,7 +112,7 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
 
         return new User(
             $userEntity->id()->value(),
-            $userEntity->email()->value()
+            $userEntity->email()->value(),
         );
     }
 }

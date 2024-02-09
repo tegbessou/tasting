@@ -1,0 +1,21 @@
+framework:
+  http_client:
+    scoped_clients:
+      country_api:
+        base_uri: '%env(COUNTRY_API_URL)%'
+
+when@dev:
+  framework:
+    http_client:
+      scoped_clients:
+        country_api:
+          verify_peer: false
+          verify_host: false
+
+when@test:
+  framework:
+    http_client:
+      scoped_clients:
+        country_api:
+          verify_peer: false
+          verify_host: false

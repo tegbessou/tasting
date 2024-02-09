@@ -23,7 +23,7 @@ parameters:
         - name: Vendors
           collectors:
               - { type: className, regex: ^ApiPlatform\\ }
-              - { type: className, regex: ^Symfony\\ }
+              - { type: className, regex: ^Symfony\\(?!(Contracts\\EventDispatcher)) }
               - { type: className, regex: ^Doctrine\\(?!(ORM\\Mapping)) }
               - { type: className, regex: ^Webmozart\\Assert\\Assert }
               - { type: className, regex: ^Kreait\\ }
@@ -38,15 +38,21 @@ parameters:
           collectors:
               - { type: className, regex: ^App\\Shared\\Infrastructure\\Webmozart\\Assert }
 
+        - name: Events
+          collectors:
+              - { type: className, regex: ^Symfony\\Contracts\\EventDispatcher\\ }
+
     ruleset:
         Domain:
             - Helpers
             - Attributes
+            - Events
 
         Application:
             - Domain
             - Helpers
             - Attributes
+            - Events
 
         Infrastructure:
             - Domain
