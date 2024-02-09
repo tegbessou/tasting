@@ -117,5 +117,6 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring
 Rework test to use true data for the test
+Rework folder structure for command, command handler, query, query handler
 
 Explain architecture choices in the README

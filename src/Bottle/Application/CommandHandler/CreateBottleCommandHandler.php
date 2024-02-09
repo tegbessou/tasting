@@ -44,8 +44,8 @@ final readonly class CreateBottleCommandHandler
             new CheckOwnerExistEvent($createBottleCommand->ownerId),
         );
 
-        $this->validateCountry($createBottleCommand);
-        $this->validateGrapeVarieties($createBottleCommand);
+        $this->validateThatCountryExists($createBottleCommand);
+        $this->validateThatGrapeVarietiesExist($createBottleCommand);
 
         $bottle = Bottle::create(
             $this->bottleRepository->nextIdentity(),
@@ -64,7 +64,7 @@ final readonly class CreateBottleCommandHandler
         $this->bottleRepository->add($bottle);
     }
 
-    private function validateCountry(CreateBottleCommand $createBottleCommand): void
+    private function validateThatCountryExists(CreateBottleCommand $createBottleCommand): void
     {
         if ($createBottleCommand->country === null) {
             return;
@@ -77,7 +77,7 @@ final readonly class CreateBottleCommandHandler
         throw new BottleCreationCountryDoesntExistException($createBottleCommand->country);
     }
 
-    private function validateGrapeVarieties(CreateBottleCommand $createBottleCommand): void
+    private function validateThatGrapeVarietiesExist(CreateBottleCommand $createBottleCommand): void
     {
         if (count($createBottleCommand->grapeVarieties) === 0) {
             return;
