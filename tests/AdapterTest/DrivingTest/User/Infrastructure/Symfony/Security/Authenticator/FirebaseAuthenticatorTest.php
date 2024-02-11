@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\User\Symfony\Security\Authenticator;
+namespace App\Tests\AdapterTest\DrivingTest\User\Infrastructure\Symfony\Security\Authenticator;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 

@@ -28,7 +28,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(201);
+        $this->assertResponseStatusCodeSame(204);
     }
 
     /**

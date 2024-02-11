@@ -15,12 +15,21 @@ final class UserFixtures extends Fixture
     #[\Override]
     public function load(ObjectManager $manager): void
     {
-        $user = User::create(
+        $users = [];
+        $users[] = User::create(
             UserId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             UserEmail::fromString('hugues.gobet@gmail.com'),
         );
 
-        $manager->persist($user);
+        $users[] = User::create(
+            UserId::fromString('05e8984e-45cd-44d4-8d42-f5c4e6bd6192'),
+            UserEmail::fromString('root@gmail.com'),
+        );
+
+        foreach ($users as $user) {
+            $manager->persist($user);
+        }
+
         $manager->flush();
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\User\Infrastructure\ApiPlatform\State\Processor;
+namespace App\Tests\AdapterTest\DrivingTest\User\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 

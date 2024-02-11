@@ -21,6 +21,15 @@ services:
     App\Bottle\Application\EventListener\OnOwnerNotExistEventListener:
         tags: [kernel.event_listener]
 
+    App\Bottle\Application\EventListener\OnBottleUpdateNotAuthorizeEventListener:
+        tags: [kernel.event_listener]
+
+    App\Bottle\Application\EventListener\UploadBottlePictureEventListener:
+        tags: [kernel.event_listener]
+
+    App\Bottle\Domain\Service\UploadBottlePictureInterface:
+        alias: App\Bottle\Infrastructure\VichUploader\VichUploaderUploadBottlePicture
+
     # Country
     App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
         alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClient
@@ -32,11 +41,17 @@ services:
     App\User\Application\EventListener\OnCheckOwnerExistEventListener:
         tags: [kernel.event_listener]
 
+    App\User\Application\EventListener\OnCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+        tags: [kernel.event_listener]
+
 when@test:
     services:
         # Bottle
         App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
             alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientFake
+
+        App\Bottle\Domain\Service\UploadBottlePictureInterface:
+            alias: App\Bottle\Infrastructure\VichUploader\VichUploaderUploadBottlePictureTest
 
         # User
         App\User\Domain\Service\AuthenticateUserInterface:
