@@ -47,19 +47,6 @@ final class PostBottlePictureAction extends AbstractController
         } catch (UpdateBottleNotAuthorizeForThisUserException) {
             throw new AccessDeniedHttpException();
         }
-        // passer à la commande la bouteille + l'image
-        // verifier que l'utilisateur est bien le propriétaire de la bouteille
-        // verifier que la bouteille existe
-
-        // throw exception 404 si la bouteille est null
-        // throw exception 401 si la bouteille ne lui appartient pas
-
-        // ajouter l'image à la bouteille
-        // uploader l'image
-
-        // sauvegarder
-
-        // gérer les exceptions dans le controller
 
         return $bottle;
     }
