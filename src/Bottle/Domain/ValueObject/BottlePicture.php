@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 final readonly class BottlePicture
 {
     #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: true)]
-    private string $path;
+    private ?string $path;
 
     public function __construct(
         string $path,
@@ -29,7 +29,7 @@ final readonly class BottlePicture
         return new self($path);
     }
 
-    public function path(): string
+    public function path(): ?string
     {
         return $this->path;
     }

@@ -37,7 +37,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(1099.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/chateau-margaux.jpg'));
+        )->addPicture(BottlePicture::fromString('chateau-margaux.jpg'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('3a28deee-f221-4aa1-800b-6b5b27137bfc'),
@@ -50,7 +50,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(2999.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/romanee-conti.jpg'));
+        )->addPicture(BottlePicture::fromString('romanee-conti.jpg'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('29523184-face-4e1c-8582-1637cd501cee'),
@@ -63,7 +63,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(999.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/chateau-latour.jpg'));
+        )->addPicture(BottlePicture::fromString('chateau-latour.jpg'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('f077aa04-c3a4-4f1a-8c60-050b76bae7b7'),
@@ -76,7 +76,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('États-Unis'),
             BottlePrice::fromFloat(1299.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/opus-one.jpg'));
+        )->addPicture(BottlePicture::fromString('opus-one.jpg'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('4eb449d9-7d23-4984-a68d-77aa19fccc60'),
@@ -89,7 +89,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('Italie'),
             BottlePrice::fromFloat(899.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/tenuta-san-guido.webp'));
+        )->addPicture(BottlePicture::fromString('tenuta-san-guido.webp'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('5ec0917b-179f-46e4-87d6-db76fbddf45f'),
@@ -102,7 +102,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(1599.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/montrachet.png'));
+        )->addPicture(BottlePicture::fromString('montrachet.png'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('690a8473-82af-4e57-92cd-9186b12a024a'),
@@ -115,7 +115,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('Australie'),
             BottlePrice::fromFloat(1799.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/penfolds.webp'));
+        )->addPicture(BottlePicture::fromString('penfolds.webp'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('1c0bab10-f5e5-42dd-9748-baeb5be15050'),
@@ -128,7 +128,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('États-Unis'),
             BottlePrice::fromFloat(259.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/caymus.jpg'));
+        )->addPicture(BottlePicture::fromString('caymus.jpg'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('ea1708c2-a1d9-495e-80dc-93b0b61757ed'),
@@ -141,7 +141,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('Espagne'),
             BottlePrice::fromFloat(1499.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/vega-sicilia.webp'));
+        )->addPicture(BottlePicture::fromString('vega-sicilia.webp'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('b54cafe9-436e-47a4-9456-61117f6a1648'),
@@ -154,7 +154,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('New Zealand'),
             BottlePrice::fromFloat(49.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/cloudy-bay.png'));
+        )->addPicture(BottlePicture::fromString('cloudy-bay.png'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('e7f247a6-661c-4640-8ac8-25ee1e3eeb6d'),
@@ -167,7 +167,7 @@ final class BottleFixtures extends Fixture
             BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
             BottleCountry::fromString('Italy'),
             BottlePrice::fromFloat(899.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/gaja.jpg'));
+        )->addPicture(BottlePicture::fromString('gaja.jpg'));
 
         $bottles[] = Bottle::create(
             BottleId::fromString('97102d4c-da46-4105-8c34-53f5a2e1e9fa'),
@@ -177,10 +177,23 @@ final class BottleFixtures extends Fixture
             BottleYear::fromInt(2014),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
             BottleRate::fromString('='),
-            BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
+            BottleOwnerId::fromString('05e8984e-45cd-44d4-8d42-f5c4e6bd6192'),
             BottleCountry::fromString('United States'),
             BottlePrice::fromFloat(199.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/ridge-vineyards.png'));
+        )->addPicture(BottlePicture::fromString('ridge-vineyards.png'));
+
+        $bottles[] = Bottle::create(
+            BottleId::fromString('635e809c-aaaf-40df-8483-83cfbe2c5504'),
+            BottleName::fromString('Guigal Côte-Rôtie'),
+            BottleEstateName::fromString('E. Guigal'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2014),
+            BottleGrapeVarieties::fromArray(['Syrah', 'Viognier']),
+            BottleRate::fromString('++'),
+            BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(358.99),
+        );
 
         foreach ($bottles as $bottle) {
             $manager->persist($bottle);

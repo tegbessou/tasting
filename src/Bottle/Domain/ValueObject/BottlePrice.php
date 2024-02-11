@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 final readonly class BottlePrice
 {
     #[ORM\Column(name: 'price', type: 'float', nullable: true)]
-    private float $amount;
+    private ?float $amount;
 
     public function __construct(
         float $amount,
@@ -27,7 +27,7 @@ final readonly class BottlePrice
         return new self($amount);
     }
 
-    public function amount(): float
+    public function amount(): ?float
     {
         return $this->amount;
     }

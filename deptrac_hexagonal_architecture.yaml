@@ -28,6 +28,7 @@ parameters:
               - { type: className, regex: ^Webmozart\\Assert\\Assert }
               - { type: className, regex: ^Kreait\\ }
               - { type: className, regex: ^Lexik\\ }
+              - { type: className, regex: ^Vich\\ }
 
         - name: Attributes
           collectors:

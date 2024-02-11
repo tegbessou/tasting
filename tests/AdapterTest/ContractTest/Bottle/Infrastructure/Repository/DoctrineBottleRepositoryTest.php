@@ -11,6 +11,7 @@ use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
 use App\Bottle\Domain\ValueObject\BottleId;
 use App\Bottle\Domain\ValueObject\BottleName;
 use App\Bottle\Domain\ValueObject\BottleOwnerId;
+use App\Bottle\Domain\ValueObject\BottlePicture;
 use App\Bottle\Domain\ValueObject\BottlePrice;
 use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleWineType;
@@ -71,5 +72,27 @@ final class DoctrineBottleRepositoryTest extends KernelTestCase
         $nextIdentity = $this->doctrineBottleRepository->nextIdentity();
 
         $this->assertIsString($nextIdentity->value());
+    }
+
+    public function testUpdate(): void
+    {
+        $bottle = $this->doctrineBottleRepository->ofId(
+            BottleId::fromString('635e809c-aaaf-40df-8483-83cfbe2c5504')
+        );
+
+        $this->assertNull(
+            $bottle->picture()->path(),
+        );
+
+        $bottle->addPicture(BottlePicture::fromString('picture.jpg'));
+        $this->doctrineBottleRepository->update($bottle);
+
+        $bottleUpdated = $this->doctrineBottleRepository->ofId(
+            BottleId::fromString('635e809c-aaaf-40df-8483-83cfbe2c5504')
+        );
+
+        $this->assertNotNull(
+            $bottleUpdated->picture(),
+        );
     }
 }

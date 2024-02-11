@@ -13,10 +13,12 @@ parameters:
                     regex: src/User/.*
                 must_not:
                   - { type: className, regex: ^App\\User\\Domain\\Event\\OwnerNotExistEvent }
+                  - { type: className, regex: ^App\\User\\Domain\\Event\\BottleUpdateNotAuthorizeEvent }
 
         - name: UserContextMap
           collectors:
             - { type: className, regex: ^App\\User\\Domain\\Event\\OwnerNotExistEvent }
+            - { type: className, regex: ^App\\User\\Domain\\Event\\BottleUpdateNotAuthorizeEvent }
 
         - name: Bottle
           collectors:
@@ -26,10 +28,12 @@ parameters:
                   regex: src/Bottle/.*
               must_not:
                 - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckOwnerExistEvent }
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckIfUserIsAuthorizeToUpdateBottleEvent }
 
         - name: BottleContextMap
           collectors:
             - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckOwnerExistEvent }
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckIfUserIsAuthorizeToUpdateBottleEvent }
 
         - name: Country
           collectors:
@@ -49,6 +53,7 @@ parameters:
               - { type: className, regex: ^Doctrine\\ }
               - { type: className, regex: ^Webmozart\\ }
               - { type: className, regex: ^Kreait\\ }
+              - { type: className, regex: ^Vich\\ }
               - { type: className, regex: ^Attribute }
               - { type: className, regex: ^Override }
               - { type: className, regex: ^Exception }

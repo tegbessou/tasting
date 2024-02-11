@@ -45,4 +45,10 @@ final class DoctrineBottleRepository extends DoctrineRepository implements Bottl
             Uuid::v4()->toRfc4122()
         );
     }
+
+    #[\Override]
+    public function update(Bottle $bottle): void
+    {
+        $this->entityManager->flush();
+    }
 }

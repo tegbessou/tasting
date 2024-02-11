@@ -289,7 +289,7 @@ final class BottleTest extends TestCase
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         )->addPicture(
-            BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.webp'),
+            BottlePicture::fromString('chateau-de-fonsalette.webp'),
         );
 
         $this->assertNotNull($bottle->picture());
@@ -311,7 +311,7 @@ final class BottleTest extends TestCase
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         )->addPicture(
-            BottlePicture::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
+            BottlePicture::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf.png'),
         );
     }
 
@@ -330,7 +330,7 @@ final class BottleTest extends TestCase
             BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
-        )->addPicture(BottlePicture::fromString('/images/bottle/chateau-de-fonsalette.gif'));
+        )->addPicture(BottlePicture::fromString('chateau-de-fonsalette.gif'));
     }
 
     public function testAddPictureFailedBottlePictureBadException(): void
