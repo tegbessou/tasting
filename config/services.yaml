@@ -24,11 +24,8 @@ services:
     App\Bottle\Application\EventListener\OnBottleUpdateNotAuthorizeEventListener:
         tags: [kernel.event_listener]
 
-    App\Bottle\Application\EventListener\UploadBottlePictureEventListener:
-        tags: [kernel.event_listener]
-
-    App\Bottle\Domain\Service\UploadBottlePictureInterface:
-        alias: App\Bottle\Infrastructure\VichUploader\VichUploaderUploadBottlePicture
+    App\Bottle\Domain\Service\UploadBottlePictureServiceInterface:
+        alias: App\Bottle\Infrastructure\VichUploader\UploadBottlePictureVichUploaderService
 
     # Country
     App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
@@ -36,7 +33,7 @@ services:
 
     # User
     App\User\Domain\Service\AuthenticateUserInterface:
-        alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUser
+        alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
 
     App\User\Application\EventListener\OnCheckOwnerExistEventListener:
         tags: [kernel.event_listener]
@@ -48,11 +45,11 @@ when@test:
     services:
         # Bottle
         App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
-            alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientFake
+            alias: App\Bottle\Infrastructure\Country\Http\Client\CountryFakeHttpClient
 
-        App\Bottle\Domain\Service\UploadBottlePictureInterface:
-            alias: App\Bottle\Infrastructure\VichUploader\VichUploaderUploadBottlePictureTest
+        App\Bottle\Domain\Service\UploadBottlePictureServiceInterface:
+            alias: App\Bottle\Infrastructure\VichUploader\UploadBottlePictureVichUploaderTestService
 
         # User
         App\User\Domain\Service\AuthenticateUserInterface:
-            alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFake
+            alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase

@@ -4,21 +4,13 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Country\Infrastructure\ApiPlatform\State\Provider;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Tests\Shared\ApiTestCase;
 
 final class GetCollectionProviderTest extends ApiTestCase
 {
     public function testGetCollection(): void
     {
-        $client = static::createClient();
-
-        $client->request('GET', '/api/countries', [
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-                'RequestHeaderIdentityProvider' => 'apple.com',
-            ],
-        ]);
+        $this->get('/api/countries');
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -41,15 +33,7 @@ final class GetCollectionProviderTest extends ApiTestCase
 
     public function testGetCollectionFilterByName(): void
     {
-        $client = static::createClient();
-
-        $client->request('GET', '/api/countries?name=France', [
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-                'RequestHeaderIdentityProvider' => 'apple.com',
-            ],
-        ]);
+        $this->get('/api/countries?name=France');
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([

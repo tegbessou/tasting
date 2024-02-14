@@ -1,0 +1,17 @@
+parameters:
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    bind:
+      $kernelProjectDirectory: '%kernel.project_dir%'
+
+  App\:
+    resource: '../../src/'
+    exclude:
+      - '../../src/Bottle/'
+      - '../../src/User/'
+
+  App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
+    alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClient

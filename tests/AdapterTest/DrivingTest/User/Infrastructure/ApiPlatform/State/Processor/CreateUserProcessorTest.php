@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\AdapterTest\DrivingTest\User\Infrastructure\ApiPlatform\State\Processor;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Tests\Shared\ApiTestCase;
 
 final class CreateUserProcessorTest extends ApiTestCase
 {
     public function testCreateUser(): void
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/api/users', [
-            'json' => [
-                'email' => 'new-user@gmail.com',
-            ],
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-            ],
+        $this->post('/api/users', [
+            'email' => 'new-user@gmail.com',
         ]);
 
         $this->assertResponseStatusCodeSame(204);
@@ -26,15 +19,8 @@ final class CreateUserProcessorTest extends ApiTestCase
 
     public function testCreateUserEmailAlreadyExist(): void
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/api/users', [
-            'json' => [
-                'email' => 'hugues.gobet@gmail.com',
-            ],
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-            ],
+        $this->post('/api/users', [
+            'email' => 'hugues.gobet@gmail.com',
         ]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -47,14 +33,7 @@ final class CreateUserProcessorTest extends ApiTestCase
 
     public function testCreateUserNoEmail(): void
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/api/users', [
-            'json' => [],
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-            ],
-        ]);
+        $this->post('/api/users', []);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
