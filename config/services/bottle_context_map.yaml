@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\User\Application\EventListener\OnCheckOwnerExistEventListener:
+    tags: [kernel.event_listener]
+
+  App\User\Application\EventListener\OnCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+    tags: [kernel.event_listener]

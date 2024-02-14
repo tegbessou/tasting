@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Bottle\Application\EventListener\OnOwnerNotExistEventListener:
+    tags: [kernel.event_listener]
+
+  App\Bottle\Application\EventListener\OnBottleUpdateNotAuthorizeEventListener:
+    tags: [kernel.event_listener]

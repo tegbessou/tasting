@@ -19,6 +19,9 @@ services:
   App\Bottle\Application\EventListener\OnBottleUpdateNotAuthorizeEventListener:
     tags: [kernel.event_listener]
 
+  App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
+    alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClient
+
   App\Bottle\Domain\Service\UploadBottlePictureServiceInterface:
     alias: App\Bottle\Infrastructure\VichUploader\UploadBottlePictureVichUploaderService
 

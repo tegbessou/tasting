@@ -12,6 +12,3 @@ services:
     exclude:
       - '../../src/Bottle/'
       - '../../src/User/'
-
-  App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
-    alias: App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClient
