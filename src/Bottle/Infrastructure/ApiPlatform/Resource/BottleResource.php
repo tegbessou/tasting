@@ -11,7 +11,7 @@ use App\Bottle\Domain\Entity\Bottle;
 use App\Bottle\Domain\Enum\Rate;
 use App\Bottle\Domain\Enum\WineType;
 use App\Bottle\Infrastructure\ApiPlatform\State\Processor\CreateBottleProcessor;
-use App\Bottle\Infrastructure\Symfony\Controller\PostBottlePictureAction;
+use App\Bottle\Infrastructure\Symfony\Controller\ReplaceBottlePictureAction;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -33,7 +33,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             uriTemplate: '/bottles/{id}/pictures',
             inputFormats: ['multipart' => ['multipart/form-data']],
             status: Response::HTTP_NO_CONTENT,
-            controller: PostBottlePictureAction::class,
+            controller: ReplaceBottlePictureAction::class,
             shortName: 'Bottle',
             denormalizationContext: ['groups' => ['write_bottle_picture']],
             validationContext: ['groups' => ['write_bottle_picture']],

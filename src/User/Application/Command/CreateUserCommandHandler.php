@@ -17,6 +17,9 @@ final readonly class CreateUserCommandHandler
     ) {
     }
 
+    /**
+     * @throws UserAlreadyExistsException
+     */
     public function __invoke(CreateUserCommand $createUserCommand): void
     {
         if ($this->userRepository->existWithEmail($createUserCommand->email)) {

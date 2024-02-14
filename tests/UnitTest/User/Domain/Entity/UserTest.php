@@ -30,7 +30,7 @@ final class UserTest extends TestCase
 
         User::create(
             UserId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            UserEmail::fromString('pedro'),
+            UserEmail::fromString('notemail'),
         );
     }
 

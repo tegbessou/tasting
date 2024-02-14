@@ -15,7 +15,7 @@ final class GrapeVarietyTest extends TestCase
     {
         $grapeVariety = GrapeVariety::create(
             GrapeVarietyId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
-            GrapeVarietyName::fromString('Name'),
+            GrapeVarietyName::fromString('Sirano'),
         );
 
         $this->assertInstanceOf(
@@ -30,7 +30,7 @@ final class GrapeVarietyTest extends TestCase
 
         GrapeVariety::create(
             GrapeVarietyId::fromString('12'),
-            GrapeVarietyName::fromString('Name'),
+            GrapeVarietyName::fromString('Selenor'),
         );
     }
 

@@ -4,28 +4,21 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Processor;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Tests\Shared\ApiTestCase;
 
 final class CreateBottleProcessorTest extends ApiTestCase
 {
     public function testCreateBottle(): void
     {
-        static::createClient()->request('POST', '/api/bottles', [
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-                'RequestHeaderIdentityProvider' => 'apple.com',
-            ],
-            'json' => [
-                'name' => 'Pavillon Rouge du Château Margaux',
-                'estateName' => 'Château Margaux',
-                'year' => 1995,
-                'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'red',
-                'rate' => 'xs',
-                'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
-                'country' => 'France',
-            ],
+        $this->post('/api/bottles', [
+            'name' => 'Pavillon Rouge du Château Margaux',
+            'estateName' => 'Château Margaux',
+            'year' => 1995,
+            'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
+            'type' => 'red',
+            'rate' => 'xs',
+            'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+            'country' => 'France',
         ]);
 
         $this->assertResponseStatusCodeSame(204);
@@ -39,15 +32,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
         int $statusCode,
         array $violations,
     ): void {
-        static::createClient()->request('POST', '/api/bottles', [
-            'headers' => [
-                'Content-Type' => 'application/ld+json',
-                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-                'RequestHeaderIdentityProvider' => 'apple.com',
-            ],
-            'json' => $data,
-        ]);
-
+        $this->post('/api/bottles', $data);
         $this->assertResponseStatusCodeSame($statusCode);
 
         if ($statusCode === 422) {

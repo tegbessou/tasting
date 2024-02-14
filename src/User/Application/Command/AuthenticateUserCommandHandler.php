@@ -18,6 +18,9 @@ final readonly class AuthenticateUserCommandHandler
     ) {
     }
 
+    /**
+     * @throws InvalidTokenException
+     */
     public function __invoke(AuthenticateUserCommand $authenticateUserCommand): UserAuthenticated
     {
         if ($authenticateUserCommand->token === '') {
