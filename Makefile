@@ -156,7 +156,7 @@ db-diff: wait-db
 	$(EXEC_SYMFONY) doctrine:migration:diff --formatted --allow-empty-diff
 
 ## Load migration
-db-migrate: wait-db
+db-migrate: env-dev wait-db
 	@echo "\nRunning migrations...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:migration:migrate --no-interaction --all-or-nothing
 
@@ -166,7 +166,7 @@ db-migrate-test: env-test wait-db
 	@$(EXEC_SYMFONY) doctrine:migration:migrate --no-interaction --all-or-nothing --env=test
 
 ## Reload fixtures
-db-reload-fixtures: wait-db db-reload-schema
+db-reload-fixtures: env-dev wait-db db-reload-schema
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
 

@@ -50,4 +50,16 @@ final class Assert extends BaseAssert
             ));
         }
     }
+
+    public static function dateNotInferiorThanToday(\DateTimeImmutable $date, string $message = ''): void
+    {
+        $now = new \DateTimeImmutable();
+
+        if ($date->getTimestamp() > $now->getTimestamp()) {
+            static::reportInvalidArgument(\sprintf(
+                $message ?: 'Expected a date not inferior than today. Got: %s',
+                $date->format('Y-m-d')
+            ));
+        }
+    }
 }
