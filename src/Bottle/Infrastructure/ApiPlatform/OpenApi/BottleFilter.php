@@ -28,11 +28,6 @@ final readonly class BottleFilter implements FilterInterface
                 'type' => Type::BUILTIN_TYPE_STRING,
                 'required' => false,
             ],
-            /*'createdAt' => [
-                'property' => 'createdAt',
-                'type' => Type::BUILTIN_TYPE_STRING,
-                'required' => false,
-            ],*/
             'saveAt' => [
                 'property' => 'tastedAt',
                 'type' => Type::BUILTIN_TYPE_STRING,
