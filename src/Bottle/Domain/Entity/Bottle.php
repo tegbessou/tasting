@@ -13,6 +13,8 @@ use App\Bottle\Domain\ValueObject\BottleOwnerId;
 use App\Bottle\Domain\ValueObject\BottlePicture;
 use App\Bottle\Domain\ValueObject\BottlePrice;
 use App\Bottle\Domain\ValueObject\BottleRate;
+use App\Bottle\Domain\ValueObject\BottleSavedAt;
+use App\Bottle\Domain\ValueObject\BottleTastedAt;
 use App\Bottle\Domain\ValueObject\BottleWineType;
 use App\Bottle\Domain\ValueObject\BottleYear;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,6 +46,10 @@ final class Bottle
         private ?BottleCountry $country = null,
         #[ORM\Embedded(columnPrefix: false)]
         private ?BottlePrice $price = null,
+        #[ORM\Embedded(columnPrefix: false)]
+        private ?BottleSavedAt $savedAt = null,
+        #[ORM\Embedded(columnPrefix: false)]
+        private ?BottleTastedAt $tastedAt = null,
     ) {
     }
 
@@ -70,12 +76,22 @@ final class Bottle
             $ownerId,
             $country,
             $price,
+            BottleSavedAt::create(),
         );
     }
 
     public function addPicture(BottlePicture $picture): Bottle
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function taste(): Bottle
+    {
+        $this->tastedAt = BottleTastedAt::create(
+            new \DateTimeImmutable(),
+        );
 
         return $this;
     }
@@ -133,5 +149,15 @@ final class Bottle
     public function price(): ?BottlePrice
     {
         return $this->price;
+    }
+
+    public function savedAt(): ?BottleSavedAt
+    {
+        return $this->savedAt;
+    }
+
+    public function tastedAt(): ?BottleTastedAt
+    {
+        return $this->tastedAt;
     }
 }

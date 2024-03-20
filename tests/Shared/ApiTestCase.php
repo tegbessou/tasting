@@ -11,11 +11,13 @@ class ApiTestCase extends BaseApiTestCase
     private const APPLE_IDENTITY_PROVIDER = 'apple.com';
     private const GOOGLE_IDENTITY_PROVIDER = 'google.com';
 
+    private $response;
+
     protected function get(string $uri, array $headers = [], string $identityProvider = 'apple'): void
     {
         $client = static::createClient();
 
-        $client->request('GET', $uri, [
+        $this->response = $client->request('GET', $uri, [
             'headers' => self::getHeaders($headers, $identityProvider),
         ]);
     }
@@ -24,7 +26,7 @@ class ApiTestCase extends BaseApiTestCase
     {
         $client = static::createClient();
 
-        $client->request('POST', $uri, [
+        $this->response = $client->request('POST', $uri, [
             'headers' => self::getHeaders($headers, $identityProvider),
             'json' => $json,
         ]);
@@ -36,12 +38,27 @@ class ApiTestCase extends BaseApiTestCase
 
         $headers['Content-Type'] = 'multipart/form-data';
 
-        $client->request('POST', $uri, [
+        $this->response = $client->request('POST', $uri, [
             'headers' => self::getHeaders($headers, $identityProvider),
             'extra' => [
                 'files' => $files,
             ],
         ]);
+    }
+
+    protected function assertAttributeExistInEachElement(
+        string $attribute,
+        string $message = '',
+    ): void {
+        $members = $this->getResponseContent()['hydra:member'];
+
+        if ($members === []) {
+            throw new \InvalidArgumentException('Response does not contain any member');
+        }
+
+        foreach ($members as $member) {
+            self::assertArrayHasKey($attribute, $member, $message);
+        }
     }
 
     private static function getHeaders(array $headers = [], string $identityProvider = 'apple'): array
@@ -67,5 +84,10 @@ class ApiTestCase extends BaseApiTestCase
             'apple' => self::APPLE_IDENTITY_PROVIDER,
             'google' => self::GOOGLE_IDENTITY_PROVIDER,
         };
+    }
+
+    private function getResponseContent(): array
+    {
+        return json_decode((string) $this->response->getContent(), true);
     }
 }
