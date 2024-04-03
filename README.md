@@ -124,11 +124,13 @@ Add foreign key on user
 Challenge identity from each entity
 Challenge the entity structure
 Handle remove resources after creation in test
-Ask us if we have to create a query for check existence of user
+Ask us if we have to create a query (HTTP) for check existence of user
+Verify if cqrs command and query are not use in the same adapter
 
 Refactor BottleRessource to use wineType instead of type
 Generalize the structure of test for collection, with one generic methode to test result and another to test filters
 
 Challenge discussion between bounded context
+Do effort to verify that all test has no side effect for other tests
 
 Explain architecture choices in the README
