@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Country\Infrastructure\Doctrine\Repository;
 
 use App\Country\Domain\Entity\Country;
-use App\Country\Domain\Repository\CountryRepositoryInterface;
+use App\Country\Domain\Repository\CountryReadRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
+use App\Shared\Infrastructure\Doctrine\DoctrineReadRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * @extends DoctrineRepository<Country>
+ * @extends DoctrineReadRepository<Country>
  */
-final class CountryDoctrineRepository extends DoctrineRepository implements CountryRepositoryInterface
+final class CountryReadDoctrineRepository extends DoctrineReadRepository implements CountryReadRepositoryInterface
 {
     private const ENTITY_CLASS = Country::class;
     private const ALIAS = 'country';

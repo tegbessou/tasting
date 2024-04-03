@@ -116,15 +116,15 @@ If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring
-Add read model to separate the logic between read and write
- => create a read repository to separate repository for command and query
 Verify if all event are in past
 => challenge event creation, event should be dispatched after all command function in entity
+=> Store events in entity and dispatch them in command when domain method is called
 Add an elastic search to search wine
 Add foreign key on user
 Challenge identity from each entity
 Challenge the entity structure
 Handle remove resources after creation in test
+Ask us if we have to create a query for check existence of user
 
 Refactor BottleRessource to use wineType instead of type
 Generalize the structure of test for collection, with one generic methode to test result and another to test filters

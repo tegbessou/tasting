@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bottle\Application\Query;
 
-use App\Bottle\Domain\Repository\BottleRepositoryInterface;
+use App\Bottle\Domain\Repository\BottleReadRepositoryInterface;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleName;
 use App\Bottle\Domain\ValueObject\BottleRate;
@@ -17,13 +17,13 @@ use App\Shared\Application\Query\AsQueryHandler;
 final readonly class GetBottlesQueryHandler
 {
     public function __construct(
-        private BottleRepositoryInterface $bottleRepository,
+        private BottleReadRepositoryInterface $bottleReadRepository,
     ) {
     }
 
-    public function __invoke(GetBottlesQuery $query): BottleRepositoryInterface
+    public function __invoke(GetBottlesQuery $query): BottleReadRepositoryInterface
     {
-        $bottleRepository = $this->bottleRepository;
+        $bottleRepository = $this->bottleReadRepository;
 
         $bottleRepository = $bottleRepository->sortName();
 

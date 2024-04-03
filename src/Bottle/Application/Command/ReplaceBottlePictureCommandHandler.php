@@ -6,7 +6,7 @@ namespace App\Bottle\Application\Command;
 
 use App\Bottle\Domain\Event\CheckIfUserIsAuthorizeToUpdateBottleEvent;
 use App\Bottle\Domain\Exception\ReplaceBottlePictureBottleDoesntExistException;
-use App\Bottle\Domain\Repository\BottleRepositoryInterface;
+use App\Bottle\Domain\Repository\BottleWriteRepositoryInterface;
 use App\Bottle\Domain\Service\UploadBottlePictureServiceInterface;
 use App\Bottle\Domain\ValueObject\BottlePicture;
 use App\Shared\Application\Command\AsCommandHandler;
@@ -16,7 +16,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 final readonly class ReplaceBottlePictureCommandHandler
 {
     public function __construct(
-        private BottleRepositoryInterface $bottleRepository,
+        private BottleWriteRepositoryInterface $bottleWriteRepository,
         private EventDispatcherInterface $eventDispatcher,
         private UploadBottlePictureServiceInterface $uploadBottlePicture,
     ) {
@@ -46,6 +46,6 @@ final readonly class ReplaceBottlePictureCommandHandler
             BottlePicture::fromString($command->pictureOriginalName),
         );
 
-        $this->bottleRepository->update($command->bottle);
+        $this->bottleWriteRepository->update($command->bottle);
     }
 }

@@ -1,5 +1,6 @@
 {
     "name": "tegbessou/skeletton",
+    "version": "1.0.0",
     "type": "project",
     "license": "proprietary",
     "require": {

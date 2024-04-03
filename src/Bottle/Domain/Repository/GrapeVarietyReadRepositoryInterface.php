@@ -6,7 +6,7 @@ namespace App\Bottle\Domain\Repository;
 
 use App\Bottle\Domain\ValueObject\GrapeVarietyName;
 
-interface GrapeVarietyRepositoryInterface
+interface GrapeVarietyReadRepositoryInterface
 {
     public function exist(GrapeVarietyName $name): bool;
 }

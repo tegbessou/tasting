@@ -9,7 +9,7 @@ namespace App\Shared\Domain\Repository;
  *
  * @extends \IteratorAggregate<array-key, T>
  */
-interface RepositoryInterface extends \IteratorAggregate, \Countable
+interface ReadRepositoryInterface extends \IteratorAggregate, \Countable
 {
     /**
      * @return \Iterator<T>

@@ -7,12 +7,12 @@ namespace App\Country\Domain\Repository;
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Domain\Repository\RepositoryInterface;
+use App\Shared\Domain\Repository\ReadRepositoryInterface;
 
 /**
- * @extends RepositoryInterface<Country>
+ * @extends ReadRepositoryInterface<Country>
  */
-interface CountryRepositoryInterface extends RepositoryInterface
+interface CountryReadRepositoryInterface extends ReadRepositoryInterface
 {
     public function ofName(CountryName $name): ?Country;
 

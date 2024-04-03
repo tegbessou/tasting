@@ -7,13 +7,13 @@ namespace App\User\Application\Command;
 use App\Shared\Application\Command\AsCommandHandler;
 use App\User\Domain\Entity\User;
 use App\User\Domain\Exception\UserAlreadyExistsException;
-use App\User\Domain\Repository\UserRepositoryInterface;
+use App\User\Domain\Repository\UserWriteRepositoryInterface;
 
 #[AsCommandHandler]
 final readonly class CreateUserCommandHandler
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
+        private UserWriteRepositoryInterface $userWriteRepository,
     ) {
     }
 
@@ -22,15 +22,15 @@ final readonly class CreateUserCommandHandler
      */
     public function __invoke(CreateUserCommand $createUserCommand): void
     {
-        if ($this->userRepository->existWithEmail($createUserCommand->email)) {
+        if ($this->userWriteRepository->ofEmail($createUserCommand->email) !== null) {
             throw new UserAlreadyExistsException();
         }
 
         $user = User::create(
-            $this->userRepository->nextIdentity(),
+            $this->userWriteRepository->nextIdentity(),
             $createUserCommand->email,
         );
 
-        $this->userRepository->add($user);
+        $this->userWriteRepository->add($user);
     }
 }

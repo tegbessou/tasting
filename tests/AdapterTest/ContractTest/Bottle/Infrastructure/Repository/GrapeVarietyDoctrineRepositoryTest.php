@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace AdapterTest\ContractTest\Bottle\Infrastructure\Repository;
 
 use App\Bottle\Domain\ValueObject\GrapeVarietyName;
-use App\Bottle\Infrastructure\Doctrine\Repository\GrapeVarietyDoctrineRepository;
+use App\Bottle\Infrastructure\Doctrine\Repository\GrapeVarietyDoctrineReadRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class GrapeVarietyDoctrineRepositoryTest extends KernelTestCase
 {
-    private GrapeVarietyDoctrineRepository $doctrineGrapeVarietyRepository;
+    private GrapeVarietyDoctrineReadRepository $doctrineGrapeVarietyRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -18,7 +18,7 @@ final class GrapeVarietyDoctrineRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->doctrineGrapeVarietyRepository = $container->get(GrapeVarietyDoctrineRepository::class);
+        $this->doctrineGrapeVarietyRepository = $container->get(GrapeVarietyDoctrineReadRepository::class);
     }
 
     public function testExist(): void

@@ -7,13 +7,13 @@ namespace App\User\Application\Query;
 use App\Shared\Application\Query\AsQueryHandler;
 use App\User\Domain\Entity\User;
 use App\User\Domain\Exception\UserNotFoundException;
-use App\User\Domain\Repository\UserRepositoryInterface;
+use App\User\Domain\Repository\UserReadRepositoryInterface;
 
 #[AsQueryHandler]
 final readonly class GetUserQueryHandler
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
+        private UserReadRepositoryInterface $userReadRepository,
     ) {
     }
 
@@ -22,7 +22,7 @@ final readonly class GetUserQueryHandler
      */
     public function __invoke(GetUserQuery $getUserQuery): User
     {
-        $user = $this->userRepository->ofEmail($getUserQuery->email);
+        $user = $this->userReadRepository->ofEmail($getUserQuery->email);
 
         if ($user === null) {
             throw new UserNotFoundException();
