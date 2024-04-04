@@ -12,20 +12,14 @@ use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleSavedAt;
 use App\Bottle\Domain\ValueObject\BottleWineType;
 use App\Bottle\Domain\ValueObject\BottleYear;
-use App\Shared\Domain\Repository\RepositoryInterface;
+use App\Shared\Domain\Repository\ReadRepositoryInterface;
 
 /**
- * @extends RepositoryInterface<Bottle>
+ * @extends ReadRepositoryInterface<Bottle>
  */
-interface BottleRepositoryInterface extends RepositoryInterface
+interface BottleReadRepositoryInterface extends ReadRepositoryInterface
 {
     public function ofId(BottleId $bottleId): ?Bottle;
-
-    public function add(Bottle $bottle): void;
-
-    public function nextIdentity(): BottleId;
-
-    public function update(Bottle $bottle): void;
 
     public function sortName(): self;
 

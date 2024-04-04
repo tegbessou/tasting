@@ -22,7 +22,7 @@ final readonly class BottleSavedAt
     }
 
     public static function create(
-        \DateTimeImmutable $date = null,
+        ?\DateTimeImmutable $date = null,
     ): self {
         if ($date === null) {
             $date = new \DateTimeImmutable();

@@ -21,7 +21,7 @@ final class ImportCountryCommand extends Command
     public function __construct(
         private readonly string $kernelProjectDirectory,
         private readonly CommandBusInterface $commandBus,
-        string $name = null,
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Doctrine;
 
 use App\Shared\Domain\Repository\PaginatorInterface;
-use App\Shared\Domain\Repository\RepositoryInterface;
+use App\Shared\Domain\Repository\ReadRepositoryInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -14,9 +14,9 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 /**
  * @template T of object
  *
- * @implements RepositoryInterface<T>
+ * @implements ReadRepositoryInterface<T>
  */
-abstract class DoctrineRepository implements RepositoryInterface
+abstract class DoctrineReadRepository implements ReadRepositoryInterface
 {
     private ?int $page = null;
     private ?int $itemsPerPage = null;

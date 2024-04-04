@@ -62,8 +62,8 @@ final class Bottle
         BottleGrapeVarieties $grapeVarieties,
         BottleRate $rate,
         BottleOwnerId $ownerId,
-        BottleCountry $country = null,
-        BottlePrice $price = null,
+        ?BottleCountry $country = null,
+        ?BottlePrice $price = null,
     ): self {
         return new self(
             $id,

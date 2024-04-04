@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class ReplaceBottlePictureActionTest extends ApiTestCase
 {
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->revertUploadFile('cote-rotie*.png');
+    }
+
     public function testUpdateBottlePicture(): void
     {
         $uploadedFile = new UploadedFile(
@@ -26,7 +32,6 @@ final class ReplaceBottlePictureActionTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(204);
         $this->assertFileExistsWithPartialName('cote-rotie*.png');
-        $this->revertUploadFile('cote-rotie*.png');
     }
 
     public function testUpdateBottlePictureBottleNotFound(): void
@@ -41,7 +46,6 @@ final class ReplaceBottlePictureActionTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(404);
-        $this->revertUploadFile('cote-rotie*.png');
     }
 
     public function testUpdateBottlePictureBottleNotAuthorizeBecauseBottleIsOwnByOtherUser(): void
@@ -56,7 +60,6 @@ final class ReplaceBottlePictureActionTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(403);
-        $this->revertUploadFile('cote-rotie*.png');
     }
 
     private function revertUploadFile(

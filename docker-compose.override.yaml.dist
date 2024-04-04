@@ -10,13 +10,3 @@ services:
     environment:
       VIRTUAL_HOST: des-amis-du-vin.docker
       CERT_NAME: default
-
-  phpmyadmin:
-    environment:
-      VIRTUAL_HOST: pma.des-amis-du-vin.docker
-      CERT_NAME: default
-
-  selenium:
-    ports:
-      - 4444:4444
-      - 5901:5900

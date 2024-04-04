@@ -1,9 +1,9 @@
 <!--- Provide a general summary of your changes in the Title above -->
-| Q             | A
-| ------------- | ---
-| Bug fix?      | yes/no
-| New feature?  | yes/no
-| Deprecations? | yes/no
+| Q            | A
+|--------------| ---
+| Bug fix?     | yes/no
+| New feature? | yes/no
+| Technical?   | yes/no
 
 ## Description
 <!--- Describe your changes in detail -->

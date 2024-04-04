@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Bottle\Infrastructure\Doctrine\Repository;
 
 use App\Bottle\Domain\Entity\Bottle;
-use App\Bottle\Domain\Repository\BottleRepositoryInterface;
+use App\Bottle\Domain\Repository\BottleReadRepositoryInterface;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleId;
 use App\Bottle\Domain\ValueObject\BottleName;
@@ -13,15 +13,14 @@ use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleSavedAt;
 use App\Bottle\Domain\ValueObject\BottleWineType;
 use App\Bottle\Domain\ValueObject\BottleYear;
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
+use App\Shared\Infrastructure\Doctrine\DoctrineReadRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Uid\Uuid;
 
 /**
- * @extends DoctrineRepository<Bottle>
+ * @extends DoctrineReadRepository<Bottle>
  */
-final class BottleDoctrineRepository extends DoctrineRepository implements BottleRepositoryInterface
+final class BottleReadDoctrineRepository extends DoctrineReadRepository implements BottleReadRepositoryInterface
 {
     private const ENTITY_CLASS = Bottle::class;
     private const ALIAS = 'bottle';
@@ -36,27 +35,6 @@ final class BottleDoctrineRepository extends DoctrineRepository implements Bottl
     public function ofId(BottleId $bottleId): ?Bottle
     {
         return $this->entityManager->find(self::ENTITY_CLASS, $bottleId->value());
-    }
-
-    #[\Override]
-    public function add(Bottle $bottle): void
-    {
-        $this->entityManager->persist($bottle);
-        $this->entityManager->flush();
-    }
-
-    #[\Override]
-    public function nextIdentity(): BottleId
-    {
-        return BottleId::fromString(
-            Uuid::v4()->toRfc4122()
-        );
-    }
-
-    #[\Override]
-    public function update(Bottle $bottle): void
-    {
-        $this->entityManager->flush();
     }
 
     #[\Override]
@@ -84,7 +62,7 @@ final class BottleDoctrineRepository extends DoctrineRepository implements Bottl
     }
 
     #[\Override]
-    public function withEstateName(BottleEstateName $estateName): BottleRepositoryInterface
+    public function withEstateName(BottleEstateName $estateName): BottleReadRepositoryInterface
     {
         return $this->filter(static function (QueryBuilder $qb) use ($estateName): void {
             $qb->where(
@@ -100,7 +78,7 @@ final class BottleDoctrineRepository extends DoctrineRepository implements Bottl
     }
 
     #[\Override]
-    public function withYear(BottleYear $year): BottleRepositoryInterface
+    public function withYear(BottleYear $year): BottleReadRepositoryInterface
     {
         return $this->filter(static function (QueryBuilder $qb) use ($year): void {
             $qb->where(
@@ -116,7 +94,7 @@ final class BottleDoctrineRepository extends DoctrineRepository implements Bottl
     }
 
     #[\Override]
-    public function withRate(BottleRate $rate): BottleRepositoryInterface
+    public function withRate(BottleRate $rate): BottleReadRepositoryInterface
     {
         return $this->filter(static function (QueryBuilder $qb) use ($rate): void {
             $qb->where(
@@ -132,7 +110,7 @@ final class BottleDoctrineRepository extends DoctrineRepository implements Bottl
     }
 
     #[\Override]
-    public function savedAt(BottleSavedAt $savedAt): BottleRepositoryInterface
+    public function savedAt(BottleSavedAt $savedAt): BottleReadRepositoryInterface
     {
         return $this->filter(static function (QueryBuilder $qb) use ($savedAt): void {
             $qb->where(
@@ -148,7 +126,7 @@ final class BottleDoctrineRepository extends DoctrineRepository implements Bottl
     }
 
     #[\Override]
-    public function withWineType(BottleWineType $wineType): BottleRepositoryInterface
+    public function withWineType(BottleWineType $wineType): BottleReadRepositoryInterface
     {
         return $this->filter(static function (QueryBuilder $qb) use ($wineType): void {
             $qb->where(

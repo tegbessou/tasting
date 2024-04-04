@@ -8,9 +8,9 @@ use App\Bottle\Domain\Entity\Bottle;
 use App\Bottle\Domain\Event\CheckOwnerExistEvent;
 use App\Bottle\Domain\Exception\BottleCreationCountryDoesntExistException;
 use App\Bottle\Domain\Exception\BottleCreationGrapeVarietiesDoesntExistException;
-use App\Bottle\Domain\Repository\BottleRepositoryInterface;
+use App\Bottle\Domain\Repository\BottleWriteRepositoryInterface;
 use App\Bottle\Domain\Repository\CountryRepositoryInterface;
-use App\Bottle\Domain\Repository\GrapeVarietyRepositoryInterface;
+use App\Bottle\Domain\Repository\GrapeVarietyReadRepositoryInterface;
 use App\Bottle\Domain\ValueObject\BottleCountry;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
@@ -31,8 +31,8 @@ final readonly class CreateBottleCommandHandler
     public function __construct(
         private EventDispatcherInterface $dispatcher,
         private CountryRepositoryInterface $countryRepository,
-        private GrapeVarietyRepositoryInterface $grapeVarietyRepository,
-        private BottleRepositoryInterface $bottleRepository,
+        private GrapeVarietyReadRepositoryInterface $grapeVarietyRepository,
+        private BottleWriteRepositoryInterface $bottleWriteRepository,
     ) {
     }
 
@@ -50,7 +50,7 @@ final readonly class CreateBottleCommandHandler
         $this->validateThatGrapeVarietiesExist($createBottleCommand);
 
         $bottle = Bottle::create(
-            $this->bottleRepository->nextIdentity(),
+            $this->bottleWriteRepository->nextIdentity(),
             BottleName::fromString($createBottleCommand->name),
             BottleEstateName::fromString($createBottleCommand->estateName),
             BottleWineType::fromString($createBottleCommand->type),
@@ -62,7 +62,7 @@ final readonly class CreateBottleCommandHandler
             $createBottleCommand->price !== null ? BottlePrice::fromFloat($createBottleCommand->price) : null,
         );
 
-        $this->bottleRepository->add($bottle);
+        $this->bottleWriteRepository->add($bottle);
     }
 
     private function validateThatCountryExists(CreateBottleCommand $createBottleCommand): void

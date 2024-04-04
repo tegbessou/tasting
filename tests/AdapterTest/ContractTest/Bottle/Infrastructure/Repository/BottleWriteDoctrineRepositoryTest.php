@@ -16,13 +16,13 @@ use App\Bottle\Domain\ValueObject\BottlePrice;
 use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleWineType;
 use App\Bottle\Domain\ValueObject\BottleYear;
-use App\Bottle\Infrastructure\Doctrine\Repository\BottleDoctrineRepository;
+use App\Bottle\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class BottleDoctrineRepositoryTest extends KernelTestCase
+final class BottleWriteDoctrineRepositoryTest extends KernelTestCase
 {
-    private BottleDoctrineRepository $doctrineBottleRepository;
+    private BottleWriteDoctrineRepository $doctrineBottleWriteRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -30,13 +30,13 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->doctrineBottleRepository = $container->get(BottleDoctrineRepository::class);
+        $this->doctrineBottleWriteRepository = $container->get(BottleWriteDoctrineRepository::class);
     }
 
     public function testOfId(): void
     {
         $this->assertNotNull(
-            $this->doctrineBottleRepository->ofId(BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d')),
+            $this->doctrineBottleWriteRepository->ofId(BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d')),
         );
     }
 
@@ -55,10 +55,10 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
             BottlePrice::fromFloat(129.99),
         );
 
-        $this->doctrineBottleRepository->add($bottle);
+        $this->doctrineBottleWriteRepository->add($bottle);
 
         $this->assertNotNull(
-            $this->doctrineBottleRepository->ofId(BottleId::fromString('2ccee98f-f2d2-4aaa-b059-7c38bb7e57cf')),
+            $this->doctrineBottleWriteRepository->ofId(BottleId::fromString('2ccee98f-f2d2-4aaa-b059-7c38bb7e57cf')),
         );
 
         $container = static::getContainer();
@@ -69,14 +69,14 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
 
     public function testNextIdentity(): void
     {
-        $nextIdentity = $this->doctrineBottleRepository->nextIdentity();
+        $nextIdentity = $this->doctrineBottleWriteRepository->nextIdentity();
 
         $this->assertIsString($nextIdentity->value());
     }
 
     public function testUpdate(): void
     {
-        $bottle = $this->doctrineBottleRepository->ofId(
+        $bottle = $this->doctrineBottleWriteRepository->ofId(
             BottleId::fromString('635e809c-aaaf-40df-8483-83cfbe2c5504')
         );
 
@@ -85,9 +85,9 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
         );
 
         $bottle->addPicture(BottlePicture::fromString('picture.jpg'));
-        $this->doctrineBottleRepository->update($bottle);
+        $this->doctrineBottleWriteRepository->update($bottle);
 
-        $bottleUpdated = $this->doctrineBottleRepository->ofId(
+        $bottleUpdated = $this->doctrineBottleWriteRepository->ofId(
             BottleId::fromString('635e809c-aaaf-40df-8483-83cfbe2c5504')
         );
 

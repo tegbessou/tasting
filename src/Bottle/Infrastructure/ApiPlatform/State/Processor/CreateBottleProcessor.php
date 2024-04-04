@@ -95,7 +95,7 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
     }
 
     private function buildCountryDoesntExistViolation(
-        string $country = null,
+        ?string $country = null,
     ): ConstraintViolationList {
         $violations = new ConstraintViolationList();
         $violations->add(new ConstraintViolation(

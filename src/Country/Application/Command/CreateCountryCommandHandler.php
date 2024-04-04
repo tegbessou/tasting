@@ -6,7 +6,7 @@ namespace App\Country\Application\Command;
 
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\Exception\CountryAlreadyExistsException;
-use App\Country\Domain\Repository\CountryRepositoryInterface;
+use App\Country\Domain\Repository\CountryReadRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
 use App\Shared\Application\Command\AsCommandHandler;
 
@@ -14,7 +14,7 @@ use App\Shared\Application\Command\AsCommandHandler;
 final readonly class CreateCountryCommandHandler
 {
     public function __construct(
-        private CountryRepositoryInterface $countryRepository,
+        private CountryReadRepositoryInterface $countryRepository,
     ) {
     }
 

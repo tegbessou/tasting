@@ -7,13 +7,13 @@ namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Repository;
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Country\Infrastructure\Doctrine\Repository\CountryDoctrineRepository;
+use App\Country\Infrastructure\Doctrine\Repository\CountryReadDoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CountryDoctrineRepositoryTest extends KernelTestCase
 {
-    private CountryDoctrineRepository $doctrineCountryRepository;
+    private CountryReadDoctrineRepository $doctrineCountryRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -21,7 +21,7 @@ final class CountryDoctrineRepositoryTest extends KernelTestCase
         self::bootKernel();
 
         $container = static::getContainer();
-        $this->doctrineCountryRepository = $container->get(CountryDoctrineRepository::class);
+        $this->doctrineCountryRepository = $container->get(CountryReadDoctrineRepository::class);
     }
 
     public function testOfName(): void
