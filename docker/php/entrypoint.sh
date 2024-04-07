@@ -9,7 +9,7 @@ if [ $uid != 0 ] || [ $gid != 0 ]; then
     sed -ie "s/`id -u www-data`:`id -g www-data`/$uid:$gid/g" /etc/passwd
 
     mkdir -p /var/log/php && chown -Rf $uid:$gid /var/log/php
-    chown -Rf $uid:$gid /home
+    #chown -Rf $uid:$gid /home
 fi
 
 if [ $# -eq 0 ]; then

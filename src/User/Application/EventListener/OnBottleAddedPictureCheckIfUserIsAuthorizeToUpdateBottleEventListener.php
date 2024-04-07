@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\User\Application\EventListener;
 
-use App\Bottle\Domain\Event\CheckIfUserIsAuthorizeToUpdateBottleEvent;
-use App\User\Domain\Event\BottleUpdateNotAuthorizeEvent;
+use App\Bottle\Domain\Event\BottlePictureAddedEvent;
+use App\User\Application\Event\BottleUpdatedNotAuthorizeEvent;
 use App\User\Domain\Service\GetUserAuthenticatedInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final readonly class OnCheckIfUserIsAuthorizeToUpdateBottleEventListener
+final readonly class OnBottleAddedPictureCheckIfUserIsAuthorizeToUpdateBottleEventListener
 {
     public function __construct(
         private GetUserAuthenticatedInterface $getUserAuthenticated,
@@ -18,7 +18,7 @@ final readonly class OnCheckIfUserIsAuthorizeToUpdateBottleEventListener
     }
 
     public function __invoke(
-        CheckIfUserIsAuthorizeToUpdateBottleEvent $event,
+        BottlePictureAddedEvent $event,
     ): void {
         $user = $this->getUserAuthenticated->getUser();
 
@@ -26,6 +26,6 @@ final readonly class OnCheckIfUserIsAuthorizeToUpdateBottleEventListener
             return;
         }
 
-        $this->eventDispatcher->dispatch(new BottleUpdateNotAuthorizeEvent($event->ownerId));
+        $this->eventDispatcher->dispatch(new BottleUpdatedNotAuthorizeEvent($event->ownerId));
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Bottle\Application\EventListener;
 
 use App\Bottle\Domain\Exception\BottleOwnerDoesntExistException;
-use App\User\Domain\Event\OwnerNotExistEvent;
+use App\User\Application\Event\OwnerNotExistEvent;
 
 final readonly class OnOwnerNotExistEventListener
 {
