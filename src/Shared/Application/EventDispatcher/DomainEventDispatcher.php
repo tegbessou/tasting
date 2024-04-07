@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Shared\Application\EventDispatcher;
+
+use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
+use App\Shared\Domain\Service\DomainEventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+
+final readonly class DomainEventDispatcher implements DomainEventDispatcherInterface
+{
+    public function __construct(
+        private EventDispatcherInterface $eventDispatcher
+    ) {
+    }
+
+    #[\Override]
+    public function dispatch(EntityWithDomainEventInterface $entity): void
+    {
+        try {
+            foreach ($entity::getRecordedEvent() as $event) {
+                $this->eventDispatcher->dispatch($event);
+            }
+        } catch (\Exception $exception) {
+            throw $exception;
+        } finally {
+            $entity::eraseRecordedEvents();
+        }
+    }
+}

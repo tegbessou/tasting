@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\Bottle\Application\Command;
 
 use App\Bottle\Domain\Entity\Bottle;
-use App\Bottle\Domain\Event\CheckOwnerExistEvent;
-use App\Bottle\Domain\Exception\BottleCreationCountryDoesntExistException;
-use App\Bottle\Domain\Exception\BottleCreationGrapeVarietiesDoesntExistException;
 use App\Bottle\Domain\Repository\BottleWriteRepositoryInterface;
-use App\Bottle\Domain\Repository\CountryRepositoryInterface;
-use App\Bottle\Domain\Repository\GrapeVarietyReadRepositoryInterface;
+use App\Bottle\Domain\Service\BottleValidator;
 use App\Bottle\Domain\ValueObject\BottleCountry;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
@@ -20,34 +16,25 @@ use App\Bottle\Domain\ValueObject\BottlePrice;
 use App\Bottle\Domain\ValueObject\BottleRate;
 use App\Bottle\Domain\ValueObject\BottleWineType;
 use App\Bottle\Domain\ValueObject\BottleYear;
-use App\Bottle\Domain\ValueObject\CountryName;
-use App\Bottle\Domain\ValueObject\GrapeVarietyName;
 use App\Shared\Application\Command\AsCommandHandler;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class CreateBottleCommandHandler
 {
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
-        private CountryRepositoryInterface $countryRepository,
-        private GrapeVarietyReadRepositoryInterface $grapeVarietyRepository,
+        private DomainEventDispatcherInterface $dispatcher,
+        private BottleValidator $validator,
         private BottleWriteRepositoryInterface $bottleWriteRepository,
     ) {
     }
 
-    /**
-     * @throws BottleCreationCountryDoesntExistException
-     * @throws BottleCreationGrapeVarietiesDoesntExistException
-     */
     public function __invoke(CreateBottleCommand $createBottleCommand): void
     {
-        $this->dispatcher->dispatch(
-            new CheckOwnerExistEvent($createBottleCommand->ownerId),
+        $this->validator->validate(
+            $createBottleCommand->country,
+            $createBottleCommand->grapeVarieties,
         );
-
-        $this->validateThatCountryExists($createBottleCommand);
-        $this->validateThatGrapeVarietiesExist($createBottleCommand);
 
         $bottle = Bottle::create(
             $this->bottleWriteRepository->nextIdentity(),
@@ -62,42 +49,8 @@ final readonly class CreateBottleCommandHandler
             $createBottleCommand->price !== null ? BottlePrice::fromFloat($createBottleCommand->price) : null,
         );
 
+        $this->dispatcher->dispatch($bottle);
+
         $this->bottleWriteRepository->add($bottle);
-    }
-
-    private function validateThatCountryExists(CreateBottleCommand $createBottleCommand): void
-    {
-        if ($createBottleCommand->country === null) {
-            return;
-        }
-
-        if ($this->countryRepository->exist(CountryName::fromString($createBottleCommand->country))) {
-            return;
-        }
-
-        throw new BottleCreationCountryDoesntExistException($createBottleCommand->country);
-    }
-
-    private function validateThatGrapeVarietiesExist(CreateBottleCommand $createBottleCommand): void
-    {
-        if (count($createBottleCommand->grapeVarieties) === 0) {
-            return;
-        }
-
-        $grapeVarietiesDoesntExist = [];
-
-        foreach ($createBottleCommand->grapeVarieties as $grapeVariety) {
-            if ($this->grapeVarietyRepository->exist(GrapeVarietyName::fromString($grapeVariety))) {
-                continue;
-            }
-
-            $grapeVarietiesDoesntExist[] = $grapeVariety;
-        }
-
-        if (count($grapeVarietiesDoesntExist) === 0) {
-            return;
-        }
-
-        throw new BottleCreationGrapeVarietiesDoesntExistException($grapeVarietiesDoesntExist);
     }
 }

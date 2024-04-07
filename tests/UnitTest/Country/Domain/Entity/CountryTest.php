@@ -13,18 +13,18 @@ final class CountryTest extends TestCase
 {
     public function testCreateSuccess(): void
     {
-        $user = Country::create(
+        $country = Country::create(
             CountryId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
             CountryName::fromString('France2'),
         );
 
         $this->assertInstanceOf(
             Country::class,
-            $user,
+            $country,
         );
     }
 
-    public function testCreateSuccessWithBadUuid(): void
+    public function testCreateFailedWithBadUuid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -34,7 +34,7 @@ final class CountryTest extends TestCase
         );
     }
 
-    public function testCreateSuccessWithBadNameTooShort(): void
+    public function testCreateFailedWithBadNameTooShort(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -44,7 +44,7 @@ final class CountryTest extends TestCase
         );
     }
 
-    public function testCreateSuccessWithBadNameTooLong(): void
+    public function testCreateFailedWithBadNameTooLong(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -52,5 +52,17 @@ final class CountryTest extends TestCase
             CountryId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
             CountryName::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
         );
+    }
+
+    public function testCreateFailedEventDispatch(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $country = Country::create(
+            CountryId::fromString('2'),
+            CountryName::fromString('France2'),
+        );
+
+        $this->assertEmpty($country::getRecordedEvent());
     }
 }

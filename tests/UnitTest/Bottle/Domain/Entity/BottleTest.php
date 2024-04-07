@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\UnitTest\Bottle\Domain\Entity;
 
 use App\Bottle\Domain\Entity\Bottle;
+use App\Bottle\Domain\Event\BottleCreatedEvent;
+use App\Bottle\Domain\Event\BottlePictureAddedEvent;
+use App\Bottle\Domain\Event\BottleTastedEvent;
 use App\Bottle\Domain\ValueObject\BottleCountry;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
@@ -371,5 +374,118 @@ final class BottleTest extends TestCase
         $bottle->taste();
 
         $this->assertNotNull($bottle->tastedAt());
+    }
+
+    public function testCreateSuccessEventDispatch(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $this->assertInstanceOf(BottleCreatedEvent::class, $bottle::getRecordedEvent()[0]);
+        $bottle::eraseRecordedEvents();
+    }
+
+    public function testCreateFailedNoEventDispatch(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $bottle = Bottle::create(
+            BottleId::fromString('12'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $this->assertEmpty($bottle::getRecordedEvent()[0]);
+    }
+
+    public function testPictureAddedSuccessEventDispatch(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $bottle->addPicture(
+            BottlePicture::fromString('chateau-de-fonsalette.webp'),
+        );
+
+        $this->assertInstanceOf(BottlePictureAddedEvent::class, $bottle::getRecordedEvent()[0]);
+        $bottle::eraseRecordedEvents();
+    }
+
+    public function testPictureAddFailedNoEventDispatch(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $bottle->addPicture(
+            BottlePicture::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf.png'),
+        );
+
+        $this->assertEmpty($bottle::getRecordedEvent()[0]);
+    }
+
+    public function testTasteSuccessEventDispatch(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $bottle->taste();
+
+        $this->assertInstanceOf(BottleTastedEvent::class, $bottle::getRecordedEvent()[0]);
+        $bottle::eraseRecordedEvents();
     }
 }

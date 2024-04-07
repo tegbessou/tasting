@@ -6,7 +6,7 @@ namespace App\Bottle\Domain\Repository;
 
 use App\Bottle\Domain\ValueObject\CountryName;
 
-interface CountryRepositoryInterface
+interface CountryReadRepositoryInterface
 {
     public function exist(CountryName $name): bool;
 }

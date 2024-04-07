@@ -12,13 +12,13 @@ parameters:
                   - type: directory
                     regex: src/User/.*
                 must_not:
-                  - { type: className, regex: ^App\\User\\Domain\\Event\\OwnerNotExistEvent }
-                  - { type: className, regex: ^App\\User\\Domain\\Event\\BottleUpdateNotAuthorizeEvent }
+                  - { type: className, regex: ^App\\User\\Application\\Event\\OwnerNotExistEvent }
+                  - { type: className, regex: ^App\\User\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
 
         - name: UserContextMap
           collectors:
-            - { type: className, regex: ^App\\User\\Domain\\Event\\OwnerNotExistEvent }
-            - { type: className, regex: ^App\\User\\Domain\\Event\\BottleUpdateNotAuthorizeEvent }
+            - { type: className, regex: ^App\\User\\Application\\Event\\OwnerNotExistEvent }
+            - { type: className, regex: ^App\\User\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
 
         - name: Bottle
           collectors:
@@ -27,13 +27,15 @@ parameters:
                 - type: directory
                   regex: src/Bottle/.*
               must_not:
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckOwnerExistEvent }
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckIfUserIsAuthorizeToUpdateBottleEvent }
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleCreatedEvent }
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottlePictureAddedEvent }
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleTastedEvent }
 
         - name: BottleContextMap
           collectors:
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckOwnerExistEvent }
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\CheckIfUserIsAuthorizeToUpdateBottleEvent }
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleCreatedEvent }
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottlePictureAddedEvent }
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleTastedEvent }
 
         - name: Country
           collectors:

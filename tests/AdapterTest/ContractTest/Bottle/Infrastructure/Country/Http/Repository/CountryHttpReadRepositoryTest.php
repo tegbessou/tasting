@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace AdapterTest\ContractTest\Bottle\Infrastructure\Country\Http\Repository;
 
 use App\Bottle\Domain\ValueObject\CountryName;
-use App\Bottle\Infrastructure\Country\Http\Repository\CountryHttpRepository;
+use App\Bottle\Infrastructure\Country\Http\Repository\CountryHttpReadRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class CountryHttpRepositoryTest extends KernelTestCase
+final class CountryHttpReadRepositoryTest extends KernelTestCase
 {
-    private CountryHttpRepository $httpCountryRepository;
+    private CountryHttpReadRepository $httpCountryRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -18,7 +18,7 @@ final class CountryHttpRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->httpCountryRepository = $container->get(CountryHttpRepository::class);
+        $this->httpCountryRepository = $container->get(CountryHttpReadRepository::class);
     }
 
     public function testExist(): void

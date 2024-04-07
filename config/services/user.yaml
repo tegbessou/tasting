@@ -16,10 +16,10 @@ services:
   App\User\Domain\Service\AuthenticateUserInterface:
     alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
 
-  App\User\Application\EventListener\OnCheckOwnerExistEventListener:
+  App\User\Application\EventListener\OnBottleCreatedCheckIfOwnerExistEventListener:
     tags: [kernel.event_listener]
 
-  App\User\Application\EventListener\OnCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+  App\User\Application\EventListener\OnBottleAddedPictureCheckIfUserIsAuthorizeToUpdateBottleEventListener:
     tags: [kernel.event_listener]
 
 when@test:

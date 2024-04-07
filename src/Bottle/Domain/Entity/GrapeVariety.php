@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Bottle\Domain\Entity;
 
+use App\Bottle\Domain\Event\GrapeVarietyCreatedEvent;
 use App\Bottle\Domain\ValueObject\GrapeVarietyId;
 use App\Bottle\Domain\ValueObject\GrapeVarietyName;
+use App\Shared\Domain\Entity\EntityDomainEventTrait;
+use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final readonly class GrapeVariety
+final class GrapeVariety implements EntityWithDomainEventInterface
 {
+    use EntityDomainEventTrait;
+
     public function __construct(
         #[ORM\Embedded(columnPrefix: false)]
         public GrapeVarietyId $id,
@@ -23,10 +28,18 @@ final readonly class GrapeVariety
         GrapeVarietyId $id,
         GrapeVarietyName $name,
     ): self {
-        return new self(
+        $grapeVariety = new self(
             $id,
             $name,
         );
+
+        $grapeVariety::recordEvent(
+            new GrapeVarietyCreatedEvent(
+                $grapeVariety->id->value(),
+            )
+        );
+
+        return $grapeVariety;
     }
 
     public function id(): GrapeVarietyId

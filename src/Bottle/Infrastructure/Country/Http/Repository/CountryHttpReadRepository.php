@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Bottle\Infrastructure\Country\Http\Repository;
 
-use App\Bottle\Domain\Repository\CountryRepositoryInterface;
+use App\Bottle\Domain\Repository\CountryReadRepositoryInterface;
 use App\Bottle\Domain\ValueObject\CountryName;
 use App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface;
 
-final readonly class CountryHttpRepository implements CountryRepositoryInterface
+final readonly class CountryHttpReadRepository implements CountryReadRepositoryInterface
 {
     public function __construct(
         private CountryHttpClientInterface $countryHttpClient,
