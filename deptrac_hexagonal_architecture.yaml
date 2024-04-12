@@ -1,8 +1,9 @@
 parameters:
     paths:
-        - ./src/Bottle
+        - ./src/BottleInventory
         - ./src/Shared
-        - ./src/User
+        - ./src/Security
+        - ./src/Country
 
     layers:
         - name: Domain
