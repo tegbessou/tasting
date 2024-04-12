@@ -118,13 +118,19 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 ## Refactoring
 Challenge identity from each entity
 Challenge the entity structure => reflect if i can group some value object in other value object more global
-Handle remove resources after creation in test
 Verify if cqrs command and query are not use in the same adapter
 
 Refactor BottleRessource to use wineType instead of type
 Generalize the structure of test for collection, with one generic methode to test result and another to test filters
 
 Do effort to verify that all test has no side effect for other tests
+In test with body, rename attributes json to payload
+Handle remove resources after creation in test
+
+Rename bounded context:
+- Bottle => Inventory
+- Tasting => Tasting
+- User => Security
 
 Explain architecture choices in the README
 Add an elastic search to search wine

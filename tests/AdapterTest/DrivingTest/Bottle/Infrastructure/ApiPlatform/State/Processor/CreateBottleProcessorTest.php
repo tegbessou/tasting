@@ -2,12 +2,27 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Processor;
+namespace App\Tests\AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Processor;
 
+use App\Bottle\Domain\Entity\Bottle;
 use App\Tests\Shared\ApiTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class CreateBottleProcessorTest extends ApiTestCase
 {
+    private EntityManagerInterface $entityManager;
+
+    #[\Override]
+    public function setUp(): void
+    {
+        static::bootKernel();
+
+        $container = static::getContainer();
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+
+        parent::setUp();
+    }
+
     public function testCreateBottle(): void
     {
         $this->post('/api/bottles', [
@@ -22,6 +37,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(204);
+
+        $bottle = $this->entityManager->getRepository(Bottle::class)->findOneBy([
+            'name.value' => 'Pavillon Rouge du Château Margaux',
+        ]);
+        $this->entityManager->remove($bottle);
+        $this->entityManager->flush();
     }
 
     /**

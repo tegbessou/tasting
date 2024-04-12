@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Bottle\Domain\Service;
 
-use App\Bottle\Domain\Exception\BottleCreationCountryDoesntExistException;
-use App\Bottle\Domain\Exception\BottleCreationGrapeVarietiesDoesntExistException;
+use App\Bottle\Domain\Exception\BottleCountryDoesntExistException;
+use App\Bottle\Domain\Exception\BottleGrapeVarietiesDoesntExistException;
 use App\Bottle\Domain\Repository\CountryReadRepositoryInterface;
 use App\Bottle\Domain\Repository\GrapeVarietyReadRepositoryInterface;
 use App\Bottle\Domain\ValueObject\CountryName;
@@ -37,7 +37,7 @@ final readonly class BottleValidator
             return;
         }
 
-        throw new BottleCreationCountryDoesntExistException($country);
+        throw new BottleCountryDoesntExistException($country);
     }
 
     private function validateThatGrapeVarietiesExist(array $grapeVarieties): void
@@ -60,6 +60,6 @@ final readonly class BottleValidator
             return;
         }
 
-        throw new BottleCreationGrapeVarietiesDoesntExistException($grapeVarietiesDoesntExist);
+        throw new BottleGrapeVarietiesDoesntExistException($grapeVarietiesDoesntExist);
     }
 }

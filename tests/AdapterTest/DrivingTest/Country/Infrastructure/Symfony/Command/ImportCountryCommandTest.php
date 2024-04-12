@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\DrivingTest\Country\Infrastructure\Symfony\Command;
+namespace App\Tests\AdapterTest\DrivingTest\Country\Infrastructure\Symfony\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;

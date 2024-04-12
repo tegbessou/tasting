@@ -16,7 +16,10 @@ services:
   App\Bottle\Application\EventListener\OnOwnerNotExistEventListener:
     tags: [kernel.event_listener]
 
-  App\Bottle\Application\EventListener\OnBottleUpdateNotAuthorizeEventListener:
+  App\Bottle\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
+    tags: [kernel.event_listener]
+
+  App\Bottle\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
     tags: [kernel.event_listener]
 
   App\Bottle\Infrastructure\Country\Http\Client\CountryHttpClientInterface:

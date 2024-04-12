@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Provider;
+namespace App\Tests\AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Provider;
 
 use App\Tests\Shared\ApiTestCase;
 

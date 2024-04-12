@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\Bottle\Infrastructure\Symfony\Controller;
 
 use App\Tests\Shared\ApiTestCase;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -12,10 +14,25 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class ReplaceBottlePictureActionTest extends ApiTestCase
 {
+    private EntityManagerInterface $entityManager;
+
+    #[\Override]
+    public function setUp(): void
+    {
+        static::bootKernel();
+
+        $container = static::getContainer();
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+
+        parent::setUp();
+    }
+
     #[\Override]
     protected function tearDown(): void
     {
         $this->revertUploadFile('cote-rotie*.png');
+
+        parent::tearDown();
     }
 
     public function testUpdateBottlePicture(): void
@@ -32,6 +49,10 @@ final class ReplaceBottlePictureActionTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(204);
         $this->assertFileExistsWithPartialName('cote-rotie*.png');
+
+        $query = $this->entityManager->createNativeQuery('UPDATE bottle SET picture = null WHERE id = :id', new ResultSetMapping());
+        $query->setParameter('id', '635e809c-aaaf-40df-8483-83cfbe2c5504');
+        $query->execute();
     }
 
     public function testUpdateBottlePictureBottleNotFound(): void

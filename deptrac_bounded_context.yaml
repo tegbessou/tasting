@@ -14,11 +14,13 @@ parameters:
                 must_not:
                   - { type: className, regex: ^App\\User\\Application\\Event\\OwnerNotExistEvent }
                   - { type: className, regex: ^App\\User\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
+                  - { type: className, regex: ^App\\User\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
 
         - name: UserContextMap
           collectors:
             - { type: className, regex: ^App\\User\\Application\\Event\\OwnerNotExistEvent }
             - { type: className, regex: ^App\\User\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
+            - { type: className, regex: ^App\\User\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
 
         - name: Bottle
           collectors:
@@ -28,12 +30,16 @@ parameters:
                   regex: src/Bottle/.*
               must_not:
                 - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleCreatedEvent }
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleDeletedEvent }
+                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleUpdatedEvent }
                 - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottlePictureAddedEvent }
                 - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleTastedEvent }
 
         - name: BottleContextMap
           collectors:
             - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleCreatedEvent }
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleDeletedEvent }
+            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleUpdatedEvent }
             - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottlePictureAddedEvent }
             - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleTastedEvent }
 

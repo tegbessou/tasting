@@ -32,6 +32,27 @@ class ApiTestCase extends BaseApiTestCase
         ]);
     }
 
+    protected function delete(string $uri, array $headers = [], string $identityProvider = 'apple'): void
+    {
+        $client = static::createClient();
+
+        $this->response = $client->request('DELETE', $uri, [
+            'headers' => self::getHeaders($headers, $identityProvider),
+        ]);
+    }
+
+    protected function patch(string $uri, array $json, array $headers = [], string $identityProvider = 'apple'): void
+    {
+        $client = static::createClient();
+
+        $headers['Content-Type'] = 'application/merge-patch+json';
+
+        $this->response = $client->request('PATCH', $uri, [
+            'headers' => self::getHeaders($headers, $identityProvider),
+            'json' => $json,
+        ]);
+    }
+
     protected function postFile(string $uri, array $files, array $headers = [], string $identityProvider = 'apple'): void
     {
         $client = static::createClient();

@@ -16,4 +16,6 @@ interface BottleWriteRepositoryInterface
     public function nextIdentity(): BottleId;
 
     public function update(Bottle $bottle): void;
+
+    public function delete(Bottle $bottle): void;
 }

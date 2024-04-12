@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\ContractTest\User\Infrastructure\Doctrine\Repository;
+namespace App\Tests\AdapterTest\ContractTest\User\Infrastructure\Doctrine\Repository;
 
 use App\User\Domain\ValueObject\UserEmail;
 use App\User\Domain\ValueObject\UserId;

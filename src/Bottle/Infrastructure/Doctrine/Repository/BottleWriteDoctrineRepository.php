@@ -45,4 +45,11 @@ final readonly class BottleWriteDoctrineRepository implements BottleWriteReposit
     {
         $this->entityManager->flush();
     }
+
+    #[\Override]
+    public function delete(Bottle $bottle): void
+    {
+        $this->entityManager->remove($bottle);
+        $this->entityManager->flush();
+    }
 }

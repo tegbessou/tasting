@@ -5,9 +5,24 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\User\Infrastructure\ApiPlatform\State\Processor;
 
 use App\Tests\Shared\ApiTestCase;
+use App\User\Domain\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class CreateUserProcessorTest extends ApiTestCase
 {
+    private EntityManagerInterface $entityManager;
+
+    #[\Override]
+    public function setUp(): void
+    {
+        static::bootKernel();
+
+        $container = static::getContainer();
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+
+        parent::setUp();
+    }
+
     public function testCreateUser(): void
     {
         $this->post('/api/users', [
@@ -15,6 +30,12 @@ final class CreateUserProcessorTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(204);
+
+        $user = $this->entityManager->getRepository(User::class)->findOneBy([
+            'email.value' => 'new-user@gmail.com',
+        ]);
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
     }
 
     public function testCreateUserEmailAlreadyExist(): void
