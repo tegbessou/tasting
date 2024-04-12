@@ -5,43 +5,43 @@ parameters:
         - ./src
 
     layers:
-        - name: User
+        - name: Security
           collectors:
               - type: bool
                 must:
                   - type: directory
-                    regex: src/User/.*
+                    regex: src/Security/.*
                 must_not:
-                  - { type: className, regex: ^App\\User\\Application\\Event\\OwnerNotExistEvent }
-                  - { type: className, regex: ^App\\User\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
-                  - { type: className, regex: ^App\\User\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
+                  - { type: className, regex: ^App\\Security\\Application\\Event\\OwnerNotExistEvent }
+                  - { type: className, regex: ^App\\Security\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
+                  - { type: className, regex: ^App\\Security\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
 
-        - name: UserContextMap
+        - name: SecurityContextMap
           collectors:
-            - { type: className, regex: ^App\\User\\Application\\Event\\OwnerNotExistEvent }
-            - { type: className, regex: ^App\\User\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
-            - { type: className, regex: ^App\\User\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
+            - { type: className, regex: ^App\\Security\\Application\\Event\\OwnerNotExistEvent }
+            - { type: className, regex: ^App\\Security\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
+            - { type: className, regex: ^App\\Security\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
 
-        - name: Bottle
+        - name: BottleInventory
           collectors:
             - type: bool
               must:
                 - type: directory
-                  regex: src/Bottle/.*
+                  regex: src/BottleInventory/.*
               must_not:
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleCreatedEvent }
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleDeletedEvent }
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleUpdatedEvent }
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottlePictureAddedEvent }
-                - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleTastedEvent }
+                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleCreatedEvent }
+                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleDeletedEvent }
+                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleUpdatedEvent }
+                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottlePictureAddedEvent }
+                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleTastedEvent }
 
-        - name: BottleContextMap
+        - name: BottleInventoryContextMap
           collectors:
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleCreatedEvent }
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleDeletedEvent }
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleUpdatedEvent }
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottlePictureAddedEvent }
-            - { type: className, regex: ^App\\Bottle\\Domain\\Event\\BottleTastedEvent }
+            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleCreatedEvent }
+            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleDeletedEvent }
+            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleUpdatedEvent }
+            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottlePictureAddedEvent }
+            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleTastedEvent }
 
         - name: Country
           collectors:
@@ -75,9 +75,9 @@ parameters:
               - { type: className, regex: ^ArrayIterator }
 
     ruleset:
-        User: [ Shared, Vendors, BottleContextMap, UserContextMap ]
-        UserContextMap: [ Shared, Vendors ]
-        Bottle: [ Shared, Vendors, BottleContextMap,UserContextMap ]
-        BottleContextMap: [ Shared, Vendors ]
+        Security: [ Shared, Vendors, BottleInventoryContextMap, SecurityContextMap ]
+        SecurityContextMap: [ Shared, Vendors ]
+        BottleInventory: [ Shared, Vendors, BottleInventoryContextMap, SecurityContextMap ]
+        BottleInventoryContextMap: [ Shared, Vendors ]
         Country: [ Shared, Vendors ]
         Shared: [ Vendors ]

@@ -3,11 +3,11 @@ services:
     autowire: true
     autoconfigure: true
 
-  App\Bottle\Application\EventListener\OnOwnerNotExistEventListener:
+  App\BottleInventory\Application\EventListener\OnOwnerNotExistEventListener:
     tags: [kernel.event_listener]
 
-  App\Bottle\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
+  App\BottleInventory\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
     tags: [kernel.event_listener]
 
-  App\Bottle\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
+  App\BottleInventory\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
     tags: [kernel.event_listener]

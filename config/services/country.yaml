@@ -10,5 +10,5 @@ services:
   App\:
     resource: '../../src/'
     exclude:
-      - '../../src/Bottle/'
-      - '../../src/User/'
+      - '../../src/BottleInventory/'
+      - '../../src/Security/'

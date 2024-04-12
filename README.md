@@ -120,10 +120,5 @@ Challenge identity from each entity
 Challenge the entity structure
     => reflect if i can group some value object in other value object more global
 
-Rename bounded context:
-- Bottle => Inventory
-- Tasting => Tasting
-- User => Security
-
 Explain architecture choices in the README
 Add an elastic search to search wine

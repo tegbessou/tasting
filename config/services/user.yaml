@@ -10,25 +10,33 @@ services:
   App\:
     resource: '../../src/'
     exclude:
-      - '../../src/Bottle/'
       - '../../src/Country/'
 
-  App\User\Domain\Service\AuthenticateUserInterface:
-    alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
+  App\Security\Domain\Service\AuthenticateUserInterface:
+    alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
 
-  App\User\Application\EventListener\OnBottleCreatedCheckIfOwnerExistEventListener:
+  App\Security\Application\EventListener\OnBottleCreatedCheckIfOwnerExistEventListener:
     tags: [kernel.event_listener]
 
-  App\User\Application\EventListener\OnBottleAddedPictureCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+  App\Security\Application\EventListener\OnBottleAddedPictureCheckIfUserIsAuthorizeToUpdateBottleEventListener:
     tags: [kernel.event_listener]
 
-  App\User\Application\EventListener\OnBottleDeletedCheckIfUserIsAuthorizeToDeleteBottleEventListener:
+  App\Security\Application\EventListener\OnBottleDeletedCheckIfUserIsAuthorizeToDeleteBottleEventListener:
     tags: [kernel.event_listener]
 
-  App\User\Application\EventListener\OnBottleUpdatedCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+  App\Security\Application\EventListener\OnBottleUpdatedCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\EventListener\OnOwnerNotExistEventListener:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
     tags: [kernel.event_listener]
 
 when@test:
   services:
-    App\User\Domain\Service\AuthenticateUserInterface:
-      alias: App\User\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
+    App\Security\Domain\Service\AuthenticateUserInterface:
+      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
