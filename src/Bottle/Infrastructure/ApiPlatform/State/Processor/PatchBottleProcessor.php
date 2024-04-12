@@ -41,8 +41,8 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
         Assert::notNull($data->id);
         Assert::notNull($data->name);
         Assert::notNull($data->estateName);
-        Assert::notNull($data->type);
-        Assert::isInstanceOf($data->type, WineType::class);
+        Assert::notNull($data->wineType);
+        Assert::isInstanceOf($data->wineType, WineType::class);
         Assert::notNull($data->year);
         Assert::year($data->year);
         Assert::notNull($data->grapeVarieties);
@@ -55,7 +55,7 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
                     $data->id->__toString(),
                     $data->name,
                     $data->estateName,
-                    $data->type->value,
+                    $data->wineType->value,
                     $data->year,
                     $data->grapeVarieties,
                     $data->rate->value,

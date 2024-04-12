@@ -30,7 +30,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
             'estateName' => 'Château Margaux',
             'year' => 1995,
             'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-            'type' => 'red',
+            'wineType' => 'red',
             'rate' => 'xs',
             'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
             'country' => 'France',
@@ -49,11 +49,11 @@ final class CreateBottleProcessorTest extends ApiTestCase
      * @dataProvider provideInvalidData
      */
     public function testCreateBottleWithInvalidData(
-        array $data,
+        array $payload,
         int $statusCode,
         array $violations,
     ): void {
-        $this->post('/api/bottles', $data);
+        $this->post('/api/bottles', $payload);
         $this->assertResponseStatusCodeSame($statusCode);
 
         if ($statusCode === 422) {
@@ -68,7 +68,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
     public static function provideInvalidData(): \Generator
     {
         yield 'No data passed' => [
-            'json' => [],
+            'payload' => [],
             'statusCode' => 422,
             'violations' => [
                 [
@@ -82,7 +82,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
-                    'propertyPath' => 'type',
+                    'propertyPath' => 'wineType',
                     'message' => 'This value should not be blank.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
@@ -110,12 +110,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ];
 
         yield 'Bad wine type value' => [
-            'json' => [
+            'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
                 'year' => 1995,
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'yellow',
+                'wineType' => 'yellow',
                 'rate' => 'xs',
                 'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
                 'country' => 'France',
@@ -125,12 +125,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ];
 
         yield 'Bad rate value' => [
-            'json' => [
+            'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
                 'year' => 1995,
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'top',
                 'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
                 'country' => 'France',
@@ -140,12 +140,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ];
 
         yield 'Owner doesn\'t exists' => [
-            'json' => [
+            'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
                 'year' => 1995,
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'xs',
                 'ownerId' => 'd46b4522-b265-4e35-8f33-c95db871b7b8',
                 'country' => 'France',
@@ -160,12 +160,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ];
 
         yield 'One grape varieties doesn\'t exist' => [
-            'json' => [
+            'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
                 'year' => 1995,
                 'grapeVarieties' => ['Riesling', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'xs',
                 'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
                 'country' => 'France',
@@ -180,12 +180,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ];
 
         yield 'Many grape varieties doesn\'t exist' => [
-            'json' => [
+            'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
                 'year' => 1995,
                 'grapeVarieties' => ['Riesling', 'Négrette', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'xs',
                 'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
                 'country' => 'France',
@@ -200,12 +200,12 @@ final class CreateBottleProcessorTest extends ApiTestCase
         ];
 
         yield 'Country doesn\'t exist' => [
-            'json' => [
+            'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
                 'year' => 1995,
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'xs',
                 'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
                 'country' => 'Italy',

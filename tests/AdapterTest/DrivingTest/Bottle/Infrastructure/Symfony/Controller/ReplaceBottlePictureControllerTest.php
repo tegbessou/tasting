@@ -7,12 +7,9 @@ namespace App\Tests\AdapterTest\DrivingTest\Bottle\Infrastructure\Symfony\Contro
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use PHPUnit\Framework\ExpectationFailedException;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-final class ReplaceBottlePictureActionTest extends ApiTestCase
+final class ReplaceBottlePictureControllerTest extends ApiTestCase
 {
     private EntityManagerInterface $entityManager;
 
@@ -81,39 +78,5 @@ final class ReplaceBottlePictureActionTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(403);
-    }
-
-    private function revertUploadFile(
-        string $name,
-    ): void {
-        $filesystem = new Filesystem();
-        $finder = new Finder();
-
-        $finder->files()->in('public/images/bottle/')->name($name);
-
-        if (!$finder->hasResults()) {
-            return;
-        }
-
-        foreach ($finder as $file) {
-            $absoluteFilePath = $file->getRealPath();
-
-            $filesystem->copy($absoluteFilePath, __DIR__.'/../../../../../../../fixtures/images/bottle/cote-rotie.png');
-            $filesystem->remove($absoluteFilePath);
-        }
-    }
-
-    private function assertFileExistsWithPartialName(
-        string $name,
-    ): void {
-        $finder = new Finder();
-
-        $finder->files()->in('public/images/bottle/')->name($name);
-
-        if ($finder->hasResults()) {
-            return;
-        }
-
-        throw new ExpectationFailedException(sprintf('Failed asserting that file with partial name "%s" exists.', $name));
     }
 }

@@ -8,9 +8,9 @@ use App\Bottle\Domain\ValueObject\GrapeVarietyName;
 use App\Bottle\Infrastructure\Doctrine\Repository\GrapeVarietyDoctrineReadRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class GrapeVarietyDoctrineRepositoryTest extends KernelTestCase
+final class GrapeVarietyReadDoctrineRepositoryTest extends KernelTestCase
 {
-    private GrapeVarietyDoctrineReadRepository $doctrineGrapeVarietyRepository;
+    private GrapeVarietyDoctrineReadRepository $doctrineGrapeVarietyReadRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -18,20 +18,20 @@ final class GrapeVarietyDoctrineRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->doctrineGrapeVarietyRepository = $container->get(GrapeVarietyDoctrineReadRepository::class);
+        $this->doctrineGrapeVarietyReadRepository = $container->get(GrapeVarietyDoctrineReadRepository::class);
     }
 
     public function testExist(): void
     {
         $this->assertTrue(
-            $this->doctrineGrapeVarietyRepository->exist(GrapeVarietyName::fromString('Grenache')),
+            $this->doctrineGrapeVarietyReadRepository->exist(GrapeVarietyName::fromString('Grenache')),
         );
     }
 
     public function testNotExist(): void
     {
         $this->assertFalse(
-            $this->doctrineGrapeVarietyRepository->exist(GrapeVarietyName::fromString('Négrette')),
+            $this->doctrineGrapeVarietyReadRepository->exist(GrapeVarietyName::fromString('Négrette')),
         );
     }
 }

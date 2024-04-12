@@ -20,7 +20,7 @@ use App\Bottle\Infrastructure\ApiPlatform\State\Processor\DeleteBottleProcessor;
 use App\Bottle\Infrastructure\ApiPlatform\State\Processor\PatchBottleProcessor;
 use App\Bottle\Infrastructure\ApiPlatform\State\Provider\GetCollectionProvider;
 use App\Bottle\Infrastructure\ApiPlatform\State\Provider\GetProvider;
-use App\Bottle\Infrastructure\Symfony\Controller\ReplaceBottlePictureAction;
+use App\Bottle\Infrastructure\Symfony\Controller\ReplaceBottlePictureController;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -42,9 +42,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             uriTemplate: '/bottles/{id}/pictures',
             inputFormats: ['multipart' => ['multipart/form-data']],
             status: Response::HTTP_NO_CONTENT,
-            controller: ReplaceBottlePictureAction::class,
+            controller: ReplaceBottlePictureController::class,
             denormalizationContext: ['groups' => ['write_bottle_picture']],
             validationContext: ['groups' => ['write_bottle_picture']],
+            output: false,
             deserialize: false,
         ),
         new Get(
@@ -87,7 +88,7 @@ final class BottleResource
         #[ApiProperty]
         #[Assert\NotBlank]
         #[Assert\Type(type: WineType::class)]
-        public ?WineType $type = null,
+        public ?WineType $wineType = null,
         #[ApiProperty]
         #[Assert\NotBlank]
         #[Assert\LessThanOrEqual(2100)]

@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UserWriteDoctrineRepositoryTest extends KernelTestCase
 {
+    private EntityManagerInterface $entityManager;
+
     private UserDoctrineWriteRepository $doctrineUserWriteRepository;
 
     #[\Override]
@@ -22,6 +24,18 @@ final class UserWriteDoctrineRepositoryTest extends KernelTestCase
 
         $container = static::getContainer();
         $this->doctrineUserWriteRepository = $container->get(UserDoctrineWriteRepository::class);
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+
+        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
+        $this->entityManager->beginTransaction();
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->entityManager->rollback();
+
+        parent::tearDown();
     }
 
     public function testOfEmail(): void
@@ -50,10 +64,5 @@ final class UserWriteDoctrineRepositoryTest extends KernelTestCase
         $user = $this->doctrineUserWriteRepository->ofEmail(UserEmail::fromString('pedro@gmail.com'));
 
         $this->assertNotNull($user);
-
-        $container = static::getContainer();
-        $entityManager = $container->get(EntityManagerInterface::class);
-        $entityManager->remove($user);
-        $entityManager->flush();
     }
 }
