@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bottle\Domain\Exception;
 
-final class BottleCreationGrapeVarietiesDoesntExistException extends \Exception
+final class BottleGrapeVarietiesDoesntExistException extends \Exception
 {
     public function __construct(
         public array $grapeVarieties,

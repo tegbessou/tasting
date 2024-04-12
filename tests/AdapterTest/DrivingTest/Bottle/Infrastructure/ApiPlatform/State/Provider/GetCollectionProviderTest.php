@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Provider;
+namespace App\Tests\AdapterTest\DrivingTest\Bottle\Infrastructure\ApiPlatform\State\Provider;
 
 use App\Tests\Shared\ApiTestCase;
 
@@ -35,7 +35,7 @@ final class GetCollectionProviderTest extends ApiTestCase
                     'picturePath' => 'chateau-latour.jpg',
                 ],
             ],
-            'hydra:totalItems' => 14,
+            'hydra:totalItems' => 13,
         ]);
         $this->assertAttributeExistInEachElement('saveAt');
     }
@@ -62,7 +62,7 @@ final class GetCollectionProviderTest extends ApiTestCase
     {
         yield 'Filter by name' => [
             'uri' => '/api/bottles?name=Château',
-            'totalItems' => 3,
+            'totalItems' => 2,
         ];
         yield 'Filter by estate name' => [
             'uri' => '/api/bottles?estateName=Domaine de la',
@@ -74,7 +74,7 @@ final class GetCollectionProviderTest extends ApiTestCase
         ];
         yield 'Filter by type' => [
             'uri' => '/api/bottles?type=red',
-            'totalItems' => 12,
+            'totalItems' => 11,
         ];
         yield 'Filter by rate' => [
             'uri' => '/api/bottles?rate=%2B%2B',

@@ -8,3 +8,9 @@ services:
 
   App\User\Application\EventListener\OnBottleAddedPictureCheckIfUserIsAuthorizeToUpdateBottleEventListener:
     tags: [kernel.event_listener]
+
+  App\User\Application\EventListener\OnBottleDeletedCheckIfUserIsAuthorizeToDeleteBottleEventListener:
+    tags: [kernel.event_listener]
+
+  App\User\Application\EventListener\OnBottleUpdatedCheckIfUserIsAuthorizeToUpdateBottleEventListener:
+    tags: [kernel.event_listener]

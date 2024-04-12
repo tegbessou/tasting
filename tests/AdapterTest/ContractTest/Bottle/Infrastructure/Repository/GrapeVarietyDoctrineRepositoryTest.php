@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\ContractTest\Bottle\Infrastructure\Repository;
+namespace App\Tests\AdapterTest\ContractTest\Bottle\Infrastructure\Repository;
 
 use App\Bottle\Domain\ValueObject\GrapeVarietyName;
 use App\Bottle\Infrastructure\Doctrine\Repository\GrapeVarietyDoctrineReadRepository;

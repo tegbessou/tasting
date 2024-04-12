@@ -6,8 +6,10 @@ namespace App\Tests\UnitTest\Bottle\Domain\Entity;
 
 use App\Bottle\Domain\Entity\Bottle;
 use App\Bottle\Domain\Event\BottleCreatedEvent;
+use App\Bottle\Domain\Event\BottleDeletedEvent;
 use App\Bottle\Domain\Event\BottlePictureAddedEvent;
 use App\Bottle\Domain\Event\BottleTastedEvent;
+use App\Bottle\Domain\Event\BottleUpdatedEvent;
 use App\Bottle\Domain\ValueObject\BottleCountry;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
@@ -486,6 +488,99 @@ final class BottleTest extends TestCase
         $bottle->taste();
 
         $this->assertInstanceOf(BottleTastedEvent::class, $bottle::getRecordedEvent()[0]);
+        $bottle::eraseRecordedEvents();
+    }
+
+    public function testDeleteSuccessEventDispatch(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $bottle->delete();
+
+        $this->assertInstanceOf(BottleDeletedEvent::class, $bottle::getRecordedEvent()[0]);
+        $bottle::eraseRecordedEvents();
+    }
+
+    public function testUpdate(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $bottle->update(
+            BottleName::fromString('Vouvray moelleux - cuvée constance'),
+            BottleEstateName::fromString('Domaine Huet'),
+            BottleWineType::fromString('white'),
+            BottleYear::fromInt(2018),
+            BottleGrapeVarieties::fromArray(['Chenin']),
+            BottleRate::fromString('++'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(120.99),
+        );
+
+        $this->assertEquals('Vouvray moelleux - cuvée constance', $bottle->name()->value());
+        $this->assertEquals('Domaine Huet', $bottle->estateName()->value());
+        $this->assertEquals('white', $bottle->wineType()->value());
+        $this->assertEquals(2018, $bottle->year()->value());
+        $this->assertEquals(['Chenin'], $bottle->grapeVarieties()->values());
+        $this->assertEquals('++', $bottle->rate()->value());
+        $this->assertEquals('France', $bottle->country()->value());
+        $this->assertEquals(120.99, $bottle->price()->amount());
+    }
+
+    public function testUpdateSuccessEventDispatch(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+
+        $bottle::eraseRecordedEvents();
+
+        $bottle->update(
+            BottleName::fromString('Vouvray moelleux - cuvée constance'),
+            BottleEstateName::fromString('Domaine Huet'),
+            BottleWineType::fromString('white'),
+            BottleYear::fromInt(2018),
+            BottleGrapeVarieties::fromArray(['Chenin']),
+            BottleRate::fromString('++'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(120.99),
+        );
+
+        $this->assertInstanceOf(BottleUpdatedEvent::class, $bottle::getRecordedEvent()[0]);
         $bottle::eraseRecordedEvents();
     }
 }

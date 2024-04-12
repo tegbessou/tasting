@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Bottle\Domain\Entity;
 
 use App\Bottle\Domain\Event\BottleCreatedEvent;
+use App\Bottle\Domain\Event\BottleDeletedEvent;
 use App\Bottle\Domain\Event\BottlePictureAddedEvent;
 use App\Bottle\Domain\Event\BottleTastedEvent;
+use App\Bottle\Domain\Event\BottleUpdatedEvent;
 use App\Bottle\Domain\ValueObject\BottleCountry;
 use App\Bottle\Domain\ValueObject\BottleEstateName;
 use App\Bottle\Domain\ValueObject\BottleGrapeVarieties;
@@ -123,6 +125,43 @@ final class Bottle implements EntityWithDomainEventInterface
         );
 
         return $this;
+    }
+
+    public function delete(): void
+    {
+        self::recordEvent(
+            new BottleDeletedEvent(
+                $this->id->value(),
+                $this->ownerId->id(),
+            )
+        );
+    }
+
+    public function update(
+        BottleName $name,
+        BottleEstateName $estateName,
+        BottleWineType $wineType,
+        BottleYear $year,
+        BottleGrapeVarieties $grapeVarieties,
+        BottleRate $rate,
+        ?BottleCountry $country = null,
+        ?BottlePrice $price = null,
+    ): void {
+        $this->name = $name;
+        $this->estateName = $estateName;
+        $this->wineType = $wineType;
+        $this->year = $year;
+        $this->grapeVarieties = $grapeVarieties;
+        $this->rate = $rate;
+        $this->country = $country;
+        $this->price = $price;
+
+        self::recordEvent(
+            new BottleUpdatedEvent(
+                $this->id->value(),
+                $this->ownerId->id(),
+            )
+        );
     }
 
     public function id(): BottleId

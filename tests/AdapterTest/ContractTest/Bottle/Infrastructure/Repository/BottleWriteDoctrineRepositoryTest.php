@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\ContractTest\Bottle\Infrastructure\Repository;
+namespace App\Tests\AdapterTest\ContractTest\Bottle\Infrastructure\Repository;
 
 use App\Bottle\Domain\Entity\Bottle;
 use App\Bottle\Domain\ValueObject\BottleCountry;
@@ -22,6 +22,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class BottleWriteDoctrineRepositoryTest extends KernelTestCase
 {
+    private EntityManagerInterface $entityManager;
+
     private BottleWriteDoctrineRepository $doctrineBottleWriteRepository;
 
     #[\Override]
@@ -31,6 +33,20 @@ final class BottleWriteDoctrineRepositoryTest extends KernelTestCase
         $container = self::getContainer();
 
         $this->doctrineBottleWriteRepository = $container->get(BottleWriteDoctrineRepository::class);
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+
+        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
+        $this->entityManager->beginTransaction();
+
+        parent::setUp();
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->entityManager->rollback();
+
+        parent::tearDown();
     }
 
     public function testOfId(): void
@@ -93,6 +109,34 @@ final class BottleWriteDoctrineRepositoryTest extends KernelTestCase
 
         $this->assertNotNull(
             $bottleUpdated->picture(),
+        );
+    }
+
+    public function testDelete(): void
+    {
+        $bottle = Bottle::create(
+            BottleId::fromString('9b676c71-3ad3-4c67-a464-aefef9f1940a'),
+            BottleName::fromString('Mercurey 1er cru clos l\'évêque'),
+            BottleEstateName::fromString('Maison Patriarche'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2018),
+            BottleGrapeVarieties::fromArray(['Pinot Noir']),
+            BottleRate::fromString('-'),
+            BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(29.90),
+        );
+
+        $this->doctrineBottleWriteRepository->add($bottle);
+
+        $this->doctrineBottleWriteRepository->delete($bottle);
+
+        $bottleDeleted = $this->doctrineBottleWriteRepository->ofId(
+            BottleId::fromString('9b676c71-3ad3-4c67-a464-aefef9f1940a')
+        );
+
+        $this->assertNull(
+            $bottleDeleted,
         );
     }
 }

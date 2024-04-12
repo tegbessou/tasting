@@ -6,14 +6,18 @@ namespace App\Bottle\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Bottle\Domain\Entity\Bottle;
 use App\Bottle\Domain\Enum\Rate;
 use App\Bottle\Domain\Enum\WineType;
 use App\Bottle\Infrastructure\ApiPlatform\OpenApi\BottleFilter;
 use App\Bottle\Infrastructure\ApiPlatform\State\Processor\CreateBottleProcessor;
+use App\Bottle\Infrastructure\ApiPlatform\State\Processor\DeleteBottleProcessor;
+use App\Bottle\Infrastructure\ApiPlatform\State\Processor\PatchBottleProcessor;
 use App\Bottle\Infrastructure\ApiPlatform\State\Provider\GetCollectionProvider;
 use App\Bottle\Infrastructure\ApiPlatform\State\Provider\GetProvider;
 use App\Bottle\Infrastructure\Symfony\Controller\ReplaceBottlePictureAction;
@@ -52,6 +56,17 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             normalizationContext: ['groups' => ['read_bottle_collection']],
             filters: [BottleFilter::class],
             provider: GetCollectionProvider::class,
+        ),
+        new Delete(
+            uriTemplate: '/bottles/{id}',
+            provider: GetProvider::class,
+            processor: DeleteBottleProcessor::class,
+        ),
+        new Patch(
+            uriTemplate: '/bottles/{id}',
+            output: false,
+            provider: GetProvider::class,
+            processor: PatchBottleProcessor::class,
         ),
     ]
 )]

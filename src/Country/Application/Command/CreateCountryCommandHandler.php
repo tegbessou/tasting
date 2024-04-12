@@ -6,7 +6,7 @@ namespace App\Country\Application\Command;
 
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\Exception\CountryAlreadyExistsException;
-use App\Country\Domain\Repository\CountryReadRepositoryInterface;
+use App\Country\Domain\Repository\CountryWriteRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
 use App\Shared\Application\Command\AsCommandHandler;
 
@@ -14,7 +14,7 @@ use App\Shared\Application\Command\AsCommandHandler;
 final readonly class CreateCountryCommandHandler
 {
     public function __construct(
-        private CountryReadRepositoryInterface $countryRepository,
+        private CountryWriteRepositoryInterface $countryWriteRepository,
     ) {
     }
 
@@ -23,15 +23,15 @@ final readonly class CreateCountryCommandHandler
      */
     public function __invoke(CreateCountryCommand $command): void
     {
-        if ($this->countryRepository->exist(CountryName::fromString($command->name))) {
+        if ($this->countryWriteRepository->ofName(CountryName::fromString($command->name)) !== null) {
             throw new CountryAlreadyExistsException();
         }
 
         $country = Country::create(
-            $this->countryRepository->nextIdentity(),
+            $this->countryWriteRepository->nextIdentity(),
             CountryName::fromString($command->name),
         );
 
-        $this->countryRepository->add($country);
+        $this->countryWriteRepository->add($country);
     }
 }
