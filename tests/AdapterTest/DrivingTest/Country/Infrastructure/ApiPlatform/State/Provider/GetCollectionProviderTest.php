@@ -31,9 +31,14 @@ final class GetCollectionProviderTest extends ApiTestCase
         ]);
     }
 
-    public function testGetCollectionFilterByName(): void
-    {
-        $this->get('/api/countries?name=France');
+    /**
+     * @dataProvider provideCollectionFilter
+     */
+    public function testGetCollectionFilterByName(
+        string $uri,
+        int $totalItems,
+    ): void {
+        $this->get($uri);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -46,7 +51,15 @@ final class GetCollectionProviderTest extends ApiTestCase
                     'name' => 'France',
                 ],
             ],
-            'hydra:totalItems' => 1,
+            'hydra:totalItems' => $totalItems,
         ]);
+    }
+
+    public static function provideCollectionFilter(): \Generator
+    {
+        yield 'Filter by name' => [
+            'uri' => '/api/countries?name=France',
+            'totalItems' => 1,
+        ];
     }
 }

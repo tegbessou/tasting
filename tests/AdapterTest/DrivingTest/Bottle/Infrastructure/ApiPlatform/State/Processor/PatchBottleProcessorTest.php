@@ -113,7 +113,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
                 'estateName' => 'Penfolds',
                 'year' => 2018,
                 'grapeVarieties' => ['Syrah'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'xs',
                 'country' => 'France',
                 'price' => 620.00,
@@ -129,7 +129,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
                 'estateName' => 'Penfolds',
                 'year' => 2018,
                 'grapeVarieties' => ['Syrah'],
-                'type' => 'red',
+                'wineType' => 'red',
                 'rate' => 'xs',
                 'country' => 'France',
                 'price' => 620.00,
@@ -143,7 +143,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'payload' => [
                 'name' => null,
                 'estateName' => null,
-                'type' => null,
+                'wineType' => null,
                 'year' => null,
                 'grapeVarieties' => null,
                 'rate' => null,
@@ -161,7 +161,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
-                    'propertyPath' => 'type',
+                    'propertyPath' => 'wineType',
                     'message' => 'This value should not be blank.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
@@ -186,7 +186,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
         yield 'Bad wine type value' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
-                'type' => 'yellow',
+                'wineType' => 'yellow',
             ],
             'statusCode' => 400,
             'violations' => [],

@@ -38,29 +38,42 @@ final class CreateUserProcessorTest extends ApiTestCase
         $this->entityManager->flush();
     }
 
-    public function testCreateUserEmailAlreadyExist(): void
-    {
-        $this->post('/api/users', [
-            'email' => 'hugues.gobet@gmail.com',
-        ]);
+    /**
+     * @dataProvider provideInvalidData
+     */
+    public function testCreateUserWithInvalidData(
+        array $payload,
+        int $statusCode,
+        array $violations,
+    ): void {
+        $this->post('/api/users', $payload);
 
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'email: User with email hugues.gobet@gmail.com already exists.',
-        ]);
+        $this->assertResponseStatusCodeSame($statusCode);
+        $this->assertJsonContains($violations);
     }
 
-    public function testCreateUserNoEmail(): void
+    public static function provideInvalidData(): \Generator
     {
-        $this->post('/api/users', []);
+        yield 'Email already exist' => [
+            'payload' => [
+                'email' => 'hugues.gobet@gmail.com',
+            ],
+            'statusCode' => 422,
+            'violations' => [
+                '@type' => 'ConstraintViolationList',
+                'hydra:title' => 'An error occurred',
+                'hydra:description' => 'email: User with email hugues.gobet@gmail.com already exists.',
+            ],
+        ];
 
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
-            'hydra:description' => 'email: This value should not be blank.',
-        ]);
+        yield 'No email' => [
+            'payload' => [],
+            'statusCode' => 422,
+            'violations' => [
+                '@type' => 'ConstraintViolationList',
+                'hydra:title' => 'An error occurred',
+                'hydra:description' => 'email: This value should not be blank.',
+            ],
+        ];
     }
 }

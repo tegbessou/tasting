@@ -12,9 +12,7 @@ use App\User\Application\Command\CreateUserCommand;
 use App\User\Domain\Exception\UserAlreadyExistsException;
 use App\User\Domain\ValueObject\UserEmail;
 use App\User\Infrastructure\ApiPlatform\Resource\UserResource;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationList;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use App\User\Infrastructure\Symfony\Validator\ConstraintViolation\BuildUserAlreadyExistConstraintViolation;
 use Webmozart\Assert\Assert;
 
 /**
@@ -24,7 +22,7 @@ final readonly class CreateUserProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
-        private TranslatorInterface $translator,
+        private BuildUserAlreadyExistConstraintViolation $buildUserAlreadyExistConstraintViolation,
     ) {
     }
 
@@ -41,27 +39,7 @@ final readonly class CreateUserProcessor implements ProcessorInterface
                 ),
             );
         } catch (UserAlreadyExistsException) {
-            throw new ValidationException($this->buildAlreadyExistViolation($data->email));
+            throw new ValidationException($this->buildUserAlreadyExistConstraintViolation->build($data->email));
         }
-    }
-
-    private function buildAlreadyExistViolation(
-        string $email,
-    ): ConstraintViolationList {
-        $violations = new ConstraintViolationList();
-        $violations->add(new ConstraintViolation(
-            $this->translator->trans(
-                'user.email.already_exists',
-                ['email' => $email],
-                'validators'
-            ),
-            null,
-            [],
-            $email,
-            'email',
-            $email
-        ));
-
-        return $violations;
     }
 }

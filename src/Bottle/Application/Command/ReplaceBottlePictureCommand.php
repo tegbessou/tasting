@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Bottle\Application\Command;
 
-use App\Bottle\Domain\Entity\Bottle;
 use App\Shared\Application\Command\CommandInterface;
 
 /**
@@ -13,7 +12,7 @@ use App\Shared\Application\Command\CommandInterface;
 final class ReplaceBottlePictureCommand implements CommandInterface
 {
     public function __construct(
-        public ?Bottle $bottle,
+        public string $id,
         public string $picturePath,
         public string $pictureOriginalName,
     ) {

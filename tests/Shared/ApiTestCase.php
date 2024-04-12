@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Shared;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class ApiTestCase extends BaseApiTestCase
 {
@@ -80,6 +83,40 @@ class ApiTestCase extends BaseApiTestCase
         foreach ($members as $member) {
             self::assertArrayHasKey($attribute, $member, $message);
         }
+    }
+
+    protected function revertUploadFile(
+        string $name,
+    ): void {
+        $filesystem = new Filesystem();
+        $finder = new Finder();
+
+        $finder->files()->in('public/images/bottle/')->name($name);
+
+        if (!$finder->hasResults()) {
+            return;
+        }
+
+        foreach ($finder as $file) {
+            $absoluteFilePath = $file->getRealPath();
+
+            $filesystem->copy($absoluteFilePath, __DIR__.'/../../fixtures/images/bottle/cote-rotie.png');
+            $filesystem->remove($absoluteFilePath);
+        }
+    }
+
+    protected function assertFileExistsWithPartialName(
+        string $name,
+    ): void {
+        $finder = new Finder();
+
+        $finder->files()->in('public/images/bottle/')->name($name);
+
+        if ($finder->hasResults()) {
+            return;
+        }
+
+        throw new ExpectationFailedException(sprintf('Failed asserting that file with partial name "%s" exists.', $name));
     }
 
     private static function getHeaders(array $headers = [], string $identityProvider = 'apple'): array
