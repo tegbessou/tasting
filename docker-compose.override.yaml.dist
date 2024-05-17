@@ -6,7 +6,10 @@ services:
       - "80:80"
       - "443:443"
 
-  nginx:
+  php:
     environment:
       VIRTUAL_HOST: des-amis-du-vin.docker
+      VIRTUAL_PORT: 8080
       CERT_NAME: default
+    expose:
+      - "8080"
