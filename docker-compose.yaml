@@ -12,7 +12,6 @@ services:
   php:
     build: ./docker/php
     restart: on-failure
-    working_dir: /home/app
     volumes:
       - .:/home/app
       - ./docker/php/Caddyfile:/etc/caddy/Caddyfile
