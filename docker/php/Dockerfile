@@ -29,9 +29,9 @@ RUN uid=$(stat -c %u /home/app) && \
         sed -i "s/`id -u www-data`:`id -g www-data`/$uid:$gid/g" /etc/passwd && \
         mkdir -p /var/log/php && \
         chown -R $uid:$gid /var/log/php; \
-    else \
-        chmod 777 /home/app; \
     fi
+
+RUN chmod 777 /home/app;
 
 # Upgrade bash configuration
 COPY .bashrc /home/www-data/.bashrc
