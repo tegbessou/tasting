@@ -28,7 +28,8 @@ RUN uid=$(stat -c %u /home) && \
     if [ $uid != 0 ] || [ $gid != 0 ]; then \
         sed -i "s/`id -u www-data`:`id -g www-data`/$uid:$gid/g" /etc/passwd && \
         mkdir -p /var/log/php && \
-        chown -R $uid:$gid /var/log/php; \
+        chown -R $uid:$gid /var/log/php && \
+        chown -R www-data:www-data /home/app; \
     fi
 
 # Upgrade bash configuration
