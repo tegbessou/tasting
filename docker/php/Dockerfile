@@ -31,11 +31,13 @@ RUN uid=$(stat -c %u /home/app) && \
         chown -R $uid:$gid /var/log/php; \
     fi
 
-RUN ls -la && whoami && id;
+USER www-data;
+
+RUN ls -la /home/app && whoami && id;
 
 RUN chmod 777 /home/app;
 
-RUN ls -la && whoami && id;
+RUN ls -la /home/app && whoami && id;
 
 # Upgrade bash configuration
 COPY .bashrc /home/www-data/.bashrc
