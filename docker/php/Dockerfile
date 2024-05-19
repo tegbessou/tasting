@@ -25,8 +25,7 @@ WORKDIR /home/app
 ARG USER=www-data
 
 RUN \
- # Utilisez "adduser -D ${USER}" pour les distributions basées sur Alpine
- useradd -D ${USER}; \
+ adduser ${USER}; \
  # Ajouter la capacité supplémentaire de se lier aux ports 80 et 443
  setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
  # Donner l'accès en écriture à /data/caddy et /config/caddy
