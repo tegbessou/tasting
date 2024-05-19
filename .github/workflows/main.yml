@@ -57,7 +57,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: docker compose exec -T -u runner -e PHP_CS_FIXER_IGNORE_ENV=1 php composer install
+        run: make vendor
 
       - name: Load database
         run: make db-load-fixtures-test
