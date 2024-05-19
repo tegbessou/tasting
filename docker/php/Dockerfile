@@ -23,8 +23,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /home/app
 
 # Dynamically set www-data UID/GID based on /home/app ownership
-RUN uid=$(stat -c %u /home/app) && \
-    gid=$(stat -c %g /home/app) && \
+RUN uid=$(stat -c %u /home) && \
+    gid=$(stat -c %g /home) && \
     if [ $uid != 0 ] || [ $gid != 0 ]; then \
         sed -i "s/`id -u www-data`:`id -g www-data`/$uid:$gid/g" /etc/passwd && \
         mkdir -p /var/log/php && \
