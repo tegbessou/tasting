@@ -22,18 +22,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Set working directory
 WORKDIR /home/app
 
-ARG USER=www-data
-
-RUN \
- # Ajouter la capacité supplémentaire de se lier aux ports 80 et 443
- setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
- # Donner l'accès en écriture à /data/caddy et /config/caddy
- chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy; \
- mkdir /home/app/vendor; \
- chown -R ${USER}:${USER} /home/app/vendor;
-
-USER ${USER}
-
 # Upgrade bash configuration
 COPY .bashrc /home/www-data/.bashrc
 
