@@ -29,7 +29,8 @@ RUN \
  setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
  # Donner l'accès en écriture à /data/caddy et /config/caddy
  chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy; \
- chown -R ${USER}:${USER} /home/app;
+ mkdire /home/app/vendor; \
+ chown -R ${USER}:${USER} /home/app/vendor;
 
 USER ${USER}
 

@@ -73,7 +73,6 @@ vendor: composer.lock
 	@echo "\nInstalling composer packages...\e[0m"
 	$(EXEC_PHP) ls -la
 	$(EXEC_PHP) ls -la && whoami && id
-	@$(EXEC_PHP) mkdir /home/app/vendor || true
 	@$(COMPOSER) install
 
 ## Update composer
