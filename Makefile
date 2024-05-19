@@ -71,7 +71,9 @@ stop: docker-compose.override.yaml
 ##Install composer
 vendor: composer.lock
 	@echo "\nInstalling composer packages...\e[0m"
-	@mkdir /home/app/var || true
+	$(EXEC_PHP) ls -la
+	$(EXEC_PHP) pwd
+	@$(EXEC_PHP) mkdir /home/app/vendor || true
 	@$(COMPOSER) install
 
 ## Update composer
