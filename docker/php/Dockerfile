@@ -19,18 +19,6 @@ RUN install-php-extensions \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-ARG USER=www-data
-
-RUN \
- # Utilisez "adduser -D ${USER}" pour les distributions basées sur Alpine
- useradd -D ${USER}; \
- # Ajouter la capacité supplémentaire de se lier aux ports 80 et 443
- setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
- # Donner l'accès en écriture à /data/caddy et /config/caddy
- chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy
-
-USER ${USER}
-
 # Set working directory
 WORKDIR /home/app
 
@@ -39,3 +27,12 @@ COPY .bashrc /home/www-data/.bashrc
 
 # Expose port 8080
 EXPOSE 8080
+
+#######################
+# Override the image  #
+# ENTRYPOINT to add   #
+# some logic          #
+#######################
+COPY entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
+ENTRYPOINT ["entrypoint"]
