@@ -1,5 +1,7 @@
 FROM dunglas/frankenphp
 
+RUN apt update && apt install -y wget
+
 RUN install-php-extensions \
  pdo_mysql \
  gd \
@@ -18,6 +20,10 @@ RUN install-php-extensions \
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Security checker
+RUN wget -O /usr/local/bin/local-php-security-checker "https://github.com/fabpot/local-php-security-checker/releases/download/v1.0.0/local-php-security-checker_1.0.0_linux_amd64"
+RUN chmod +x /usr/local/bin/local-php-security-checker
 
 # Set working directory
 WORKDIR /home/app
