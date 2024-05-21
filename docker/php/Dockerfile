@@ -1,46 +1,38 @@
-FROM php:8.3-fpm-alpine
+FROM dunglas/frankenphp
 
-RUN apk update \
- && apk add --no-cache $PHPIZE_DEPS \
-    bash \
-    git \
-    zip \
-    unzip \
-    nodejs \
-    python3
+RUN apt update && apt install -y wget
 
-# PHP extensions
-RUN docker-php-ext-install opcache pdo_mysql mysqli
-RUN docker-php-ext-enable opcache
+RUN install-php-extensions \
+ pdo_mysql \
+ gd \
+ intl \
+ zip \
+ opcache
 
 RUN docker-php-source extract \
     && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/6.0.2.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
-    && mv phpredis-6.0.2 /usr/src/php/ext/redis \
-    && docker-php-ext-install redis
+    && mv phpredis-6.0.2 /usr/src/php/ext/redis
 
-RUN apk add --update icu-dev \
-	&& docker-php-ext-configure intl \
-	&& docker-php-ext-install intl
+RUN install-php-extensions \
+ redis
 
-# Install composer
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Security checker
 RUN wget -O /usr/local/bin/local-php-security-checker "https://github.com/fabpot/local-php-security-checker/releases/download/v1.0.0/local-php-security-checker_1.0.0_linux_amd64"
 RUN chmod +x /usr/local/bin/local-php-security-checker
 
-# Install yarn
-ADD https://yarnpkg.com/latest.tar.gz /opt/yarn.tar.gz
-RUN cd /opt \
-    && mkdir yarn \
-    && tar xzf yarn.tar.gz -C yarn --strip-components 1 \
-    && cd /usr/local/bin \
-    && ln -s /opt/yarn/bin/yarn
+# Set working directory
+WORKDIR /home/app
 
 # Upgrade bash configuration
 COPY .bashrc /home/www-data/.bashrc
 
-ENV PATH /usr/local/src/vendor/bin:$PATH
+# Expose port 8080
+EXPOSE 8080
 
 #######################
 # Override the image  #

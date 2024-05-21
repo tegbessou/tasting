@@ -11,8 +11,4 @@ if [ $uid != 0 ] || [ $gid != 0 ]; then
     mkdir -p /var/log/php && chown -Rf $uid:$gid /var/log/php
 fi
 
-if [ $# -eq 0 ]; then
-    php-fpm
-else
-    exec "$@"
-fi
+exec docker-php-entrypoint --config /etc/caddy/Caddyfile --adapter caddyfile
