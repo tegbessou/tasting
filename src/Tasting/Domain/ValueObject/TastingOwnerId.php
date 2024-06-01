@@ -2,16 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\BottleInventory\Domain\ValueObject;
+namespace App\Tasting\Domain\ValueObject;
 
 use App\Shared\Infrastructure\Webmozart\Assert;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Embeddable]
-final readonly class GrapeVarietyId
+final readonly class TastingOwnerId
 {
-    #[ORM\Id]
-    #[ORM\Column(name: 'id', type: 'uuid', length: 36, unique: true)]
     private string $value;
 
     public function __construct(
@@ -29,7 +25,7 @@ final readonly class GrapeVarietyId
         return new self($value);
     }
 
-    public function value(): string
+    public function id(): string
     {
         return $this->value;
     }

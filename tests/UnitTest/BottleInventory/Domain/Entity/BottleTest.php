@@ -46,6 +46,24 @@ final class BottleTest extends TestCase
         );
     }
 
+    public function testCreateFailedBadIdLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+    }
+
     public function testCreateFailedBadId(): void
     {
         $this->expectException(\InvalidArgumentException::class);

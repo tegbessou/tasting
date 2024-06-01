@@ -25,6 +25,16 @@ final class GrapeVarietyTest extends TestCase
         );
     }
 
+    public function testCreateBadIdLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        GrapeVariety::create(
+            GrapeVarietyId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
+            GrapeVarietyName::fromString('Selenor'),
+        );
+    }
+
     public function testCreateBadId(): void
     {
         $this->expectException(\InvalidArgumentException::class);

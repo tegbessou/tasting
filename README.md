@@ -6,10 +6,13 @@ Une bouteille est constituée d'un nom, d'un nom de domaine, un type (blanc, rou
 Il faut pouvoir créer une bouteille avec toutes les informations.
 Il faut pouvoir modifier une bouteille.
 Il faut pouvoir supprimer une bouteille.
-On doit pouvoir rechercher les bouteilles par : nom du vin, nom du domaine, type, date d'ajout/de dégustation, année du vin, par note
+On doit pouvoir rechercher les bouteilles par : nom du vin, nom du domaine, type, date d'ajout/de dégustation, année du vin, par note.
 Une fois qu'on a ajouté une bouteille il faut pouvoir inviter à déguster la bouteille et le faire soit même.
-Si l'appli est installé chez la personne alors elle recevra une notification.
-Sinon on doit générer un lien pour pouvoir télécharger l'application, l'envoyer à la personne et à la fin il a quand même sa notification.
+Quand on créé une dégustation on ajoute automatiquement le créateur en tant que participant, on doit renseigner pour la dégustation une bouteille.
+Pour ajouter une participant à une dégustation il faut pouvoir le chercher par son email:
+    Si l'utilisateur est déjà inscrit alors on lui envoie une notification sur son téléphone via firebase en plus d'un mail
+    Sinon on doit générer un lien pour pouvoir télécharger l'application, l'envoyer à la personne et à la fin il a quand même sa notification
+Rajouter une gestion de notification pour les dégustations.
 
 Il faut pouvoir déguster du vin la dégustation se déroule en 3 étapes :
 - L'oeil : dans laquelle on doit renseigner, la limpidité (limpide, opalescente, voilée, floue, trouble), la brillance (étincelante, éclatante, brillante, lumineuse, terne), intensité des couleurs (pâle, claire, satane, intense), couleur (si rouge: pourpre, cerise, grenat, tuilé, ambré, si rosé: pivoine, framboise, saumon, vieux rose, pelure d'oignon, si blanc: vert, blanc, doré, paille, roux), larmes (visqueuse, grasses, épaisses, roulantes, fluides), observations
@@ -118,7 +121,12 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 ## Refactoring
 Challenge identity from each entity
 Challenge the entity structure
-    => reflect if i can group some value object in other value object more global
+    => reflect if I can group some value object in other value object more global
+
+Update unit test to add check value of property after entity modification and creation
+Add in all id value object representation assert from max and min length
+
+Challenge for user the usage of id to store it in database, maybe use email everywhere because it's the identity of the user
 
 Explain architecture choices in the README
 Add an elastic search to search wine
