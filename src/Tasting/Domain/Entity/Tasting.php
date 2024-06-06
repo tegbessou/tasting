@@ -32,10 +32,6 @@ final class Tasting implements EntityWithDomainEventInterface
     ) {
     }
 
-    // reflechir s'il faut mieux utiliser un value object participant pour pouvoir les typer en owner
-    // ou s'il vaut mieux rajouter un champs owner dans la dégustation
-    // si on utilise un participant alors => quand un user est créé alors on crée un participant dans ce bounded context
-
     public static function create(
         TastingId $id,
         // rajouter le fait de vérifier que ça existe

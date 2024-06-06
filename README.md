@@ -132,3 +132,8 @@ Explain architecture choices in the README
 Add an elastic search to search wine
 
 Separate each bounded context in microservice
+
+Tasting:
+    Create an entity Participant:
+        with a last name, first name, a pseudo and an email
+        when a tasting is create verify if participant already exist get it if not create it
