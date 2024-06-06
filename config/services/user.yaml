@@ -27,10 +27,19 @@ services:
   App\Security\Application\EventListener\OnBottleUpdatedCheckIfUserIsAuthorizeToUpdateBottleEventListener:
     tags: [kernel.event_listener]
 
+  App\Security\Application\EventListener\OnBottleTastedCheckIfUserIsAuthorizeToTasteBottleEventListener:
+    tags: [kernel.event_listener]
+
   App\BottleInventory\Application\EventListener\OnOwnerNotExistEventListener:
     tags: [kernel.event_listener]
 
   App\BottleInventory\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\EventListener\OnBottleTastedNotAuthorizeEventListener:
     tags: [kernel.event_listener]
 
   App\BottleInventory\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:

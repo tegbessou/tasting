@@ -7,7 +7,8 @@ RUN install-php-extensions \
  gd \
  intl \
  zip \
- opcache
+ opcache \
+ amqp
 
 RUN docker-php-source extract \
     && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/6.0.2.tar.gz \

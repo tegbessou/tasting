@@ -22,6 +22,9 @@ services:
   App\BottleInventory\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
     tags: [kernel.event_listener]
 
+  App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
+    tags: [kernel.event_listener]
+
   App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
     alias: App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClient
 

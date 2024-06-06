@@ -18,6 +18,7 @@ use App\BottleInventory\Infrastructure\ApiPlatform\OpenApi\BottleFilter;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\CreateBottleProcessor;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\DeleteBottleProcessor;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\PatchBottleProcessor;
+use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\TasteBottleProcessor;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Provider\GetCollectionProvider;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Provider\GetProvider;
 use App\BottleInventory\Infrastructure\Symfony\Controller\ReplaceBottlePictureController;
@@ -68,6 +69,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             output: false,
             provider: GetProvider::class,
             processor: PatchBottleProcessor::class,
+        ),
+        new Post(
+            uriTemplate: '/bottles/{id}/taste',
+            status: Response::HTTP_NO_CONTENT,
+            output: false,
+            provider: GetProvider::class,
+            processor: TasteBottleProcessor::class,
         ),
     ]
 )]

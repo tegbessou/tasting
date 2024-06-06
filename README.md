@@ -130,3 +130,5 @@ Challenge for user the usage of id to store it in database, maybe use email ever
 
 Explain architecture choices in the README
 Add an elastic search to search wine
+
+Separate each bounded context in microservice

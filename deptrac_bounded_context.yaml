@@ -15,12 +15,14 @@ parameters:
                   - { type: className, regex: ^App\\Security\\Application\\Event\\OwnerNotExistEvent }
                   - { type: className, regex: ^App\\Security\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
                   - { type: className, regex: ^App\\Security\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
+                  - { type: className, regex: ^App\\Security\\Application\\Event\\BottleTastedNotAuthorizeEvent }
 
         - name: SecurityContextMap
           collectors:
             - { type: className, regex: ^App\\Security\\Application\\Event\\OwnerNotExistEvent }
             - { type: className, regex: ^App\\Security\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
             - { type: className, regex: ^App\\Security\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
+            - { type: className, regex: ^App\\Security\\Application\\Event\\BottleTastedNotAuthorizeEvent }
 
         - name: BottleInventory
           collectors:

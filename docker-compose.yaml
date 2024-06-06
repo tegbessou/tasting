@@ -37,6 +37,11 @@ services:
     networks:
       - web
 
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    networks:
+      - web
+
 networks:
     web:
 

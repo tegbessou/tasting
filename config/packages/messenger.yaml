@@ -2,6 +2,7 @@ framework:
     messenger:
         transports:
             sync: 'sync://'
+            bottle_inventory: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN)%'
         default_bus: command.bus
         buses:
             command.bus: ~
@@ -9,3 +10,11 @@ framework:
         routing:
             'App\Shared\Application\Command\CommandInterface': sync
             'App\Shared\Application\Query\QueryInterface': sync
+
+            'App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage': bottle_inventory
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                bottle_inventory: 'test://'
