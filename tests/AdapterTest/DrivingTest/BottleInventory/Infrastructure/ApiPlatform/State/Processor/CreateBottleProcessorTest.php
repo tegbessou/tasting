@@ -32,7 +32,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
             'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
             'wineType' => 'red',
             'rate' => 'xs',
-            'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
             'country' => 'France',
         ]);
 
@@ -102,7 +102,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
-                    'propertyPath' => 'ownerId',
+                    'propertyPath' => 'owner',
                     'message' => 'This value should not be blank.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
@@ -117,7 +117,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'yellow',
                 'rate' => 'xs',
-                'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
                 'country' => 'France',
             ],
             'statusCode' => 400,
@@ -132,7 +132,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'top',
-                'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
                 'country' => 'France',
             ],
             'statusCode' => 400,
@@ -147,16 +147,11 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'ownerId' => 'd46b4522-b265-4e35-8f33-c95db871b7b8',
+                'owner' => '/api/owners/d46b4522-b265-4e35-8f33-c95db871b7b8',
                 'country' => 'France',
             ],
-            'statusCode' => 422,
-            'violations' => [
-                [
-                    'propertyPath' => 'ownerId',
-                    'message' => "Owner with id d46b4522-b265-4e35-8f33-c95db871b7b8 doesn't exist.",
-                ],
-            ],
+            'statusCode' => 404,
+            'violations' => [],
         ];
 
         yield 'One grape varieties doesn\'t exist' => [
@@ -167,7 +162,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Riesling', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
                 'country' => 'France',
             ],
             'statusCode' => 422,
@@ -187,7 +182,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Riesling', 'Négrette', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
                 'country' => 'France',
             ],
             'statusCode' => 422,
@@ -207,16 +202,11 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'ownerId' => 'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
+                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
                 'country' => 'Italy',
             ],
             'statusCode' => 422,
-            'violations' => [
-                [
-                    'propertyPath' => 'country',
-                    'message' => "Country with name Italy doesn't exist.",
-                ],
-            ],
+            [],
         ];
     }
 }

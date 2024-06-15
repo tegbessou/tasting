@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Entity\Bottle;
+use App\BottleInventory\Domain\Exception\BottleOwnerDoesntExistException;
 use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
+use App\BottleInventory\Domain\Repository\OwnerReadRepositoryInterface;
 use App\BottleInventory\Domain\Service\BottleValidator;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleName;
-use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
+use App\BottleInventory\Domain\ValueObject\OwnerId;
 use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 
@@ -26,6 +28,7 @@ final readonly class CreateBottleCommandHandler
         private DomainEventDispatcherInterface $dispatcher,
         private BottleValidator $validator,
         private BottleWriteRepositoryInterface $bottleWriteRepository,
+        private OwnerReadRepositoryInterface $ownerReadRepository,
     ) {
     }
 
@@ -34,7 +37,16 @@ final readonly class CreateBottleCommandHandler
         $this->validator->validate(
             $createBottleCommand->country,
             $createBottleCommand->grapeVarieties,
+            $createBottleCommand->ownerId,
         );
+
+        $owner = $this->ownerReadRepository->ofId(
+            OwnerId::fromString($createBottleCommand->ownerId)
+        );
+
+        if ($owner === null) {
+            throw new BottleOwnerDoesntExistException($createBottleCommand->ownerId);
+        }
 
         $bottle = Bottle::create(
             $this->bottleWriteRepository->nextIdentity(),
@@ -44,7 +56,7 @@ final readonly class CreateBottleCommandHandler
             BottleYear::fromInt($createBottleCommand->year),
             BottleGrapeVarieties::fromArray($createBottleCommand->grapeVarieties),
             BottleRate::fromString($createBottleCommand->rate),
-            BottleOwnerId::fromString($createBottleCommand->ownerId),
+            $owner,
             $createBottleCommand->country !== null ? BottleCountry::fromString($createBottleCommand->country) : null,
             $createBottleCommand->price !== null ? BottlePrice::fromFloat($createBottleCommand->price) : null,
         );

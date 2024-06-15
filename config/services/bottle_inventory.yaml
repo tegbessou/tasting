@@ -13,20 +13,14 @@ services:
       - '../../src/Country/'
       - '../../src/Security/'
 
-  App\BottleInventory\Application\EventListener\OnOwnerNotExistEventListener:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
-    tags: [kernel.event_listener]
-
   App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
     tags: [kernel.event_listener]
 
   App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
     alias: App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClient
+
+  App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface:
+    alias: App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClient
 
   App\BottleInventory\Domain\Service\UploadBottlePictureServiceInterface:
     alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderService
@@ -35,6 +29,9 @@ when@test:
   services:
     App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
       alias: App\BottleInventory\Infrastructure\Country\Http\Client\CountryFakeHttpClient
+
+    App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface:
+      alias: App\BottleInventory\Infrastructure\Security\Http\Client\UserFakeHttpClient
 
     App\BottleInventory\Domain\Service\UploadBottlePictureServiceInterface:
       alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderTestService

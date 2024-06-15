@@ -19,8 +19,8 @@ use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\CreateBottleP
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\DeleteBottleProcessor;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\PatchBottleProcessor;
 use App\BottleInventory\Infrastructure\ApiPlatform\State\Processor\TasteBottleProcessor;
-use App\BottleInventory\Infrastructure\ApiPlatform\State\Provider\GetCollectionProvider;
-use App\BottleInventory\Infrastructure\ApiPlatform\State\Provider\GetProvider;
+use App\BottleInventory\Infrastructure\ApiPlatform\State\Provider\GetBottleCollectionProvider;
+use App\BottleInventory\Infrastructure\ApiPlatform\State\Provider\GetBottleProvider;
 use App\BottleInventory\Infrastructure\Symfony\Controller\ReplaceBottlePictureController;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,30 +51,30 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         ),
         new Get(
             uriTemplate: '/bottles/{id}',
-            provider: GetProvider::class,
+            provider: GetBottleProvider::class,
         ),
         new GetCollection(
             uriTemplate: '/bottles',
             normalizationContext: ['groups' => ['read_bottle_collection']],
             filters: [BottleFilter::class],
-            provider: GetCollectionProvider::class,
+            provider: GetBottleCollectionProvider::class,
         ),
         new Delete(
             uriTemplate: '/bottles/{id}',
-            provider: GetProvider::class,
+            provider: GetBottleProvider::class,
             processor: DeleteBottleProcessor::class,
         ),
         new Patch(
             uriTemplate: '/bottles/{id}',
             output: false,
-            provider: GetProvider::class,
+            provider: GetBottleProvider::class,
             processor: PatchBottleProcessor::class,
         ),
         new Post(
             uriTemplate: '/bottles/{id}/taste',
             status: Response::HTTP_NO_CONTENT,
             output: false,
-            provider: GetProvider::class,
+            provider: GetBottleProvider::class,
             processor: TasteBottleProcessor::class,
         ),
     ]
@@ -113,7 +113,7 @@ final class BottleResource
         public ?Rate $rate = null,
         #[ApiProperty]
         #[Assert\NotBlank]
-        public ?string $ownerId = null,
+        public ?OwnerResource $owner = null,
         #[ApiProperty]
         public ?string $country = null,
         #[ApiProperty]
@@ -143,7 +143,9 @@ final class BottleResource
             $bottle->year()->value(),
             $bottle->grapeVarieties()->values(),
             Rate::from($bottle->rate()->value()),
-            $bottle->ownerId()->id(),
+            OwnerResource::fromModel(
+                $bottle->owner(),
+            ),
             $bottle->country()?->value() ?? null,
             $bottle->price()?->amount() ?? null,
             picturePath: $bottle->picture()?->path() ?? null,

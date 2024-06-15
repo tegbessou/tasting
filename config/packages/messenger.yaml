@@ -3,6 +3,7 @@ framework:
         transports:
             sync: 'sync://'
             bottle_inventory: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN)%'
+            security: '%env(MESSENGER_TRANSPORT_SECURITY_DSN)%'
         default_bus: command.bus
         buses:
             command.bus: ~
@@ -13,8 +14,11 @@ framework:
 
             'App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage': bottle_inventory
 
+            'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': security
+
 when@test:
     framework:
         messenger:
             transports:
                 bottle_inventory: 'test://'
+                security: 'test://'

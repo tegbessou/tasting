@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php83\Rector\ClassConst\AddTypeToConstRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 
@@ -21,4 +22,8 @@ return RectorConfig::configure()
     ->withSkip([
         // I add this because deptrac bug if we type constant
         AddTypeToConstRector::class,
+        // I add this because reflection need to update Owner Id so I can't make it readonly
+        ReadOnlyPropertyRector::class => [
+            __DIR__.'/src/BottleInventory/Domain/ValueObject/OwnerId.php',
+        ],
     ]);

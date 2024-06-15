@@ -6,9 +6,11 @@ namespace App\Security\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Security\Domain\ValueObject\UserIsCurrent;
 use App\Security\Infrastructure\ApiPlatform\State\Processor\CreateUserProcessor;
-use Symfony\Component\Uid\AbstractUid;
+use App\Security\Infrastructure\ApiPlatform\State\Provider\GetUserProvider;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
@@ -20,17 +22,32 @@ use Symfony\Component\Validator\Constraints as Assert;
             output: false,
             processor: CreateUserProcessor::class,
         ),
+        new Get(
+            requirements: [
+                'email' => '.+',
+            ],
+            provider: GetUserProvider::class,
+        ),
     ]
 )]
 final class UserResource
 {
     public function __construct(
-        #[ApiProperty(readable: false, writable: false, identifier: true)]
-        public ?AbstractUid $id = null,
-        #[ApiProperty]
+        #[ApiProperty(identifier: true)]
         #[Assert\NotBlank]
         #[Assert\Email]
         public ?string $email = null,
+        #[ApiProperty]
+        public bool $isCurrent = false,
     ) {
+    }
+
+    public static function fromValue(
+        UserIsCurrent $userIsCurrent,
+    ): self {
+        return new self(
+            $userIsCurrent->email()->value(),
+            $userIsCurrent->isCurrent(),
+        );
     }
 }

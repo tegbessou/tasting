@@ -11,18 +11,6 @@ parameters:
                 must:
                   - type: directory
                     regex: src/Security/.*
-                must_not:
-                  - { type: className, regex: ^App\\Security\\Application\\Event\\OwnerNotExistEvent }
-                  - { type: className, regex: ^App\\Security\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
-                  - { type: className, regex: ^App\\Security\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
-                  - { type: className, regex: ^App\\Security\\Application\\Event\\BottleTastedNotAuthorizeEvent }
-
-        - name: SecurityContextMap
-          collectors:
-            - { type: className, regex: ^App\\Security\\Application\\Event\\OwnerNotExistEvent }
-            - { type: className, regex: ^App\\Security\\Application\\Event\\BottleUpdatedNotAuthorizeEvent }
-            - { type: className, regex: ^App\\Security\\Application\\Event\\BottleDeletedNotAuthorizeEvent }
-            - { type: className, regex: ^App\\Security\\Application\\Event\\BottleTastedNotAuthorizeEvent }
 
         - name: BottleInventory
           collectors:
@@ -30,20 +18,6 @@ parameters:
               must:
                 - type: directory
                   regex: src/BottleInventory/.*
-              must_not:
-                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleCreatedEvent }
-                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleDeletedEvent }
-                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleUpdatedEvent }
-                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottlePictureAddedEvent }
-                - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleTastedEvent }
-
-        - name: BottleInventoryContextMap
-          collectors:
-            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleCreatedEvent }
-            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleDeletedEvent }
-            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleUpdatedEvent }
-            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottlePictureAddedEvent }
-            - { type: className, regex: ^App\\BottleInventory\\Domain\\Event\\BottleTastedEvent }
 
         - name: Country
           collectors:
@@ -77,9 +51,7 @@ parameters:
               - { type: className, regex: ^ArrayIterator }
 
     ruleset:
-        Security: [ Shared, Vendors, BottleInventoryContextMap, SecurityContextMap ]
-        SecurityContextMap: [ Shared, Vendors ]
-        BottleInventory: [ Shared, Vendors, BottleInventoryContextMap, SecurityContextMap ]
-        BottleInventoryContextMap: [ Shared, Vendors ]
+        Security: [ Shared, Vendors ]
+        BottleInventory: [ Shared, Vendors ]
         Country: [ Shared, Vendors ]
         Shared: [ Vendors ]

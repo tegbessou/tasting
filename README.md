@@ -127,6 +127,8 @@ Update unit test to add check value of property after entity modification and cr
 Add in all id value object representation assert from max and min length
 
 Challenge for user the usage of id to store it in database, maybe use email everywhere because it's the identity of the user
+Reflect if I can use value object in command and query
+Challenge to create one validator by command
 
 Explain architecture choices in the README
 Add an elastic search to search wine
