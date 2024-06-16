@@ -11,26 +11,26 @@ use Doctrine\ORM\Mapping as ORM;
 final readonly class OwnerEmail
 {
     #[ORM\Column(name: 'email', type: 'string')]
-    private string $email;
+    private string $value;
 
     public function __construct(
-        string $email,
+        string $value,
     ) {
-        Assert::string($email);
-        Assert::maxLength($email, 255);
-        Assert::email($email);
+        Assert::string($value);
+        Assert::maxLength($value, 255);
+        Assert::email($value);
 
-        $this->email = $email;
+        $this->value = $value;
     }
 
     public static function fromString(
-        string $email,
+        string $value,
     ): self {
-        return new self($email);
+        return new self($value);
     }
 
     public function value(): string
     {
-        return $this->email;
+        return $this->value;
     }
 }

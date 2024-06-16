@@ -19,10 +19,14 @@ final readonly class UserHttpReadRepository implements UserReadRepositoryInterfa
     }
 
     #[\Override]
-    public function ofEmail(OwnerEmail $email): User
+    public function ofEmail(OwnerEmail $email): ?User
     {
-        return $this->userTranslator->toUser(
-            $this->userHttpClient->ofEmail($email->value())
-        );
+        try {
+            return $this->userTranslator->toUser(
+                $this->userHttpClient->ofEmail($email->value())
+            );
+        } catch (\LogicException) {
+            return null;
+        }
     }
 }

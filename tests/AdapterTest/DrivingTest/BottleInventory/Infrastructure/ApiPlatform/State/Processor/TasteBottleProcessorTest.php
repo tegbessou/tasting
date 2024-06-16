@@ -61,7 +61,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
         );
 
         $this->doctrineBottleWriteRepository->add($bottle);
-        $this->transport('bottle_inventory')->queue()->assertEmpty();
+        $this->transport('bottle_inventory_to_tasting')->queue()->assertEmpty();
 
         $this->post('/api/bottles/72dcf99e-823e-4c0b-b841-49175a1e68e5/taste');
 
@@ -72,7 +72,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(204);
         $this->assertNotNull($bottle->tastedAt());
 
-        $this->transport('bottle_inventory')->queue()->assertContains(BottleTastedMessage::class, 1);
+        $this->transport('bottle_inventory_to_tasting')->queue()->assertContains(BottleTastedMessage::class, 1);
 
         $this->doctrineBottleWriteRepository->delete($bottle);
     }

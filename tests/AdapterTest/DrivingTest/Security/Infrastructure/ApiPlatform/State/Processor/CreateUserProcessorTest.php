@@ -29,7 +29,7 @@ final class CreateUserProcessorTest extends ApiTestCase
 
     public function testCreateUser(): void
     {
-        $this->transport('security')->queue()->assertEmpty();
+        $this->transport('security_to_bottle_inventory')->queue()->assertEmpty();
 
         $this->post('/api/users', [
             'email' => 'new-user@gmail.com',
@@ -37,7 +37,7 @@ final class CreateUserProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(204);
 
-        $this->transport('security')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('security_to_bottle_inventory')->queue()->assertContains(UserCreatedMessage::class, 1);
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email.value' => 'new-user@gmail.com',

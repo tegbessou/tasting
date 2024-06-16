@@ -12,14 +12,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final readonly class MessengerBrokerService implements MessageBrokerServiceInterface
 {
     public function __construct(
-        private MessageBusInterface $messageBus,
+        private MessageBusInterface $eventBus,
     ) {
     }
 
     #[\Override]
     public function dispatchUserCreatedMessage(UserCreatedEvent $event): void
     {
-        $this->messageBus->dispatch(
+        $this->eventBus->dispatch(
             UserCreatedMessage::fromEvent($event)
         );
     }

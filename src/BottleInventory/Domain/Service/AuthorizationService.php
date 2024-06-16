@@ -6,6 +6,7 @@ namespace App\BottleInventory\Domain\Service;
 
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Repository\UserReadRepositoryInterface;
+use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 
 final readonly class AuthorizationService
 {
@@ -19,8 +20,18 @@ final readonly class AuthorizationService
     ): bool {
         $user = $this->userReadRepository->ofEmail($bottle->owner()->email());
 
+        if ($user === null) {
+            return false;
+        }
+
         return $user->isCurrentUser()
             && $bottle->owner()->email()->value() === $user->email()->value()
         ;
+    }
+
+    public function isExistUser(
+        OwnerEmail $ownerEmail
+    ): bool {
+        return $this->userReadRepository->ofEmail($ownerEmail) !== null;
     }
 }

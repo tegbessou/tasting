@@ -8,16 +8,16 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 
 final readonly class UserEmail
 {
-    private string $email;
+    private string $value;
 
     public function __construct(
-        string $email,
+        string $value,
     ) {
-        Assert::string($email);
-        Assert::maxLength($email, 255);
-        Assert::email($email);
+        Assert::string($value);
+        Assert::maxLength($value, 255);
+        Assert::email($value);
 
-        $this->email = $email;
+        $this->value = $value;
     }
 
     public static function fromString(
@@ -28,6 +28,6 @@ final readonly class UserEmail
 
     public function value(): string
     {
-        return $this->email;
+        return $this->value;
     }
 }

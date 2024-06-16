@@ -139,3 +139,23 @@ Tasting:
     Create an entity Participant:
         with a last name, first name, a pseudo and an email
         when a tasting is create verify if participant already exist get it if not create it
+
+## In progress
+To finish Tasting creation
+- [X] Consume message User created
+    - [X] Create Owner
+    - [X] Test
+- [ ] Consume message Tasting created
+    - [ ] Check if user exist is owner of the bottle
+    - [ ] Check if bottle exist
+    - [ ] Test
+- [ ] Create entity Participant
+    - [ ] Create entity
+    - [ ] Add relation with tasting handle Many to Many (store only id of participant)
+    - [ ] Test
+- [ ] Dispatch message when User created to create a participant
+    - [ ] Dispatch message
+    - [ ] Test
+- [ ] Consume message User created => in queue
+    - [ ] Create Participant
+    - [ ] Test

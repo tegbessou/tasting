@@ -9,5 +9,5 @@ use App\BottleInventory\Domain\ValueObject\User;
 
 interface UserReadRepositoryInterface
 {
-    public function ofEmail(OwnerEmail $email): User;
+    public function ofEmail(OwnerEmail $email): ?User;
 }
