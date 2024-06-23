@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Repository;
+namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Doctrine\Repository;
 
 use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
@@ -55,7 +55,7 @@ final class OwnerWriteDoctrineRepositoryTest extends KernelTestCase
         $owner = Owner::create(
             OwnerId::fromString('7e2d9640-0a56-4860-bbf2-21ed1fd8f592'),
             OwnerEmail::fromString('pedro@gmail.com'),
-            OwnerFullName::fromString('Pedro Juarez'),
+            OwnerFullName::fromString('ParticipantReadDoctrineRepository Juarez'),
         );
 
         $this->doctrineOwnerWriteRepository->add($owner);
@@ -72,7 +72,7 @@ final class OwnerWriteDoctrineRepositoryTest extends KernelTestCase
             'pedro@gmail.com', $owner->email()->value(),
         );
         $this->assertEquals(
-            'Pedro Juarez', $owner->fullName()->value(),
+            'ParticipantReadDoctrineRepository Juarez', $owner->fullName()->value(),
         );
 
         $container = static::getContainer();

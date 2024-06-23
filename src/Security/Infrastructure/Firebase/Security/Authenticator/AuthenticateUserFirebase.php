@@ -58,4 +58,20 @@ final readonly class AuthenticateUserFirebase implements AuthenticateUserInterfa
 
         return new UserAuthenticated($payload->data()['email']);
     }
+
+    #[\Override]
+    public function authenticateUserWithFirebase(string $token): UserAuthenticated
+    {
+        try {
+            $payload = $this->auth->parseToken($token);
+        } catch (FailedToSignIn) {
+            throw new InvalidTokenException();
+        }
+
+        if (!$payload->claims()->has('email')) {
+            throw new InvalidPayloadException($payload->claims()->get('email') ?? '');
+        }
+
+        return new UserAuthenticated($payload->claims()->get('email'));
+    }
 }

@@ -10,7 +10,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Security\Domain\ValueObject\UserIsCurrent;
 use App\Security\Infrastructure\ApiPlatform\State\Processor\CreateUserProcessor;
+use App\Security\Infrastructure\ApiPlatform\State\Processor\LogInUserProcessor;
 use App\Security\Infrastructure\ApiPlatform\State\Provider\GetUserProvider;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
@@ -21,6 +23,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("PUBLIC_ACCESS")',
             output: false,
             processor: CreateUserProcessor::class,
+        ),
+        new Post(
+            '/users/login',
+            denormalizationContext: ['groups' => ['login']],
+            security: 'is_granted("PUBLIC_ACCESS")',
+            validationContext: ['groups' => ['login']],
+            output: AuthorizeTokenResource::class,
+            processor: LogInUserProcessor::class,
         ),
         new Get(
             requirements: [
@@ -34,11 +44,16 @@ final class UserResource
 {
     public function __construct(
         #[ApiProperty(identifier: true)]
-        #[Assert\NotBlank]
-        #[Assert\Email]
+        #[Assert\NotBlank(groups: ['Default', 'login'])]
+        #[Assert\Email(groups: ['Default', 'login'])]
+        #[Groups(['Default', 'login'])]
         public ?string $email = null,
         #[ApiProperty]
         public bool $isCurrent = false,
+        #[ApiProperty]
+        #[Assert\NotBlank(groups: ['login'])]
+        #[Groups(['login'])]
+        public ?string $password = null,
     ) {
     }
 

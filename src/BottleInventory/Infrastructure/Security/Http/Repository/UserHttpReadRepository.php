@@ -14,7 +14,6 @@ final readonly class UserHttpReadRepository implements UserReadRepositoryInterfa
 {
     public function __construct(
         private UserHttpClientInterface $userHttpClient,
-        private UserTranslator $userTranslator,
     ) {
     }
 
@@ -22,10 +21,10 @@ final readonly class UserHttpReadRepository implements UserReadRepositoryInterfa
     public function ofEmail(OwnerEmail $email): ?User
     {
         try {
-            return $this->userTranslator->toUser(
+            return UserTranslator::toUser(
                 $this->userHttpClient->ofEmail($email->value())
             );
-        } catch (\LogicException) {
+        } catch (\LogicException $e) {
             return null;
         }
     }

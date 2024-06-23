@@ -4,6 +4,7 @@ parameters:
         - ./src/Shared
         - ./src/Security
         - ./src/Country
+        - ./src/Tasting
 
     layers:
         - name: Domain

@@ -10,6 +10,9 @@ use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
+/**
+ * @group Current
+ */
 final class CreateUserProcessorTest extends ApiTestCase
 {
     use InteractsWithMessenger;
@@ -38,6 +41,7 @@ final class CreateUserProcessorTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(204);
 
         $this->transport('security_to_bottle_inventory')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email.value' => 'new-user@gmail.com',

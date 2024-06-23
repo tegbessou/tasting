@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\UnitTest\Tasting\Domain\Entity;
 
+use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Event\TastingParticipantsInvitedEvent;
 use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\ParticipantEmail;
+use App\Tasting\Domain\ValueObject\ParticipantFullName;
+use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Domain\ValueObject\TastingParticipants;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +23,11 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $this->assertInstanceOf(Tasting::class, $tasting);
@@ -34,7 +41,7 @@ final class TastingTest extends TestCase
         );
         $this->assertEquals(
             TastingParticipants::fromArray([
-                'be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+                '9964e539-05ff-4611-b39c-ffd6d108b8b7',
             ]),
             $tasting->participants(),
         );
@@ -47,7 +54,11 @@ final class TastingTest extends TestCase
         Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
     }
 
@@ -58,7 +69,11 @@ final class TastingTest extends TestCase
         Tasting::create(
             TastingId::fromString('12'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
     }
 
@@ -69,7 +84,11 @@ final class TastingTest extends TestCase
         Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
     }
 
@@ -80,29 +99,11 @@ final class TastingTest extends TestCase
         Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('12'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
-        );
-    }
-
-    public function testCreateFailedBadTastingOwnerIdLength(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Tasting::create(
-            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-        );
-    }
-
-    public function testCreateFailedBadTastingOwnerId(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Tasting::create(
-            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('12'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
     }
 
@@ -111,15 +112,57 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
-        $tasting->inviteParticipants(['05e8984e-45cd-44d4-8d42-f5c4e6bd6192']);
+        $tasting->inviteParticipants(
+            [
+                Participant::create(
+                    ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+                    ParticipantEmail::fromString('root@gmail.com'),
+                    ParticipantFullName::fromString('Root'),
+                ),
+            ]
+        );
 
         $this->assertEquals(
             TastingParticipants::fromArray([
-                'be6d32dc-2313-4dbf-8c66-6807d1335bbc',
-                '05e8984e-45cd-44d4-8d42-f5c4e6bd6192',
+                '9964e539-05ff-4611-b39c-ffd6d108b8b7',
+                'c9350812-3f30-4fa4-8580-295ca65a4451',
+            ]),
+            $tasting->participants(),
+        );
+    }
+
+    public function testInviteParticipantsThatAlreadyExist(): void
+    {
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
+        );
+
+        $tasting->inviteParticipants(
+            [
+                Participant::create(
+                    ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                    ParticipantEmail::fromString('root@gmail.com'),
+                    ParticipantFullName::fromString('Root'),
+                ),
+            ]
+        );
+
+        $this->assertEquals(
+            TastingParticipants::fromArray([
+                '9964e539-05ff-4611-b39c-ffd6d108b8b7',
             ]),
             $tasting->participants(),
         );
@@ -130,19 +173,31 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $tasting->inviteParticipants([
-            '05e8984e-45cd-44d4-8d42-f5c4e6bd6192',
-            '15863a42-a737-43c8-8bb9-2d448eb47300',
+            Participant::create(
+                ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+                ParticipantEmail::fromString('root@gmail.com'),
+                ParticipantFullName::fromString('Root'),
+            ),
+            Participant::create(
+                ParticipantId::fromString('51c7a8b2-5cd9-478e-8176-f2318725b14a'),
+                ParticipantEmail::fromString('not.existing@gmail.com'),
+                ParticipantFullName::fromString('Not Existing'),
+            ),
         ]);
 
         $this->assertEquals(
             TastingParticipants::fromArray([
-                'be6d32dc-2313-4dbf-8c66-6807d1335bbc',
-                '05e8984e-45cd-44d4-8d42-f5c4e6bd6192',
-                '15863a42-a737-43c8-8bb9-2d448eb47300',
+                '9964e539-05ff-4611-b39c-ffd6d108b8b7',
+                'c9350812-3f30-4fa4-8580-295ca65a4451',
+                '51c7a8b2-5cd9-478e-8176-f2318725b14a',
             ]),
             $tasting->participants(),
         );
@@ -153,7 +208,11 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $this->expectException(\InvalidArgumentException::class);
@@ -166,7 +225,11 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $this->expectException(\InvalidArgumentException::class);
@@ -179,7 +242,11 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $this->assertInstanceOf(TastingCreatedEvent::class, $tasting::getRecordedEvent()[0]);
@@ -193,7 +260,11 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $this->assertEmpty($tasting::getRecordedEvent()[0]);
@@ -204,13 +275,21 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $tasting::eraseRecordedEvents();
 
         $tasting->inviteParticipants([
-            '05e8984e-45cd-44d4-8d42-f5c4e6bd6192',
+            Participant::create(
+                ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+                ParticipantEmail::fromString('root@gmail.com'),
+                ParticipantFullName::fromString('Root'),
+            ),
         ]);
 
         $this->assertInstanceOf(TastingParticipantsInvitedEvent::class, $tasting::getRecordedEvent()[0]);
@@ -222,7 +301,11 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            TastingOwnerId::fromString('be6d32dc-2313-4dbf-8c66-6807d1335bbc'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
         );
 
         $tasting::eraseRecordedEvents();

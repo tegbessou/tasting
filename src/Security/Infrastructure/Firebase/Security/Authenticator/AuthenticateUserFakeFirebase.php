@@ -27,4 +27,10 @@ final readonly class AuthenticateUserFakeFirebase implements AuthenticateUserInt
     {
         return new UserAuthenticated('hugues.gobet@gmail.com');
     }
+
+    #[\Override]
+    public function authenticateUserWithFirebase(string $token): UserAuthenticated
+    {
+        return new UserAuthenticated('services.tasting@gmail.com');
+    }
 }

@@ -7,8 +7,12 @@ namespace App\BottleInventory\Domain\Repository;
 use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
+use App\Shared\Domain\Repository\ReadRepositoryInterface;
 
-interface OwnerReadRepositoryInterface
+/**
+ * @extends ReadRepositoryInterface<Owner>
+ */
+interface OwnerReadRepositoryInterface extends ReadRepositoryInterface
 {
     public function ofId(OwnerId $id): ?Owner;
 

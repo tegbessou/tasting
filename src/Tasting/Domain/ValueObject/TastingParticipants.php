@@ -30,15 +30,18 @@ final readonly class TastingParticipants
         );
     }
 
+    /**
+     * @param string[] $participants
+     */
     public static function fromArray(array $participants): self
     {
         return new self($participants);
     }
 
-    public static function fromOwner(TastingOwnerId $ownerId): self
+    public static function fromOwner(ParticipantId $participantId): self
     {
         return new self([
-            $ownerId->id(),
+            $participantId->id(),
         ]);
     }
 

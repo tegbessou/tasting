@@ -11,6 +11,7 @@ services:
     resource: '../../src/'
     exclude:
       - '../../src/Country/'
+      - '../../src/Tasting/'
       - '../../src/Security/'
 
   App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:

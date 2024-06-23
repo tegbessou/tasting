@@ -10,17 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class TastingId
 {
-    #[ORM\Column(name: 'id', type: 'string', length: 36, unique: true)]
-    private string $value;
+    #[ORM\Id]
+    #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
+    private string $id;
 
     public function __construct(
-        string $value,
+        string $id,
     ) {
-        Assert::minLength($value, 36);
-        Assert::maxLength($value, 36);
-        Assert::uuid($value);
+        Assert::minLength($id, 36);
+        Assert::maxLength($id, 36);
+        Assert::uuid($id);
 
-        $this->value = $value;
+        $this->id = $id;
     }
 
     public static function fromString(string $value): self
@@ -28,8 +29,8 @@ final readonly class TastingId
         return new self($value);
     }
 
-    public function value(): string
+    public function id(): string
     {
-        return $this->value;
+        return $this->id;
     }
 }

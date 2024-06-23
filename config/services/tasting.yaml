@@ -1,0 +1,30 @@
+parameters:
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    bind:
+      $kernelProjectDirectory: '%kernel.project_dir%'
+      $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
+      $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
+
+  App\:
+    resource: '../../src/'
+    exclude:
+      - '../../src/BottleInventory/'
+      - '../../src/Country/'
+      - '../../src/Security/'
+
+  # I don't understand what this is necessary but if I remove this I have an exception ServiceNotFoundException
+  App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository
+    public: true
+
+  App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
+    alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
+
+when@test:
+  services:
+    App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
+      alias: App\Tasting\Infrastructure\Security\Http\Client\UserFakeHttpClient

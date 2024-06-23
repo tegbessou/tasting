@@ -12,3 +12,4 @@ services:
     exclude:
       - '../../src/BottleInventory/'
       - '../../src/Security/'
+      - '../../src/Tasting/'

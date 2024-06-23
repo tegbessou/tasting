@@ -6,14 +6,20 @@ services:
     autoconfigure: true
     bind:
       $kernelProjectDirectory: '%kernel.project_dir%'
+      $emailBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN)%'
+      $passwordBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD)%'
 
   App\:
     resource: '../../src/'
     exclude:
       - '../../src/Country/'
+      - '../../src/Tasting/'
 
   App\Security\Domain\Service\AuthenticateUserInterface:
     alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
+
+  App\Security\Domain\Service\LogInInterface:
+    alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFirebase
 
   App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
     tags: [kernel.event_listener]
@@ -25,3 +31,6 @@ when@test:
   services:
     App\Security\Domain\Service\AuthenticateUserInterface:
       alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
+
+    App\Security\Domain\Service\LogInInterface:
+      alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFakeFirebase

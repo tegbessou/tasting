@@ -34,9 +34,31 @@ framework:
                     queues:
                         bottle_inventory:
                             binding_keys: [bottle_inventory]
+            security_to_tasting:
+                dsn: '%env(MESSENGER_TRANSPORT_SECURITY_TO_TASTING_DSN)%'
+                serializer: messenger.transport.symfony_serializer
+                options:
+                    exchange:
+                        name: tasting
+                        type: direct
+                        default_publish_routing_key: tasting
+                    queues:
+                        tasting:
+                            binding_keys: [tasting]
             bottle_inventory_to_tasting:
                 dsn: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_TO_TASTING_DSN)%'
                 serializer: messenger.transport.symfony_serializer
+                options:
+                    exchange:
+                        name: tasting
+                        type: direct
+                        default_publish_routing_key: tasting
+                    queues:
+                        tasting:
+                            binding_keys: [tasting]
+            tasting:
+                dsn: '%env(MESSENGER_TRANSPORT_TASTING_DSN)%'
+                serializer: App\Tasting\Infrastructure\Symfony\Messenger\Serializer\SecurityExternalMessageSerializer
                 options:
                     exchange:
                         name: tasting
@@ -56,7 +78,7 @@ framework:
 
             'App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage': bottle_inventory_to_tasting
 
-            'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': security_to_bottle_inventory
+            'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': [security_to_bottle_inventory, security_to_tasting]
 
 when@test:
     framework:
@@ -67,7 +89,12 @@ when@test:
                     serializer: messenger.transport.native_php_serializer
                 security: 'test://'
                 security_to_bottle_inventory: 'test://'
+                security_to_tasting: 'test://'
                 bottle_inventory_to_tasting: 'test://'
+                tasting:
+                    dsn: 'test://'
+                    serializer: messenger.transport.native_php_serializer
 
             routing:
                 'App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': bottle_inventory
+                'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': tasting

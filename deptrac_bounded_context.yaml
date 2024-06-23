@@ -24,6 +24,11 @@ parameters:
               - type: directory
                 regex: src/Country/.*
 
+        - name: Tasting
+          collectors:
+              - type: directory
+                regex: src/Tasting/.*
+
         - name: Shared
           collectors:
               - type: directory
@@ -54,4 +59,5 @@ parameters:
         Security: [ Shared, Vendors ]
         BottleInventory: [ Shared, Vendors ]
         Country: [ Shared, Vendors ]
+        Tasting: [ Shared, Vendors ]
         Shared: [ Vendors ]

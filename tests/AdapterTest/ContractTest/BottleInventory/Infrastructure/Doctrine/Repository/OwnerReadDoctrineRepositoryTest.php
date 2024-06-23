@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Repository;
+namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Doctrine\Repository;
 
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerId;

@@ -11,7 +11,6 @@ use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Event\TastingParticipantsInvitedEvent;
 use App\Tasting\Domain\ValueObject\BottleId;
 use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Domain\ValueObject\TastingParticipants;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,8 +26,9 @@ final class Tasting implements EntityWithDomainEventInterface
         private BottleId $bottleId,
         #[ORM\Embedded(columnPrefix: false)]
         private TastingParticipants $participants,
-        #[ORM\Embedded(columnPrefix: false)]
-        private TastingOwnerId $ownerId,
+        #[ORM\ManyToOne(targetEntity: Participant::class)]
+        #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
+        private Participant $owner,
     ) {
     }
 
@@ -37,19 +37,19 @@ final class Tasting implements EntityWithDomainEventInterface
         // rajouter le fait de vérifier que ça existe
         BottleId $bottleId,
         // rajouter le fait de vérifier que ça existe
-        TastingOwnerId $ownerId,
+        Participant $owner,
     ): self {
         $tasting = new self(
             $id,
             $bottleId,
-            TastingParticipants::fromOwner($ownerId),
-            $ownerId,
+            TastingParticipants::fromOwner($owner->id()),
+            $owner,
         );
 
         self::recordEvent(
             new TastingCreatedEvent(
-                $tasting->id->value(),
-                $tasting->ownerId->id(),
+                $tasting->id->id(),
+                $owner->id()->id(),
             )
         );
 
@@ -57,19 +57,31 @@ final class Tasting implements EntityWithDomainEventInterface
     }
 
     public function inviteParticipants(
+        // verify that participants exist
         array $participants,
     ): void {
-        Assert::allUuid($participants);
-        Assert::allMinLength($participants, 36);
-        Assert::allMaxLength($participants, 36);
+        Assert::allIsInstanceOf($participants, Participant::class);
 
-        $this->participants = $this->participants()->add($participants);
+        $participantsUuid = [];
+
+        /** @var Participant $participant */
+        foreach ($participants as $participant) {
+            if (in_array($participant->id()->id(), $this->participants->values())) {
+                continue;
+            }
+
+            $participantsUuid[] = $participant->id()->id();
+        }
+
+        $this->participants = $this->participants()->add(
+            $participantsUuid
+        );
 
         self::recordEvent(
             new TastingParticipantsInvitedEvent(
-                $this->id->value(),
+                $this->id->id(),
                 $this->participants->values(),
-                $this->ownerId->id(),
+                $this->owner->id()->id(),
             )
         );
     }
@@ -87,5 +99,10 @@ final class Tasting implements EntityWithDomainEventInterface
     public function participants(): TastingParticipants
     {
         return $this->participants;
+    }
+
+    public function owner(): Participant
+    {
+        return $this->owner;
     }
 }

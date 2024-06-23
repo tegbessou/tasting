@@ -140,6 +140,17 @@ Tasting:
         with a last name, first name, a pseudo and an email
         when a tasting is create verify if participant already exist get it if not create it
 
+Replace HttpRepository
+    => HttpRepository should only be used to get data (replace HttpClient)
+    => Adapter should be used to call the repository + translate data with Translator
+    => Country/Bottle/User to replace
+
+Create a participant when we invite a participant that doesn't exist
+    => If not exist
+    => If a participant already exist when we create the user
+
+Add log on exception + create a channel by bounded context
+
 ## In progress
 To finish Tasting creation
 - [X] Consume message User created
@@ -147,15 +158,24 @@ To finish Tasting creation
     - [X] Test
 - [ ] Consume message Tasting created
     - [ ] Check if user exist is owner of the bottle
+    - [X] Add link between owner and tasting
     - [ ] Check if bottle exist
+      - [ ] Add repository to find bottle by id
+      - [ ] 
+    - [X] Check if adding participant not already invited => Not re add information
     - [ ] Test
-- [ ] Create entity Participant
-    - [ ] Create entity
-    - [ ] Add relation with tasting handle Many to Many (store only id of participant)
-    - [ ] Test
-- [ ] Dispatch message when User created to create a participant
-    - [ ] Dispatch message
-    - [ ] Test
-- [ ] Consume message User created => in queue
-    - [ ] Create Participant
-    - [ ] Test
+- [X] Create entity Participant
+    - [X] Create entity
+    - [X] Add relation with tasting handle Many to Many (store only id of participant)
+    - [X] Test
+- [X] Dispatch message when User created to create a participant
+    - [X] Dispatch message
+    - [X] Test
+- [X] Consume message User created => in queue
+    - [X] Create Participant
+    - [X] Test
+- [X] Pour se connecter à l'api utiliser un compte de service
+  - [X] Create a service account
+  - [X] Create an endpoint to login uniquelly with email account
+  - [X] Test
+  - [X] Create a service to login with email

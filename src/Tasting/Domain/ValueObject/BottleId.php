@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final class BottleId
 {
-    #[ORM\Column(name: 'bottle_id', type: 'string', length: 36, unique: true)]
+    #[ORM\Column(name: 'bottle_id', type: 'uuid', unique: true)]
     private readonly string $id;
 
     public function __construct(

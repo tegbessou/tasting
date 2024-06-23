@@ -20,7 +20,14 @@ final readonly class AuthenticateUserCommand implements CommandInterface
         public string $token,
         string $providerId,
     ) {
-        Assert::inArray($providerId, [AuthenticateUserInterface::IDENTITY_PROVIDER_APPLE, AuthenticateUserInterface::IDENTITY_PROVIDER_GOOGLE]);
+        Assert::inArray(
+            $providerId,
+            [
+                AuthenticateUserInterface::IDENTITY_PROVIDER_APPLE,
+                AuthenticateUserInterface::IDENTITY_PROVIDER_GOOGLE,
+                AuthenticateUserInterface::IDENTITY_PROVIDER_FIREBASE,
+            ],
+        );
 
         $this->providerId = $providerId;
     }

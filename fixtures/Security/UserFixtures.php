@@ -26,6 +26,16 @@ final class UserFixtures extends Fixture
             UserEmail::fromString('root@gmail.com'),
         );
 
+        $users[] = User::create(
+            UserId::fromString('246d37c8-c196-40bc-a8a8-c741ec8e3a13'),
+            UserEmail::fromString('services.bottle_inventory@gmail.com'),
+        );
+
+        $users[] = User::create(
+            UserId::fromString('cf9f5035-23ca-4a48-bc5d-c5b25ff55f01'),
+            UserEmail::fromString('services.tasting@gmail.com'),
+        );
+
         foreach ($users as $user) {
             $manager->persist($user);
         }

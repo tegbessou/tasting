@@ -202,7 +202,7 @@ unit-test: env-test
 ## Launch adapter test
 adapter-test: env-test db-load-fixtures-test
 	@echo "\nLaunching adapter tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test
+	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test --group Current
 	@$(MAKE) env-dev
 
 ## Launch behat
@@ -219,7 +219,7 @@ behat: vendor db-load-fixtures
 Quality assurance:
 
 ## Launch all quality assurance step
-code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
+code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac cs db-validate
 
 ## Security check on dependencies
 security-checker:

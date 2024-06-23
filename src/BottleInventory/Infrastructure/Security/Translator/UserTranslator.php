@@ -9,7 +9,7 @@ use App\BottleInventory\Domain\ValueObject\UserEmail;
 
 final class UserTranslator
 {
-    public function toUser(array $data): User
+    public static function toUser(array $data): User
     {
         if ($data === []) {
             throw new \LogicException();
@@ -17,7 +17,7 @@ final class UserTranslator
 
         return User::create(
             UserEmail::fromString($data['email']),
-            $data['isCurrentUser'],
+            $data['isCurrent'],
         );
     }
 }

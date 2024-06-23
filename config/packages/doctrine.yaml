@@ -9,23 +9,29 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            BottleInventory:
+            bottle_inventory:
                 type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/BottleInventory/Domain/'
                 prefix: 'App\BottleInventory\Domain\'
                 alias: App
-            Country:
+            country:
                 type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Country/Domain/'
                 prefix: 'App\Country\Domain\'
                 alias: App
-            Security:
+            security:
                 type: attribute
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/Security/Domain/'
                 prefix: 'App\Security\Domain\'
+                alias: App
+            tasting:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Tasting/Domain/'
+                prefix: 'App\Tasting\Domain\'
                 alias: App
 
 when@test:
