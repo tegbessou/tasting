@@ -11,9 +11,6 @@ use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMess
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
-/**
- * @group Current
- */
 final class CreateParticipantMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;

@@ -9,9 +9,6 @@ use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * @group Current
- */
 final class ParticipantReadDoctrineRepositoryTest extends KernelTestCase
 {
     private ParticipantReadDoctrineRepository $doctrineParticipantRepository;

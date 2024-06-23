@@ -6,9 +6,6 @@ namespace App\Tests\AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\
 
 use App\Tests\Shared\ApiTestCase;
 
-/**
- * @group Current
- */
 final class LoginUserProcessorTest extends ApiTestCase
 {
     public function testLoginUser(): void

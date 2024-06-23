@@ -10,9 +10,6 @@ use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
-/**
- * @group Current
- */
 final class CreateUserProcessorTest extends ApiTestCase
 {
     use InteractsWithMessenger;

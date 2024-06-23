@@ -18,7 +18,7 @@ final readonly class UserFakeHttpClient implements UserHttpClientInterface
 
         if ($email === 'root@gmail.com') {
             return [
-                'email' => 'not.current.user@gmail.com',
+                'email' => 'root@gmail.com',
                 'isCurrent' => false,
             ];
         }

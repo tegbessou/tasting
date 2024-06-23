@@ -161,7 +161,7 @@ To finish Tasting creation
     - [X] Add link between owner and tasting
     - [ ] Check if bottle exist
       - [ ] Add repository to find bottle by id
-      - [ ] 
+      - [ ] Test
     - [X] Check if adding participant not already invited => Not re add information
     - [ ] Test
 - [X] Create entity Participant

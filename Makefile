@@ -202,7 +202,7 @@ unit-test: env-test
 ## Launch adapter test
 adapter-test: env-test db-load-fixtures-test
 	@echo "\nLaunching adapter tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test --group Current
+	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test
 	@$(MAKE) env-dev
 
 ## Launch behat
