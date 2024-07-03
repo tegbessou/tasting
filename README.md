@@ -6,10 +6,13 @@ Une bouteille est constituée d'un nom, d'un nom de domaine, un type (blanc, rou
 Il faut pouvoir créer une bouteille avec toutes les informations.
 Il faut pouvoir modifier une bouteille.
 Il faut pouvoir supprimer une bouteille.
-On doit pouvoir rechercher les bouteilles par : nom du vin, nom du domaine, type, date d'ajout/de dégustation, année du vin, par note
+On doit pouvoir rechercher les bouteilles par : nom du vin, nom du domaine, type, date d'ajout/de dégustation, année du vin, par note.
 Une fois qu'on a ajouté une bouteille il faut pouvoir inviter à déguster la bouteille et le faire soit même.
-Si l'appli est installé chez la personne alors elle recevra une notification.
-Sinon on doit générer un lien pour pouvoir télécharger l'application, l'envoyer à la personne et à la fin il a quand même sa notification.
+Quand on créé une dégustation on ajoute automatiquement le créateur en tant que participant, on doit renseigner pour la dégustation une bouteille.
+Pour ajouter une participant à une dégustation il faut pouvoir le chercher par son email:
+    Si l'utilisateur est déjà inscrit alors on lui envoie une notification sur son téléphone via firebase en plus d'un mail
+    Sinon on doit générer un lien pour pouvoir télécharger l'application, l'envoyer à la personne et à la fin il a quand même sa notification
+Rajouter une gestion de notification pour les dégustations.
 
 Il faut pouvoir déguster du vin la dégustation se déroule en 3 étapes :
 - L'oeil : dans laquelle on doit renseigner, la limpidité (limpide, opalescente, voilée, floue, trouble), la brillance (étincelante, éclatante, brillante, lumineuse, terne), intensité des couleurs (pâle, claire, satane, intense), couleur (si rouge: pourpre, cerise, grenat, tuilé, ambré, si rosé: pivoine, framboise, saumon, vieux rose, pelure d'oignon, si blanc: vert, blanc, doré, paille, roux), larmes (visqueuse, grasses, épaisses, roulantes, fluides), observations
@@ -118,7 +121,64 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 ## Refactoring
 Challenge identity from each entity
 Challenge the entity structure
-    => reflect if i can group some value object in other value object more global
+    => reflect if I can group some value object in other value object more global
+
+Update unit test to add check value of property after entity modification and creation
+Add in all id value object representation assert from max and min length
+
+Challenge for user the usage of id to store it in database, maybe use email everywhere because it's the identity of the user
+Reflect if I can use value object in command and query
+Challenge to create one validator by command
 
 Explain architecture choices in the README
 Add an elastic search to search wine
+
+Separate each bounded context in microservice
+
+Tasting:
+    Create an entity Participant:
+        with a last name, first name, a pseudo and an email
+        when a tasting is create verify if participant already exist get it if not create it
+
+Replace HttpRepository
+    => HttpRepository should only be used to get data (replace HttpClient)
+    => Adapter should be used to call the repository + translate data with Translator
+    => Country/Bottle/User to replace
+
+Create a participant when we invite a participant that doesn't exist
+    => If not exist
+    => If a participant already exist when we create the user
+
+Add log on exception + create a channel by bounded context
+Http client must have method to get, post, put and delete
+Http repository must use the http client get to do query and return data
+
+## In progress
+To finish Tasting creation
+- [X] Consume message User created
+    - [X] Create Owner
+    - [X] Test
+- [X] Consume message Tasting created
+    - [X] Check if user exist is owner of the bottle
+    - [X] Add link between owner and tasting
+    - [X] Check if bottle exist
+      - [X] Add repository to find bottle by id
+      - [X] Test
+    - [X] Check if owner exist
+    - [X] Check if adding participant not already invited => Not re add information
+    - [X] Test
+- [X] Create entity Participant
+    - [X] Create entity
+    - [X] Add relation with tasting handle Many to Many (store only id of participant)
+    - [X] Test
+- [X] Dispatch message when User created to create a participant
+    - [X] Dispatch message
+    - [X] Test
+- [X] Consume message User created => in queue
+    - [X] Create Participant
+    - [X] Test
+- [X] Pour se connecter à l'api utiliser un compte de service
+  - [X] Create a service account
+  - [X] Create an endpoint to login uniquelly with email account
+  - [X] Test
+  - [X] Create a service to login with email

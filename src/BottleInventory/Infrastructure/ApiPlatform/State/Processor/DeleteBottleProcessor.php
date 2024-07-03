@@ -7,11 +7,13 @@ namespace App\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\BottleInventory\Application\Command\DeleteBottleCommand;
+use App\BottleInventory\Domain\Exception\BottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\DeleteBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @implements ProcessorInterface<BottleResource, void>
@@ -33,6 +35,8 @@ final readonly class DeleteBottleProcessor implements ProcessorInterface
             $this->commandBus->dispatch(
                 new DeleteBottleCommand($data->id->__toString())
             );
+        } catch (BottleDoesntExistException) {
+            throw new NotFoundHttpException();
         } catch (DeleteBottleNotAuthorizeForThisUserException) {
             throw new AccessDeniedHttpException();
         }

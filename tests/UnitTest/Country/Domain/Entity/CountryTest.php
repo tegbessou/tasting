@@ -24,7 +24,17 @@ final class CountryTest extends TestCase
         );
     }
 
-    public function testCreateFailedWithBadUuid(): void
+    public function testCreateFailedWithBadIdLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Country::create(
+            CountryId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
+            CountryName::fromString('France2'),
+        );
+    }
+
+    public function testCreateFailedWithBadId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

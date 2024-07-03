@@ -14,6 +14,7 @@ use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleGrapeVarietiesDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleOwnerDoesntExistException;
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\OwnerResource;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildCountryDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerDoesntExistConstraintViolation;
@@ -46,8 +47,9 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
         Assert::notNull($data->grapeVarieties);
         Assert::notNull($data->rate);
         Assert::isInstanceOf($data->rate, Rate::class);
-        Assert::notNull($data->ownerId);
-        Assert::uuid($data->ownerId);
+        Assert::isInstanceOf($data->owner, OwnerResource::class);
+        Assert::notNull($data->owner->id);
+        Assert::uuid($data->owner->id->toRfc4122());
 
         if ($data->price !== null) {
             Assert::positiveFloat($data->price);
@@ -62,7 +64,7 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
                     $data->year,
                     $data->grapeVarieties,
                     $data->rate->value,
-                    $data->ownerId,
+                    $data->owner->id->toRfc4122(),
                     $data->country,
                     $data->price,
                 ),

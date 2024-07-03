@@ -64,5 +64,7 @@ final class UserWriteDoctrineRepositoryTest extends KernelTestCase
         $user = $this->doctrineUserWriteRepository->ofEmail(UserEmail::fromString('pedro@gmail.com'));
 
         $this->assertNotNull($user);
+
+        $user::eraseRecordedEvents();
     }
 }

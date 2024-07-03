@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Exception\UpdateBottleDoesntExistException;
+use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
+use App\BottleInventory\Domain\Service\AuthorizationService;
 use App\BottleInventory\Domain\Service\BottleValidator;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
@@ -26,6 +28,7 @@ final readonly class UpdateBottleCommandHandler
         private BottleWriteRepositoryInterface $bottleWriteRepository,
         private DomainEventDispatcher $eventDispatcher,
         private BottleValidator $bottleValidator,
+        private AuthorizationService $authorizationService,
     ) {
     }
 
@@ -43,6 +46,12 @@ final readonly class UpdateBottleCommandHandler
 
         if ($bottle === null) {
             throw new UpdateBottleDoesntExistException();
+        }
+
+        if (
+            $this->authorizationService->isCurrentUserOwnerOfTheBottle($bottle) === false
+        ) {
+            throw new UpdateBottleNotAuthorizeForThisUserException();
         }
 
         $bottle->update(

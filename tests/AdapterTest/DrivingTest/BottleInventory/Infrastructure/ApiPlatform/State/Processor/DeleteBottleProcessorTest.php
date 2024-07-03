@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
 use App\BottleInventory\Domain\Entity\Bottle;
+use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
-use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
 use App\BottleInventory\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRepository;
 use App\Tests\Shared\ApiTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class DeleteBottleProcessorTest extends ApiTestCase
 {
     private BottleWriteDoctrineRepository $doctrineBottleWriteRepository;
+    private EntityManagerInterface $entityManager;
 
     #[\Override]
     public function setUp(): void
@@ -29,12 +31,18 @@ final class DeleteBottleProcessorTest extends ApiTestCase
 
         $container = static::getContainer();
         $this->doctrineBottleWriteRepository = $container->get(BottleWriteDoctrineRepository::class);
+        $this->entityManager = $container->get(EntityManagerInterface::class);
 
         parent::setUp();
     }
 
     public function testDeleteBottle(): void
     {
+        $owner = $this->entityManager
+            ->getRepository(Owner::class)
+            ->find('be6d32dc-2313-4dbf-8c66-6807d1335bbc')
+        ;
+
         $bottle = Bottle::create(
             BottleId::fromString('9b676c71-3ad3-4c67-a464-aefef9f1940a'),
             BottleName::fromString('Mercurey 1er cru clos l\'évêque'),
@@ -43,7 +51,7 @@ final class DeleteBottleProcessorTest extends ApiTestCase
             BottleYear::fromInt(2018),
             BottleGrapeVarieties::fromArray(['Pinot Noir']),
             BottleRate::fromString('-'),
-            BottleOwnerId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'),
+            $owner,
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(29.90),
         );
@@ -78,7 +86,7 @@ final class DeleteBottleProcessorTest extends ApiTestCase
             'statusCode' => 404,
         ];
 
-        yield 'Bottle not owned by user which try to remove it' => [
+        yield 'BottleInventory not owned by user which try to remove it' => [
             'id' => '97102d4c-da46-4105-8c34-53f5a2e1e9fa',
             'statusCode' => 403,
         ];

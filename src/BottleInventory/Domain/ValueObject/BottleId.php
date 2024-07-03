@@ -11,11 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
 final readonly class BottleId
 {
     #[ORM\Id]
-    #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
+    #[ORM\Column(name: 'id', type: 'uuid', length: 36, unique: true)]
     private string $value;
 
     public function __construct(string $value)
     {
+        Assert::minLength($value, 36);
+        Assert::maxLength($value, 36);
         Assert::uuid($value);
 
         $this->value = $value;

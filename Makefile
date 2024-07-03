@@ -54,7 +54,7 @@ logs: docker-compose.override.yaml ##Logs from docker
 Project:
 
 ## Up the project and load database
-install: build up vendor db-load-fixtures
+install: build up vendor db-load-fixtures setup-transports
 
 ## Reset the project
 reset: down install
@@ -71,7 +71,6 @@ stop: docker-compose.override.yaml
 ##Install composer
 vendor: composer.lock
 	@echo "\nInstalling composer packages...\e[0m"
-	$(EXEC_PHP) ls -la && $(EXEC_PHP) whoami && $(EXEC_PHP) id
 	@$(COMPOSER) install
 
 ## Update composer
@@ -110,6 +109,11 @@ import-country:
 import-country-test: env-test
 	@echo "Import country from file...\e[0m"
 	@$(EXEC_SYMFONY) country:import
+
+## Setup messenger transports
+setup-transports: env-test
+	@echo "Setup messenger transports...\e[0m"
+	@$(EXEC_SYMFONY) messenger:setup-transports
 
 .PHONY: install reset start stop vendor composer-update cc wait-db
 

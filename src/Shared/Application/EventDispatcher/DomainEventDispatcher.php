@@ -22,8 +22,6 @@ final readonly class DomainEventDispatcher implements DomainEventDispatcherInter
             foreach ($entity::getRecordedEvent() as $event) {
                 $this->eventDispatcher->dispatch($event);
             }
-        } catch (\Exception $exception) {
-            throw $exception;
         } finally {
             $entity::eraseRecordedEvents();
         }

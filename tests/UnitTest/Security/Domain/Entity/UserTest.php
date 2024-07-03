@@ -35,7 +35,17 @@ final class UserTest extends TestCase
         );
     }
 
-    public function testCreateSuccessWithBadUuid(): void
+    public function testCreateSuccessWithBadIdLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        User::create(
+            UserId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
+            UserEmail::fromString('hugues.gobet@gmail.com'),
+        );
+    }
+
+    public function testCreateSuccessWithBadId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

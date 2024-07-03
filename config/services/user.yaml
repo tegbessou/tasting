@@ -6,37 +6,31 @@ services:
     autoconfigure: true
     bind:
       $kernelProjectDirectory: '%kernel.project_dir%'
+      $emailBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN)%'
+      $passwordBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD)%'
 
   App\:
     resource: '../../src/'
     exclude:
       - '../../src/Country/'
+      - '../../src/Tasting/'
 
   App\Security\Domain\Service\AuthenticateUserInterface:
     alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
 
-  App\Security\Application\EventListener\OnBottleCreatedCheckIfOwnerExistEventListener:
+  App\Security\Domain\Service\LogInInterface:
+    alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFirebase
+
+  App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
     tags: [kernel.event_listener]
 
-  App\Security\Application\EventListener\OnBottleAddedPictureCheckIfUserIsAuthorizeToUpdateBottleEventListener:
-    tags: [kernel.event_listener]
-
-  App\Security\Application\EventListener\OnBottleDeletedCheckIfUserIsAuthorizeToDeleteBottleEventListener:
-    tags: [kernel.event_listener]
-
-  App\Security\Application\EventListener\OnBottleUpdatedCheckIfUserIsAuthorizeToUpdateBottleEventListener:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\EventListener\OnOwnerNotExistEventListener:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\EventListener\OnBottleUpdatedNotAuthorizeEventListener:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\EventListener\OnBottleDeletedNotAuthorizeEventListener:
+  App\Security\Application\EventListener\OnUserCreatedEventListener:
     tags: [kernel.event_listener]
 
 when@test:
   services:
     App\Security\Domain\Service\AuthenticateUserInterface:
       alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
+
+    App\Security\Domain\Service\LogInInterface:
+      alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFakeFirebase

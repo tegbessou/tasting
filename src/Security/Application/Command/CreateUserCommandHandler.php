@@ -8,12 +8,14 @@ use App\Security\Domain\Entity\User;
 use App\Security\Domain\Exception\UserAlreadyExistsException;
 use App\Security\Domain\Repository\UserWriteRepositoryInterface;
 use App\Shared\Application\Command\AsCommandHandler;
+use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class CreateUserCommandHandler
 {
     public function __construct(
         private UserWriteRepositoryInterface $userWriteRepository,
+        private DomainEventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -30,6 +32,8 @@ final readonly class CreateUserCommandHandler
             $this->userWriteRepository->nextIdentity(),
             $createUserCommand->email,
         );
+
+        $this->dispatcher->dispatch($user);
 
         $this->userWriteRepository->add($user);
     }

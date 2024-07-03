@@ -20,6 +20,8 @@ services:
     networks:
       - web
     tty: true
+    external_links:
+      - nginx-proxy:des-amis-du-vin.docker
 
   db:
     image: mariadb:10.11
@@ -34,6 +36,11 @@ services:
 
   redis:
     image: redis:7.2-alpine
+    networks:
+      - web
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
     networks:
       - web
 

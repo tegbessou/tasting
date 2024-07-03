@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Country\Domain\Entity\Country;
 use App\Country\Infrastructure\ApiPlatform\OpenApi\CountryFilter;
-use App\Country\Infrastructure\ApiPlatform\State\Provider\GetCollectionProvider;
+use App\Country\Infrastructure\ApiPlatform\State\Provider\GetCountryCollectionProvider;
 use Symfony\Component\Uid\AbstractUid;
 use Symfony\Component\Uid\Uuid;
 
@@ -19,7 +19,7 @@ use Symfony\Component\Uid\Uuid;
     operations: [
         new GetCollection(
             filters: [CountryFilter::class],
-            provider: GetCollectionProvider::class,
+            provider: GetCountryCollectionProvider::class,
         ),
     ],
 )]

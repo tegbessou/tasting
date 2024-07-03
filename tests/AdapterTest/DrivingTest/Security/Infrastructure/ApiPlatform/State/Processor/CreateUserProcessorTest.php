@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Processor;
 
 use App\Security\Domain\Entity\User;
+use App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class CreateUserProcessorTest extends ApiTestCase
 {
+    use InteractsWithMessenger;
+
     private EntityManagerInterface $entityManager;
 
     #[\Override]
@@ -25,15 +29,21 @@ final class CreateUserProcessorTest extends ApiTestCase
 
     public function testCreateUser(): void
     {
+        $this->transport('security_to_bottle_inventory')->queue()->assertEmpty();
+
         $this->post('/api/users', [
             'email' => 'new-user@gmail.com',
         ]);
 
         $this->assertResponseStatusCodeSame(204);
 
+        $this->transport('security_to_bottle_inventory')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
+
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email.value' => 'new-user@gmail.com',
         ]);
+
         $this->entityManager->remove($user);
         $this->entityManager->flush();
     }

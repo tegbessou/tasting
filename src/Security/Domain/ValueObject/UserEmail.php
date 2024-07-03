@@ -31,4 +31,9 @@ final readonly class UserEmail
     {
         return $this->value;
     }
+
+    public function equals(UserEmail $email): bool
+    {
+        return $this->value === $email->value;
+    }
 }

@@ -30,6 +30,7 @@ final readonly class AuthenticateUserCommandHandler
         match ($authenticateUserCommand->providerId) {
             AuthenticateUserInterface::IDENTITY_PROVIDER_APPLE => $userAuthenticated = $this->authenticateUser->authenticateUserWithApple($authenticateUserCommand->token),
             AuthenticateUserInterface::IDENTITY_PROVIDER_GOOGLE => $userAuthenticated = $this->authenticateUser->authenticateUserWithGoogle($authenticateUserCommand->token),
+            AuthenticateUserInterface::IDENTITY_PROVIDER_FIREBASE => $userAuthenticated = $this->authenticateUser->authenticateUserWithFirebase($authenticateUserCommand->token),
             default => throw new IdentityProviderDoesntExistException('Invalid provider id'),
         };
 

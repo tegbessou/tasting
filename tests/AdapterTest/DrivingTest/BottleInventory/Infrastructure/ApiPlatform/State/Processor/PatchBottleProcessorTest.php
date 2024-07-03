@@ -66,7 +66,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
     public function testUpdateOwnerIdWithoutEffect(): void
     {
         $this->patch('/api/bottles/7bd55df3-e53c-410b-83a4-8e5ed9bcd50d', [
-            'ownerId' => '05e8984e-45cd-44d4-8d42-f5c4e6bd6192',
+            'owner' => '/api/owners/0e4ccb23-7a1f-4f30-b188-6aad71b4735f',
         ]);
 
         $this->assertResponseStatusCodeSame(204);
@@ -76,8 +76,8 @@ final class PatchBottleProcessorTest extends ApiTestCase
         );
 
         $this->assertEquals(
-            'ee036f3b-d488-43be-b10c-fdbdcb0a6c0b',
-            $bottle->ownerId()->id(),
+            'be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+            $bottle->owner()->id()->value(),
         );
     }
 
@@ -122,7 +122,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [],
         ];
 
-        yield 'Bottle not owned by user which try to update it' => [
+        yield 'BottleInventory not owned by user which try to update it' => [
             'id' => '97102d4c-da46-4105-8c34-53f5a2e1e9fa',
             'payload' => [
                 'name' => 'Grange',
@@ -138,7 +138,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [],
         ];
 
-        yield 'Bottle update without data' => [
+        yield 'BottleInventory update without data' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
                 'name' => null,

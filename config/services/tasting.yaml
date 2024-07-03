@@ -1,0 +1,48 @@
+parameters:
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    bind:
+      $kernelProjectDirectory: '%kernel.project_dir%'
+      $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
+      $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
+
+  App\:
+    resource: '../../src/'
+    exclude:
+      - '../../src/BottleInventory/'
+      - '../../src/Country/'
+      - '../../src/Security/'
+
+  # I don't understand what this is necessary but if I remove this I have an exception ServiceNotFoundException
+  App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository
+    public: true
+
+  App\Tasting\Domain\Repository\TastingReadRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository
+    public: true
+
+  App\Tasting\Domain\Repository\TastingWriteRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\TastingWriteDoctrineRepository
+    public: true
+
+  App\Tasting\Domain\Repository\BottleReadRepositoryInterface:
+    alias: App\Tasting\Infrastructure\BottleInventory\Http\Repository\BottleReadHttpRepository
+    public: true
+
+  App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
+    alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
+
+  App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClientInterface:
+    alias: App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClient
+
+when@test:
+  services:
+    App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClientInterface:
+      alias: App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryFakeHttpClient
+
+    App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
+      alias: App\Tasting\Infrastructure\Security\Http\Client\UserFakeHttpClient

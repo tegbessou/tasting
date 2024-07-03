@@ -25,7 +25,7 @@ class ApiTestCase extends BaseApiTestCase
         ]);
     }
 
-    protected function post(string $uri, array $json, array $headers = [], string $identityProvider = 'apple'): void
+    protected function post(string $uri, array $json = [], array $headers = [], string $identityProvider = 'apple'): void
     {
         $client = static::createClient();
 

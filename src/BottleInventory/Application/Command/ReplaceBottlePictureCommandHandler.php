@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Exception\ReplaceBottlePictureBottleDoesntExistException;
+use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
+use App\BottleInventory\Domain\Service\AuthorizationService;
 use App\BottleInventory\Domain\Service\UploadBottlePictureServiceInterface;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
@@ -19,6 +21,7 @@ final readonly class ReplaceBottlePictureCommandHandler
         private BottleWriteRepositoryInterface $bottleWriteRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
         private UploadBottlePictureServiceInterface $uploadBottlePicture,
+        private AuthorizationService $authorizationService,
     ) {
     }
 
@@ -34,6 +37,10 @@ final readonly class ReplaceBottlePictureCommandHandler
 
         if ($bottle === null) {
             throw new ReplaceBottlePictureBottleDoesntExistException();
+        }
+
+        if ($this->authorizationService->isCurrentUserOwnerOfTheBottle($bottle) === false) {
+            throw new UpdateBottleNotAuthorizeForThisUserException();
         }
 
         $this->uploadBottlePicture->upload(

@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final readonly class BottleGrapeVarieties
 {
-    /** @var string[] */
     #[ORM\Column(name: 'grape_varieties', type: 'json')]
     private array $values;
 

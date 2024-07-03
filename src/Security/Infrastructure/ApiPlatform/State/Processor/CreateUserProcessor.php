@@ -6,7 +6,7 @@ namespace App\Security\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use ApiPlatform\Symfony\Validator\Exception\ValidationException;
+use ApiPlatform\Validator\Exception\ValidationException;
 use App\Security\Application\Command\CreateUserCommand;
 use App\Security\Domain\Exception\UserAlreadyExistsException;
 use App\Security\Domain\ValueObject\UserEmail;
