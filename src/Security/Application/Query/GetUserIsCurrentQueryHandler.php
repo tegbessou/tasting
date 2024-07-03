@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Application\Query;
 
+use App\Security\Domain\Entity\User;
 use App\Security\Domain\Repository\UserReadRepositoryInterface;
 use App\Security\Domain\Service\GetUserAuthenticatedInterface;
 use App\Security\Domain\ValueObject\UserIsCurrent;
@@ -26,9 +27,17 @@ final readonly class GetUserIsCurrentQueryHandler
             return null;
         }
 
-        return new UserIsCurrent(
+        return UserIsCurrent::create(
             $user->email(),
-            $this->getUserAuthenticated->getUser()->email()->equals($user->email()),
+            $this->isCurrentOrService($user),
         );
+    }
+
+    private function isCurrentOrService(
+        User $user,
+    ): bool {
+        return $this->getUserAuthenticated->getUser()->email()->equals($user->email())
+            || str_contains($this->getUserAuthenticated->getUser()->email()->value(), 'services')
+        ;
     }
 }

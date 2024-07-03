@@ -150,20 +150,23 @@ Create a participant when we invite a participant that doesn't exist
     => If a participant already exist when we create the user
 
 Add log on exception + create a channel by bounded context
+Http client must have method to get, post, put and delete
+Http repository must use the http client get to do query and return data
 
 ## In progress
 To finish Tasting creation
 - [X] Consume message User created
     - [X] Create Owner
     - [X] Test
-- [ ] Consume message Tasting created
-    - [ ] Check if user exist is owner of the bottle
+- [X] Consume message Tasting created
+    - [X] Check if user exist is owner of the bottle
     - [X] Add link between owner and tasting
-    - [ ] Check if bottle exist
-      - [ ] Add repository to find bottle by id
-      - [ ] Test
+    - [X] Check if bottle exist
+      - [X] Add repository to find bottle by id
+      - [X] Test
+    - [X] Check if owner exist
     - [X] Check if adding participant not already invited => Not re add information
-    - [ ] Test
+    - [X] Test
 - [X] Create entity Participant
     - [X] Create entity
     - [X] Add relation with tasting handle Many to Many (store only id of participant)

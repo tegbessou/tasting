@@ -14,7 +14,7 @@ final class GetBottleProviderTest extends ApiTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
-            '@context' => '/api/contexts/Bottle',
+            '@context' => '/api/contexts/BottleInventory',
         ]);
     }
 

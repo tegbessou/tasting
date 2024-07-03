@@ -9,6 +9,6 @@ final class BottleDoesntExistException extends \Exception
     public function __construct(
         public readonly string $bottleId,
     ) {
-        parent::__construct(sprintf('Bottle %s does not exist', $this->bottleId));
+        parent::__construct(sprintf('BottleInventory %s does not exist', $this->bottleId));
     }
 }

@@ -9,6 +9,8 @@ use App\Tasting\Domain\ValueObject\ParticipantId;
 
 interface ParticipantWriteRepositoryInterface
 {
+    public function ofId(ParticipantId $id): ?Participant;
+
     public function add(Participant $participant): void;
 
     public function nextIdentity(): ParticipantId;

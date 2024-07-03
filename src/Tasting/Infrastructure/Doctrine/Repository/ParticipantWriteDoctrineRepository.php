@@ -17,6 +17,16 @@ final readonly class ParticipantWriteDoctrineRepository implements ParticipantWr
     ) {
     }
 
+    #[\Override]
+    public function ofId(ParticipantId $id): ?Participant
+    {
+        return $this->entityManager->find(
+            Participant::class,
+            $id
+        );
+    }
+
+    #[\Override]
     public function add(
         Participant $participant
     ): void {
@@ -24,6 +34,7 @@ final readonly class ParticipantWriteDoctrineRepository implements ParticipantWr
         $this->entityManager->flush();
     }
 
+    #[\Override]
     public function nextIdentity(): ParticipantId
     {
         return ParticipantId::fromString(

@@ -25,11 +25,13 @@ final class ParticipantReadDoctrineRepository extends DoctrineReadRepository imp
         parent::__construct($entityManager, self::ENTITY_CLASS, self::ALIAS);
     }
 
+    #[\Override]
     public function ofId(ParticipantId $id): ?Participant
     {
         return $this->entityManager->find(Participant::class, $id);
     }
 
+    #[\Override]
     public function ofEmail(ParticipantEmail $email): ?Participant
     {
         return $this->entityManager->getRepository(self::ENTITY_CLASS)->createQueryBuilder('p')
@@ -40,6 +42,7 @@ final class ParticipantReadDoctrineRepository extends DoctrineReadRepository imp
         ;
     }
 
+    #[\Override]
     public function exist(ParticipantId $id): bool
     {
         return $this->entityManager->find(Participant::class, $id) !== null;

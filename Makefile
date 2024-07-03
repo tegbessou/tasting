@@ -219,7 +219,7 @@ behat: vendor db-load-fixtures
 Quality assurance:
 
 ## Launch all quality assurance step
-code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac cs db-validate
+code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
 
 ## Security check on dependencies
 security-checker:

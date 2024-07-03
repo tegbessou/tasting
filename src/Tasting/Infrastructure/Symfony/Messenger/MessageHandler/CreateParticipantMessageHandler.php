@@ -35,7 +35,7 @@ final readonly class CreateParticipantMessageHandler
                     $createdMessage->fullName,
                 ),
             );
-        } catch (ParticipantAlreadyExistException|ParticipantDoesntExistInSecurityException $e) {
+        } catch (ParticipantAlreadyExistException|ParticipantDoesntExistInSecurityException) {
             throw new UnrecoverableMessageHandlingException();
         }
     }

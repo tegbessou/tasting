@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Symfony\Messenger\Serializer;
 
+use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
-final class SecurityExternalMessageSerializer implements SerializerInterface
+final class ExternalMessageSerializer implements SerializerInterface
 {
     private const USER_CREATED_MESSAGE = 'UserCreatedMessage';
+    private const BOTTLE_TASTED_MESSAGE = 'BottleTastedMessage';
 
     #[\Override]
     public function decode(array $encodedEnvelope): Envelope
@@ -23,6 +25,13 @@ final class SecurityExternalMessageSerializer implements SerializerInterface
             return new Envelope(new UserCreatedMessage(
                 $data['email'],
                 $data['fullName'],
+            ));
+        }
+
+        if (str_contains((string) $headers['type'], self::BOTTLE_TASTED_MESSAGE)) {
+            return new Envelope(new BottleTastedMessage(
+                $data['bottleId'],
+                $data['ownerEmail'],
             ));
         }
 

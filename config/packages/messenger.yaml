@@ -4,7 +4,7 @@ framework:
             sync: 'sync://'
             bottle_inventory:
                 dsn: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN)%'
-                serializer: App\BottleInventory\Infrastructure\Symfony\Messenger\Serializer\SecurityExternalMessageSerializer
+                serializer: App\BottleInventory\Infrastructure\Symfony\Messenger\Serializer\ExternalMessageSerializer
                 options:
                     exchange:
                         name: bottle_inventory
@@ -58,7 +58,7 @@ framework:
                             binding_keys: [tasting]
             tasting:
                 dsn: '%env(MESSENGER_TRANSPORT_TASTING_DSN)%'
-                serializer: App\Tasting\Infrastructure\Symfony\Messenger\Serializer\SecurityExternalMessageSerializer
+                serializer: App\Tasting\Infrastructure\Symfony\Messenger\Serializer\ExternalMessageSerializer
                 options:
                     exchange:
                         name: tasting
@@ -98,3 +98,4 @@ when@test:
             routing:
                 'App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': bottle_inventory
                 'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': tasting
+                'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage': tasting

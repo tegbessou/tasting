@@ -48,6 +48,7 @@ final class BottleReadDoctrineRepositoryTest extends KernelTestCase
             ->getIterator()
         ;
 
+        $this->assertNotNull($bottles->current());
         $this->assertStringContainsString('Château', $bottles->current()->name()->value());
     }
 
@@ -57,6 +58,7 @@ final class BottleReadDoctrineRepositoryTest extends KernelTestCase
             ->getIterator()
         ;
 
+        $this->assertNotNull($bottles->current());
         $this->assertStringContainsString('Château', $bottles->current()->estateName()->value());
     }
 
@@ -66,6 +68,7 @@ final class BottleReadDoctrineRepositoryTest extends KernelTestCase
             ->getIterator()
         ;
 
+        $this->assertNotNull($bottles->current());
         $this->assertEquals(2011, $bottles->current()->year()->value());
     }
 
@@ -75,6 +78,7 @@ final class BottleReadDoctrineRepositoryTest extends KernelTestCase
             ->getIterator()
         ;
 
+        $this->assertNotNull($bottles->current());
         $this->assertEquals('++', $bottles->current()->rate()->value());
     }
 
@@ -84,6 +88,7 @@ final class BottleReadDoctrineRepositoryTest extends KernelTestCase
             ->getIterator()
         ;
 
+        $this->assertNotNull($bottles->current());
         $this->assertEquals('white', $bottles->current()->wineType()->value());
     }
 }

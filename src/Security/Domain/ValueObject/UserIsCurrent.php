@@ -12,6 +12,16 @@ final readonly class UserIsCurrent
     ) {
     }
 
+    public static function create(
+        UserEmail $email,
+        bool $current,
+    ): self {
+        return new self(
+            $email,
+            $current,
+        );
+    }
+
     public function email(): UserEmail
     {
         return $this->email;

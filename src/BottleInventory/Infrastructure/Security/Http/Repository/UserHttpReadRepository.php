@@ -24,7 +24,7 @@ final readonly class UserHttpReadRepository implements UserReadRepositoryInterfa
             return UserTranslator::toUser(
                 $this->userHttpClient->ofEmail($email->value())
             );
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             return null;
         }
     }

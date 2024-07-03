@@ -32,7 +32,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
 #[ApiResource(
-    shortName: 'Bottle',
+    shortName: 'BottleInventory',
     operations: [
         new Post(
             uriTemplate: '/bottles',

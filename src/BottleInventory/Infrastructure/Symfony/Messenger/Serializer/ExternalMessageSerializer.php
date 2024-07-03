@@ -8,7 +8,7 @@ use App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCre
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
-final class SecurityExternalMessageSerializer implements SerializerInterface
+final class ExternalMessageSerializer implements SerializerInterface
 {
     private const USER_CREATED_MESSAGE = 'UserCreatedMessage';
 

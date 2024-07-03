@@ -122,7 +122,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [],
         ];
 
-        yield 'Bottle not owned by user which try to update it' => [
+        yield 'BottleInventory not owned by user which try to update it' => [
             'id' => '97102d4c-da46-4105-8c34-53f5a2e1e9fa',
             'payload' => [
                 'name' => 'Grange',
@@ -138,7 +138,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [],
         ];
 
-        yield 'Bottle update without data' => [
+        yield 'BottleInventory update without data' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
                 'name' => null,

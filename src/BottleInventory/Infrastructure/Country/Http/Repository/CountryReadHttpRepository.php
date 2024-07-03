@@ -8,7 +8,7 @@ use App\BottleInventory\Domain\Repository\CountryReadRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\CountryName;
 use App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface;
 
-final readonly class CountryHttpReadRepository implements CountryReadRepositoryInterface
+final readonly class CountryReadHttpRepository implements CountryReadRepositoryInterface
 {
     public function __construct(
         private CountryHttpClientInterface $countryHttpClient,

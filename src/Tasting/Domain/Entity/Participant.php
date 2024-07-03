@@ -13,7 +13,7 @@ use App\Tasting\Domain\ValueObject\ParticipantId;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Participant implements EntityWithDomainEventInterface
+class Participant implements EntityWithDomainEventInterface
 {
     use EntityDomainEventTrait;
 

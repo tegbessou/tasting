@@ -34,7 +34,7 @@ final class Tasting implements EntityWithDomainEventInterface
 
     public static function create(
         TastingId $id,
-        // rajouter le fait de vérifier que ça existe
+        // rajouter le fait de vérifier que ça existe en tant que bouteille
         BottleId $bottleId,
         // rajouter le fait de vérifier que ça existe
         Participant $owner,

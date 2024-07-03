@@ -9,8 +9,8 @@ use App\BottleInventory\Domain\Event\BottleTastedEvent;
 final readonly class BottleTastedMessage
 {
     public function __construct(
-        private string $bottleId,
-        private string $ownerId,
+        public string $bottleId,
+        public string $ownerEmail,
     ) {
     }
 
@@ -21,15 +21,5 @@ final readonly class BottleTastedMessage
             $event->bottleId,
             $event->ownerId,
         );
-    }
-
-    public function getBottleId(): string
-    {
-        return $this->bottleId;
-    }
-
-    public function getOwnerId(): string
-    {
-        return $this->ownerId;
     }
 }
