@@ -8,6 +8,7 @@ use App\Security\Domain\Entity\User;
 use App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class CreateUserProcessorTest extends ApiTestCase
@@ -48,9 +49,7 @@ final class CreateUserProcessorTest extends ApiTestCase
         $this->entityManager->flush();
     }
 
-    /**
-     * @dataProvider provideInvalidData
-     */
+    #[DataProvider('provideInvalidData')]
     public function testCreateUserWithInvalidData(
         array $payload,
         int $statusCode,

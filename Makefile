@@ -219,7 +219,7 @@ behat: vendor db-load-fixtures
 Quality assurance:
 
 ## Launch all quality assurance step
-code-quality: security-checker composer-unused yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
+code-quality: security-checker yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
 
 ## Security check on dependencies
 security-checker:
@@ -230,11 +230,6 @@ security-checker:
 phpmd:
 	@echo "\nRunning phpmd...\e[0m"
 	@$(EXEC_PHP) vendor/bin/phpmd src/ text .phpmd.xml
-
-## Check if you have unused dependencies
-composer-unused:
-	@echo "\nRunning composer unused...\e[0m"
-	@$(EXEC_PHP) vendor/bin/composer-unused || true
 
 ## Linter yaml
 yaml-linter:
@@ -264,10 +259,10 @@ phpstan:
 ## Deptrac
 deptrac:
 	@echo "\nRunning deptrac for bounded context...\e[0m"
-	@$(EXEC_PHP) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --cache-file .deptrac_bounded_context.cache --config-file deptrac_bounded_context.yaml
+	@$(EXEC_PHP) vendor/bin/deptrac analyze --cache-file .deptrac_bounded_context.cache --config-file deptrac_bounded_context.yaml --fail-on-uncovered --report-uncovered --no-progress
 
 	@echo "\nRunning deptrac for hexagonal architecture...\e[0m"
-	@$(EXEC_PHP) vendor/bin/deptrac analyze --fail-on-uncovered --report-uncovered --no-progress --cache-file .deptrac_hexagonal_architecture.cache --config-file deptrac_hexagonal_architecture.yaml
+	@$(EXEC_PHP) vendor/bin/deptrac analyze --cache-file .deptrac_hexagonal_architecture.cache --config-file deptrac_hexagonal_architecture.yaml --fail-on-uncovered --report-uncovered --no-progress
 
 ## Rector
 rector:

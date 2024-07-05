@@ -1,4 +1,4 @@
-parameters:
+deptrac:
     paths:
         - ./src/BottleInventory
         - ./src/Shared
@@ -10,40 +10,51 @@ parameters:
         - name: Domain
           collectors:
               - type: directory
-                regex: .+/Domain/.*
+                value: .+/Domain/.*
 
         - name: Application
           collectors:
               - type: directory
-                regex: .+/Application/.*
+                value: .+/Application/.*
 
         - name: Infrastructure
           collectors:
               - type: directory
-                regex: .+/Infrastructure/(?!(Webmozart/Assert)).*
+                value: .+/Infrastructure/(?!(Webmozart/Assert)).*
 
         - name: Vendors
           collectors:
-              - { type: className, regex: ^ApiPlatform\\ }
-              - { type: className, regex: ^Symfony\\(?!(Contracts\\EventDispatcher)) }
-              - { type: className, regex: ^Doctrine\\(?!(ORM\\Mapping)) }
-              - { type: className, regex: ^Webmozart\\Assert\\Assert }
-              - { type: className, regex: ^Kreait\\ }
-              - { type: className, regex: ^Lexik\\ }
-              - { type: className, regex: ^Vich\\ }
+              - type: classNameRegex
+                value: '#^ApiPlatform\\#'
+              - type: classNameRegex
+                value: '#^Symfony\\(?!(Contracts\\EventDispatcher))#'
+              - type: classNameRegex
+                value: '#^Doctrine\\(?!(ORM\\Mapping))#'
+              - type: classNameRegex
+                value: '#^Webmozart\\Assert\\Assert#'
+              - type: classNameRegex
+                value: '#^Kreait\\#'
+              - type: classNameRegex
+                value: '#^Lexik\\#'
+              - type: classNameRegex
+                value: '#^Vich\\#'
 
         - name: Attributes
           collectors:
-              - { type: className, regex: ^Doctrine\\ORM\\Mapping }
-              - { type: className, regex: ^Override }
+              - type: classNameRegex
+                value: '#^Doctrine\\ORM\\Mapping#'
+              - type: classNameRegex
+                value: '#^Override#'
 
         - name: Helpers
           collectors:
-              - { type: className, regex: ^App\\Shared\\Infrastructure\\Webmozart\\Assert }
+              - type: classNameRegex
+                value: '#^App\\Shared\\Infrastructure\\Webmozart\\Assert#'
 
         - name: Events
           collectors:
-              - { type: className, regex: ^Symfony\\Contracts\\EventDispatcher\\ }
+              - type: classNameRegex
+                value: '#^Symfony\\Contracts\\EventDispatcher\\#'
 
     ruleset:
         Domain:

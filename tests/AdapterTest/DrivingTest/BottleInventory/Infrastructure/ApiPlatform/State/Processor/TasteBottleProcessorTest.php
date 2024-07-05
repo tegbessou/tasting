@@ -19,6 +19,7 @@ use App\BottleInventory\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRe
 use App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class TasteBottleProcessorTest extends ApiTestCase
@@ -77,9 +78,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
         $this->doctrineBottleWriteRepository->delete($bottle);
     }
 
-    /**
-     * @dataProvider provideInvalidData
-     */
+    #[DataProvider('provideInvalidData')]
     public function testTasteBottleWithInvalidData(
         string $id,
         int $statusCode,

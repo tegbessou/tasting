@@ -7,6 +7,7 @@ namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPl
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CreateBottleProcessorTest extends ApiTestCase
 {
@@ -45,9 +46,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
         $this->entityManager->flush();
     }
 
-    /**
-     * @dataProvider provideInvalidData
-     */
+    #[DataProvider('provideInvalidData')]
     public function testCreateBottleWithInvalidData(
         array $payload,
         int $statusCode,
@@ -206,7 +205,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'country' => 'Italy',
             ],
             'statusCode' => 422,
-            [],
+            'violations' => [],
         ];
     }
 }

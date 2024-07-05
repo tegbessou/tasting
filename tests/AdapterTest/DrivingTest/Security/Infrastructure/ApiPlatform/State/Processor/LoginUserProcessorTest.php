@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Processor;
 
 use App\Tests\Shared\ApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class LoginUserProcessorTest extends ApiTestCase
 {
@@ -21,9 +22,7 @@ final class LoginUserProcessorTest extends ApiTestCase
         ]);
     }
 
-    /**
-     * @dataProvider provideInvalidData
-     */
+    #[DataProvider('provideInvalidData')]
     public function testLoginUserWithInvalidData(
         array $payload,
         int $statusCode,
