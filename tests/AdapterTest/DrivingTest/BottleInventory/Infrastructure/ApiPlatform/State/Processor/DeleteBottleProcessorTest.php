@@ -18,6 +18,7 @@ use App\BottleInventory\Domain\ValueObject\BottleYear;
 use App\BottleInventory\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRepository;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DeleteBottleProcessorTest extends ApiTestCase
 {
@@ -63,9 +64,7 @@ final class DeleteBottleProcessorTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(204);
     }
 
-    /**
-     * @dataProvider provideInvalidData
-     */
+    #[DataProvider('provideInvalidData')]
     public function testDeleteBottleWithInvalidData(
         string $id,
         int $statusCode,

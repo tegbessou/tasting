@@ -1,6 +1,4 @@
-parameters:
-    ignore_uncovered_internal_classes: false
-
+deptrac:
     paths:
         - ./src
 
@@ -10,50 +8,68 @@ parameters:
               - type: bool
                 must:
                   - type: directory
-                    regex: src/Security/.*
+                    value: src/Security/.*
 
         - name: BottleInventory
           collectors:
             - type: bool
               must:
                 - type: directory
-                  regex: src/BottleInventory/.*
+                  value: src/BottleInventory/.*
 
         - name: Country
           collectors:
               - type: directory
-                regex: src/Country/.*
+                value: src/Country/.*
 
         - name: Tasting
           collectors:
               - type: directory
-                regex: src/Tasting/.*
+                value: src/Tasting/.*
 
         - name: Shared
           collectors:
               - type: directory
-                regex: src/Shared/.*
+                value: src/Shared/.*
 
         - name: Vendors
           collectors:
-              - { type: className, regex: ^ApiPlatform\\ }
-              - { type: className, regex: ^Lexik\\ }
-              - { type: className, regex: ^Symfony\\ }
-              - { type: className, regex: ^Doctrine\\ }
-              - { type: className, regex: ^Webmozart\\ }
-              - { type: className, regex: ^Kreait\\ }
-              - { type: className, regex: ^Vich\\ }
-              - { type: className, regex: ^Attribute }
-              - { type: className, regex: ^Override }
-              - { type: className, regex: ^Exception }
-              - { type: className, regex: ^LogicException }
-              - { type: className, regex: ^RuntimeException }
-              - { type: className, regex: ^InvalidArgumentException }
-              - { type: className, regex: ^DateTime }
-              - { type: className, regex: ^Iterator }
-              - { type: className, regex: ^Countable }
-              - { type: className, regex: ^Traversable }
-              - { type: className, regex: ^ArrayIterator }
+              - type: classNameRegex
+                value: '#^ApiPlatform\\#'
+              - type: classNameRegex
+                value: '#^Lexik\\#'
+              - type: classNameRegex
+                value: '#^Symfony\\#'
+              - type: classNameRegex
+                value: '#^Doctrine\\#'
+              - type: classNameRegex
+                value: '#^Webmozart\\#'
+              - type: classNameRegex
+                value: '#^Kreait\\#'
+              - type: classNameRegex
+                value: '#^Vich\\#'
+              - type: classNameRegex
+                value: '#^Attribute#'
+              - type: classNameRegex
+                value: '#^Override#'
+              - type: classNameRegex
+                value: '#^Exception#'
+              - type: classNameRegex
+                value: '#^LogicException#'
+              - type: classNameRegex
+                value: '#^RuntimeException#'
+              - type: classNameRegex
+                value: '#^InvalidArgumentException#'
+              - type: classNameRegex
+                value: '#^DateTime#'
+              - type: classNameRegex
+                value: '#^Iterator#'
+              - type: classNameRegex
+                value: '#^Countable#'
+              - type: classNameRegex
+                value: '#^Traversable#'
+              - type: classNameRegex
+                value: '#^ArrayIterator#'
 
     ruleset:
         Security: [ Shared, Vendors ]

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AdapterTest\DrivingTest\Country\Infrastructure\ApiPlatform\State\Provider;
 
 use App\Tests\Shared\ApiTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class GetCountryCollectionProviderTest extends ApiTestCase
 {
@@ -31,9 +32,7 @@ final class GetCountryCollectionProviderTest extends ApiTestCase
         ]);
     }
 
-    /**
-     * @dataProvider provideCollectionFilter
-     */
+    #[DataProvider('provideCollectionFilter')]
     public function testGetCollectionFilterByName(
         string $uri,
         int $totalItems,
