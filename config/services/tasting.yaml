@@ -33,6 +33,10 @@ services:
     alias: App\Tasting\Infrastructure\BottleInventory\Http\Repository\BottleReadHttpRepository
     public: true
 
+  App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository
+    public: true
+
   App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
     alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\ValueObject;
 
 use App\Shared\Infrastructure\Webmozart\Assert;
+use App\Tasting\Domain\Entity\Participant;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
@@ -43,6 +44,11 @@ final readonly class TastingParticipants
         return new self([
             $participantId->id(),
         ]);
+    }
+
+    public function contains(Participant $participant): bool
+    {
+        return in_array($participant->id()->id(), $this->values, true);
     }
 
     public function values(): array

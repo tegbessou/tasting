@@ -8,6 +8,7 @@ use App\Shared\Infrastructure\Doctrine\DoctrineReadRepository;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingReadRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\TastingId;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -24,6 +25,12 @@ final class TastingReadDoctrineRepository extends DoctrineReadRepository impleme
         EntityManagerInterface $entityManager,
     ) {
         parent::__construct($entityManager, self::ENTITY_CLASS, self::ALIAS);
+    }
+
+    #[\Override]
+    public function ofId(TastingId $id): ?Tasting
+    {
+        return $this->entityManager->find(self::ENTITY_CLASS, $id);
     }
 
     #[\Override]

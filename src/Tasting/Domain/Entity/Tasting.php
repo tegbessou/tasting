@@ -15,7 +15,7 @@ use App\Tasting\Domain\ValueObject\TastingParticipants;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Tasting implements EntityWithDomainEventInterface
+class Tasting implements EntityWithDomainEventInterface
 {
     use EntityDomainEventTrait;
 
@@ -34,9 +34,7 @@ final class Tasting implements EntityWithDomainEventInterface
 
     public static function create(
         TastingId $id,
-        // rajouter le fait de vérifier que ça existe en tant que bouteille
         BottleId $bottleId,
-        // rajouter le fait de vérifier que ça existe
         Participant $owner,
     ): self {
         $tasting = new self(
@@ -57,7 +55,6 @@ final class Tasting implements EntityWithDomainEventInterface
     }
 
     public function inviteParticipants(
-        // verify that participants exist
         array $participants,
     ): void {
         Assert::allIsInstanceOf($participants, Participant::class);

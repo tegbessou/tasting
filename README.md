@@ -130,7 +130,9 @@ Reflect if I can use value object in command and query
 
 Update all event to add timestamps, use value object (because domain event)
 
-Create module in inventory context to separate grape varieties and bottle.
+Create module in inventory context to separate grape varieties, bottle and invitation.
+
+Create domain service for all check before creation.
 
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation
@@ -158,31 +160,35 @@ Rework repository remove read and write repository, use only repository
 
 Instead of checking if an owner exist before saving data, we can try to get an owner and throw an exception if it doesn't exist and then catch it
 
+Add a test on each repository on ofId method to check if it's can return null
+
 ## In progress
 Invite participant to tasting
 - [ ] Invite a participant to the tasting
   - [ ] For a participant already sign up
-    - [ ] Create Invitation as an Entity
-      - [ ] Add a participant to the invitation
-      - [ ] Add a tasting to the invitation
-      - [ ] Add a link to the invitation
-      - [ ] Add a created at/updated at to the invitation
-      - [ ] Add a status to the invitation (pending, read, accepted, refused)
+    - [X] Create a service to invite a participant 
+    - [X] Create Invitation as an Entity
+      - [X] Add a participant to the invitation
+      - [X] Add a tasting to the invitation
+      - [X] Add a link to the invitation
+      - [X] Add a created at/updated at to the invitation
+      - [X] Add a status to the invitation (pending, read, accepted, refused)
         - [ ] Remove all invitation as accepted or refused from one week, and read from one month
-    - [ ] Add it to the participant array of the tasting
-    - [ ] Dispatch an event
+    - [ ] Add it to the participant array of the tasting => Not in the invite participant but when user accept it
+    - [ ] Dispatch an event => Which dispatch a message
     - [ ] Send a notification to firebase
       - [ ] Configure firebase to send notification
       - [ ] Send a notification to firebase via Notification Symfony Component
     - [ ] Send an email with a link to the app
-      - [ ] Configure mailcatcher for local
-      - [ ] Find a service to send mail for free
-      - [ ] Install mailer for symfony
+      - [X] Configure mailcatcher for local
+      - [X] Find a service to send mail for free => Brevo (300 by day + french)
+      - [X] Install mailer for symfony
       - [ ] In email send a link to the app
-          - [ ] Create a link to the app
+          - [ ] Create a link to the app // https://apps.apple.com/app/6468406309 => "Dégust' et des couleurs à remplacer par la notre quand créé"
   - [ ] For a participant that doesn't already sign up
     - [ ] Create a participant
-      - [ ] Check if when the user is created there is no problem 
+      - [ ] Check if when the user is created there is no problem
+    - [X] Create a service to invite a participant
     - [ ] Create Invitation as an Entity
       - [ ] Add a participant to the invitation
       - [ ] Add a tasting to the invitation
