@@ -29,7 +29,7 @@ final readonly class ParticipantId
         return new self($value);
     }
 
-    public function id(): string
+    public function value(): string
     {
         return $this->value;
     }

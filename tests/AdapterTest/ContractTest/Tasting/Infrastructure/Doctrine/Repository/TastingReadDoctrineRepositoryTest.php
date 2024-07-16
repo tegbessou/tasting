@@ -51,6 +51,6 @@ final class TastingReadDoctrineRepositoryTest extends KernelTestCase
         )->getIterator();
 
         $this->assertNotNull($tastings->current());
-        $this->assertStringContainsString('9964e539-05ff-4611-b39c-ffd6d108b8b7', $tastings->current()->owner()->id()->id());
+        $this->assertStringContainsString('9964e539-05ff-4611-b39c-ffd6d108b8b7', $tastings->current()->owner()->id()->value());
     }
 }

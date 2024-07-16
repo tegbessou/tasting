@@ -58,7 +58,7 @@ final class Invitation implements EntityWithDomainEventInterface
         self::recordEvent(
             new InvitationCreatedEvent(
                 $invitation->id->id(),
-                $subject->id()->id(),
+                $subject->id()->value(),
                 $target->email()->value(),
                 $link->value(),
             ),

@@ -6,7 +6,7 @@ namespace App\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use ApiPlatform\Symfony\Validator\Exception\ValidationException;
+use ApiPlatform\Validator\Exception\ValidationException;
 use App\BottleInventory\Application\Command\CreateBottleCommand;
 use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;

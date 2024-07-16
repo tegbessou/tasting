@@ -12,6 +12,7 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class InvitationWriteDoctrineRepositoryTest extends KernelTestCase
@@ -19,6 +20,7 @@ final class InvitationWriteDoctrineRepositoryTest extends KernelTestCase
     private InvitationWriteDoctrineRepository $doctrineInvitationWriteRepository;
     private ParticipantReadDoctrineRepository $doctrineParticipantWriteRepository;
     private TastingReadDoctrineRepository $doctrineTastingWriteRepository;
+    private EntityManagerInterface $entityManager;
 
     #[\Override]
     protected function setUp(): void
@@ -29,6 +31,18 @@ final class InvitationWriteDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineInvitationWriteRepository = $container->get(InvitationWriteDoctrineRepository::class);
         $this->doctrineParticipantWriteRepository = $container->get(ParticipantReadDoctrineRepository::class);
         $this->doctrineTastingWriteRepository = $container->get(TastingReadDoctrineRepository::class);
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+
+        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
+        $this->entityManager->beginTransaction();
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $this->entityManager->rollback();
+
+        parent::tearDown();
     }
 
     public function testOfId(): void

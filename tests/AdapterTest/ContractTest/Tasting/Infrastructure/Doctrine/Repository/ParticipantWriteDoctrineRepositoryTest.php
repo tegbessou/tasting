@@ -85,7 +85,7 @@ final class ParticipantWriteDoctrineRepositoryTest extends KernelTestCase
         $participantId = $this->doctrineParticipantWriteRepository->nextIdentity();
 
         $this->assertIsString(
-            $participantId->id(),
+            $participantId->value(),
         );
     }
 }

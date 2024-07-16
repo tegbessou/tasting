@@ -7,20 +7,50 @@ namespace App\Tasting\Domain\Service;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
-use App\Tasting\Domain\Exception\ParticipantAlreadyInvitedException;
+use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 
 final readonly class InviteParticipantService
 {
-    public function canInviteParticipant(
-        Participant $participant,
+    public function canInviteParticipants(
         Tasting $tasting,
+        array $participants,
     ): void {
-        if ($tasting->owner()->id()->id() === $participant->id()->id()) {
-            throw new OwnerCannotBeInvitedToTastingException();
+        $this->isOwnerInList($participants, $tasting);
+        $this->areAlreadyInvited($participants, $tasting);
+    }
+
+    private function isOwnerInList(array $participants, Tasting $tasting): void
+    {
+        if ($participants === []) {
+            return;
         }
 
-        if ($tasting->participants()->contains($participant)) {
-            throw new ParticipantAlreadyInvitedException($participant->fullName()->value());
+        foreach ($participants as $participant) {
+            if ($tasting->owner()->id()->value() !== $participant->id()->value()) {
+                continue;
+            }
+
+            throw new OwnerCannotBeInvitedToTastingException();
         }
+    }
+
+    private function areAlreadyInvited(array $participants, Tasting $tasting): void
+    {
+        $participantsAlreadyInvited = [];
+
+        /** @var Participant $participant */
+        foreach ($participants as $participant) {
+            if (!$tasting->participants()->contains($participant)) {
+                continue;
+            }
+
+            $participantsAlreadyInvited[] = $participant->fullName()->value();
+        }
+
+        if ($participantsAlreadyInvited === []) {
+            return;
+        }
+
+        throw new ParticipantsAlreadyInvitedException($participantsAlreadyInvited);
     }
 }

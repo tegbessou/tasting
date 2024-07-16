@@ -46,8 +46,8 @@ class Tasting implements EntityWithDomainEventInterface
 
         self::recordEvent(
             new TastingCreatedEvent(
-                $tasting->id->id(),
-                $owner->id()->id(),
+                $tasting->id->value(),
+                $owner->id()->value(),
             )
         );
 
@@ -63,11 +63,11 @@ class Tasting implements EntityWithDomainEventInterface
 
         /** @var Participant $participant */
         foreach ($participants as $participant) {
-            if (in_array($participant->id()->id(), $this->participants->values())) {
+            if (in_array($participant->id()->value(), $this->participants->values())) {
                 continue;
             }
 
-            $participantsUuid[] = $participant->id()->id();
+            $participantsUuid[] = $participant->id()->value();
         }
 
         $this->participants = $this->participants()->add(
@@ -76,9 +76,9 @@ class Tasting implements EntityWithDomainEventInterface
 
         self::recordEvent(
             new TastingParticipantsInvitedEvent(
-                $this->id->id(),
+                $this->id->value(),
                 $this->participants->values(),
-                $this->owner->id()->id(),
+                $this->owner->id()->value(),
             )
         );
     }

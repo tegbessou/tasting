@@ -42,13 +42,13 @@ final readonly class TastingParticipants
     public static function fromOwner(ParticipantId $participantId): self
     {
         return new self([
-            $participantId->id(),
+            $participantId->value(),
         ]);
     }
 
     public function contains(Participant $participant): bool
     {
-        return in_array($participant->id()->id(), $this->values, true);
+        return in_array($participant->id()->value(), $this->values, true);
     }
 
     public function values(): array

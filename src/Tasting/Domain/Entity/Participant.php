@@ -36,7 +36,7 @@ class Participant implements EntityWithDomainEventInterface
 
         self::recordEvent(
             new ParticipantCreatedEvent(
-                $participant->id()->id(),
+                $participant->id()->value(),
             )
         );
 

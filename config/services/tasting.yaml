@@ -37,6 +37,10 @@ services:
     alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository
     public: true
 
+  App\Tasting\Domain\Repository\InvitationReadRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository
+    public: true
+
   App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
     alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
 

@@ -7,7 +7,7 @@ namespace App\Tests\UnitTest\Tasting\Domain\Service;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
-use App\Tasting\Domain\Exception\ParticipantAlreadyInvitedException;
+use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Service\InviteParticipantService;
 use App\Tasting\Domain\ValueObject\BottleId;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
@@ -36,9 +36,9 @@ final class InviteParticipantServiceTest extends TestCase
 
         $this->expectException(OwnerCannotBeInvitedToTastingException::class);
 
-        $inviteParticipantService->canInviteParticipant(
-            $participant,
+        $inviteParticipantService->canInviteParticipants(
             $tasting,
+            [$participant],
         );
     }
 
@@ -68,11 +68,12 @@ final class InviteParticipantServiceTest extends TestCase
             $newParticipant,
         ]);
 
-        $this->expectException(ParticipantAlreadyInvitedException::class);
+        $this->expectException(ParticipantsAlreadyInvitedException::class);
+        $this->expectExceptionMessage('Participants Root are already invited');
 
-        $inviteParticipantService->canInviteParticipant(
-            $newParticipant,
+        $inviteParticipantService->canInviteParticipants(
             $tasting,
+            [$newParticipant],
         );
     }
 }

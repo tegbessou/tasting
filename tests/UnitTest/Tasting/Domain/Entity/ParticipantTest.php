@@ -27,7 +27,7 @@ final class ParticipantTest extends TestCase
         );
         $this->assertEquals(
             'e4c419fc-d31a-4655-a7d5-7b193c4b52e6',
-            $participant->id()->id(),
+            $participant->id()->value(),
         );
         $this->assertEquals(
             'hugues.gobet@gmail.com',

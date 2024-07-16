@@ -12,3 +12,6 @@ parameters:
         -
             message: '#PHPDoc tag \@return with type App\\Shared\\Domain\\Repository\\ReadRepositoryInterface\<T of object\> is not subtype of native type static\(App\\Shared\\Domain\\Repository\\ReadRepositoryInterface\<T of object\>\).#'
             path: src/Shared/Domain/Repository/ReadRepositoryInterface.php
+        -
+            message: '#Cannot call method toRfc4122\(\) on Symfony\\Component\\Uid\\Uuid\|null.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/InviteParticipantsToTastingProcessor.php
