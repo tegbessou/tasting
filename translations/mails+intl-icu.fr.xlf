@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="tasting.invitation.subject">
+                <source>tasting.invitation.subject</source>
+                <target>Invitation à déguster une bouteille de vin</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.app_name">
+                <source>tasting.invitation.app_name</source>
+                <target>Des amis, du vin</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.salutation">
+                <source>tasting.invitation.salutation</source>
+                <target>Salut { targetFullName },</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.body">
+                <source>tasting.invitation.body</source>
+                <target>{ ownerFullName } vous invite à déguster une bouteille de { bottleName } sur l'application "Des Amis et du Vin".</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.join">
+                <source>tasting.invitation.join</source>
+                <target>Pour accepter l'invitation, cliquez sur le lien ci-dessous :</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.join_link">
+                <source>tasting.invitation.join_link</source>
+                <target>Rejoindre la dégustation</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.bye">
+                <source>tasting.invitation.bye</source>
+                <target>À bientôt,</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.people">
+                <source>tasting.invitation.people</source>
+                <target>L'équipe "Des Amis et du Vin"</target>
+            </trans-unit>
+            <trans-unit id="tasting.invitation.copyright">
+                <source>tasting.invitation.copyright</source>
+                <target><![CDATA[© 2024 Des Amis et du Vin. Tous droits réservés.]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -7,6 +7,7 @@ namespace App\Tasting\Infrastructure\Doctrine\Repository;
 use App\Shared\Infrastructure\Doctrine\DoctrineReadRepository;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
+use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,12 @@ final class InvitationReadDoctrineRepository extends DoctrineReadRepository impl
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager, self::ENTITY_CLASS, self::ALIAS);
+    }
+
+    #[\Override]
+    public function ofId(InvitationId $id): ?Invitation
+    {
+        return $this->entityManager->find(self::ENTITY_CLASS, $id->id());
     }
 
     #[\Override]

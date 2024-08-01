@@ -9,12 +9,16 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
+use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 {
+    use InteractsWithMessenger;
+
     private InvitationReadDoctrineRepository $invitationReadDoctrineRepository;
     private EntityManagerInterface $entityManager;
     private ParticipantReadDoctrineRepository $participantReadDoctrineRepository;
@@ -40,6 +44,8 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(204);
+
+        $this->transport('tasting')->queue()->assertContains(InvitationCreatedMessage::class, 1);
 
         $invitations = $this->invitationReadDoctrineRepository->withParticipantAndTasting(
             ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
@@ -119,7 +125,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'participants',
-                    'message' => 'Owner cannot be invited.',
+                    'message' => 'Le propriétaire ne peut pas être invité.',
                 ],
             ],
         ];
@@ -131,7 +137,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'participants',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                 ],
             ],
         ];
@@ -165,7 +171,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'participants',
-                    'message' => 'Participants Root are already invited.',
+                    'message' => 'Les participants Root sont déjà invités.',
                 ],
             ],
         ]);

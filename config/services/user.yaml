@@ -24,6 +24,9 @@ services:
   App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\EventListener\OnInvitationCreatedEventListener:
+    tags: [kernel.event_listener]
+
   App\Security\Application\EventListener\OnUserCreatedEventListener:
     tags: [kernel.event_listener]
 

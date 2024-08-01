@@ -25,5 +25,6 @@ return RectorConfig::configure()
         // I add this because reflection need to update Owner Id so I can't make it readonly
         ReadOnlyPropertyRector::class => [
             __DIR__.'/src/BottleInventory/Domain/ValueObject/OwnerId.php',
+            __DIR__.'/src/Tasting/Domain/ValueObject/ParticipantId.php',
         ],
     ]);

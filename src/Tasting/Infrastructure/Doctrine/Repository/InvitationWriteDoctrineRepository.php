@@ -37,4 +37,10 @@ final readonly class InvitationWriteDoctrineRepository implements InvitationWrit
             Uuid::v4()->toRfc4122()
         );
     }
+
+    #[\Override]
+    public function update(): void
+    {
+        $this->entityManager->flush();
+    }
 }

@@ -134,6 +134,8 @@ Create module in inventory context to separate grape varieties, bottle and invit
 
 Create domain service for all check before creation.
 
+Check if I can store the bottle name in tasting instead of id, and if the bottle is updated then we dispatch an event to update all tasting
+
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation
 Add in all id value object representation assert from max and min length
@@ -175,32 +177,36 @@ Invite participant to tasting
       - [X] Add a status to the invitation (pending, read, accepted, refused)
         - [ ] Remove all invitation as accepted or refused from one week, and read from one month
     - [ ] Add it to the participant array of the tasting => Not in the invite participant but when user accept it
-    - [ ] Dispatch an event => Which dispatch a message
-    - [ ] Send a notification to firebase
-      - [ ] Configure firebase to send notification
-      - [ ] Send a notification to firebase via Notification Symfony Component
-    - [ ] Send an email with a link to the app
-      - [X] Configure mailcatcher for local
-      - [X] Find a service to send mail for free => Brevo (300 by day + french)
-      - [X] Install mailer for symfony
-      - [ ] In email send a link to the app
-          - [ ] Create a link to the app // https://apps.apple.com/app/6468406309 => "Dégust' et des couleurs à remplacer par la notre quand créé"
+    - [X] Dispatch an event => Which dispatch a message
+    - [X] Consume message
+      - [X] Set send at to now
+      - [X] Send a notification to firebase
+        - [X] Configure firebase to send notification
+        - [X] Send a notification to firebase via Notification Symfony Component
+      - [X] Send an email with a link to the app
+        - [X] Configure mailcatcher for local
+        - [X] Find a service to send mail for free => Brevo (300 by day + french)
+        - [X] Install mailer for symfony
+        - [X] In email send a link to the app
+            - [X] Create a link to the app // https://apps.apple.com/app/6468406309 => "Dégust' et des couleurs à remplacer par la notre quand créé"
+    - [ ] Accept invitation => ajout du participant à la dégustation et changement du status de l'invitation
+    - [ ] Reject invitation => suppression de l'invitation du participant à la dégustation
   - [ ] For a participant that doesn't already sign up
     - [ ] Create a participant
       - [ ] Check if when the user is created there is no problem
     - [X] Create a service to invite a participant
-    - [ ] Create Invitation as an Entity
-      - [ ] Add a participant to the invitation
-      - [ ] Add a tasting to the invitation
-      - [ ] Add a link to the invitation
-      - [ ] Add a created at/updated at to the invitation
-      - [ ] Add a status to the invitation (pending, read, accepted, refused)
+    - [X] Create Invitation as an Entity
+      - [X] Add a participant to the invitation
+      - [X] Add a tasting to the invitation
+      - [X] Add a link to the invitation
+      - [X] Add a created at/updated at to the invitation
+      - [X] Add a status to the invitation (pending, read, accepted, refused)
         - [ ] Remove all invitation as accepted or refused from one week, and read from one month
     - [ ] Add it to the participant array of the tasting
-    - [ ] Dispatch an event
-    - [ ] Send an email with a link to the app
-      - [ ] Configure mailcatcher for local
-      - [ ] Find a service to send mail for free
-      - [ ] Install mailer for symfony
-      - [ ] In email send a link to the app
-        - [ ] Create a link to the app
+    - [X] Dispatch an event
+    - [X] Send an email with a link to the app
+      - [X] Configure mailcatcher for local
+      - [X] Find a service to send mail for free
+      - [X] Install mailer for symfony
+      - [X] In email send a link to the app
+        - [X] Create a link to the app

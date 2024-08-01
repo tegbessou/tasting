@@ -151,32 +151,32 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'name',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
                     'propertyPath' => 'estateName',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
                     'propertyPath' => 'wineType',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
                     'propertyPath' => 'year',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
                     'propertyPath' => 'grapeVarieties',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
                     'propertyPath' => 'rate',
-                    'message' => 'This value should not be blank.',
+                    'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
             ],
@@ -209,7 +209,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'grapeVarieties',
-                    'message' => "Grape variety with name Riesling doesn't exist.",
+                    'message' => "Le cépage portant le nom Riesling n'existe pas.",
                 ],
             ],
         ];
@@ -223,7 +223,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'grapeVarieties',
-                    'message' => "Grape varieties with name Riesling, Négrette don't exist.",
+                    'message' => "Les cépages portant le nom Riesling, Négrette n'existent pas.",
                 ],
             ],
         ];
@@ -237,7 +237,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'country',
-                    'message' => "Country with name Italy doesn't exist.",
+                    'message' => "Le pays avec le nom Italy n'existe pas.",
                 ],
             ],
         ];

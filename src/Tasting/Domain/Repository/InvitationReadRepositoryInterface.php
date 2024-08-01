@@ -6,6 +6,7 @@ namespace App\Tasting\Domain\Repository;
 
 use App\Shared\Domain\Repository\ReadRepositoryInterface;
 use App\Tasting\Domain\Entity\Invitation;
+use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
 
@@ -14,6 +15,8 @@ use App\Tasting\Domain\ValueObject\TastingId;
  */
 interface InvitationReadRepositoryInterface extends ReadRepositoryInterface
 {
+    public function ofId(InvitationId $id): ?Invitation;
+
     public function withParticipant(ParticipantId $targetId): self;
 
     public function withParticipantAndTasting(ParticipantId $targetId, TastingId $subjectId): self;

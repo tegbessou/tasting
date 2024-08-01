@@ -8,6 +8,8 @@ use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\InvitationCreatedEvent;
+use App\Tasting\Domain\Event\InvitationSentEvent;
+use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\ValueObject\BottleId;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
@@ -77,6 +79,8 @@ final class InvitationTest extends TestCase
         $this->assertNull(
             $tastingInvitation->updatedAt(),
         );
+
+        $tastingInvitation::eraseRecordedEvents();
     }
 
     public function testCreateFailedBadIdLength(): void
@@ -138,6 +142,77 @@ final class InvitationTest extends TestCase
             $this->participant,
             InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
         );
+
+        $this->assertEmpty($invitation::getRecordedEvent()[0]);
+    }
+
+    public function testSend(): void
+    {
+        $tastingInvitation = Invitation::create(
+            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
+            $this->tasting,
+            $this->participant,
+            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
+        );
+
+        $tastingInvitation->send();
+
+        $this->assertNotNull($tastingInvitation->sentAt());
+
+        $tastingInvitation::eraseRecordedEvents();
+    }
+
+    public function testSendAlreadySent(): void
+    {
+        $tastingInvitation = Invitation::create(
+            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
+            $this->tasting,
+            $this->participant,
+            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
+        );
+
+        $tastingInvitation::eraseRecordedEvents();
+
+        $tastingInvitation->send();
+
+        $this->assertNotNull($tastingInvitation->sentAt());
+
+        $this->expectException(InvitationAlreadySentException::class);
+
+        $tastingInvitation->send();
+    }
+
+    public function testSendSuccessEventDispatch(): void
+    {
+        $tastingInvitation = Invitation::create(
+            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
+            $this->tasting,
+            $this->participant,
+            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
+        );
+        $tastingInvitation::eraseRecordedEvents();
+
+        $tastingInvitation->send();
+
+        $this->assertInstanceOf(InvitationSentEvent::class, $tastingInvitation::getRecordedEvent()[0]);
+        $tastingInvitation::eraseRecordedEvents();
+    }
+
+    public function testSendFailedNoEventDispatch(): void
+    {
+        $invitation = Invitation::create(
+            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
+            $this->tasting,
+            $this->participant,
+            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
+        );
+
+        $invitation->send();
+        $invitation::eraseRecordedEvents();
+
+        $this->expectException(InvitationAlreadySentException::class);
+
+        $invitation->send();
 
         $this->assertEmpty($invitation::getRecordedEvent()[0]);
     }

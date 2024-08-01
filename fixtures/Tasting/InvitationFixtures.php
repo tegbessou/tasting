@@ -35,6 +35,8 @@ final class InvitationFixtures extends Fixture implements DependentFixtureInterf
             GetInvitationLinkService::getLink(),
         );
 
+        $invitation::eraseRecordedEvents();
+
         $manager->persist($invitation);
         $manager->flush();
     }

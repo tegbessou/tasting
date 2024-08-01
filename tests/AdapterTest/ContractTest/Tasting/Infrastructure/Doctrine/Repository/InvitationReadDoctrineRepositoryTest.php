@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
+use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository;
@@ -20,6 +21,20 @@ final class InvitationReadDoctrineRepositoryTest extends WebTestCase
         $container = self::getContainer();
 
         $this->doctrineInvitationRepository = $container->get(InvitationReadDoctrineRepository::class);
+    }
+
+    public function testOfId(): void
+    {
+        $this->assertNotNull(
+            $this->doctrineInvitationRepository->ofId(InvitationId::fromString('abed2f69-9aae-4d92-a91c-edfa7c985674')),
+        );
+    }
+
+    public function testOfIdNull(): void
+    {
+        $this->assertNull(
+            $this->doctrineInvitationRepository->ofId(InvitationId::fromString('4fd831f2-5717-43c1-88de-cdc93bb955c7')),
+        );
     }
 
     public function testWithParticipant(): void

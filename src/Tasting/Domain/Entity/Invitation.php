@@ -7,6 +7,8 @@ namespace App\Tasting\Domain\Entity;
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use App\Tasting\Domain\Event\InvitationCreatedEvent;
+use App\Tasting\Domain\Event\InvitationSentEvent;
+use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationSentAt;
@@ -15,7 +17,7 @@ use App\Tasting\Domain\ValueObject\InvitationUpdatedAt;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Invitation implements EntityWithDomainEventInterface
+class Invitation implements EntityWithDomainEventInterface
 {
     use EntityDomainEventTrait;
 
@@ -58,13 +60,29 @@ final class Invitation implements EntityWithDomainEventInterface
         self::recordEvent(
             new InvitationCreatedEvent(
                 $invitation->id->id(),
-                $subject->id()->value(),
                 $target->email()->value(),
-                $link->value(),
+                $subject->owner()->email()->value(),
+                $subject->bottleId()->id(),
             ),
         );
 
         return $invitation;
+    }
+
+    public function send(): void
+    {
+        if ($this->isAlreadySent()) {
+            throw new InvitationAlreadySentException();
+        }
+
+        $this->sentAt = InvitationSentAt::now();
+
+        self::recordEvent(
+            new InvitationSentEvent(
+                $this->id->id(),
+                $this->sentAt->value() ?? throw new \InvalidArgumentException(),
+            ),
+        );
     }
 
     public function id(): InvitationId
@@ -100,6 +118,19 @@ final class Invitation implements EntityWithDomainEventInterface
     public function updatedAt(): ?InvitationUpdatedAt
     {
         return $this->updatedAt;
+    }
+
+    public function isAlreadySent(): bool
+    {
+        if ($this->sentAt === null) {
+            return false;
+        }
+
+        if ($this->sentAt->isNull()) {
+            return false;
+        }
+
+        return true;
     }
 
     // create method to read invitation

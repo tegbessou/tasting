@@ -20,7 +20,7 @@ final readonly class InvitationSentAt
         $this->sentAt = $sentAt;
     }
 
-    public static function create(): self
+    public static function now(): self
     {
         return new self(new \DateTimeImmutable());
     }
@@ -28,5 +28,10 @@ final readonly class InvitationSentAt
     public function value(): ?\DateTimeImmutable
     {
         return $this->sentAt;
+    }
+
+    public function isNull(): bool
+    {
+        return null === $this->sentAt;
     }
 }

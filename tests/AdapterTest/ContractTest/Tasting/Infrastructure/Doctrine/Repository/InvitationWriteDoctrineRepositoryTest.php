@@ -87,6 +87,8 @@ final class InvitationWriteDoctrineRepositoryTest extends KernelTestCase
             ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
             $participant->id(),
         );
+
+        $invitation::eraseRecordedEvents();
     }
 
     public function testNextId(): void
@@ -95,5 +97,35 @@ final class InvitationWriteDoctrineRepositoryTest extends KernelTestCase
             InvitationId::class,
             $this->doctrineInvitationWriteRepository->nextIdentity(),
         );
+    }
+
+    public function testUpdate(): void
+    {
+        $tasting = $this->doctrineTastingWriteRepository->ofId(TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'));
+
+        $participant = $this->doctrineParticipantWriteRepository->ofId(ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'));
+
+        $invitation = Invitation::create(
+            InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'),
+            $tasting,
+            $participant,
+            GetInvitationLinkService::getLink(),
+        );
+
+        $this->doctrineInvitationWriteRepository->add($invitation);
+
+        $this->assertNull($invitation->sentAt());
+
+        $invitation->send();
+
+        $this->doctrineInvitationWriteRepository->update();
+
+        $invitation = $this->doctrineInvitationWriteRepository->ofId(InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'));
+
+        $this->assertNotNull(
+            $invitation->sentAt(),
+        );
+
+        $invitation::eraseRecordedEvents();
     }
 }

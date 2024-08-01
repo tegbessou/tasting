@@ -6,13 +6,11 @@ namespace App\Tasting\Domain\Event;
 
 use App\Shared\Domain\Event\DomainEventInterface;
 
-final readonly class InvitationCreatedEvent implements DomainEventInterface
+final readonly class InvitationSentEvent implements DomainEventInterface
 {
     public function __construct(
         public string $id,
-        public string $targetEmail,
-        public string $ownerEmail,
-        public string $bottleId,
+        public \DateTimeImmutable $sentAt,
     ) {
     }
 }
