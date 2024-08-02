@@ -7,7 +7,6 @@ namespace App\Tasting\Application\Command;
 use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Entity\Participant;
-use App\Tasting\Domain\Exception\ParticipantAlreadyExistException;
 use App\Tasting\Domain\Exception\ParticipantDoesntExistInSecurityException;
 use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantWriteRepositoryInterface;
@@ -33,7 +32,7 @@ final readonly class CreateParticipantCommandHandler
         }
 
         if ($this->participantReadRepository->ofEmail(new ParticipantEmail($command->email)) !== null) {
-            throw new ParticipantAlreadyExistException($command->email);
+            return;
         }
 
         $participant = Participant::create(

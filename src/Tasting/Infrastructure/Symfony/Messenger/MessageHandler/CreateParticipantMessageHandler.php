@@ -7,7 +7,6 @@ namespace App\Tasting\Infrastructure\Symfony\Messenger\MessageHandler;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\CreateParticipantCommand;
-use App\Tasting\Domain\Exception\ParticipantAlreadyExistException;
 use App\Tasting\Domain\Exception\ParticipantDoesntExistInSecurityException;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -35,7 +34,7 @@ final readonly class CreateParticipantMessageHandler
                     $createdMessage->fullName,
                 ),
             );
-        } catch (ParticipantAlreadyExistException|ParticipantDoesntExistInSecurityException) {
+        } catch (ParticipantDoesntExistInSecurityException) {
             throw new UnrecoverableMessageHandlingException();
         }
     }

@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Embeddable]
 final class ParticipantFullName
 {
-    #[ORM\Column(name: 'full_name', type: 'string')]
-    private readonly string $fullName;
+    #[ORM\Column(name: 'full_name', type: 'string', nullable: true)]
+    private readonly ?string $fullName;
 
     public function __construct(
         string $fullName,
@@ -28,7 +28,7 @@ final class ParticipantFullName
         return new self($fullName);
     }
 
-    public function value(): string
+    public function value(): ?string
     {
         return $this->fullName;
     }

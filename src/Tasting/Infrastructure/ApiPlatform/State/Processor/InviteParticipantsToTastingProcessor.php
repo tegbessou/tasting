@@ -13,8 +13,7 @@ use App\Tasting\Application\Command\InviteParticipantsCommand;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
-use App\Tasting\Domain\ValueObject\ParticipantId;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\ParticipantResource;
+use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerCannotBeInvitedConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildParticipantsAlreadyInvitedConstraintViolation;
@@ -37,13 +36,10 @@ final readonly class InviteParticipantsToTastingProcessor implements ProcessorIn
     {
         Assert::uuid($uriVariables['id']);
         Assert::isInstanceOf($data, TastingResource::class);
-        Assert::allIsInstanceOf($data->participants, ParticipantResource::class);
-        foreach ($data->participants as $participant) {
-            Assert::notNull($participant->id);
-        }
+        Assert::allEmail($data->participants);
 
         $participants = array_map(
-            fn (ParticipantResource $participant) => ParticipantId::fromString($participant->id->toRfc4122()),
+            fn (string $participantEmail) => ParticipantEmail::fromString($participantEmail),
             $data->participants,
         );
 

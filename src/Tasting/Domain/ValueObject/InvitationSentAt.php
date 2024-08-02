@@ -32,6 +32,6 @@ final readonly class InvitationSentAt
 
     public function isNull(): bool
     {
-        return null === $this->sentAt;
+        return $this->sentAt === null;
     }
 }

@@ -34,9 +34,6 @@ final class TastingResource
         #[ApiProperty]
         #[Groups(['invite_participants_to_tasting'])]
         #[Assert\NotBlank(groups: ['invite_participants_to_tasting'])]
-        /**
-         * @var array<ParticipantResource>
-         */
         public array $participants = [],
     ) {
     }

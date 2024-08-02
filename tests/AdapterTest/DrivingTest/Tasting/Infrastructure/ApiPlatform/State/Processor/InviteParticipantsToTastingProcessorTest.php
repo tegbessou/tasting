@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Processor;
 
+use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository;
@@ -39,7 +40,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
     {
         $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
             'participants' => [
-                '/api/participants/c9350812-3f30-4fa4-8580-295ca65a4451',
+                'root@gmail.com',
             ],
         ]);
 
@@ -96,18 +97,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'uri' => '/api/tastings/14403f0a-f593-4122-8786-80153f130039/invite',
             'payload' => [
                 'participants' => [
-                    '/api/participants/c9350812-3f30-4fa4-8580-295ca65a4451',
-                ],
-            ],
-            'statusCode' => 404,
-            'violations' => [],
-        ];
-
-        yield 'Not found in participants' => [
-            'uri' => '/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite',
-            'payload' => [
-                'participants' => [
-                    '/api/participants/d11ccb25-cb77-42e6-a019-6f4f909efa9d',
+                    'root@gmail.com',
                 ],
             ],
             'statusCode' => 404,
@@ -118,7 +108,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'uri' => '/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite',
             'payload' => [
                 'participants' => [
-                    '/api/participants/9964e539-05ff-4611-b39c-ffd6d108b8b7',
+                    'hugues.gobet@gmail.com',
                 ],
             ],
             'statusCode' => 422,
@@ -159,7 +149,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
         $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
             'participants' => [
-                '/api/participants/c9350812-3f30-4fa4-8580-295ca65a4451',
+                'root@gmail.com',
             ],
         ]);
 
@@ -175,5 +165,23 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
                 ],
             ],
         ]);
+    }
+
+    public function testInviteParticipantToTastingWithParticipantNotExistInDatabase(): void
+    {
+        $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
+            'participants' => [
+                'stephanie.saintmarcel@gmail.com',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(204);
+
+        $participant = $this->participantReadDoctrineRepository->ofEmail(
+            ParticipantEmail::fromString('stephanie.saintmarcel@gmail.com'),
+        );
+
+        $this->assertNotNull($participant);
+        $this->assertNull($participant->fullName()->value());
     }
 }

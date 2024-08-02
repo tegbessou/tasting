@@ -8,13 +8,14 @@ use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Participant;
-use App\Tasting\Domain\Exception\ParticipantsDontExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
+use App\Tasting\Domain\Repository\ParticipantWriteRepositoryInterface;
 use App\Tasting\Domain\Repository\TastingReadRepositoryInterface;
 use App\Tasting\Domain\Service\GetInvitationLinkService;
 use App\Tasting\Domain\Service\InviteParticipantService;
+use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\TastingId;
 
 #[AsCommandHandler]
@@ -26,6 +27,7 @@ final readonly class InviteParticipantsCommandHandler
         private InviteParticipantService $inviteParticipantService,
         private InvitationWriteRepositoryInterface $invitationWriteRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
+        private ParticipantWriteRepositoryInterface $participantWriteRepository,
     ) {
     }
 
@@ -40,22 +42,17 @@ final readonly class InviteParticipantsCommandHandler
         }
 
         $participants = [];
-        $participantsDoesntExist = [];
 
-        foreach ($command->participants as $participantId) {
-            $participant = $this->participantReadRepository->ofId(
-                $participantId,
+        foreach ($command->participantsEmail as $participantEmail) {
+            $participant = $this->participantReadRepository->ofEmail(
+                $participantEmail,
             );
 
             if ($participant === null) {
-                $participantsDoesntExist[] = $participantId;
+                $participant = $this->createParticipantIfNotExist($participantEmail);
             }
 
             $participants[] = $participant;
-        }
-
-        if ($participantsDoesntExist !== []) {
-            throw new ParticipantsDontExistException($participantsDoesntExist);
         }
 
         $this->inviteParticipantService->canInviteParticipants(
@@ -76,5 +73,19 @@ final readonly class InviteParticipantsCommandHandler
 
             $this->invitationWriteRepository->add($invitation);
         }
+    }
+
+    public function createParticipantIfNotExist(ParticipantEmail $participantEmail): Participant
+    {
+        $newParticipant = Participant::createAnonymous(
+            $this->participantWriteRepository->nextIdentity(),
+            $participantEmail,
+        );
+
+        $this->eventDispatcher->dispatch($newParticipant);
+
+        $this->participantWriteRepository->add($newParticipant);
+
+        return $newParticipant;
     }
 }
