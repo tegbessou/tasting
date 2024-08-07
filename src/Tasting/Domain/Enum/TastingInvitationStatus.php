@@ -8,6 +8,5 @@ enum TastingInvitationStatus: string
 {
     case PENDING = 'pending';
     case ACCEPTED = 'accepted';
-    case READ = 'read';
     case REJECTED = 'rejected';
 }

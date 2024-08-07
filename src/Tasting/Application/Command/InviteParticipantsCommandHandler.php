@@ -6,14 +6,12 @@ namespace App\Tasting\Application\Command;
 
 use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
-use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantWriteRepositoryInterface;
 use App\Tasting\Domain\Repository\TastingReadRepositoryInterface;
-use App\Tasting\Domain\Service\GetInvitationLinkService;
 use App\Tasting\Domain\Service\InviteParticipantService;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -55,24 +53,18 @@ final readonly class InviteParticipantsCommandHandler
             $participants[] = $participant;
         }
 
-        $this->inviteParticipantService->canInviteParticipants(
+        $this->inviteParticipantService->inviteParticipants(
             $tasting,
             $participants,
         );
 
-        /** @var Participant $participant */
-        foreach ($participants as $participant) {
-            $invitation = Invitation::create(
-                $this->invitationWriteRepository->nextIdentity(),
-                $tasting,
-                $participant,
-                GetInvitationLinkService::getLink(),
-            );
+        foreach ($tasting->invitations() as $invitation) {
+            $this->invitationWriteRepository->add($invitation);
 
             $this->eventDispatcher->dispatch($invitation);
-
-            $this->invitationWriteRepository->add($invitation);
         }
+
+        $this->eventDispatcher->dispatch($tasting);
     }
 
     public function createParticipantIfNotExist(ParticipantEmail $participantEmail): Participant

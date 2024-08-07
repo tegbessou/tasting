@@ -22,4 +22,9 @@ final readonly class InvitationStatus
             TastingInvitationStatusEnum::from($status),
         );
     }
+
+    public function isAccepted(): bool
+    {
+        return $this->status === TastingInvitationStatusEnum::ACCEPTED;
+    }
 }

@@ -29,7 +29,7 @@ deptrac:
               - type: classNameRegex
                 value: '#^Symfony\\(?!(Contracts\\EventDispatcher))#'
               - type: classNameRegex
-                value: '#^Doctrine\\(?!(ORM\\Mapping))#'
+                value: '#^Doctrine\\ORM\\(?!(Mapping))#'
               - type: classNameRegex
                 value: '#^Webmozart\\Assert\\Assert#'
               - type: classNameRegex
@@ -44,7 +44,14 @@ deptrac:
               - type: classNameRegex
                 value: '#^Doctrine\\ORM\\Mapping#'
               - type: classNameRegex
-                value: '#^Override#'
+                value: '#^Override#'#'
+
+        - name: Collection
+          collectors:
+              - type: classNameRegex
+                value: '#^Doctrine\\Common\\Collections#'
+              - type: classNameRegex
+                value: '#^Doctrine\\Common\\Collections#'
 
         - name: Helpers
           collectors:
@@ -61,12 +68,14 @@ deptrac:
             - Helpers
             - Attributes
             - Events
+            - Collection
 
         Application:
             - Domain
             - Helpers
             - Attributes
             - Events
+            - Collection
 
         Infrastructure:
             - Domain
@@ -74,6 +83,7 @@ deptrac:
             - Vendors
             - Helpers
             - Attributes
+            - Collection
 
         Helpers:
             - Vendors

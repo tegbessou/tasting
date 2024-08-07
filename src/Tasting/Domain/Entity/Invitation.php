@@ -9,6 +9,7 @@ use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use App\Tasting\Domain\Event\InvitationCreatedEvent;
 use App\Tasting\Domain\Event\InvitationSentEvent;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
+use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationSentAt;
@@ -30,7 +31,7 @@ class Invitation implements EntityWithDomainEventInterface
     public function __construct(
         #[ORM\Embedded(columnPrefix: false)]
         private InvitationId $id,
-        #[ORM\ManyToOne(targetEntity: Tasting::class)]
+        #[ORM\ManyToOne(targetEntity: Tasting::class, inversedBy: 'invitations')]
         #[ORM\JoinColumn(name: 'tasting_id', referencedColumnName: 'id')]
         private Tasting $subject,
         #[ORM\ManyToOne(targetEntity: Participant::class)]
@@ -76,6 +77,30 @@ class Invitation implements EntityWithDomainEventInterface
         }
 
         $this->sentAt = InvitationSentAt::now();
+
+        self::recordEvent(
+            new InvitationSentEvent(
+                $this->id->id(),
+                $this->sentAt->value() ?? throw new \InvalidArgumentException(),
+            ),
+        );
+    }
+
+    public function accept(): void
+    {
+        if (!$this->isAlreadySent()) {
+            throw new InvitationMustBeSentBeforeBeingAcceptedException();
+        }
+
+        if ($this->isAlreadyAccepted()) {
+            throw new InvitationAlreadySentException();
+        }
+
+        $this->status = InvitationStatus::fromString('accepted');
+
+        if ($this->sentAt === null) {
+            throw new \InvalidArgumentException();
+        }
 
         self::recordEvent(
             new InvitationSentEvent(
@@ -133,8 +158,14 @@ class Invitation implements EntityWithDomainEventInterface
         return true;
     }
 
-    // create method to read invitation
+    public function isAlreadyAccepted(): bool
+    {
+        if ($this->status->isAccepted()) {
+            return true;
+        }
+
+        return false;
+    }
+
     // create method to reject invitation
-    // create method to accept invitation
-    // update when sent via email + send notification in an asynchronous way
 }

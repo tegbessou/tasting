@@ -4,5 +4,7 @@ parameters:
         -
             identifier: missingType.iterableValue
         -
+            identifier: return.phpDocType
+        -
             message: '#Variable \$userAuthenticated might not be defined.#'
             path: src/Security/Application/Command/AuthenticateUserCommandHandler.php

@@ -10,8 +10,6 @@ final readonly class TastingParticipantsInvitedEvent implements DomainEventInter
 {
     public function __construct(
         public string $tastingId,
-        public array $participants,
-        public string $ownerId,
     ) {
     }
 }

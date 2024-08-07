@@ -193,7 +193,7 @@ Invite participant to tasting
     - [ ] Reject invitation => suppression de l'invitation du participant à la dégustation
   - [ ] For a participant that doesn't already sign up
     - [X] Create a participant
-      - [XC] Check if when the user is created there is no problem
+      - [X] Check if when the user is created there is no problem
     - [X] Create a service to invite a participant
     - [X] Create Invitation as an Entity
       - [X] Add a participant to the invitation

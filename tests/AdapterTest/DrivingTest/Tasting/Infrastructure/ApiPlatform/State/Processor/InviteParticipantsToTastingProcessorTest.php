@@ -133,19 +133,16 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         ];
     }
 
+    // Rajouter un cas pour un invité qui a déjà accepté l'invitation
     public function testInviteParticipantToTastingWithParticipantAlreadyInvited(): void
     {
-        $rootParticipant = $this->participantReadDoctrineRepository->ofId(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-        );
+        $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
+            'participants' => [
+                'root@gmail.com',
+            ],
+        ]);
 
-        $tasting = $this->tastingReadDoctrineRepository->ofId(
-            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
-        );
-
-        $tasting->inviteParticipants([$rootParticipant]);
-
-        $this->entityManager->flush();
+        $this->assertResponseStatusCodeSame(204);
 
         $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
             'participants' => [
