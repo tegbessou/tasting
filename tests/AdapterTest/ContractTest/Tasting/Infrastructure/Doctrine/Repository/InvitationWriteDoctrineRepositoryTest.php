@@ -126,6 +126,31 @@ final class InvitationWriteDoctrineRepositoryTest extends KernelTestCase
             $invitation->sentAt(),
         );
 
+        $this->doctrineInvitationWriteRepository->delete($invitation);
         $invitation::eraseRecordedEvents();
+    }
+
+    public function testDelete(): void
+    {
+        $tasting = $this->doctrineTastingWriteRepository->ofId(TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'));
+
+        $participant = $this->doctrineParticipantWriteRepository->ofId(ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'));
+
+        $invitation = Invitation::create(
+            InvitationId::fromString('41fb800e-90dd-4b82-a1a0-982f4d9740a1'),
+            $tasting,
+            $participant,
+            GetInvitationLinkService::getLink(),
+        );
+
+        $this->doctrineInvitationWriteRepository->add($invitation);
+
+        $this->doctrineInvitationWriteRepository->delete($invitation);
+
+        $invitationFromDatabase = $this->doctrineInvitationWriteRepository->ofId(
+            InvitationId::fromString('41fb800e-90dd-4b82-a1a0-982f4d9740a1'),
+        );
+
+        $this->assertNull($invitationFromDatabase);
     }
 }

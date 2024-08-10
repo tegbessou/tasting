@@ -7,6 +7,7 @@ namespace App\Tasting\Domain\Entity;
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use App\Tasting\Domain\Event\TastingCreatedEvent;
+use App\Tasting\Domain\Exception\InvitationMustBePendingException;
 use App\Tasting\Domain\ValueObject\BottleId;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingParticipants;
@@ -57,6 +58,20 @@ class Tasting implements EntityWithDomainEventInterface
         );
 
         return $tasting;
+    }
+
+    // Il reste l'endpoint à faire et l'evenement à écouter pour dispatch un message qui supprimera une invitation
+    public function acceptInvitation(Invitation $invitation): void
+    {
+        if (!$invitation->status()->isPending()) {
+            throw new InvitationMustBePendingException();
+        }
+
+        $invitation->accept();
+
+        $this->participants = $this->participants->add(
+            $invitation->target()->id(),
+        );
     }
 
     public function participantAlreadyInvited(Participant $participant): bool

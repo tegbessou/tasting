@@ -16,4 +16,6 @@ interface InvitationWriteRepositoryInterface
     public function nextIdentity(): InvitationId;
 
     public function update(): void;
+
+    public function delete(Invitation $invitation): void;
 }

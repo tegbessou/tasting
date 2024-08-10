@@ -136,6 +136,9 @@ Create domain service for all check before creation.
 
 Check if I can store the bottle name in tasting instead of id, and if the bottle is updated then we dispatch an event to update all tasting
 
+/!\ Important change to do
+One repository for an aggregate root
+
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation
 Add in all id value object representation assert from max and min length
@@ -175,7 +178,6 @@ Invite participant to tasting
       - [X] Add a link to the invitation
       - [X] Add a created at/updated at to the invitation
       - [X] Add a status to the invitation (pending, read, accepted, refused)
-        - [ ] Remove all invitation as accepted or refused from one week, and read from one month
     - [ ] Add it to the participant array of the tasting => Not in the invite participant but when user accept it
     - [X] Dispatch an event => Which dispatch a message
     - [X] Consume message

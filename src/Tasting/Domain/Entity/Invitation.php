@@ -6,6 +6,7 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
+use App\Tasting\Domain\Event\InvitationAcceptedEvent;
 use App\Tasting\Domain\Event\InvitationCreatedEvent;
 use App\Tasting\Domain\Event\InvitationSentEvent;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
@@ -98,14 +99,9 @@ class Invitation implements EntityWithDomainEventInterface
 
         $this->status = InvitationStatus::fromString('accepted');
 
-        if ($this->sentAt === null) {
-            throw new \InvalidArgumentException();
-        }
-
         self::recordEvent(
-            new InvitationSentEvent(
+            new InvitationAcceptedEvent(
                 $this->id->id(),
-                $this->sentAt->value() ?? throw new \InvalidArgumentException(),
             ),
         );
     }

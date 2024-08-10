@@ -26,5 +26,6 @@ return RectorConfig::configure()
         ReadOnlyPropertyRector::class => [
             __DIR__.'/src/BottleInventory/Domain/ValueObject/OwnerId.php',
             __DIR__.'/src/Tasting/Domain/ValueObject/ParticipantId.php',
+            __DIR__.'/src/Tasting/Domain/ValueObject/TastingId.php',
         ],
     ]);

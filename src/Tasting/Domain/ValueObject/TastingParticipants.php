@@ -24,10 +24,10 @@ final readonly class TastingParticipants
         $this->values = $participants;
     }
 
-    public function add(array $participants): self
+    public function add(ParticipantId $participantId): self
     {
         return new self(
-            array_merge($this->values, $participants),
+            array_merge($this->values, [$participantId->value()]),
         );
     }
 

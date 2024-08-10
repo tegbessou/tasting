@@ -43,4 +43,11 @@ final readonly class InvitationWriteDoctrineRepository implements InvitationWrit
     {
         $this->entityManager->flush();
     }
+
+    #[\Override]
+    public function delete(Invitation $invitation): void
+    {
+        $this->entityManager->remove($invitation);
+        $this->entityManager->flush();
+    }
 }

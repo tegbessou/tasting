@@ -22,7 +22,7 @@ final readonly class GetParticipantProvider implements ProviderInterface
     }
 
     #[\Override]
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ParticipantResource
     {
         $owner = $this->queryBus->ask(new GetParticipantQuery($uriVariables['id']->toRfc4122()));
 
