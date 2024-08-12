@@ -172,10 +172,12 @@ final class InviteParticipantServiceTest extends TestCase
 
         $invitation = $tasting->invitations()->first();
         $invitation->send();
-        $invitation->accept();
+        $tasting->acceptInvitation($invitation);
+
+        $tasting->removeInvitation($invitation);
 
         $this->expectException(ParticipantsAlreadyParticipatingException::class);
-        $this->expectExceptionMessage('Participants Root are already invited');
+        $this->expectExceptionMessage('Participants Root are already participating');
 
         $inviteParticipantService->inviteParticipants(
             $tasting,

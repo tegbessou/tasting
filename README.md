@@ -138,6 +138,7 @@ Check if I can store the bottle name in tasting instead of id, and if the bottle
 
 /!\ Important change to do
 One repository for an aggregate root
+Challenge Invitation entity to follow aggregate rules
 
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation
@@ -178,7 +179,7 @@ Invite participant to tasting
       - [X] Add a link to the invitation
       - [X] Add a created at/updated at to the invitation
       - [X] Add a status to the invitation (pending, read, accepted, refused)
-    - [ ] Add it to the participant array of the tasting => Not in the invite participant but when user accept it
+    - [X] Add it to the participant array of the tasting => Not in the invite participant but when user accept it
     - [X] Dispatch an event => Which dispatch a message
     - [X] Consume message
       - [X] Set send at to now
@@ -191,8 +192,9 @@ Invite participant to tasting
         - [X] Install mailer for symfony
         - [X] In email send a link to the app
             - [X] Create a link to the app // https://apps.apple.com/app/6468406309 => "Dégust' et des couleurs à remplacer par la notre quand créé"
-    - [ ] Accept invitation => ajout du participant à la dégustation et changement du status de l'invitation
+    - [X] Accept invitation => ajout du participant à la dégustation et changement du status de l'invitation
     - [ ] Reject invitation => suppression de l'invitation du participant à la dégustation
+    - [ ] List invitation by participant
   - [ ] For a participant that doesn't already sign up
     - [X] Create a participant
       - [X] Check if when the user is created there is no problem
@@ -203,7 +205,6 @@ Invite participant to tasting
       - [X] Add a link to the invitation
       - [X] Add a created at/updated at to the invitation
       - [X] Add a status to the invitation (pending, read, accepted, refused)
-        - [ ] Remove all invitation as accepted or refused from one week, and read from one month
     - [ ] Add it to the participant array of the tasting
     - [X] Dispatch an event
     - [X] Send an email with a link to the app

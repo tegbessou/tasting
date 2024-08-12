@@ -9,6 +9,7 @@ use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\InvitationAcceptedEvent;
 use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
+use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipantService;
 use App\Tasting\Domain\ValueObject\BottleId;
@@ -289,5 +290,93 @@ final class TastingTest extends TestCase
         $this->assertInstanceOf(InvitationAcceptedEvent::class, $invitation::getRecordedEvent()[0]);
         $tasting::eraseRecordedEvents();
         $invitation::eraseRecordedEvents();
+    }
+
+    public function testRemoveInvitation(): void
+    {
+        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository->method('nextIdentity')
+            ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
+        ;
+
+        $invitationService = new InviteParticipantService($invitationWriteRepository);
+
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
+        );
+
+        $newParticipant = Participant::create(
+            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+            ParticipantEmail::fromString('root@gmail.com'),
+            ParticipantFullName::fromString('Root'),
+        );
+
+        $invitationService->inviteParticipants(
+            $tasting,
+            [
+                $newParticipant,
+            ],
+        );
+
+        $invitation = $tasting->invitations()->first();
+        $invitation->send();
+        $invitation::eraseRecordedEvents();
+
+        $tasting->acceptInvitation($invitation);
+
+        $this->assertCount(1, $tasting->invitations());
+
+        $tasting->removeInvitation($invitation);
+
+        $this->assertCount(0, $tasting->invitations());
+    }
+
+    public function testRemoveInvitationNotAlreadySend(): void
+    {
+        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository->method('nextIdentity')
+            ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
+        ;
+
+        $invitationService = new InviteParticipantService($invitationWriteRepository);
+
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
+        );
+
+        $newParticipant = Participant::create(
+            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+            ParticipantEmail::fromString('root@gmail.com'),
+            ParticipantFullName::fromString('Root'),
+        );
+
+        $invitationService->inviteParticipants(
+            $tasting,
+            [
+                $newParticipant,
+            ],
+        );
+
+        $invitation = $tasting->invitations()->first();
+        $invitation::eraseRecordedEvents();
+
+        $this->assertCount(1, $tasting->invitations());
+
+        $this->expectException(InvitationMustNotBePendingException::class);
+        $tasting->removeInvitation($invitation);
+
+        $this->assertCount(1, $tasting->invitations());
     }
 }

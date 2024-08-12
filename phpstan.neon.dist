@@ -8,3 +8,6 @@ parameters:
         -
             message: '#Variable \$userAuthenticated might not be defined.#'
             path: src/Security/Application/Command/AuthenticateUserCommandHandler.php
+        -
+            message: '#Property App\\Tasting\\Domain\\Entity\\Invitation\:\:\$subject is never read, only written.#'
+            path: src/Tasting/Domain/Entity/Invitation.php

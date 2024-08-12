@@ -12,6 +12,7 @@ use App\Shared\Application\Command\CommandInterface;
 final readonly class AcceptInvitationCommand implements CommandInterface
 {
     public function __construct(
+        public string $tastingId,
         public string $invitationId,
     ) {
     }

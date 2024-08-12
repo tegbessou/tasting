@@ -60,11 +60,6 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             $invitations->current()->target()->id(),
         );
 
-        $this->assertEquals(
-            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
-            $invitations->current()->subject()->id(),
-        );
-
         foreach ($invitations as $invitation) {
             $this->entityManager->remove($invitation);
         }

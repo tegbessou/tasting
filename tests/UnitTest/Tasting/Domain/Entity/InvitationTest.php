@@ -59,10 +59,6 @@ final class InvitationTest extends TestCase
         $this->assertInstanceOf(Invitation::class, $tastingInvitation);
 
         $this->assertEquals(
-            TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
-            $tastingInvitation->subject()->id(),
-        );
-        $this->assertEquals(
             ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
             $tastingInvitation->target()->id(),
         );

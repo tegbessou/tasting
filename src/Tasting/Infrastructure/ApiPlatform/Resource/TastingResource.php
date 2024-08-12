@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Post;
 use App\Tasting\Domain\Entity\Tasting;
+use App\Tasting\Infrastructure\ApiPlatform\State\Processor\AcceptInvitationProcessor;
 use App\Tasting\Infrastructure\ApiPlatform\State\Processor\InviteParticipantsToTastingProcessor;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -24,6 +25,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['invite_participants_to_tasting']],
             output: false,
             processor: InviteParticipantsToTastingProcessor::class,
+        ),
+        new Post(
+            uriTemplate: '/tastings/{tastingId}/invitations/{id}/accept',
+            status: Response::HTTP_NO_CONTENT,
+            output: false,
+            processor: AcceptInvitationProcessor::class,
         ),
     ]
 )]

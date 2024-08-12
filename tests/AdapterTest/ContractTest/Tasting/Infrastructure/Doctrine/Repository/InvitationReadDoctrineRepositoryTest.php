@@ -59,7 +59,6 @@ final class InvitationReadDoctrineRepositoryTest extends WebTestCase
         foreach ($invitations as $invitation) {
             $this->assertNotNull($invitation);
             $this->assertStringContainsString('c9350812-3f30-4fa4-8580-295ca65a4451', $invitation->target()->id()->value());
-            $this->assertStringContainsString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537', $invitation->subject()->id()->value());
         }
     }
 }

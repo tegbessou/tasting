@@ -9,10 +9,13 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\AcceptInvitationCommand;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\InvitationResource;
+use App\Tasting\Domain\Exception\InvitationDoesntExistException;
+use App\Tasting\Domain\Exception\TastingDoesntExistException;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @implements ProcessorInterface<InvitationResource, void>
+ * @implements ProcessorInterface<TastingResource, void>
  */
 final readonly class AcceptInvitationProcessor implements ProcessorInterface
 {
@@ -24,13 +27,19 @@ final readonly class AcceptInvitationProcessor implements ProcessorInterface
     #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        Assert::notNull($data->id);
-        Assert::isInstanceOf($data, InvitationResource::class);
+        Assert::uuid($uriVariables['tastingId']);
+        Assert::uuid($uriVariables['id']);
+        Assert::isInstanceOf($data, TastingResource::class);
 
-        $this->commandBus->dispatch(
-            new AcceptInvitationCommand(
-                $data->id->__toString(),
-            ),
-        );
+        try {
+            $this->commandBus->dispatch(
+                new AcceptInvitationCommand(
+                    $uriVariables['tastingId'],
+                    $uriVariables['id'],
+                ),
+            );
+        } catch (TastingDoesntExistException|InvitationDoesntExistException) {
+            throw new NotFoundHttpException();
+        }
     }
 }

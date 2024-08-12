@@ -7,7 +7,9 @@ namespace App\Tasting\Domain\Entity;
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use App\Tasting\Domain\Event\TastingCreatedEvent;
+use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationMustBePendingException;
+use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\ValueObject\BottleId;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingParticipants;
@@ -60,7 +62,6 @@ class Tasting implements EntityWithDomainEventInterface
         return $tasting;
     }
 
-    // Il reste l'endpoint à faire et l'evenement à écouter pour dispatch un message qui supprimera une invitation
     public function acceptInvitation(Invitation $invitation): void
     {
         if (!$invitation->status()->isPending()) {
@@ -71,6 +72,24 @@ class Tasting implements EntityWithDomainEventInterface
 
         $this->participants = $this->participants->add(
             $invitation->target()->id(),
+        );
+    }
+
+    // utiliser cette méthode
+    public function removeInvitation(Invitation $invitation): void
+    {
+        if ($invitation->status()->isPending()) {
+            throw new InvitationMustNotBePendingException();
+        }
+
+        $index = $this->invitations->indexOf($invitation);
+
+        if ($index === false || is_string($index)) {
+            throw new InvitationDoesntExistException($invitation->id()->id());
+        }
+
+        $this->invitations->remove(
+            $index,
         );
     }
 

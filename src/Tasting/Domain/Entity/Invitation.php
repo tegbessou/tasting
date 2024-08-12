@@ -111,11 +111,6 @@ class Invitation implements EntityWithDomainEventInterface
         return $this->id;
     }
 
-    public function subject(): Tasting
-    {
-        return $this->subject;
-    }
-
     public function target(): Participant
     {
         return $this->target;

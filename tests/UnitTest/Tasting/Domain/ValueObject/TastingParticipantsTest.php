@@ -39,4 +39,44 @@ final class TastingParticipantsTest extends TestCase
             ),
         );
     }
+
+    public function testAdd(): void
+    {
+        $tastingParticipants = new TastingParticipants(
+            ['1dc0315e-c0b1-4236-a29a-309bfaba6597'],
+        );
+
+        $participantToAdd = ParticipantId::fromString('645bab14-29b7-40bd-9983-fd1efe86fcf1');
+
+        $tastingParticipants = $tastingParticipants->add($participantToAdd);
+
+        $this->assertEquals(
+            [
+                '1dc0315e-c0b1-4236-a29a-309bfaba6597',
+                '645bab14-29b7-40bd-9983-fd1efe86fcf1',
+            ],
+            $tastingParticipants->values(),
+        );
+    }
+
+    public function testRemove(): void
+    {
+        $tastingParticipants = new TastingParticipants(
+            [
+                '1dc0315e-c0b1-4236-a29a-309bfaba6597',
+                '645bab14-29b7-40bd-9983-fd1efe86fcf1',
+            ],
+        );
+
+        $participantToAdd = ParticipantId::fromString('645bab14-29b7-40bd-9983-fd1efe86fcf1');
+
+        $tastingParticipants = $tastingParticipants->remove($participantToAdd);
+
+        $this->assertEquals(
+            [
+                '1dc0315e-c0b1-4236-a29a-309bfaba6597',
+            ],
+            $tastingParticipants->values(),
+        );
+    }
 }
