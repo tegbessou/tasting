@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Post;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Infrastructure\ApiPlatform\State\Processor\AcceptInvitationProcessor;
 use App\Tasting\Infrastructure\ApiPlatform\State\Processor\InviteParticipantsToTastingProcessor;
+use App\Tasting\Infrastructure\ApiPlatform\State\Processor\RejectInvitationProcessor;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\AbstractUid;
@@ -31,6 +32,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             status: Response::HTTP_NO_CONTENT,
             output: false,
             processor: AcceptInvitationProcessor::class,
+        ),
+        new Post(
+            uriTemplate: '/tastings/{tastingId}/invitations/{id}/reject',
+            status: Response::HTTP_NO_CONTENT,
+            output: false,
+            processor: RejectInvitationProcessor::class,
         ),
     ]
 )]

@@ -193,9 +193,9 @@ Invite participant to tasting
         - [X] In email send a link to the app
             - [X] Create a link to the app // https://apps.apple.com/app/6468406309 => "Dégust' et des couleurs à remplacer par la notre quand créé"
     - [X] Accept invitation => ajout du participant à la dégustation et changement du status de l'invitation
-    - [ ] Reject invitation => suppression de l'invitation du participant à la dégustation
+    - [X] Reject invitation => suppression de l'invitation du participant à la dégustation
     - [ ] List invitation by participant
-  - [ ] For a participant that doesn't already sign up
+  - [X] For a participant that doesn't already sign up
     - [X] Create a participant
       - [X] Check if when the user is created there is no problem
     - [X] Create a service to invite a participant
@@ -205,7 +205,7 @@ Invite participant to tasting
       - [X] Add a link to the invitation
       - [X] Add a created at/updated at to the invitation
       - [X] Add a status to the invitation (pending, read, accepted, refused)
-    - [ ] Add it to the participant array of the tasting
+    - [X] Add it to the participant array of the tasting
     - [X] Dispatch an event
     - [X] Send an email with a link to the app
       - [X] Configure mailcatcher for local

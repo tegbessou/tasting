@@ -101,7 +101,7 @@ framework:
             'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': [security_to_bottle_inventory, security_to_tasting]
 
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage': tasting
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage': tasting
+            'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface': tasting
 
 when@test:
     framework:

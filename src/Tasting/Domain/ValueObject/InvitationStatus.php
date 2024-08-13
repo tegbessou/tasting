@@ -32,4 +32,9 @@ final readonly class InvitationStatus
     {
         return $this->status === TastingInvitationStatusEnum::PENDING;
     }
+
+    public function isRejected(): bool
+    {
+        return $this->status === TastingInvitationStatusEnum::REJECTED;
+    }
 }

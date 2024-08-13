@@ -30,6 +30,9 @@ services:
   App\Tasting\Application\EventListener\OnInvitationAcceptedEventListener:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\EventListener\OnInvitationRejectedEventListener:
+    tags: [kernel.event_listener]
+
   App\Security\Application\EventListener\OnUserCreatedEventListener:
     tags: [kernel.event_listener]
 

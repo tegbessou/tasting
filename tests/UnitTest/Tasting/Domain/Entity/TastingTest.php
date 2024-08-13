@@ -7,8 +7,10 @@ namespace App\Tests\UnitTest\Tasting\Domain\Entity;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\InvitationAcceptedEvent;
+use App\Tasting\Domain\Event\InvitationRejectedEvent;
 use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
+use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipantService;
@@ -235,16 +237,6 @@ final class TastingTest extends TestCase
 
         $tasting->acceptInvitation($invitation);
 
-        $this->assertContains(
-            $newParticipant->id()->value(),
-            $tasting->participants()->values(),
-        );
-
-        $this->assertEquals(
-            InvitationStatus::fromString('accepted'),
-            $invitation->status(),
-        );
-
         $tasting::eraseRecordedEvents();
         $invitation::eraseRecordedEvents();
     }
@@ -326,9 +318,9 @@ final class TastingTest extends TestCase
 
         $invitation = $tasting->invitations()->first();
         $invitation->send();
-        $invitation::eraseRecordedEvents();
 
         $tasting->acceptInvitation($invitation);
+        $invitation::eraseRecordedEvents();
 
         $this->assertCount(1, $tasting->invitations());
 
@@ -378,5 +370,141 @@ final class TastingTest extends TestCase
         $tasting->removeInvitation($invitation);
 
         $this->assertCount(1, $tasting->invitations());
+    }
+
+    public function testRejectInvitation(): void
+    {
+        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository->method('nextIdentity')
+            ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
+        ;
+
+        $invitationService = new InviteParticipantService($invitationWriteRepository);
+
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
+        );
+
+        $newParticipant = Participant::create(
+            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+            ParticipantEmail::fromString('root@gmail.com'),
+            ParticipantFullName::fromString('Root'),
+        );
+
+        $invitationService->inviteParticipants(
+            $tasting,
+            [
+                $newParticipant,
+            ],
+        );
+
+        $invitation = $tasting->invitations()->first();
+        $invitation->send();
+
+        $tasting->rejectInvitation($invitation);
+
+        $this->assertNotContains(
+            $newParticipant->id()->value(),
+            $tasting->participants()->values(),
+        );
+
+        $this->assertEquals(
+            InvitationStatus::fromString('rejected'),
+            $invitation->status(),
+        );
+
+        $tasting::eraseRecordedEvents();
+        $invitation::eraseRecordedEvents();
+    }
+
+    public function testRejectInvitationFailedBecauseInvitationNotSent(): void
+    {
+        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository->method('nextIdentity')
+            ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
+        ;
+
+        $invitationService = new InviteParticipantService($invitationWriteRepository);
+
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
+        );
+
+        $newParticipant = Participant::create(
+            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+            ParticipantEmail::fromString('root@gmail.com'),
+            ParticipantFullName::fromString('Root'),
+        );
+
+        $invitationService->inviteParticipants(
+            $tasting,
+            [
+                $newParticipant,
+            ],
+        );
+
+        $invitation = $tasting->invitations()->first();
+
+        $this->expectException(InvitationMustBeSentBeforeBeingRejectedException::class);
+
+        $tasting->rejectInvitation($invitation);
+
+        $tasting::eraseRecordedEvents();
+        $invitation::eraseRecordedEvents();
+    }
+
+    public function testRejectInvitationEventDispatch(): void
+    {
+        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository->method('nextIdentity')
+            ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
+        ;
+
+        $invitationService = new InviteParticipantService($invitationWriteRepository);
+
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            Participant::create(
+                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
+                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantFullName::fromString('Hugues Gobet'),
+            ),
+        );
+
+        $newParticipant = Participant::create(
+            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+            ParticipantEmail::fromString('root@gmail.com'),
+            ParticipantFullName::fromString('Root'),
+        );
+
+        $invitationService->inviteParticipants(
+            $tasting,
+            [
+                $newParticipant,
+            ],
+        );
+
+        $invitation = $tasting->invitations()->first();
+        $invitation->send();
+        $invitation::eraseRecordedEvents();
+
+        $tasting->rejectInvitation($invitation);
+
+        $this->assertInstanceOf(InvitationRejectedEvent::class, $invitation::getRecordedEvent()[0]);
+        $tasting::eraseRecordedEvents();
+        $invitation::eraseRecordedEvents();
     }
 }

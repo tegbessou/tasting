@@ -8,9 +8,13 @@ use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use App\Tasting\Domain\Event\InvitationAcceptedEvent;
 use App\Tasting\Domain\Event\InvitationCreatedEvent;
+use App\Tasting\Domain\Event\InvitationRejectedEvent;
 use App\Tasting\Domain\Event\InvitationSentEvent;
+use App\Tasting\Domain\Exception\InvitationAlreadyAcceptedException;
+use App\Tasting\Domain\Exception\InvitationAlreadyRejectedException;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
+use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationSentAt;
@@ -94,13 +98,32 @@ class Invitation implements EntityWithDomainEventInterface
         }
 
         if ($this->isAlreadyAccepted()) {
-            throw new InvitationAlreadySentException();
+            throw new InvitationAlreadyAcceptedException();
         }
 
         $this->status = InvitationStatus::fromString('accepted');
 
         self::recordEvent(
             new InvitationAcceptedEvent(
+                $this->id->id(),
+            ),
+        );
+    }
+
+    public function reject(): void
+    {
+        if (!$this->isAlreadySent()) {
+            throw new InvitationMustBeSentBeforeBeingRejectedException();
+        }
+
+        if ($this->isAlreadyRejected()) {
+            throw new InvitationAlreadyRejectedException();
+        }
+
+        $this->status = InvitationStatus::fromString('rejected');
+
+        self::recordEvent(
+            new InvitationRejectedEvent(
                 $this->id->id(),
             ),
         );
@@ -152,6 +175,15 @@ class Invitation implements EntityWithDomainEventInterface
     public function isAlreadyAccepted(): bool
     {
         if ($this->status->isAccepted()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isAlreadyRejected(): bool
+    {
+        if ($this->status->isRejected()) {
             return true;
         }
 

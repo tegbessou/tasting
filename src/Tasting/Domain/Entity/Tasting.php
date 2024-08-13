@@ -75,7 +75,15 @@ class Tasting implements EntityWithDomainEventInterface
         );
     }
 
-    // utiliser cette méthode
+    public function rejectInvitation(Invitation $invitation): void
+    {
+        if (!$invitation->status()->isPending()) {
+            throw new InvitationMustBePendingException();
+        }
+
+        $invitation->reject();
+    }
+
     public function removeInvitation(Invitation $invitation): void
     {
         if ($invitation->status()->isPending()) {

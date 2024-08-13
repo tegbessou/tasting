@@ -7,7 +7,7 @@ namespace App\Tasting\Infrastructure\Symfony\Messenger\MessageHandler;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\DeleteInvitationCommand;
-use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
+use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -19,12 +19,12 @@ final readonly class DeleteInvitationMessageHandler
     }
 
     public function __invoke(
-        InvitationAcceptedMessage $invitationAcceptedMessage,
+        InvitationStatusChangedInterface $invitationAcceptedMessage,
     ): void {
-        Assert::uuid($invitationAcceptedMessage->invitationId);
+        Assert::uuid($invitationAcceptedMessage->getInvitationId());
 
         $this->commandBus->dispatch(
-            new DeleteInvitationCommand($invitationAcceptedMessage->invitationId),
+            new DeleteInvitationCommand($invitationAcceptedMessage->getInvitationId()),
         );
     }
 }

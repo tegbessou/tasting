@@ -9,8 +9,11 @@ use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\InvitationCreatedEvent;
 use App\Tasting\Domain\Event\InvitationSentEvent;
+use App\Tasting\Domain\Exception\InvitationAlreadyAcceptedException;
+use App\Tasting\Domain\Exception\InvitationAlreadyRejectedException;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
+use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\ValueObject\BottleId;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
@@ -214,27 +217,6 @@ final class InvitationTest extends TestCase
         $this->assertEmpty($invitation::getRecordedEvent()[0]);
     }
 
-    public function testAcceptInvitation(): void
-    {
-        $tastingInvitation = Invitation::create(
-            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
-            $this->tasting,
-            $this->participant,
-            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
-        );
-
-        $tastingInvitation->send();
-
-        $tastingInvitation->accept();
-
-        $this->assertEquals(
-            InvitationStatus::fromString('accepted'),
-            $tastingInvitation->status(),
-        );
-
-        $tastingInvitation::eraseRecordedEvents();
-    }
-
     public function testAcceptInvitationNotAlreadySent(): void
     {
         $tastingInvitation = Invitation::create(
@@ -247,11 +229,6 @@ final class InvitationTest extends TestCase
         $this->expectException(InvitationMustBeSentBeforeBeingAcceptedException::class);
 
         $tastingInvitation->accept();
-
-        $this->assertEquals(
-            InvitationStatus::fromString('accepted'),
-            $tastingInvitation->status(),
-        );
 
         $tastingInvitation::eraseRecordedEvents();
     }
@@ -269,8 +246,45 @@ final class InvitationTest extends TestCase
 
         $tastingInvitation->accept();
 
-        $this->expectException(InvitationAlreadySentException::class);
+        $this->expectException(InvitationAlreadyAcceptedException::class);
 
         $tastingInvitation->accept();
+
+        $tastingInvitation::eraseRecordedEvents();
+    }
+
+    public function testRejectInvitationNotAlreadySent(): void
+    {
+        $tastingInvitation = Invitation::create(
+            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
+            $this->tasting,
+            $this->participant,
+            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
+        );
+
+        $this->expectException(InvitationMustBeSentBeforeBeingRejectedException::class);
+
+        $tastingInvitation->reject();
+
+        $tastingInvitation::eraseRecordedEvents();
+    }
+
+    public function testRejectInvitationAlreadyRejected(): void
+    {
+        $tastingInvitation = Invitation::create(
+            InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
+            $this->tasting,
+            $this->participant,
+            InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
+        );
+
+        $tastingInvitation->send();
+        $tastingInvitation->reject();
+
+        $this->expectException(InvitationAlreadyRejectedException::class);
+
+        $tastingInvitation->reject();
+
+        $tastingInvitation::eraseRecordedEvents();
     }
 }

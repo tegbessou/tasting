@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Symfony\Messenger\Message;
 
-use App\Tasting\Domain\Event\InvitationAcceptedEvent;
+use App\Tasting\Domain\Event\InvitationRejectedEvent;
 
-final readonly class InvitationAcceptedMessage implements InvitationStatusChangedInterface
+final readonly class InvitationRejectedMessage implements InvitationStatusChangedInterface
 {
     public function __construct(
         private string $invitationId,
     ) {
     }
 
-    public static function fromEvent(InvitationAcceptedEvent $event): self
+    public static function fromEvent(InvitationRejectedEvent $event): self
     {
         return new self(
             $event->invitationId,
