@@ -58,7 +58,17 @@ final class Assert extends BaseAssert
         if ($date->getTimestamp() > $now->getTimestamp()) {
             static::reportInvalidArgument(\sprintf(
                 $message ?: 'Expected a date not inferior than today. Got: %s',
-                $date->format('Y-m-d')
+                $date->format('Y-m-d'),
+            ));
+        }
+    }
+
+    public static function url(string $url, string $message = ''): void
+    {
+        if (!str_contains($url, 'https://')) {
+            static::reportInvalidArgument(\sprintf(
+                $message ?: 'Expected a valid url, start with protocol "https". Got: %s',
+                $url,
             ));
         }
     }

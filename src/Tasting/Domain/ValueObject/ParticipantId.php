@@ -8,7 +8,7 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
-final readonly class ParticipantId
+final class ParticipantId
 {
     #[ORM\Id]
     #[ORM\Column(name: 'id', type: 'uuid', length: 36, unique: true)]
@@ -29,7 +29,7 @@ final readonly class ParticipantId
         return new self($value);
     }
 
-    public function id(): string
+    public function value(): string
     {
         return $this->value;
     }

@@ -35,9 +35,9 @@ final class CreateParticipantMessageHandlerTest extends KernelTestCase
             'Hugues Gobet',
         ));
 
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
-        $this->transport('tasting')->process(1);
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 0);
+        $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('tasting_from_external')->process(1);
+        $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 0);
 
         /** @var Participant $participant */
         $participant = $this->participantRepository->ofEmail(
@@ -55,9 +55,9 @@ final class CreateParticipantMessageHandlerTest extends KernelTestCase
             'Hugues Gobet',
         ));
 
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
-        $this->transport('tasting')->process(1);
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 0);
+        $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('tasting_from_external')->process(1);
+        $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 0);
 
         /** @var Participant $participant */
         $participant = $this->participantRepository->ofEmail(
@@ -74,8 +74,8 @@ final class CreateParticipantMessageHandlerTest extends KernelTestCase
             'Hugues Gobet',
         ));
 
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
-        $this->transport('tasting')->process(1);
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 0);
+        $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('tasting_from_external')->process(1);
+        $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 0);
     }
 }

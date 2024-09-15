@@ -88,7 +88,7 @@ final class TastingWriteDoctrineRepositoryTest extends KernelTestCase
     public function testNextIdentity(): void
     {
         $this->assertIsString(
-            $this->doctrineTastingWriteRepository->nextIdentity()->id(),
+            $this->doctrineTastingWriteRepository->nextIdentity()->value(),
         );
     }
 }

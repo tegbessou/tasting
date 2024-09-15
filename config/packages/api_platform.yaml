@@ -6,6 +6,7 @@ api_platform:
         - '%kernel.project_dir%/src/BottleInventory/Infrastructure/ApiPlatform/Resource'
         - '%kernel.project_dir%/src/Country/Infrastructure/ApiPlatform/Resource'
         - '%kernel.project_dir%/src/Security/Infrastructure/ApiPlatform/Resource'
+        - '%kernel.project_dir%/src/Tasting/Infrastructure/ApiPlatform/Resource'
     swagger:
         api_keys:
             key:

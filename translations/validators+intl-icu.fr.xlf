@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="bottle_inventory.owner.doesnt_exist">
+                <source>bottle_inventory.owner.doesnt_exist</source>
+                <target>Le propriétaire avec l'identifiant {id} n'existe pas.</target>
+            </trans-unit>
+            <trans-unit id="bottle_inventory.country.doesnt_exist">
+                <source>bottle_inventory.country.doesnt_exist</source>
+                <target>Le pays avec le nom {country} n'existe pas.</target>
+            </trans-unit>
+            <trans-unit id="bottle_inventory.grape_varieties.doesnt_exist">
+                <source>bottle_inventory.grape_varieties.doesnt_exist</source>
+                <target>{grapeVarieties, plural, =1 {Le cépage portant le nom {grapeVarietiesString} n'existe pas.} other {Les cépages portant le nom {grapeVarietiesString} n'existent pas.}}</target>
+            </trans-unit>
+            <trans-unit id="user.email.already_exists">
+                <source>user.email.already_exists</source>
+                <target>L'utilisateur avec l'email {email} existe déjà.</target>
+            </trans-unit>
+            <trans-unit id="tasting.participants.owner_cannot_be_invited">
+                <source>tasting.participants.owner_cannot_be_invited</source>
+                <target>Le propriétaire ne peut pas être invité.</target>
+            </trans-unit>
+            <trans-unit id="tasting.participants.already_invited">
+                <source>tasting.participants.already_invited</source>
+                <target>Les participants {participants} sont déjà invités.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

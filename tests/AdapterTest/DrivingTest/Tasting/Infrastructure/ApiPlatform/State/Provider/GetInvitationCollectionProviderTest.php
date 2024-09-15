@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Provider;
+
+use App\Tests\Shared\ApiTestCase;
+
+final class GetInvitationCollectionProviderTest extends ApiTestCase
+{
+    public function testGetInvitationsByTarget(): void
+    {
+        $this->get('/api/invitations?target.email=root@gmail.com');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Invitation',
+            '@id' => '/api/invitations',
+            '@type' => 'hydra:Collection',
+            'hydra:member' => [
+                [
+                    '@type' => 'Invitation',
+                    '@id' => '/api/invitations/abed2f69-9aae-4d92-a91c-edfa7c985674',
+                    'subject' => [
+                        '@id' => '/api/tastings/2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
+                        'bottleName' => '5ec0917b-179f-46e4-87d6-db76fbddf45f',
+                        'owner' => [
+                            '@id' => '/api/owner_tastings/9964e539-05ff-4611-b39c-ffd6d108b8b7',
+                            'fullName' => 'Hugues Gobet',
+                        ],
+                    ],
+                    'target' => [
+                        'fullName' => 'Root',
+                    ],
+                ],
+            ],
+            'hydra:totalItems' => 1,
+        ]);
+    }
+}

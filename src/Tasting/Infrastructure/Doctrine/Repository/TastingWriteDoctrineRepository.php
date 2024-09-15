@@ -40,4 +40,10 @@ final readonly class TastingWriteDoctrineRepository implements TastingWriteRepos
             Uuid::v4()->toRfc4122(),
         );
     }
+
+    #[\Override]
+    public function update(): void
+    {
+        $this->entityManager->flush();
+    }
 }

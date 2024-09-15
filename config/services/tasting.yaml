@@ -33,11 +33,23 @@ services:
     alias: App\Tasting\Infrastructure\BottleInventory\Http\Repository\BottleReadHttpRepository
     public: true
 
+  App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository
+    public: true
+
+  App\Tasting\Domain\Repository\InvitationReadRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository
+    public: true
+
   App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
     alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
 
   App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClientInterface:
     alias: App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClient
+
+  App\Tasting\Application\Service\NotificationServiceInterface:
+    alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseService
+    public: true
 
 when@test:
   services:
@@ -46,3 +58,7 @@ when@test:
 
     App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
       alias: App\Tasting\Infrastructure\Security\Http\Client\UserFakeHttpClient
+
+    App\Tasting\Application\Service\NotificationServiceInterface:
+      alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFakeService
+      public: true

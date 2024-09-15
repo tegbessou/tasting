@@ -18,6 +18,14 @@
                 <source>user.email.already_exists</source>
                 <target>User with email {email} already exists.</target>
             </trans-unit>
+            <trans-unit id="tasting.participants.owner_cannot_be_invited">
+                <source>tasting.participants.owner_cannot_be_invited</source>
+                <target>Owner cannot be invited.</target>
+            </trans-unit>
+            <trans-unit id="tasting.participants.already_invited">
+                <source>tasting.participants.already_invited</source>
+                <target>Participants {participants} are already invited.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

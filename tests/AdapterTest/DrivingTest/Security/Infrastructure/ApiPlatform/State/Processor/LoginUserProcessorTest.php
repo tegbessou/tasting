@@ -42,8 +42,8 @@ final class LoginUserProcessorTest extends ApiTestCase
             'violations' => [
                 '@type' => 'ConstraintViolationList',
                 'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: This value should not be blank.
-password: This value should not be blank.',
+                'hydra:description' => 'email: Cette valeur ne doit pas être vide.
+password: Cette valeur ne doit pas être vide.',
             ],
         ];
 
@@ -56,7 +56,7 @@ password: This value should not be blank.',
             'violations' => [
                 '@type' => 'ConstraintViolationList',
                 'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: This value is not a valid email address.',
+                'hydra:description' => 'email: Cette valeur n\'est pas une adresse email valide.',
             ],
         ];
     }

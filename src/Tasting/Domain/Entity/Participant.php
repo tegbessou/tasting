@@ -6,7 +6,9 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
+use App\Tasting\Domain\Event\ParticipantAnonymousCreatedEvent;
 use App\Tasting\Domain\Event\ParticipantCreatedEvent;
+use App\Tasting\Domain\Exception\ParticipantEmailShouldntBeNullException;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantFullName;
 use App\Tasting\Domain\ValueObject\ParticipantId;
@@ -23,7 +25,7 @@ class Participant implements EntityWithDomainEventInterface
         #[ORM\Embedded(columnPrefix: false)]
         private ParticipantEmail $email,
         #[ORM\Embedded(columnPrefix: false)]
-        private ParticipantFullName $fullName,
+        private ?ParticipantFullName $fullName = null,
     ) {
     }
 
@@ -36,7 +38,22 @@ class Participant implements EntityWithDomainEventInterface
 
         self::recordEvent(
             new ParticipantCreatedEvent(
-                $participant->id()->id(),
+                $participant->id()->value(),
+            )
+        );
+
+        return $participant;
+    }
+
+    public static function createAnonymous(
+        ParticipantId $id,
+        ParticipantEmail $email,
+    ): self {
+        $participant = new self($id, $email);
+
+        self::recordEvent(
+            new ParticipantAnonymousCreatedEvent(
+                $participant->id()->value(),
             )
         );
 
@@ -55,6 +72,10 @@ class Participant implements EntityWithDomainEventInterface
 
     public function fullName(): ParticipantFullName
     {
+        if ($this->fullName === null) {
+            throw new ParticipantEmailShouldntBeNullException();
+        }
+
         return $this->fullName;
     }
 }

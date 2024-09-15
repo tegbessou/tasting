@@ -9,10 +9,12 @@ Il faut pouvoir supprimer une bouteille.
 On doit pouvoir rechercher les bouteilles par : nom du vin, nom du domaine, type, date d'ajout/de dégustation, année du vin, par note.
 Une fois qu'on a ajouté une bouteille il faut pouvoir inviter à déguster la bouteille et le faire soit même.
 Quand on créé une dégustation on ajoute automatiquement le créateur en tant que participant, on doit renseigner pour la dégustation une bouteille.
-Pour ajouter une participant à une dégustation il faut pouvoir le chercher par son email:
+Pour ajouter un participant à une dégustation il faut pouvoir le chercher par son email:
     Si l'utilisateur est déjà inscrit alors on lui envoie une notification sur son téléphone via firebase en plus d'un mail
     Sinon on doit générer un lien pour pouvoir télécharger l'application, l'envoyer à la personne et à la fin il a quand même sa notification
-Rajouter une gestion de notification pour les dégustations.
+Un participant à un email, un nom et prénom
+Rajouter une gestion de notification d'invitation à une dégustations.
+Il faut pouvoir les lister par participant, les lires, les accepter et les refuser.
 
 Il faut pouvoir déguster du vin la dégustation se déroule en 3 étapes :
 - L'oeil : dans laquelle on doit renseigner, la limpidité (limpide, opalescente, voilée, floue, trouble), la brillance (étincelante, éclatante, brillante, lumineuse, terne), intensité des couleurs (pâle, claire, satane, intense), couleur (si rouge: pourpre, cerise, grenat, tuilé, ambré, si rosé: pivoine, framboise, saumon, vieux rose, pelure d'oignon, si blanc: vert, blanc, doré, paille, roux), larmes (visqueuse, grasses, épaisses, roulantes, fluides), observations
@@ -118,67 +120,76 @@ This Symfony command check if your database schema is coherent with your entitie
 If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
-## Refactoring
-Challenge identity from each entity
+## Refactoring DDD
 Challenge the entity structure
-    => reflect if I can group some value object in other value object more global
-
-Update unit test to add check value of property after entity modification and creation
-Add in all id value object representation assert from max and min length
+=> reflect if I can group some value object in other value object more global
 
 Challenge for user the usage of id to store it in database, maybe use email everywhere because it's the identity of the user
-Reflect if I can use value object in command and query
-Challenge to create one validator by command
+
+/!\ Important change to do
+One repository for an aggregate root
+Challenge Invitation entity to follow aggregate rules
+
+Add timestamp and id an all event
+
+Challenge the presence of an entity Owner in tasting to use with participant entity
+
+Remove all suffix for domain class
+
+### Refactoring tasting
+
+Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
+should be created only when a tasting is created
+
+I need to create an owner entity in tasting context this entity should be created when a tasting is created
+
+All entity should be handled by aggregate root
+
+When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
+them, the tasting service should check if the friend is already a participant and if not create a participant entity
+
+Replace in tasting BottleId by BottleName
+
+Remove all repository and keep only the tasting repository
+
+### Refactoring user
+
+Add friend system + invitation....
+
+User context is responsible to send notification when invitation is sent
+
+Extract it in a microservice and a new project
+
+## Refactoring tech
+Update unit test to add check value of property after entity modification and creation
+Add in all id value object representation assert from max and min length
 
 Explain architecture choices in the README
 Add an elastic search to search wine
 
 Separate each bounded context in microservice
 
-Tasting:
-    Create an entity Participant:
-        with a last name, first name, a pseudo and an email
-        when a tasting is create verify if participant already exist get it if not create it
-
 Replace HttpRepository
     => HttpRepository should only be used to get data (replace HttpClient)
     => Adapter should be used to call the repository + translate data with Translator
-    => Country/Bottle/User to replace
+    => Country/BottleInventory/Security to replace
 
 Create a participant when we invite a participant that doesn't exist
     => If not exist
     => If a participant already exist when we create the user
 
 Add log on exception + create a channel by bounded context
-Http client must have method to get, post, put and delete
-Http repository must use the http client get to do query and return data
 
-## In progress
-To finish Tasting creation
-- [X] Consume message User created
-    - [X] Create Owner
-    - [X] Test
-- [X] Consume message Tasting created
-    - [X] Check if user exist is owner of the bottle
-    - [X] Add link between owner and tasting
-    - [X] Check if bottle exist
-      - [X] Add repository to find bottle by id
-      - [X] Test
-    - [X] Check if owner exist
-    - [X] Check if adding participant not already invited => Not re add information
-    - [X] Test
-- [X] Create entity Participant
-    - [X] Create entity
-    - [X] Add relation with tasting handle Many to Many (store only id of participant)
-    - [X] Test
-- [X] Dispatch message when User created to create a participant
-    - [X] Dispatch message
-    - [X] Test
-- [X] Consume message User created => in queue
-    - [X] Create Participant
-    - [X] Test
-- [X] Pour se connecter à l'api utiliser un compte de service
-  - [X] Create a service account
-  - [X] Create an endpoint to login uniquelly with email account
-  - [X] Test
-  - [X] Create a service to login with email
+Start transaction in command handler
+
+Rework repository remove read and write repository, use only repository
+
+Instead of checking if an owner exist before saving data, we can try to get an owner and throw an exception if it doesn't exist and then catch it
+
+Add a test on each repository on ofId method to check if it's can return null
+
+Add created at, created by, updated at and updated by for each entity or aggregate
+
+For post request we should return 200 with payload of the created object and test it
+
+Compress picture of bottle when we save it

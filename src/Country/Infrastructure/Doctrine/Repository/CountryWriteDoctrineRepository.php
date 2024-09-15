@@ -16,7 +16,7 @@ final readonly class CountryWriteDoctrineRepository implements CountryWriteRepos
     private const ENTITY_CLASS = Country::class;
 
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 

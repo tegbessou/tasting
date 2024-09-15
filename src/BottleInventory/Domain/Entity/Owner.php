@@ -57,7 +57,4 @@ class Owner implements EntityWithDomainEventInterface
     {
         return $this->fullName;
     }
-
-    // créer les owner à la création du compte côté BC Security
-    // changer les références vers cette entité et le mettre dans l'aggrégat
 }

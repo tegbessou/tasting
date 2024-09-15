@@ -13,7 +13,7 @@ use App\Shared\Application\Query\QueryInterface;
 final readonly class GetBottleQuery implements QueryInterface
 {
     public function __construct(
-        public string $id
+        public string $id,
     ) {
     }
 }

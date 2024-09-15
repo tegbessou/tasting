@@ -22,13 +22,24 @@ final class TastingFixtures extends Fixture implements DependentFixtureInterface
             ->find('9964e539-05ff-4611-b39c-ffd6d108b8b7')
         ;
 
-        $tasting = Tasting::create(
+        $tastings = [];
+
+        $tastings[] = Tasting::create(
             TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
             BottleId::fromString('5ec0917b-179f-46e4-87d6-db76fbddf45f'),
             $participantHugues,
         );
 
-        $manager->persist($tasting);
+        $tastings[] = Tasting::create(
+            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
+            BottleId::fromString('29523184-face-4e1c-8582-1637cd501cee'),
+            $participantHugues,
+        );
+
+        foreach ($tastings as $tasting) {
+            $manager->persist($tasting);
+        }
+
         $manager->flush();
     }
 

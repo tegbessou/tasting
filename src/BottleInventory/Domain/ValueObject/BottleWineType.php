@@ -12,7 +12,7 @@ final readonly class BottleWineType
 {
     public function __construct(
         #[ORM\Column(name: 'type', type: 'string', length: 255, enumType: WineType::class)]
-        private WineType $value
+        private WineType $value,
     ) {
     }
 

@@ -32,15 +32,15 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
             'hugues.gobet@gmail.com',
         ));
 
-        $this->transport('tasting')->queue()->assertContains(BottleTastedMessage::class, 1);
-        $this->transport('tasting')->process(1);
-        $this->transport('tasting')->queue()->assertContains(BottleTastedMessage::class, 0);
+        $this->transport('tasting_from_external')->queue()->assertContains(BottleTastedMessage::class, 1);
+        $this->transport('tasting_from_external')->process(1);
+        $this->transport('tasting_from_external')->queue()->assertContains(BottleTastedMessage::class, 0);
 
         $tastings = $this->doctrineTastingRepository->withBottle(
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
         )->getIterator();
 
         $this->assertNotNull($tastings->current());
-        $this->assertEquals('9964e539-05ff-4611-b39c-ffd6d108b8b7', $tastings->current()->owner()->id()->id());
+        $this->assertEquals('9964e539-05ff-4611-b39c-ffd6d108b8b7', $tastings->current()->owner()->id()->value());
     }
 }

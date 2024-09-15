@@ -15,7 +15,7 @@ final readonly class AuthorizationService
     }
 
     public function isExistUser(
-        ParticipantEmail $participantEmail
+        ParticipantEmail $participantEmail,
     ): bool {
         return $this->userReadRepository->ofEmail($participantEmail) !== null;
     }

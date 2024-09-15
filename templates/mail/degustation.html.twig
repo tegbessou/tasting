@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ 'tasting.invitation.subject'|trans({}, 'mails') }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #be3b4d;
+            color: #ffffff;
+        }
+        .header img {
+            max-width: 100px;
+            height: auto;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333333;
+        }
+        .content a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #be3b4d;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #f4f4f4;
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="{{ email.image('@images/logo.jpg') }}" alt="{{ 'tasting.invitation.app_name'|trans({}, 'mails') }}">
+    </div>
+    <div class="content">
+        <p>{{ 'tasting.invitation.salutation'|trans({'targetFullName': targetFullName}, 'mails') }}</p>
+        <p>{{ 'tasting.invitation.body'|trans({'ownerFullName': ownerFullName, 'bottleName': bottleName}, 'mails') }}</p>
+        <p>{{ 'tasting.invitation.join'|trans({}, 'mails') }}</p>
+        <a href="{{ link }}" target="_blank">{{ 'tasting.invitation.join_link'|trans({}, 'mails') }}</a>
+        <p>{{ 'tasting.invitation.bye'|trans({}, 'mails') }}</p>
+        <p>{{ 'tasting.invitation.people'|trans({}, 'mails') }}</p>
+    </div>
+    <div class="footer">
+        <p>{{ 'tasting.invitation.copyright'|trans({}, 'mails') }}</p>
+    </div>
+</div>
+</body>
+</html>

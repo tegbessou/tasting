@@ -8,10 +8,10 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
-final class ParticipantEmail
+final readonly class ParticipantEmail
 {
     #[ORM\Column(name: 'email', type: 'string')]
-    private readonly string $value;
+    private string $value;
 
     public function __construct(
         string $value,

@@ -44,6 +44,11 @@ services:
     networks:
       - web
 
+  mailcatcher:
+    image: dockage/mailcatcher:0.9.0
+    networks:
+      - web
+
 networks:
     web:
 

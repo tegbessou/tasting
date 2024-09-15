@@ -14,4 +14,6 @@ interface TastingWriteRepositoryInterface
     public function add(Tasting $tasting): void;
 
     public function nextIdentity(): TastingId;
+
+    public function update(): void;
 }
