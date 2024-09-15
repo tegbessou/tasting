@@ -121,20 +121,10 @@ If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring DDD
-Challenge identity from each entity
 Challenge the entity structure
 => reflect if I can group some value object in other value object more global
 
 Challenge for user the usage of id to store it in database, maybe use email everywhere because it's the identity of the user
-Reflect if I can use value object in command and query
-
-Update all event to add timestamps, use value object (because domain event)
-
-Create module in inventory context to separate grape varieties, bottle and invitation.
-
-Create domain service for all check before creation.
-
-Check if I can store the bottle name in tasting instead of id, and if the bottle is updated then we dispatch an event to update all tasting
 
 /!\ Important change to do
 One repository for an aggregate root
@@ -144,9 +134,31 @@ Add timestamp and id an all event
 
 Challenge the presence of an entity Owner in tasting to use with participant entity
 
-Repalce in tasting BottleId by BottleName
-
 Remove all suffix for domain class
+
+### Refactoring tasting
+
+Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
+should be created only when a tasting is created
+
+I need to create an owner entity in tasting context this entity should be created when a tasting is created
+
+All entity should be handled by aggregate root
+
+When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
+them, the tasting service should check if the friend is already a participant and if not create a participant entity
+
+Replace in tasting BottleId by BottleName
+
+Remove all repository and keep only the tasting repository
+
+### Refactoring user
+
+Add friend system + invitation....
+
+User context is responsible to send notification when invitation is sent
+
+Extract it in a microservice and a new project
 
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation

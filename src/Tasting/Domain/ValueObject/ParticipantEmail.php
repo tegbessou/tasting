@@ -12,6 +12,7 @@ final readonly class ParticipantEmail
 {
     #[ORM\Column(name: 'email', type: 'string')]
     private string $value;
+
     public function __construct(
         string $value,
     ) {
@@ -21,11 +22,13 @@ final readonly class ParticipantEmail
 
         $this->value = $value;
     }
+
     public static function fromString(
         string $value,
     ): self {
         return new self($value);
     }
+
     public function value(): string
     {
         return $this->value;

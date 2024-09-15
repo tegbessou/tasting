@@ -28,7 +28,7 @@ final readonly class ParticipantWriteDoctrineRepository implements ParticipantWr
 
     #[\Override]
     public function add(
-        Participant $participant
+        Participant $participant,
     ): void {
         $this->entityManager->persist($participant);
         $this->entityManager->flush();

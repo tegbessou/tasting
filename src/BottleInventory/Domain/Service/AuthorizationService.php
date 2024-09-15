@@ -16,7 +16,7 @@ final readonly class AuthorizationService
     }
 
     public function isCurrentUserOwnerOfTheBottle(
-        Bottle $bottle
+        Bottle $bottle,
     ): bool {
         $user = $this->userReadRepository->ofEmail($bottle->owner()->email());
 
@@ -30,7 +30,7 @@ final readonly class AuthorizationService
     }
 
     public function isExistUser(
-        OwnerEmail $ownerEmail
+        OwnerEmail $ownerEmail,
     ): bool {
         return $this->userReadRepository->ofEmail($ownerEmail) !== null;
     }
