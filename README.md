@@ -146,6 +146,8 @@ Challenge the presence of an entity Owner in tasting to use with participant ent
 
 Repalce in tasting BottleId by BottleName
 
+Remove all suffix for domain class
+
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation
 Add in all id value object representation assert from max and min length
@@ -175,3 +177,7 @@ Instead of checking if an owner exist before saving data, we can try to get an o
 Add a test on each repository on ofId method to check if it's can return null
 
 Add created at, created by, updated at and updated by for each entity or aggregate
+
+For post request we should return 200 with payload of the created object and test it
+
+Compress picture of bottle when we save it

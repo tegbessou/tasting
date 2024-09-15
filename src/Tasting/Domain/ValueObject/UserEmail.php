@@ -6,9 +6,9 @@ namespace App\Tasting\Domain\ValueObject;
 
 use App\Shared\Infrastructure\Webmozart\Assert;
 
-final class UserEmail
+final readonly class UserEmail
 {
-    private readonly string $value;
+    private string $value;
 
     public function __construct(
         string $value,

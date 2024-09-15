@@ -8,10 +8,10 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
-final class BottleId
+final readonly class BottleId
 {
     #[ORM\Column(name: 'bottle_id', type: 'uuid', unique: true)]
-    private readonly string $id;
+    private string $id;
 
     public function __construct(
         string $id,
