@@ -79,6 +79,9 @@ final class InvitationTest extends TestCase
         $this->assertNull(
             $tastingInvitation->updatedAt(),
         );
+        $this->assertNotNull(
+            $tastingInvitation->createdAt(),
+        );
 
         $tastingInvitation::eraseRecordedEvents();
     }

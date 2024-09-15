@@ -34,6 +34,14 @@ final class InvitationReadDoctrineRepository extends DoctrineReadRepository impl
     }
 
     #[\Override]
+    public function sortCreatedAt(): self
+    {
+        return $this->filter(static function (QueryBuilder $qb): void {
+            $qb->orderBy(sprintf('%s.createdAt.createdAt', self::ALIAS), 'DESC');
+        });
+    }
+
+    #[\Override]
     public function withParticipant(ParticipantId $targetId): InvitationReadRepositoryInterface
     {
         return $this->filter(static function (QueryBuilder $qb) use ($targetId): void {

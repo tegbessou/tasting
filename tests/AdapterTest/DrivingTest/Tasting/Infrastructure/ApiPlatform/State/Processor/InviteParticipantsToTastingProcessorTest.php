@@ -157,6 +157,17 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
                 ],
             ],
         ]);
+
+        $invitations = $this->invitationReadDoctrineRepository->withParticipantAndTasting(
+            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
+            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
+        )->getIterator();
+
+        foreach ($invitations as $invitation) {
+            $this->entityManager->remove($invitation);
+        }
+
+        $this->entityManager->flush();
     }
 
     public function testInviteParticipantToTastingWithParticipantNotExistInDatabase(): void

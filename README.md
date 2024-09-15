@@ -140,6 +140,12 @@ Check if I can store the bottle name in tasting instead of id, and if the bottle
 One repository for an aggregate root
 Challenge Invitation entity to follow aggregate rules
 
+Add timestamp and id an all event
+
+Challenge the presence of an entity Owner in tasting to use with participant entity
+
+Repalce in tasting BottleId by BottleName
+
 ## Refactoring tech
 Update unit test to add check value of property after entity modification and creation
 Add in all id value object representation assert from max and min length
@@ -167,6 +173,8 @@ Rework repository remove read and write repository, use only repository
 Instead of checking if an owner exist before saving data, we can try to get an owner and throw an exception if it doesn't exist and then catch it
 
 Add a test on each repository on ofId method to check if it's can return null
+
+Add created at, created by, updated at and updated by for each entity or aggregate
 
 ## In progress
 Invite participant to tasting

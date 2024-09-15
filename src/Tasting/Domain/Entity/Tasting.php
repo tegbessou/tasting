@@ -28,6 +28,7 @@ class Tasting implements EntityWithDomainEventInterface
     public function __construct(
         #[ORM\Embedded(columnPrefix: false)]
         private TastingId $id,
+        // Bottle Name
         #[ORM\Embedded(columnPrefix: false)]
         private BottleId $bottleId,
         #[ORM\Embedded(columnPrefix: false)]

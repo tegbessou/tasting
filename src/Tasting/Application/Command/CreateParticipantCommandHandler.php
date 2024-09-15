@@ -7,7 +7,7 @@ namespace App\Tasting\Application\Command;
 use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Entity\Participant;
-use App\Tasting\Domain\Exception\ParticipantDoesntExistInSecurityException;
+use App\Tasting\Domain\Exception\ParticipantDoesntExistException;
 use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantWriteRepositoryInterface;
 use App\Tasting\Domain\Service\AuthorizationService;
@@ -28,7 +28,7 @@ final readonly class CreateParticipantCommandHandler
     public function __invoke(CreateParticipantCommand $command): void
     {
         if (!$this->authorizationService->isExistUser(new ParticipantEmail($command->email))) {
-            throw new ParticipantDoesntExistInSecurityException($command->email);
+            throw new ParticipantDoesntExistException($command->email);
         }
 
         if ($this->participantReadRepository->ofEmail(new ParticipantEmail($command->email)) !== null) {

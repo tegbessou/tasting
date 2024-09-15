@@ -15,6 +15,7 @@ use App\Tasting\Domain\Exception\InvitationAlreadyRejectedException;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
+use App\Tasting\Domain\ValueObject\InvitationCreatedAt;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationSentAt;
@@ -23,12 +24,15 @@ use App\Tasting\Domain\ValueObject\InvitationUpdatedAt;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-class Invitation implements EntityWithDomainEventInterface
+final class Invitation implements EntityWithDomainEventInterface
 {
     use EntityDomainEventTrait;
 
     #[ORM\Embedded(columnPrefix: false)]
     private ?InvitationSentAt $sentAt = null;
+
+    #[ORM\Embedded(columnPrefix: false)]
+    private InvitationCreatedAt $createdAt;
 
     #[ORM\Embedded(columnPrefix: false)]
     private ?InvitationUpdatedAt $updatedAt = null;
@@ -47,6 +51,7 @@ class Invitation implements EntityWithDomainEventInterface
         #[ORM\Embedded(columnPrefix: false)]
         private InvitationStatus $status,
     ) {
+        $this->createdAt = InvitationCreatedAt::now();
     }
 
     public static function create(
@@ -139,6 +144,11 @@ class Invitation implements EntityWithDomainEventInterface
         return $this->target;
     }
 
+    public function subject(): Tasting
+    {
+        return $this->subject;
+    }
+
     public function link(): InvitationLink
     {
         return $this->link;
@@ -157,6 +167,11 @@ class Invitation implements EntityWithDomainEventInterface
     public function updatedAt(): ?InvitationUpdatedAt
     {
         return $this->updatedAt;
+    }
+
+    public function createdAt(): InvitationCreatedAt
+    {
+        return $this->createdAt;
     }
 
     public function isAlreadySent(): bool
@@ -189,6 +204,4 @@ class Invitation implements EntityWithDomainEventInterface
 
         return false;
     }
-
-    // create method to reject invitation
 }

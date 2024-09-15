@@ -17,6 +17,8 @@ interface InvitationReadRepositoryInterface extends ReadRepositoryInterface
 {
     public function ofId(InvitationId $id): ?Invitation;
 
+    public function sortCreatedAt(): self;
+
     public function withParticipant(ParticipantId $targetId): self;
 
     public function withParticipantAndTasting(ParticipantId $targetId, TastingId $subjectId): self;

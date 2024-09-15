@@ -6,6 +6,7 @@ namespace App\Tasting\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Infrastructure\ApiPlatform\State\Processor\AcceptInvitationProcessor;
@@ -18,7 +19,9 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
+    shortName: 'Tasting',
     operations: [
+        new Get(),
         new Post(
             uriTemplate: '/tastings/{id}/invite',
             status: Response::HTTP_NO_CONTENT,
@@ -39,7 +42,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             output: false,
             processor: RejectInvitationProcessor::class,
         ),
-    ]
+    ],
+    normalizationContext: ['groups' => ['read_tasting_relation', 'read_owner_relation']],
 )]
 final class TastingResource
 {
@@ -51,6 +55,12 @@ final class TastingResource
         #[Groups(['invite_participants_to_tasting'])]
         #[Assert\NotBlank(groups: ['invite_participants_to_tasting'])]
         public array $participants = [],
+        #[ApiProperty]
+        #[Groups(['read_tasting_relation'])]
+        public ?string $bottleName = null,
+        #[ApiProperty]
+        #[Groups(['read_tasting_relation'])]
+        public ?OwnerResource $owner = null,
     ) {
     }
 
@@ -59,6 +69,8 @@ final class TastingResource
         return new self(
             new Uuid($tasting->id()->value()),
             $tasting->participants()->values(),
+            $tasting->bottleId()->id(),
+            OwnerResource::fromModel($tasting->owner()),
         );
     }
 }
