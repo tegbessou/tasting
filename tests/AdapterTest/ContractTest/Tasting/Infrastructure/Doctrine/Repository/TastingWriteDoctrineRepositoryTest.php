@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
@@ -60,7 +60,7 @@ final class TastingWriteDoctrineRepositoryTest extends KernelTestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('0d022ae1-7129-49c2-b0a4-ed8b8612715f'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             $participant,
         );
 
@@ -73,8 +73,8 @@ final class TastingWriteDoctrineRepositoryTest extends KernelTestCase
         $this->assertNotNull($tasting);
 
         $this->assertEquals(
-            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
-            $tasting->bottleId()->id(),
+            'Château Margaux 2015',
+            $tasting->bottleName()->value(),
         );
         $this->assertEquals(
             'hugues.gobet@gmail.com',

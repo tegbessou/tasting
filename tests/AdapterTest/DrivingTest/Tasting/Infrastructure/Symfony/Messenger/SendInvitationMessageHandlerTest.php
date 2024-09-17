@@ -65,7 +65,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
             '66b52f43-8185-4923-b601-a48ea69dccf5',
             'root@gmail.com',
             'hugues.gobet@gmail.com',
-            '5ec0917b-179f-46e4-87d6-db76fbddf45f',
+            'Domaine Leflaive Montrachet Grand Cru 2016',
         ));
 
         $this->transport('tasting')->queue()->assertContains(InvitationCreatedMessage::class, 1);
@@ -79,7 +79,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
         $notifications = $this->notificationService::getSent();
         $this->assertCount(1, $notifications);
         $this->assertEquals('Invitation à déguster une bouteille de vin', $notifications[0]->title());
-        $this->assertEquals('Hugues Gobet vous invite à déguster une bouteille de vin Domaine Leflaive Montrachet Grand Cru', $notifications[0]->body());
+        $this->assertEquals('Hugues Gobet vous invite à déguster une bouteille de vin Domaine Leflaive Montrachet Grand Cru 2016', $notifications[0]->body());
 
         $invitation = $this->doctrineInvitationReadRepository->ofId(InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'));
         $this->assertNotNull($invitation->sentAt());

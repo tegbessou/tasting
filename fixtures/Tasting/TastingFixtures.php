@@ -6,7 +6,7 @@ namespace DataFixtures\Tasting;
 
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -26,13 +26,13 @@ final class TastingFixtures extends Fixture implements DependentFixtureInterface
 
         $tastings[] = Tasting::create(
             TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
-            BottleId::fromString('5ec0917b-179f-46e4-87d6-db76fbddf45f'),
+            BottleName::fromString('Domaine Leflaive Montrachet Grand Cru 2016'),
             $participantHugues,
         );
 
         $tastings[] = Tasting::create(
             TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
-            BottleId::fromString('29523184-face-4e1c-8582-1637cd501cee'),
+            BottleName::fromString('Château Latour 2010'),
             $participantHugues,
         );
 

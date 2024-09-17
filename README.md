@@ -152,6 +152,8 @@ Replace in tasting BottleId by BottleName
 
 Remove all repository and keep only the tasting repository
 
+If I create data in another domain, i don't have to check if data exist in the main domain
+
 ### Refactoring user
 
 Add friend system + invitation....

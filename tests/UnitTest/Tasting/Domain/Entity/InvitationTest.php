@@ -14,7 +14,7 @@ use App\Tasting\Domain\Exception\InvitationAlreadyRejectedException;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
@@ -35,7 +35,7 @@ final class InvitationTest extends TestCase
     {
         $this->tasting = Tasting::create(
             TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
-            BottleId::fromString('4eb449d9-7d23-4984-a68d-77aa19fccc60'),
+            BottleName::fromString('Sassicaia 2012'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),

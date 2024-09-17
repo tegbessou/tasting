@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -47,7 +47,7 @@ final class TastingReadDoctrineRepositoryTest extends KernelTestCase
     public function testWithBottle(): void
     {
         $tastings = $this->doctrineTastingRepository->withBottle(
-            BottleId::fromString('5ec0917b-179f-46e4-87d6-db76fbddf45f'),
+            BottleName::fromString('Domaine Leflaive Montrachet Grand Cru 2016'),
         )->getIterator();
 
         $this->assertNotNull($tastings->current());

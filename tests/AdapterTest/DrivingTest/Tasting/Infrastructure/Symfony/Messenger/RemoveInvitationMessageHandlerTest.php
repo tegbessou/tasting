@@ -7,7 +7,7 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Service\GetInvitationLinkService;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -54,7 +54,7 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
-            BottleId::fromString('4eb449d9-7d23-4984-a68d-77aa19fccc60'),
+            BottleName::fromString('Sassicaia 2012'),
             $owner,
         );
 

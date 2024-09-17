@@ -12,7 +12,7 @@ use App\Shared\Application\Command\CommandInterface;
 final readonly class CreateTastingCommand implements CommandInterface
 {
     public function __construct(
-        public string $bottleId,
+        public string $bottleName,
         public string $ownerEmail,
     ) {
     }

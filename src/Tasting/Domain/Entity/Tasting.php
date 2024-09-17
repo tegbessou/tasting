@@ -10,7 +10,7 @@ use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationMustBePendingException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingParticipants;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,7 +30,7 @@ class Tasting implements EntityWithDomainEventInterface
         private TastingId $id,
         // Bottle Name
         #[ORM\Embedded(columnPrefix: false)]
-        private BottleId $bottleId,
+        private BottleName $bottleName,
         #[ORM\Embedded(columnPrefix: false)]
         private TastingParticipants $participants,
         #[ORM\ManyToOne(targetEntity: Participant::class)]
@@ -43,12 +43,12 @@ class Tasting implements EntityWithDomainEventInterface
 
     public static function create(
         TastingId $id,
-        BottleId $bottleId,
+        BottleName $bottleName,
         Participant $owner,
     ): self {
         $tasting = new self(
             $id,
-            $bottleId,
+            $bottleName,
             TastingParticipants::fromOwner($owner->id()),
             $owner,
         );
@@ -114,9 +114,9 @@ class Tasting implements EntityWithDomainEventInterface
         return $this->id;
     }
 
-    public function bottleId(): BottleId
+    public function bottleName(): BottleName
     {
-        return $this->bottleId;
+        return $this->bottleName;
     }
 
     public function participants(): TastingParticipants

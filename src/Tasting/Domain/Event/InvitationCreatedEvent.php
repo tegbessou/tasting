@@ -12,7 +12,7 @@ final readonly class InvitationCreatedEvent implements DomainEventInterface
         public string $id,
         public string $targetEmail,
         public string $ownerEmail,
-        public string $bottleId,
+        public string $bottleName,
     ) {
     }
 }

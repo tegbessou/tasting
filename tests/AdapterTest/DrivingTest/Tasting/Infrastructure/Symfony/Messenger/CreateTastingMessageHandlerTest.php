@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -28,7 +28,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
     public function testCreateTasting(): void
     {
         $this->bus('event.bus')->dispatch(new BottleTastedMessage(
-            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
+            'Château Margaux 2015',
             'hugues.gobet@gmail.com',
         ));
 
@@ -37,7 +37,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
         $this->transport('tasting_from_external')->queue()->assertContains(BottleTastedMessage::class, 0);
 
         $tastings = $this->doctrineTastingRepository->withBottle(
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
         )->getIterator();
 
         $this->assertNotNull($tastings->current());

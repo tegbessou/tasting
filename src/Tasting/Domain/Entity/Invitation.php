@@ -73,7 +73,7 @@ final class Invitation implements EntityWithDomainEventInterface
                 $invitation->id->id(),
                 $target->email()->value(),
                 $subject->owner()->email()->value(),
-                $subject->bottleId()->id(),
+                $subject->bottleName()->value(),
             ),
         );
 
