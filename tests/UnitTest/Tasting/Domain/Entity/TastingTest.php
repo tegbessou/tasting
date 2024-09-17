@@ -14,7 +14,7 @@ use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedExceptio
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipantService;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
@@ -30,7 +30,7 @@ final class TastingTest extends TestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -44,8 +44,8 @@ final class TastingTest extends TestCase
             $tasting->id(),
         );
         $this->assertEquals(
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            $tasting->bottleId(),
+            BottleName::fromString('Château Margaux 2015'),
+            $tasting->bottleName(),
         );
         $this->assertEquals(
             TastingParticipants::fromArray([
@@ -61,7 +61,7 @@ final class TastingTest extends TestCase
 
         Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -76,37 +76,7 @@ final class TastingTest extends TestCase
 
         Tasting::create(
             TastingId::fromString('12'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-            Participant::create(
-                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-                ParticipantFullName::fromString('Hugues Gobet'),
-            ),
-        );
-    }
-
-    public function testCreateFailedBadBottleIdLength(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Tasting::create(
-            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-            Participant::create(
-                ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-                ParticipantFullName::fromString('Hugues Gobet'),
-            ),
-        );
-    }
-
-    public function testCreateFailedBadBottleId(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        Tasting::create(
-            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('12'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -119,7 +89,7 @@ final class TastingTest extends TestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -137,7 +107,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -159,7 +129,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -210,7 +180,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -252,7 +222,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -295,7 +265,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -340,7 +310,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -383,7 +353,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -434,7 +404,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),
@@ -476,7 +446,7 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
+            BottleName::fromString('Château Margaux 2015'),
             Participant::create(
                 ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
                 ParticipantEmail::fromString('hugues.gobet@gmail.com'),

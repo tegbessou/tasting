@@ -29,10 +29,6 @@ services:
     alias: App\Tasting\Infrastructure\Doctrine\Repository\TastingWriteDoctrineRepository
     public: true
 
-  App\Tasting\Domain\Repository\BottleReadRepositoryInterface:
-    alias: App\Tasting\Infrastructure\BottleInventory\Http\Repository\BottleReadHttpRepository
-    public: true
-
   App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface:
     alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository
     public: true

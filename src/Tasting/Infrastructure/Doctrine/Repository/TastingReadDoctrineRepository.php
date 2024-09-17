@@ -7,11 +7,10 @@ namespace App\Tasting\Infrastructure\Doctrine\Repository;
 use App\Shared\Infrastructure\Doctrine\DoctrineReadRepository;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingReadRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 
 /**
  * @extends DoctrineReadRepository<Tasting>
@@ -34,17 +33,16 @@ final class TastingReadDoctrineRepository extends DoctrineReadRepository impleme
     }
 
     #[\Override]
-    public function withBottle(BottleId $id): self
+    public function withBottle(BottleName $name): self
     {
-        return $this->filter(static function (QueryBuilder $qb) use ($id): void {
+        return $this->filter(static function (QueryBuilder $qb) use ($name): void {
             $qb->where(
                 sprintf(
-                    '%s.bottleId.id = :id',
+                    '%s.bottleName.name = :name',
                     self::ALIAS))
                 ->setParameter(
-                    'id',
-                    $id->id(),
-                    UuidType::NAME,
+                    'name',
+                    $name->value(),
                 )
             ;
         });

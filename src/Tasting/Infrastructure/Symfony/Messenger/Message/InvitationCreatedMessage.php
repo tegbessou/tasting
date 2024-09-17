@@ -12,7 +12,7 @@ final readonly class InvitationCreatedMessage
         public string $invitationId,
         public string $targetEmail,
         public string $ownerEmail,
-        public string $bottleId,
+        public string $bottleName,
     ) {
     }
 
@@ -22,7 +22,7 @@ final readonly class InvitationCreatedMessage
             $event->id,
             $event->targetEmail,
             $event->ownerEmail,
-            $event->bottleId,
+            $event->bottleName,
         );
     }
 }

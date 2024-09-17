@@ -15,7 +15,7 @@ final readonly class SendInvitationCommand implements CommandInterface
         public string $invitationId,
         public string $targetEmail,
         public string $ownerEmail,
-        public string $bottleId,
+        public string $bottleName,
     ) {
     }
 }

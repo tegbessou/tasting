@@ -27,16 +27,15 @@ final readonly class SendInvitationMessageHandler
         Assert::maxLength($invitationCreatedMessage->targetEmail, 255);
         Assert::email($invitationCreatedMessage->ownerEmail);
         Assert::maxLength($invitationCreatedMessage->ownerEmail, 255);
-        Assert::uuid($invitationCreatedMessage->bottleId);
-        Assert::string($invitationCreatedMessage->bottleId);
-        Assert::lengthBetween($invitationCreatedMessage->bottleId, 36, 36);
+        Assert::string($invitationCreatedMessage->bottleName);
+        Assert::maxLength($invitationCreatedMessage->bottleName, 255);
 
         $this->bus->dispatch(
             new SendInvitationCommand(
                 $invitationCreatedMessage->invitationId,
                 $invitationCreatedMessage->targetEmail,
                 $invitationCreatedMessage->ownerEmail,
-                $invitationCreatedMessage->bottleId,
+                $invitationCreatedMessage->bottleName,
             )
         );
     }

@@ -8,15 +8,13 @@ use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Application\Service\EmailServiceInterface;
 use App\Tasting\Application\Service\NotificationServiceInterface;
-use App\Tasting\Domain\Exception\BottleDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationTargetDoesntExistException;
 use App\Tasting\Domain\Exception\OwnerDoesntExistException;
-use App\Tasting\Domain\Repository\BottleReadRepositoryInterface;
 use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
 use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleId;
+use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 
@@ -25,7 +23,6 @@ final readonly class SendInvitationCommandHandler
 {
     public function __construct(
         private InvitationReadRepositoryInterface $invitationReadRepository,
-        private BottleReadRepositoryInterface $bottleReadRepository,
         private ParticipantReadRepositoryInterface $participantReadRepository,
         private EmailServiceInterface $emailService,
         private NotificationServiceInterface $notificationService,
@@ -42,14 +39,6 @@ final readonly class SendInvitationCommandHandler
 
         if ($invitation === null) {
             throw new InvitationDoesntExistException($command->invitationId);
-        }
-
-        $bottle = $this->bottleReadRepository->ofId(
-            BottleId::fromString($command->bottleId)
-        );
-
-        if ($bottle === null) {
-            throw new BottleDoesntExistException($command->bottleId);
         }
 
         $owner = $this->participantReadRepository->ofEmail(
@@ -73,14 +62,14 @@ final readonly class SendInvitationCommandHandler
         $this->emailService->sendInvitationEmail(
             $owner,
             $target,
-            $bottle->name(),
+            BottleName::fromString($command->bottleName),
             $invitation->link(),
         );
 
         $this->notificationService->sendInvitationNotification(
             $owner,
             $target,
-            $bottle->name(),
+            BottleName::fromString($command->bottleName),
         );
 
         $this->eventDispatcher->dispatch($invitation);

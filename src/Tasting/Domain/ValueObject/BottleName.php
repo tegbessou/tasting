@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\ValueObject;
 
 use App\Shared\Infrastructure\Webmozart\Assert;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Embeddable]
 final readonly class BottleName
 {
-    private readonly string $name;
+    #[ORM\Column(name: 'bottle_name')]
+    private string $name;
 
     public function __construct(
         string $name,
