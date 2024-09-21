@@ -7,7 +7,7 @@ namespace DataFixtures\Tasting;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Service\GetInvitationLinkService;
+use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -32,7 +32,7 @@ final class InvitationFixtures extends Fixture implements DependentFixtureInterf
             InvitationId::fromString('abed2f69-9aae-4d92-a91c-edfa7c985674'),
             $tasting,
             $participantRoot,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $invitation::eraseRecordedEvents();

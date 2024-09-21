@@ -6,7 +6,7 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Proce
 
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\GetInvitationLinkService;
+use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -68,7 +68,7 @@ final class RejectInvitationProcessorTest extends ApiTestCase
             InvitationId::fromString('abed2f69-9aae-4d92-a91c-edfa7c985674'),
             $tasting,
             $participantRoot,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $invitation::eraseRecordedEvents();

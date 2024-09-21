@@ -6,8 +6,8 @@ namespace App\Tasting\Application\Command;
 
 use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
-use App\Tasting\Application\Service\EmailServiceInterface;
-use App\Tasting\Application\Service\NotificationServiceInterface;
+use App\Tasting\Application\Service\MailerInterface;
+use App\Tasting\Application\Service\NotificationInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationTargetDoesntExistException;
 use App\Tasting\Domain\Exception\OwnerDoesntExistException;
@@ -23,8 +23,8 @@ final readonly class SendInvitationCommandHandler
     public function __construct(
         private InvitationRepositoryInterface $invitationRepository,
         private ParticipantRepositoryInterface $participantRepository,
-        private EmailServiceInterface $emailService,
-        private NotificationServiceInterface $notificationService,
+        private MailerInterface $emailService,
+        private NotificationInterface $notificationService,
         private DomainEventDispatcherInterface $eventDispatcher,
     ) {
     }

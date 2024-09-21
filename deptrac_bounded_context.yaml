@@ -70,6 +70,8 @@ deptrac:
                 value: '#^Traversable#'
               - type: classNameRegex
                 value: '#^ArrayIterator#'
+              - type: classNameRegex
+                value: '#^Ramsey#'
 
     ruleset:
         Security: [ Shared, Vendors ]

@@ -6,8 +6,8 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
-use App\Tasting\Domain\Event\ParticipantAnonymousCreatedEvent;
-use App\Tasting\Domain\Event\ParticipantCreatedEvent;
+use App\Tasting\Domain\Event\ParticipantAnonymousCreated;
+use App\Tasting\Domain\Event\ParticipantCreated;
 use App\Tasting\Domain\Exception\ParticipantEmailShouldntBeNullException;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantFullName;
@@ -37,7 +37,7 @@ class Participant implements EntityWithDomainEventInterface
         $participant = new self($id, $email, $fullName);
 
         self::recordEvent(
-            new ParticipantCreatedEvent(
+            new ParticipantCreated(
                 $participant->id()->value(),
             )
         );
@@ -52,7 +52,7 @@ class Participant implements EntityWithDomainEventInterface
         $participant = new self($id, $email);
 
         self::recordEvent(
-            new ParticipantAnonymousCreatedEvent(
+            new ParticipantAnonymousCreated(
                 $participant->id()->value(),
             )
         );

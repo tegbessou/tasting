@@ -22,6 +22,14 @@ final class CountryTest extends TestCase
             Country::class,
             $country,
         );
+        $this->assertEquals(
+            'af785dbb-4ac1-4786-a5aa-1fed08f6ec26',
+            $country->id()->value(),
+        );
+        $this->assertEquals(
+            'France2',
+            $country->name()->value(),
+        );
     }
 
     public function testCreateFailedWithBadIdLength(): void

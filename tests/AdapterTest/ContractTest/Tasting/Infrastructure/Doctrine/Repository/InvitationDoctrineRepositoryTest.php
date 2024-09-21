@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
 use App\Tasting\Domain\Entity\Invitation;
-use App\Tasting\Domain\Service\GetInvitationLinkService;
+use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -94,7 +94,7 @@ final class InvitationDoctrineRepositoryTest extends WebTestCase
             InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'),
             $tasting,
             $participant,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $this->doctrineInvitationRepository->add($invitation);
@@ -134,7 +134,7 @@ final class InvitationDoctrineRepositoryTest extends WebTestCase
             InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'),
             $tasting,
             $participant,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $this->doctrineInvitationRepository->add($invitation);
@@ -165,7 +165,7 @@ final class InvitationDoctrineRepositoryTest extends WebTestCase
             InvitationId::fromString('41fb800e-90dd-4b82-a1a0-982f4d9740a1'),
             $tasting,
             $participant,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $this->doctrineInvitationRepository->add($invitation);

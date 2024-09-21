@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Entity;
 
-use App\BottleInventory\Domain\Event\GrapeVarietyCreatedEvent;
+use App\BottleInventory\Domain\Event\GrapeVarietyCreated;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyId;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyName;
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
@@ -34,7 +34,7 @@ final class GrapeVariety implements EntityWithDomainEventInterface
         );
 
         $grapeVariety::recordEvent(
-            new GrapeVarietyCreatedEvent(
+            new GrapeVarietyCreated(
                 $grapeVariety->id->value(),
             )
         );

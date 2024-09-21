@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Infrastructure\Symfony\Messenger\Message;
 
-use App\BottleInventory\Domain\Event\BottleTastedEvent;
+use App\BottleInventory\Domain\Event\BottleTasted;
 
 final readonly class BottleTastedMessage
 {
@@ -15,7 +15,7 @@ final readonly class BottleTastedMessage
     }
 
     public static function fromEvent(
-        BottleTastedEvent $event,
+        BottleTasted $event,
     ): self {
         return new self(
             $event->bottleId,

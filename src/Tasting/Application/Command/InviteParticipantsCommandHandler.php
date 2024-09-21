@@ -11,7 +11,7 @@ use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipantService;
+use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\TastingId;
 
@@ -21,7 +21,7 @@ final readonly class InviteParticipantsCommandHandler
     public function __construct(
         private TastingRepositoryInterface $tastingRepository,
         private ParticipantRepositoryInterface $participantRepository,
-        private InviteParticipantService $inviteParticipantService,
+        private InviteParticipant $inviteParticipantService,
         private InvitationRepositoryInterface $invitationRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
     ) {

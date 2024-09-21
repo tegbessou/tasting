@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Domain\Entity;
 
-use App\Security\Domain\Event\UserCreatedEvent;
+use App\Security\Domain\Event\UserCreated;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserId;
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
@@ -34,7 +34,7 @@ final class User implements EntityWithDomainEventInterface
         );
 
         $user::recordEvent(
-            new UserCreatedEvent(
+            new UserCreated(
                 $user->email->value(),
             )
         );

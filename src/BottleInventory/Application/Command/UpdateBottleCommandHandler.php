@@ -7,7 +7,7 @@ namespace App\BottleInventory\Application\Command;
 use App\BottleInventory\Domain\Exception\UpdateBottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\Service\AuthorizationService;
+use App\BottleInventory\Domain\Service\Authorization;
 use App\BottleInventory\Domain\Service\BottleValidator;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
@@ -28,7 +28,7 @@ final readonly class UpdateBottleCommandHandler
         private BottleRepositoryInterface $bottleRepository,
         private DomainEventDispatcher $eventDispatcher,
         private BottleValidator $bottleValidator,
-        private AuthorizationService $authorizationService,
+        private Authorization $authorizationService,
     ) {
     }
 

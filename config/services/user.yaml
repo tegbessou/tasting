@@ -21,19 +21,19 @@ services:
   App\Security\Domain\Service\LogInInterface:
     alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFirebase
 
-  App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
+  App\BottleInventory\Application\EventListener\OnBottleTasted:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnInvitationCreatedEventListener:
+  App\Tasting\Application\EventListener\OnInvitationCreated:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnInvitationAcceptedEventListener:
+  App\Tasting\Application\EventListener\OnInvitationAccepted:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnInvitationRejectedEventListener:
+  App\Tasting\Application\EventListener\OnInvitationRejected:
     tags: [kernel.event_listener]
 
-  App\Security\Application\EventListener\OnUserCreatedEventListener:
+  App\Security\Application\EventListener\OnUserCreated:
     tags: [kernel.event_listener]
 
 when@test:

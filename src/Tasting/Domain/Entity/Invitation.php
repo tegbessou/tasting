@@ -6,10 +6,10 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
-use App\Tasting\Domain\Event\InvitationAcceptedEvent;
-use App\Tasting\Domain\Event\InvitationCreatedEvent;
-use App\Tasting\Domain\Event\InvitationRejectedEvent;
-use App\Tasting\Domain\Event\InvitationSentEvent;
+use App\Tasting\Domain\Event\InvitationAccepted;
+use App\Tasting\Domain\Event\InvitationCreated;
+use App\Tasting\Domain\Event\InvitationRejected;
+use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Exception\InvitationAlreadyAcceptedException;
 use App\Tasting\Domain\Exception\InvitationAlreadyRejectedException;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
@@ -69,8 +69,8 @@ final class Invitation implements EntityWithDomainEventInterface
         );
 
         self::recordEvent(
-            new InvitationCreatedEvent(
-                $invitation->id->id(),
+            new InvitationCreated(
+                $invitation->id->value(),
                 $target->email()->value(),
                 $subject->owner()->email()->value(),
                 $subject->bottleName()->value(),
@@ -89,8 +89,8 @@ final class Invitation implements EntityWithDomainEventInterface
         $this->sentAt = InvitationSentAt::now();
 
         self::recordEvent(
-            new InvitationSentEvent(
-                $this->id->id(),
+            new InvitationSent(
+                $this->id->value(),
                 $this->sentAt->value() ?? throw new \InvalidArgumentException(),
             ),
         );
@@ -109,8 +109,8 @@ final class Invitation implements EntityWithDomainEventInterface
         $this->status = InvitationStatus::fromString('accepted');
 
         self::recordEvent(
-            new InvitationAcceptedEvent(
-                $this->id->id(),
+            new InvitationAccepted(
+                $this->id->value(),
             ),
         );
     }
@@ -128,8 +128,8 @@ final class Invitation implements EntityWithDomainEventInterface
         $this->status = InvitationStatus::fromString('rejected');
 
         self::recordEvent(
-            new InvitationRejectedEvent(
-                $this->id->id(),
+            new InvitationRejected(
+                $this->id->value(),
             ),
         );
     }

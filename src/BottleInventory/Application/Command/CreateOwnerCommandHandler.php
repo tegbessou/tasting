@@ -8,7 +8,7 @@ use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\Exception\OwnerAlreadyExistException;
 use App\BottleInventory\Domain\Exception\OwnerDoesntExistInSecurityException;
 use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
-use App\BottleInventory\Domain\Service\AuthorizationService;
+use App\BottleInventory\Domain\Service\Authorization;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerFullName;
 use App\Shared\Application\Command\AsCommandHandler;
@@ -19,7 +19,7 @@ final readonly class CreateOwnerCommandHandler
 {
     public function __construct(
         private OwnerRepositoryInterface $ownerRepository,
-        private AuthorizationService $authorizationService,
+        private Authorization $authorizationService,
         private DomainEventDispatcherInterface $domainEventDispatcher,
     ) {
     }

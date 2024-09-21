@@ -50,8 +50,11 @@ deptrac:
           collectors:
               - type: classNameRegex
                 value: '#^Doctrine\\Common\\Collections#'
+
+        - name: Uuid
+          collectors:
               - type: classNameRegex
-                value: '#^Doctrine\\Common\\Collections#'
+                value: '#^Ramsey\\#'
 
         - name: Helpers
           collectors:
@@ -69,6 +72,7 @@ deptrac:
             - Attributes
             - Events
             - Collection
+            - Uuid
 
         Application:
             - Domain
@@ -76,6 +80,7 @@ deptrac:
             - Attributes
             - Events
             - Collection
+            - Uuid
 
         Infrastructure:
             - Domain
@@ -84,6 +89,7 @@ deptrac:
             - Helpers
             - Attributes
             - Collection
+            - Uuid
 
         Helpers:
             - Vendors

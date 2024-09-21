@@ -31,7 +31,7 @@ final class InvitationDoctrineRepository extends DoctrineRepository implements I
     #[\Override]
     public function ofId(InvitationId $id): ?Invitation
     {
-        return $this->entityManager->find(self::ENTITY_CLASS, $id->id());
+        return $this->entityManager->find(self::ENTITY_CLASS, $id->value());
     }
 
     #[\Override]

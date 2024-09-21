@@ -43,7 +43,7 @@ final readonly class InvitationResource
     public static function fromModel(Invitation $invitation, Tasting $tasting): self
     {
         return new self(
-            new Uuid($invitation->id()->id()),
+            new Uuid($invitation->id()->value()),
             TastingResource::fromModel($tasting),
             ParticipantResource::fromModel($invitation->target()),
         );
