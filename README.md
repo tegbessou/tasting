@@ -121,11 +121,6 @@ If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Refactoring DDD
-Challenge the entity structure
-=> reflect if I can group some value object in other value object more global
-
-Challenge for user the usage of id to store it in database, maybe use email everywhere because it's the identity of the user
-
 /!\ Important change to do
 One repository for an aggregate root
 Challenge Invitation entity to follow aggregate rules

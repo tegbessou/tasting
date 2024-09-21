@@ -16,10 +16,6 @@ interface UserRepositoryInterface
 {
     public function ofEmail(UserEmail $email): ?User;
 
-    public function ofId(UserId $id): ?User;
-
-    public function exist(UserId $id): bool;
-
     public function nextIdentity(): UserId;
 
     public function add(User $user): void;

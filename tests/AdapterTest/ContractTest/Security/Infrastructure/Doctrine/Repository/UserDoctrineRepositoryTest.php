@@ -52,34 +52,6 @@ final class UserDoctrineRepositoryTest extends KernelTestCase
         $this->assertNull($user);
     }
 
-    public function testOfId(): void
-    {
-        $user = $this->doctrineUserRepository->ofId(UserId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'));
-
-        $this->assertNotNull($user);
-    }
-
-    public function testOfIdNull(): void
-    {
-        $user = $this->doctrineUserRepository->ofId(UserId::fromString('4fd831f2-5717-43c1-88de-cdc93bb955c7'));
-
-        $this->assertNull($user);
-    }
-
-    public function testExist(): void
-    {
-        $this->assertTrue(
-            $this->doctrineUserRepository->exist(UserId::fromString('ee036f3b-d488-43be-b10c-fdbdcb0a6c0b'))
-        );
-    }
-
-    public function testNotExist(): void
-    {
-        $this->assertFalse(
-            $this->doctrineUserRepository->exist(UserId::fromString('e90cd120-7b3b-41dc-b369-8055065f648c'))
-        );
-    }
-
     public function testNextIdentity(): void
     {
         $nextIdentity = $this->doctrineUserRepository->nextIdentity();
