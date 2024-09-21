@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Domain\ValueObject\BottleName;
-use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -14,7 +14,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
 
-    private TastingReadDoctrineRepository $doctrineTastingRepository;
+    private TastingDoctrineRepository $doctrineTastingRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +22,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->doctrineTastingRepository = $container->get(TastingReadDoctrineRepository::class);
+        $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
     }
 
     public function testCreateTasting(): void

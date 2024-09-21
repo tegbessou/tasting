@@ -6,14 +6,14 @@ namespace App\Tasting\Application\Query;
 
 use App\Shared\Application\Query\AsQueryHandler;
 use App\Tasting\Domain\Entity\Invitation;
-use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
 
 #[AsQueryHandler]
 final readonly class GetInvitationQueryHandler
 {
     public function __construct(
-        private InvitationReadRepositoryInterface $invitationReadRepository,
+        private InvitationRepositoryInterface $invitationReadRepository,
     ) {
     }
 

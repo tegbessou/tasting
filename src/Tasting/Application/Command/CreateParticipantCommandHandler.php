@@ -8,8 +8,7 @@ use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Exception\ParticipantDoesntExistException;
-use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
-use App\Tasting\Domain\Repository\ParticipantWriteRepositoryInterface;
+use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\Service\AuthorizationService;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantFullName;
@@ -18,8 +17,7 @@ use App\Tasting\Domain\ValueObject\ParticipantFullName;
 final readonly class CreateParticipantCommandHandler
 {
     public function __construct(
-        private ParticipantReadRepositoryInterface $participantReadRepository,
-        private ParticipantWriteRepositoryInterface $participantWriteRepository,
+        private ParticipantRepositoryInterface $participantRepository,
         private DomainEventDispatcherInterface $dispatcher,
         private AuthorizationService $authorizationService,
     ) {
@@ -31,18 +29,18 @@ final readonly class CreateParticipantCommandHandler
             throw new ParticipantDoesntExistException($command->email);
         }
 
-        if ($this->participantReadRepository->ofEmail(new ParticipantEmail($command->email)) !== null) {
+        if ($this->participantRepository->ofEmail(new ParticipantEmail($command->email)) !== null) {
             return;
         }
 
         $participant = Participant::create(
-            $this->participantWriteRepository->nextIdentity(),
+            $this->participantRepository->nextIdentity(),
             new ParticipantEmail($command->email),
             new ParticipantFullName($command->fullName),
         );
 
         $this->dispatcher->dispatch($participant);
 
-        $this->participantWriteRepository->add($participant);
+        $this->participantRepository->add($participant);
     }
 }

@@ -8,8 +8,8 @@ use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
-use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
-use App\Tasting\Domain\Repository\TastingWriteRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
+use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\TastingId;
 
@@ -17,15 +17,15 @@ use App\Tasting\Domain\ValueObject\TastingId;
 final readonly class AcceptInvitationCommandHandler
 {
     public function __construct(
-        private InvitationWriteRepositoryInterface $invitationWriteRepository,
-        private TastingWriteRepositoryInterface $tastingWriteRepository,
+        private InvitationRepositoryInterface $invitationRepository,
+        private TastingRepositoryInterface $tastingRepository,
         private DomainEventDispatcherInterface $dispatcher,
     ) {
     }
 
     public function __invoke(AcceptInvitationCommand $command): void
     {
-        $tasting = $this->tastingWriteRepository->ofId(
+        $tasting = $this->tastingRepository->ofId(
             TastingId::fromString($command->tastingId),
         );
 
@@ -33,7 +33,7 @@ final readonly class AcceptInvitationCommandHandler
             throw new TastingDoesntExistException($command->tastingId);
         }
 
-        $invitation = $this->invitationWriteRepository->ofId(
+        $invitation = $this->invitationRepository->ofId(
             InvitationId::fromString($command->invitationId),
         );
 
@@ -45,6 +45,6 @@ final readonly class AcceptInvitationCommandHandler
 
         $this->dispatcher->dispatch($invitation);
 
-        $this->invitationWriteRepository->update();
+        $this->invitationRepository->update();
     }
 }

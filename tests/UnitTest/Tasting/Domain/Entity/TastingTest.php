@@ -12,7 +12,7 @@ use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
-use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipantService;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
@@ -120,7 +120,7 @@ final class TastingTest extends TestCase
 
     public function testAcceptInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -171,7 +171,7 @@ final class TastingTest extends TestCase
 
     public function testAcceptInvitationFailedBecauseInvitationNotSent(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -213,7 +213,7 @@ final class TastingTest extends TestCase
 
     public function testAcceptInvitationEventDispatch(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -256,7 +256,7 @@ final class TastingTest extends TestCase
 
     public function testRemoveInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -301,7 +301,7 @@ final class TastingTest extends TestCase
 
     public function testRemoveInvitationNotAlreadySend(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -344,7 +344,7 @@ final class TastingTest extends TestCase
 
     public function testRejectInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -395,7 +395,7 @@ final class TastingTest extends TestCase
 
     public function testRejectInvitationFailedBecauseInvitationNotSent(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
@@ -437,7 +437,7 @@ final class TastingTest extends TestCase
 
     public function testRejectInvitationEventDispatch(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;

@@ -16,32 +16,8 @@ services:
       - '../../src/Country/'
       - '../../src/Security/'
 
-  # I don't understand what this is necessary but if I remove this I have an exception ServiceNotFoundException
-  App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository
-    public: true
-
-  App\Tasting\Domain\Repository\TastingReadRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository
-    public: true
-
-  App\Tasting\Domain\Repository\TastingWriteRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Repository\TastingWriteDoctrineRepository
-    public: true
-
-  App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository
-    public: true
-
-  App\Tasting\Domain\Repository\InvitationReadRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository
-    public: true
-
   App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
     alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
-
-  App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClientInterface:
-    alias: App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClient
 
   App\Tasting\Application\Service\NotificationServiceInterface:
     alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseService
@@ -49,9 +25,6 @@ services:
 
 when@test:
   services:
-    App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryHttpClientInterface:
-      alias: App\Tasting\Infrastructure\BottleInventory\Http\Client\BottleInventoryFakeHttpClient
-
     App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
       alias: App\Tasting\Infrastructure\Security\Http\Client\UserFakeHttpClient
 

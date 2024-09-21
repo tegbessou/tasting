@@ -6,8 +6,8 @@ namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Exception\BottleOwnerDoesntExistException;
-use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
-use App\BottleInventory\Domain\Repository\OwnerReadRepositoryInterface;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
+use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
 use App\BottleInventory\Domain\Service\BottleValidator;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
@@ -27,8 +27,8 @@ final readonly class CreateBottleCommandHandler
     public function __construct(
         private DomainEventDispatcherInterface $dispatcher,
         private BottleValidator $validator,
-        private BottleWriteRepositoryInterface $bottleWriteRepository,
-        private OwnerReadRepositoryInterface $ownerReadRepository,
+        private BottleRepositoryInterface $bottleRepository,
+        private OwnerRepositoryInterface $ownerRepository,
     ) {
     }
 
@@ -40,7 +40,7 @@ final readonly class CreateBottleCommandHandler
             $createBottleCommand->ownerId,
         );
 
-        $owner = $this->ownerReadRepository->ofId(
+        $owner = $this->ownerRepository->ofId(
             OwnerId::fromString($createBottleCommand->ownerId)
         );
 
@@ -49,7 +49,7 @@ final readonly class CreateBottleCommandHandler
         }
 
         $bottle = Bottle::create(
-            $this->bottleWriteRepository->nextIdentity(),
+            $this->bottleRepository->nextIdentity(),
             BottleName::fromString($createBottleCommand->name),
             BottleEstateName::fromString($createBottleCommand->estateName),
             BottleWineType::fromString($createBottleCommand->type),
@@ -63,6 +63,6 @@ final readonly class CreateBottleCommandHandler
 
         $this->dispatcher->dispatch($bottle);
 
-        $this->bottleWriteRepository->add($bottle);
+        $this->bottleRepository->add($bottle);
     }
 }

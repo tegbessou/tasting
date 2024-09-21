@@ -7,9 +7,9 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Proce
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Infrastructure\Doctrine\Repository\InvitationReadDoctrineRepository;
-use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
-use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\InvitationDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,20 +20,20 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 {
     use InteractsWithMessenger;
 
-    private InvitationReadDoctrineRepository $invitationReadDoctrineRepository;
+    private InvitationDoctrineRepository $invitationDoctrineRepository;
     private EntityManagerInterface $entityManager;
-    private ParticipantReadDoctrineRepository $participantReadDoctrineRepository;
-    private TastingReadDoctrineRepository $tastingReadDoctrineRepository;
+    private ParticipantDoctrineRepository $participantDoctrineRepository;
+    private TastingDoctrineRepository $tastingDoctrineRepository;
 
     #[\Override]
     protected function setUp(): void
     {
         self::bootKernel();
         $container = self::getContainer();
-        $this->invitationReadDoctrineRepository = $container->get(InvitationReadDoctrineRepository::class);
+        $this->invitationDoctrineRepository = $container->get(InvitationDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->participantReadDoctrineRepository = $container->get(ParticipantReadDoctrineRepository::class);
-        $this->tastingReadDoctrineRepository = $container->get(TastingReadDoctrineRepository::class);
+        $this->participantDoctrineRepository = $container->get(ParticipantDoctrineRepository::class);
+        $this->tastingDoctrineRepository = $container->get(TastingDoctrineRepository::class);
     }
 
     public function testInviteParticipantsToTasting(): void
@@ -48,7 +48,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
         $this->transport('tasting')->queue()->assertContains(InvitationCreatedMessage::class, 1);
 
-        $invitations = $this->invitationReadDoctrineRepository->withParticipantAndTasting(
+        $invitations = $this->invitationDoctrineRepository->withParticipantAndTasting(
             ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
             TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
         )->getIterator();
@@ -158,7 +158,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             ],
         ]);
 
-        $invitations = $this->invitationReadDoctrineRepository->withParticipantAndTasting(
+        $invitations = $this->invitationDoctrineRepository->withParticipantAndTasting(
             ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
             TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
         )->getIterator();
@@ -180,7 +180,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(204);
 
-        $participant = $this->participantReadDoctrineRepository->ofEmail(
+        $participant = $this->participantDoctrineRepository->ofEmail(
             ParticipantEmail::fromString('stephanie.saintmarcel@gmail.com'),
         );
 

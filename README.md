@@ -148,9 +148,9 @@ All entity should be handled by aggregate root
 When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
 them, the tasting service should check if the friend is already a participant and if not create a participant entity
 
-Replace in tasting BottleId by BottleName
-
 Remove all repository and keep only the tasting repository
+
+Add a read model to handle invitation by user
 
 If I create data in another domain, i don't have to check if data exist in the main domain
 
@@ -182,13 +182,8 @@ Create a participant when we invite a participant that doesn't exist
 
 Add log on exception + create a channel by bounded context
 
-Start transaction in command handler
-
-Rework repository remove read and write repository, use only repository
-
-Instead of checking if an owner exist before saving data, we can try to get an owner and throw an exception if it doesn't exist and then catch it
-
-Add a test on each repository on ofId method to check if it's can return null
+Start transaction in command handler => mais du coup si on fait ça est-ce que les command et query handlers ne sont pas
+de l'infra ???
 
 Add created at, created by, updated at and updated by for each entity or aggregate
 

@@ -6,7 +6,7 @@ namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Exception\UpdateBottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
-use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\Service\AuthorizationService;
 use App\BottleInventory\Domain\Service\BottleValidator;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
@@ -25,7 +25,7 @@ use App\Shared\Application\EventDispatcher\DomainEventDispatcher;
 final readonly class UpdateBottleCommandHandler
 {
     public function __construct(
-        private BottleWriteRepositoryInterface $bottleWriteRepository,
+        private BottleRepositoryInterface $bottleRepository,
         private DomainEventDispatcher $eventDispatcher,
         private BottleValidator $bottleValidator,
         private AuthorizationService $authorizationService,
@@ -40,7 +40,7 @@ final readonly class UpdateBottleCommandHandler
             $command->grapeVarieties,
         );
 
-        $bottle = $this->bottleWriteRepository->ofId(
+        $bottle = $this->bottleRepository->ofId(
             BottleId::fromString($command->bottleId),
         );
 
@@ -67,6 +67,6 @@ final readonly class UpdateBottleCommandHandler
 
         $this->eventDispatcher->dispatch($bottle);
 
-        $this->bottleWriteRepository->update($bottle);
+        $this->bottleRepository->update($bottle);
     }
 }

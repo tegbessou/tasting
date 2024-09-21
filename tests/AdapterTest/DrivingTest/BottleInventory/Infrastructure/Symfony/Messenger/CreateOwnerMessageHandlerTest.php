@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\Symfony\Messenger;
 
 use App\BottleInventory\Domain\Entity\Owner;
-use App\BottleInventory\Domain\Repository\OwnerReadRepositoryInterface;
+use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
-use App\BottleInventory\Infrastructure\Doctrine\Repository\OwnerReadDoctrineRepository;
 use App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -16,7 +15,7 @@ final class CreateOwnerMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
 
-    private OwnerReadDoctrineRepository $ownerRepository;
+    private OwnerRepositoryInterface $ownerRepository;
 
     #[\Override]
     public function setUp(): void
@@ -24,7 +23,7 @@ final class CreateOwnerMessageHandlerTest extends KernelTestCase
         static::bootKernel();
 
         $container = static::getContainer();
-        $this->ownerRepository = $container->get(OwnerReadRepositoryInterface::class);
+        $this->ownerRepository = $container->get(OwnerRepositoryInterface::class);
 
         parent::setUp();
     }

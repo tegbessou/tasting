@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Country\Application\Query;
 
-use App\Country\Domain\Repository\CountryReadRepositoryInterface;
+use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Shared\Application\Query\QueryInterface;
 
 /**
- * @implements QueryInterface<CountryReadRepositoryInterface>
+ * @implements QueryInterface<CountryRepositoryInterface>
  */
 final readonly class GetCountriesQuery implements QueryInterface
 {

@@ -11,9 +11,8 @@ use App\Tasting\Application\Service\NotificationServiceInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationTargetDoesntExistException;
 use App\Tasting\Domain\Exception\OwnerDoesntExistException;
-use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
-use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
-use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
+use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
@@ -22,18 +21,17 @@ use App\Tasting\Domain\ValueObject\ParticipantEmail;
 final readonly class SendInvitationCommandHandler
 {
     public function __construct(
-        private InvitationReadRepositoryInterface $invitationReadRepository,
-        private ParticipantReadRepositoryInterface $participantReadRepository,
+        private InvitationRepositoryInterface $invitationRepository,
+        private ParticipantRepositoryInterface $participantRepository,
         private EmailServiceInterface $emailService,
         private NotificationServiceInterface $notificationService,
-        private InvitationWriteRepositoryInterface $invitationWriteRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
     ) {
     }
 
     public function __invoke(SendInvitationCommand $command): void
     {
-        $invitation = $this->invitationReadRepository->ofId(
+        $invitation = $this->invitationRepository->ofId(
             InvitationId::fromString($command->invitationId),
         );
 
@@ -41,7 +39,7 @@ final readonly class SendInvitationCommandHandler
             throw new InvitationDoesntExistException($command->invitationId);
         }
 
-        $owner = $this->participantReadRepository->ofEmail(
+        $owner = $this->participantRepository->ofEmail(
             ParticipantEmail::fromString($command->ownerEmail),
         );
 
@@ -49,7 +47,7 @@ final readonly class SendInvitationCommandHandler
             throw new OwnerDoesntExistException($command->ownerEmail);
         }
 
-        $target = $this->participantReadRepository->ofEmail(
+        $target = $this->participantRepository->ofEmail(
             ParticipantEmail::fromString($command->targetEmail),
         );
 
@@ -74,6 +72,6 @@ final readonly class SendInvitationCommandHandler
 
         $this->eventDispatcher->dispatch($invitation);
 
-        $this->invitationWriteRepository->update();
+        $this->invitationRepository->update();
     }
 }

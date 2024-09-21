@@ -8,10 +8,9 @@ use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
-use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
-use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
-use App\Tasting\Domain\Repository\ParticipantWriteRepositoryInterface;
-use App\Tasting\Domain\Repository\TastingReadRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
+use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
+use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipantService;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -20,18 +19,17 @@ use App\Tasting\Domain\ValueObject\TastingId;
 final readonly class InviteParticipantsCommandHandler
 {
     public function __construct(
-        private TastingReadRepositoryInterface $tastingReadRepository,
-        private ParticipantReadRepositoryInterface $participantReadRepository,
+        private TastingRepositoryInterface $tastingRepository,
+        private ParticipantRepositoryInterface $participantRepository,
         private InviteParticipantService $inviteParticipantService,
-        private InvitationWriteRepositoryInterface $invitationWriteRepository,
+        private InvitationRepositoryInterface $invitationRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
-        private ParticipantWriteRepositoryInterface $participantWriteRepository,
     ) {
     }
 
     public function __invoke(InviteParticipantsCommand $command): void
     {
-        $tasting = $this->tastingReadRepository->ofId(
+        $tasting = $this->tastingRepository->ofId(
             TastingId::fromString($command->tastingId),
         );
 
@@ -42,7 +40,7 @@ final readonly class InviteParticipantsCommandHandler
         $participants = [];
 
         foreach ($command->participantsEmail as $participantEmail) {
-            $participant = $this->participantReadRepository->ofEmail(
+            $participant = $this->participantRepository->ofEmail(
                 $participantEmail,
             );
 
@@ -59,7 +57,7 @@ final readonly class InviteParticipantsCommandHandler
         );
 
         foreach ($tasting->invitations() as $invitation) {
-            $this->invitationWriteRepository->add($invitation);
+            $this->invitationRepository->add($invitation);
 
             $this->eventDispatcher->dispatch($invitation);
         }
@@ -70,13 +68,13 @@ final readonly class InviteParticipantsCommandHandler
     public function createParticipantIfNotExist(ParticipantEmail $participantEmail): Participant
     {
         $newParticipant = Participant::createAnonymous(
-            $this->participantWriteRepository->nextIdentity(),
+            $this->participantRepository->nextIdentity(),
             $participantEmail,
         );
 
         $this->eventDispatcher->dispatch($newParticipant);
 
-        $this->participantWriteRepository->add($newParticipant);
+        $this->participantRepository->add($newParticipant);
 
         return $newParticipant;
     }

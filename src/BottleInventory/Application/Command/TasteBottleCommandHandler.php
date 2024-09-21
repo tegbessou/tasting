@@ -6,7 +6,7 @@ namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Exception\BottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\TasteBottleNotAuthorizeForThisUserException;
-use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\Service\AuthorizationService;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\Shared\Application\Command\AsCommandHandler;
@@ -16,7 +16,7 @@ use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 final readonly class TasteBottleCommandHandler
 {
     public function __construct(
-        private BottleWriteRepositoryInterface $bottleWriteRepository,
+        private BottleRepositoryInterface $bottleRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
         private AuthorizationService $authorizationService,
     ) {
@@ -25,7 +25,7 @@ final readonly class TasteBottleCommandHandler
     public function __invoke(
         TasteBottleCommand $command,
     ): void {
-        $bottle = $this->bottleWriteRepository->ofId(
+        $bottle = $this->bottleRepository->ofId(
             BottleId::fromString($command->id),
         );
 
@@ -41,6 +41,6 @@ final readonly class TasteBottleCommandHandler
 
         $this->eventDispatcher->dispatch($bottle);
 
-        $this->bottleWriteRepository->update($bottle);
+        $this->bottleRepository->update($bottle);
     }
 }

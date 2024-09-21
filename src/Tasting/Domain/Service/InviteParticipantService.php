@@ -12,12 +12,12 @@ use App\Tasting\Domain\Event\TastingParticipantsInvitedEvent;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
-use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 
 final readonly class InviteParticipantService
 {
     public function __construct(
-        private InvitationWriteRepositoryInterface $invitationWriteRepository,
+        private InvitationRepositoryInterface $invitationRepository,
     ) {
     }
 
@@ -32,7 +32,7 @@ final readonly class InviteParticipantService
         /** @var Participant $participant */
         foreach ($participants as $participant) {
             $invitation = Invitation::create(
-                $this->invitationWriteRepository->nextIdentity(),
+                $this->invitationRepository->nextIdentity(),
                 $tasting,
                 $participant,
                 GetInvitationLinkService::getLink(),
