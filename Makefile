@@ -254,7 +254,7 @@ container-linter:
 ## PHPStan with higher level
 phpstan:
 	@echo "\nRunning phpstan...\e[0m"
-	@$(EXEC_PHP) vendor/bin/phpstan analyse src/ --level 8
+	@$(EXEC_PHP) vendor/bin/phpstan analyse src/ --level 8 --memory-limit=1G
 
 ## Deptrac
 deptrac:
