@@ -7,7 +7,7 @@ namespace App\BottleInventory\Application\Command;
 use App\BottleInventory\Domain\Exception\BottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\TasteBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\Service\AuthorizationService;
+use App\BottleInventory\Domain\Service\Authorization;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\Shared\Application\Command\AsCommandHandler;
 use App\Shared\Domain\Service\DomainEventDispatcherInterface;
@@ -18,7 +18,7 @@ final readonly class TasteBottleCommandHandler
     public function __construct(
         private BottleRepositoryInterface $bottleRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
-        private AuthorizationService $authorizationService,
+        private Authorization $authorizationService,
     ) {
     }
 

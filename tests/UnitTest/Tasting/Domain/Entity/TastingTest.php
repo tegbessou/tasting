@@ -6,14 +6,14 @@ namespace App\Tests\UnitTest\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Event\InvitationAcceptedEvent;
-use App\Tasting\Domain\Event\InvitationRejectedEvent;
-use App\Tasting\Domain\Event\TastingCreatedEvent;
+use App\Tasting\Domain\Event\InvitationAccepted;
+use App\Tasting\Domain\Event\InvitationRejected;
+use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipantService;
+use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
@@ -97,7 +97,7 @@ final class TastingTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(TastingCreatedEvent::class, $tasting::getRecordedEvent()[0]);
+        $this->assertInstanceOf(TastingCreated::class, $tasting::getRecordedEvent()[0]);
         $tasting::eraseRecordedEvents();
     }
 
@@ -125,7 +125,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -176,7 +176,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -218,7 +218,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -249,7 +249,7 @@ final class TastingTest extends TestCase
 
         $tasting->acceptInvitation($invitation);
 
-        $this->assertInstanceOf(InvitationAcceptedEvent::class, $invitation::getRecordedEvent()[0]);
+        $this->assertInstanceOf(InvitationAccepted::class, $invitation::getRecordedEvent()[0]);
         $tasting::eraseRecordedEvents();
         $invitation::eraseRecordedEvents();
     }
@@ -261,7 +261,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -306,7 +306,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -349,7 +349,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -400,7 +400,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -442,7 +442,7 @@ final class TastingTest extends TestCase
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
 
-        $invitationService = new InviteParticipantService($invitationWriteRepository);
+        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
@@ -473,7 +473,7 @@ final class TastingTest extends TestCase
 
         $tasting->rejectInvitation($invitation);
 
-        $this->assertInstanceOf(InvitationRejectedEvent::class, $invitation::getRecordedEvent()[0]);
+        $this->assertInstanceOf(InvitationRejected::class, $invitation::getRecordedEvent()[0]);
         $tasting::eraseRecordedEvents();
         $invitation::eraseRecordedEvents();
     }

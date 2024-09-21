@@ -6,7 +6,7 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
 use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
-use App\Tasting\Domain\Event\TastingCreatedEvent;
+use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationMustBePendingException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
@@ -54,7 +54,7 @@ class Tasting implements EntityWithDomainEventInterface
         );
 
         self::recordEvent(
-            new TastingCreatedEvent(
+            new TastingCreated(
                 $tasting->id->value(),
                 $owner->id()->value(),
             )
@@ -94,7 +94,7 @@ class Tasting implements EntityWithDomainEventInterface
         $index = $this->invitations->indexOf($invitation);
 
         if ($index === false || is_string($index)) {
-            throw new InvitationDoesntExistException($invitation->id()->id());
+            throw new InvitationDoesntExistException($invitation->id()->value());
         }
 
         $this->invitations->remove(

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
-use App\Tasting\Application\Service\NotificationServiceInterface;
+use App\Tasting\Application\Service\NotificationInterface;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
-use App\Tasting\Domain\Service\GetInvitationLinkService;
+use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -26,7 +26,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
     private ParticipantDoctrineRepository $doctrineParticipantRepository;
     private TastingDoctrineRepository $doctrineTastingRepository;
     private EntityManagerInterface $entityManager;
-    private NotificationServiceInterface $notificationService;
+    private NotificationInterface $notificationService;
 
     #[\Override]
     protected function setUp(): void
@@ -38,7 +38,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
         $this->doctrineParticipantRepository = $container->get(ParticipantDoctrineRepository::class);
         $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->notificationService = $container->get(NotificationServiceInterface::class);
+        $this->notificationService = $container->get(NotificationInterface::class);
     }
 
     public function testSendInvitation(): void
@@ -51,7 +51,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
             InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'),
             $tasting,
             $participant,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $invitation::eraseRecordedEvents();

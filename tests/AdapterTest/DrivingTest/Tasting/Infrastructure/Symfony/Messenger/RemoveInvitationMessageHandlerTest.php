@@ -8,7 +8,7 @@ use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\GetInvitationLinkService;
+use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
@@ -64,7 +64,7 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
             InvitationId::fromString('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc'),
             $tasting,
             $owner,
-            GetInvitationLinkService::getLink(),
+            GetInvitationLink::getLink(),
         );
 
         $this->invitationDoctrineRepository->add($invitation);

@@ -19,8 +19,8 @@ services:
   App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
     alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
 
-  App\Tasting\Application\Service\NotificationServiceInterface:
-    alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseService
+  App\Tasting\Application\Service\NotificationInterface:
+    alias: App\Tasting\Infrastructure\Firebase\NotificationFirebase
     public: true
 
 when@test:
@@ -28,6 +28,6 @@ when@test:
     App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
       alias: App\Tasting\Infrastructure\Security\Http\Client\UserFakeHttpClient
 
-    App\Tasting\Application\Service\NotificationServiceInterface:
-      alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFakeService
+    App\Tasting\Application\Service\NotificationInterface:
+      alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake
       public: true

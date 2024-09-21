@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\UnitTest\BottleInventory\Domain\Entity;
 
 use App\BottleInventory\Domain\Entity\Owner;
-use App\BottleInventory\Domain\Event\OwnerCreatedEvent;
+use App\BottleInventory\Domain\Event\OwnerCreated;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerFullName;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
@@ -102,7 +102,7 @@ final class OwnerTest extends TestCase
             OwnerFullName::fromString('Hugues Gobet'),
         );
 
-        $this->assertInstanceOf(OwnerCreatedEvent::class, $owner::getRecordedEvent()[0]);
+        $this->assertInstanceOf(OwnerCreated::class, $owner::getRecordedEvent()[0]);
         $owner::eraseRecordedEvents();
     }
 

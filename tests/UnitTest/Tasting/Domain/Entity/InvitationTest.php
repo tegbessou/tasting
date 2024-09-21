@@ -7,8 +7,8 @@ namespace App\Tests\UnitTest\Tasting\Domain\Entity;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Event\InvitationCreatedEvent;
-use App\Tasting\Domain\Event\InvitationSentEvent;
+use App\Tasting\Domain\Event\InvitationCreated;
+use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Exception\InvitationAlreadyAcceptedException;
 use App\Tasting\Domain\Exception\InvitationAlreadyRejectedException;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
@@ -131,7 +131,7 @@ final class InvitationTest extends TestCase
             InvitationLink::fromString('https://apps.apple.com/app/6468406309'),
         );
 
-        $this->assertInstanceOf(InvitationCreatedEvent::class, $tastingInvitation::getRecordedEvent()[0]);
+        $this->assertInstanceOf(InvitationCreated::class, $tastingInvitation::getRecordedEvent()[0]);
         $tastingInvitation::eraseRecordedEvents();
     }
 
@@ -197,7 +197,7 @@ final class InvitationTest extends TestCase
 
         $tastingInvitation->send();
 
-        $this->assertInstanceOf(InvitationSentEvent::class, $tastingInvitation::getRecordedEvent()[0]);
+        $this->assertInstanceOf(InvitationSent::class, $tastingInvitation::getRecordedEvent()[0]);
         $tastingInvitation::eraseRecordedEvents();
     }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\UnitTest\BottleInventory\Domain\Entity;
 
 use App\BottleInventory\Domain\Entity\GrapeVariety;
-use App\BottleInventory\Domain\Event\GrapeVarietyCreatedEvent;
+use App\BottleInventory\Domain\Event\GrapeVarietyCreated;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyId;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyName;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +22,14 @@ final class GrapeVarietyTest extends TestCase
         $this->assertInstanceOf(
             GrapeVariety::class,
             $grapeVariety,
+        );
+        $this->assertEquals(
+            'af785dbb-4ac1-4786-a5aa-1fed08f6ec26',
+            $grapeVariety->id()->value(),
+        );
+        $this->assertEquals(
+            'Sirano',
+            $grapeVariety->name()->value(),
         );
     }
 
@@ -72,7 +80,7 @@ final class GrapeVarietyTest extends TestCase
             GrapeVarietyName::fromString('Sirano'),
         );
 
-        $this->assertInstanceOf(GrapeVarietyCreatedEvent::class, $grapeVariety::getRecordedEvent()[0]);
+        $this->assertInstanceOf(GrapeVarietyCreated::class, $grapeVariety::getRecordedEvent()[0]);
         $grapeVariety::eraseRecordedEvents();
     }
 

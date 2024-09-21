@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Entity;
 
-use App\BottleInventory\Domain\Event\BottleCreatedEvent;
-use App\BottleInventory\Domain\Event\BottleDeletedEvent;
-use App\BottleInventory\Domain\Event\BottlePictureAddedEvent;
-use App\BottleInventory\Domain\Event\BottleTastedEvent;
-use App\BottleInventory\Domain\Event\BottleUpdatedEvent;
+use App\BottleInventory\Domain\Event\BottleCreated;
+use App\BottleInventory\Domain\Event\BottleDeleted;
+use App\BottleInventory\Domain\Event\BottlePictureAdded;
+use App\BottleInventory\Domain\Event\BottleTasted;
+use App\BottleInventory\Domain\Event\BottleUpdated;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
@@ -89,7 +89,7 @@ final class Bottle implements EntityWithDomainEventInterface
         );
 
         self::recordEvent(
-            new BottleCreatedEvent(
+            new BottleCreated(
                 $bottle->id->value(),
                 $bottle->owner->email()->value(),
             )
@@ -103,7 +103,7 @@ final class Bottle implements EntityWithDomainEventInterface
         $this->picture = $picture;
 
         self::recordEvent(
-            new BottlePictureAddedEvent(
+            new BottlePictureAdded(
                 $this->id->value(),
                 $this->owner->email()->value(),
             )
@@ -119,7 +119,7 @@ final class Bottle implements EntityWithDomainEventInterface
         );
 
         self::recordEvent(
-            new BottleTastedEvent(
+            new BottleTasted(
                 $this->id->value(),
                 $this->owner->email()->value()
             )
@@ -131,7 +131,7 @@ final class Bottle implements EntityWithDomainEventInterface
     public function delete(): void
     {
         self::recordEvent(
-            new BottleDeletedEvent(
+            new BottleDeleted(
                 $this->id->value(),
                 $this->owner->email()->value(),
             )
@@ -158,7 +158,7 @@ final class Bottle implements EntityWithDomainEventInterface
         $this->price = $price;
 
         self::recordEvent(
-            new BottleUpdatedEvent(
+            new BottleUpdated(
                 $this->id->value(),
                 $this->owner->email()->value(),
             )

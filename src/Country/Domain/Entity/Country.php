@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Country\Domain\Entity;
 
-use App\Country\Domain\Event\CountryCreatedEvent;
+use App\Country\Domain\Event\CountryCreated;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
 use App\Shared\Domain\Entity\EntityDomainEventTrait;
@@ -34,7 +34,7 @@ final class Country implements EntityWithDomainEventInterface
         );
 
         $country::recordEvent(
-            new CountryCreatedEvent(
+            new CountryCreated(
                 $country->id->value(),
             )
         );

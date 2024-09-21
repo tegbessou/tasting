@@ -14,7 +14,7 @@ services:
       - '../../src/Tasting/'
       - '../../src/Security/'
 
-  App\BottleInventory\Application\EventListener\OnBottleTastedEventListener:
+  App\BottleInventory\Application\EventListener\OnBottleTasted:
     tags: [kernel.event_listener]
 
   App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
@@ -23,8 +23,8 @@ services:
   App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface:
     alias: App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClient
 
-  App\BottleInventory\Domain\Service\UploadBottlePictureServiceInterface:
-    alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderService
+  App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
+    alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploader
 
 when@test:
   services:
@@ -34,5 +34,5 @@ when@test:
     App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface:
       alias: App\BottleInventory\Infrastructure\Security\Http\Client\UserFakeHttpClient
 
-    App\BottleInventory\Domain\Service\UploadBottlePictureServiceInterface:
-      alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderTestService
+    App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
+      alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderFake

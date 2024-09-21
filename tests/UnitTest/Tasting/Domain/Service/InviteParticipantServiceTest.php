@@ -6,12 +6,12 @@ namespace App\Tests\UnitTest\Tasting\Domain\Service;
 
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Event\TastingCreatedEvent;
+use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipantService;
+use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
@@ -39,7 +39,7 @@ final class InviteParticipantServiceTest extends TestCase
 
     public function testInviteParticipants(): void
     {
-        $inviteParticipantService = new InviteParticipantService(
+        $inviteParticipantService = new InviteParticipant(
             $this->invitationRepository,
         );
 
@@ -75,7 +75,7 @@ final class InviteParticipantServiceTest extends TestCase
 
     public function testInviteParticipantsFailedOwnerCannotBeInvited(): void
     {
-        $inviteParticipantService = new InviteParticipantService(
+        $inviteParticipantService = new InviteParticipant(
             $this->invitationRepository,
         );
 
@@ -101,7 +101,7 @@ final class InviteParticipantServiceTest extends TestCase
 
     public function testInviteParticipantsFailedParticipantAlreadyInvited(): void
     {
-        $inviteParticipantService = new InviteParticipantService(
+        $inviteParticipantService = new InviteParticipant(
             $this->invitationRepository,
         );
 
@@ -141,7 +141,7 @@ final class InviteParticipantServiceTest extends TestCase
 
     public function testInviteParticipantsFailedParticipantAlreadyParticipating(): void
     {
-        $inviteParticipantService = new InviteParticipantService(
+        $inviteParticipantService = new InviteParticipant(
             $this->invitationRepository,
         );
 
@@ -187,7 +187,7 @@ final class InviteParticipantServiceTest extends TestCase
 
     public function testInviteParticipantsThatDispatchEvent(): void
     {
-        $inviteParticipantService = new InviteParticipantService(
+        $inviteParticipantService = new InviteParticipant(
             $this->invitationRepository,
         );
 
@@ -216,7 +216,7 @@ final class InviteParticipantServiceTest extends TestCase
             ],
         );
 
-        $this->assertInstanceOf(TastingCreatedEvent::class, $tasting::getRecordedEvent()[0]);
+        $this->assertInstanceOf(TastingCreated::class, $tasting::getRecordedEvent()[0]);
         $tasting::eraseRecordedEvents();
     }
 }

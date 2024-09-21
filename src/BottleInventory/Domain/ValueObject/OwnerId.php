@@ -15,19 +15,19 @@ final class OwnerId
     private string $value;
 
     public function __construct(
-        string $id,
+        string $value,
     ) {
-        Assert::minLength($id, 36);
-        Assert::maxLength($id, 36);
-        Assert::uuid($id);
+        Assert::minLength($value, 36);
+        Assert::maxLength($value, 36);
+        Assert::uuid($value);
 
-        $this->value = $id;
+        $this->value = $value;
     }
 
     public static function fromString(
-        string $id,
+        string $value,
     ): self {
-        return new self($id);
+        return new self($value);
     }
 
     public function value(): string

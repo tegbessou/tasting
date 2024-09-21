@@ -12,16 +12,16 @@ final class TastingId
 {
     #[ORM\Id]
     #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
-    private string $id;
+    private string $value;
 
     public function __construct(
-        string $id,
+        string $value,
     ) {
-        Assert::minLength($id, 36);
-        Assert::maxLength($id, 36);
-        Assert::uuid($id);
+        Assert::minLength($value, 36);
+        Assert::maxLength($value, 36);
+        Assert::uuid($value);
 
-        $this->id = $id;
+        $this->value = $value;
     }
 
     public static function fromString(string $value): self
@@ -31,6 +31,6 @@ final class TastingId
 
     public function value(): string
     {
-        return $this->id;
+        return $this->value;
     }
 }

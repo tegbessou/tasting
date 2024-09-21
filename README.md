@@ -120,16 +120,27 @@ This Symfony command check if your database schema is coherent with your entitie
 If your local app send mail, your mail will be catched by the mailcatcher.
 To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
+## Naming rules
+- Entity class shouldn't have suffix
+- Value object class shouldn't have suffix
+- Enum class shouldn't have suffix
+- Event class shouldn't have suffix
+- Event listener class shouldn't have suffix
+- Exception class should have suffix
+- Service class shouldn't have suffix
+- Repository class should have suffix
+- Command/Query class should have suffix
+- Command/Query handler class should have suffix
+
+## Value object rule
+- Id method should be named value
+
 ## Refactoring DDD
 /!\ Important change to do
 One repository for an aggregate root
 Challenge Invitation entity to follow aggregate rules
 
-Add timestamp and id an all event
-
 Challenge the presence of an entity Owner in tasting to use with participant entity
-
-Remove all suffix for domain class
 
 ### Refactoring tasting
 
@@ -158,8 +169,6 @@ User context is responsible to send notification when invitation is sent
 Extract it in a microservice and a new project
 
 ## Refactoring tech
-Update unit test to add check value of property after entity modification and creation
-Add in all id value object representation assert from max and min length
 
 Explain architecture choices in the README
 Add an elastic search to search wine
@@ -178,7 +187,7 @@ Create a participant when we invite a participant that doesn't exist
 Add log on exception + create a channel by bounded context
 
 Start transaction in command handler => mais du coup si on fait ça est-ce que les command et query handlers ne sont pas
-de l'infra ???
+de l'infra => No problem because we will create an interface in application and the implementation in infra
 
 Add created at, created by, updated at and updated by for each entity or aggregate
 

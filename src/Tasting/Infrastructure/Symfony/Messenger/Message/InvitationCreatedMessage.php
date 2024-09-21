@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Symfony\Messenger\Message;
 
-use App\Tasting\Domain\Event\InvitationCreatedEvent;
+use App\Tasting\Domain\Event\InvitationCreated;
 
 final readonly class InvitationCreatedMessage
 {
@@ -16,7 +16,7 @@ final readonly class InvitationCreatedMessage
     ) {
     }
 
-    public static function fromEvent(InvitationCreatedEvent $event): self
+    public static function fromEvent(InvitationCreated $event): self
     {
         return new self(
             $event->id,

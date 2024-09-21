@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Entity;
 
-use App\BottleInventory\Domain\Event\OwnerCreatedEvent;
+use App\BottleInventory\Domain\Event\OwnerCreated;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerFullName;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
@@ -35,7 +35,7 @@ class Owner implements EntityWithDomainEventInterface
         $owner = new self($id, $email, $fullName);
 
         $owner::recordEvent(
-            new OwnerCreatedEvent(
+            new OwnerCreated(
                 $owner->id()->value(),
             )
         );

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\UnitTest\Security\Domain\Entity;
 
 use App\Security\Domain\Entity\User;
-use App\Security\Domain\Event\UserCreatedEvent;
+use App\Security\Domain\Event\UserCreated;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserId;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +22,14 @@ final class UserTest extends TestCase
         $this->assertInstanceOf(
             User::class,
             $user,
+        );
+        $this->assertEquals(
+            'af785dbb-4ac1-4786-a5aa-1fed08f6ec26',
+            $user->id()->value(),
+        );
+        $this->assertEquals(
+            'hugues.gobet@gmail.com',
+            $user->email()->value(),
         );
     }
 
@@ -62,7 +70,7 @@ final class UserTest extends TestCase
             UserEmail::fromString('hugues.gobet@gmail.com'),
         );
 
-        $this->assertInstanceOf(UserCreatedEvent::class, $user::getRecordedEvent()[0]);
+        $this->assertInstanceOf(UserCreated::class, $user::getRecordedEvent()[0]);
         $user::eraseRecordedEvents();
     }
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\UnitTest\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Entity\Participant;
-use App\Tasting\Domain\Event\ParticipantAnonymousCreatedEvent;
-use App\Tasting\Domain\Event\ParticipantCreatedEvent;
+use App\Tasting\Domain\Event\ParticipantAnonymousCreated;
+use App\Tasting\Domain\Event\ParticipantCreated;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantFullName;
 use App\Tasting\Domain\ValueObject\ParticipantId;
@@ -103,7 +103,7 @@ final class ParticipantTest extends TestCase
             ParticipantFullName::fromString('Hugues Gobet'),
         );
 
-        $this->assertInstanceOf(ParticipantCreatedEvent::class, $participant::getRecordedEvent()[0]);
+        $this->assertInstanceOf(ParticipantCreated::class, $participant::getRecordedEvent()[0]);
         $participant::eraseRecordedEvents();
     }
 
@@ -188,7 +188,7 @@ final class ParticipantTest extends TestCase
             ParticipantEmail::fromString('hugues.gobet@gmail.com'),
         );
 
-        $this->assertInstanceOf(ParticipantAnonymousCreatedEvent::class, $participant::getRecordedEvent()[0]);
+        $this->assertInstanceOf(ParticipantAnonymousCreated::class, $participant::getRecordedEvent()[0]);
         $participant::eraseRecordedEvents();
     }
 

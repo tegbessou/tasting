@@ -7,8 +7,8 @@ namespace App\BottleInventory\Application\Command;
 use App\BottleInventory\Domain\Exception\ReplaceBottlePictureBottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\Service\AuthorizationService;
-use App\BottleInventory\Domain\Service\UploadBottlePictureServiceInterface;
+use App\BottleInventory\Domain\Service\Authorization;
+use App\BottleInventory\Domain\Service\UploadBottlePictureInterface;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
 use App\Shared\Application\Command\AsCommandHandler;
@@ -20,8 +20,8 @@ final readonly class ReplaceBottlePictureCommandHandler
     public function __construct(
         private BottleRepositoryInterface $bottleRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
-        private UploadBottlePictureServiceInterface $uploadBottlePicture,
-        private AuthorizationService $authorizationService,
+        private UploadBottlePictureInterface $uploadBottlePicture,
+        private Authorization $authorizationService,
     ) {
     }
 

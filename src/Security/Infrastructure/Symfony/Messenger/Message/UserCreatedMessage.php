@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Infrastructure\Symfony\Messenger\Message;
 
-use App\Security\Domain\Event\UserCreatedEvent;
+use App\Security\Domain\Event\UserCreated;
 
 final readonly class UserCreatedMessage
 {
@@ -15,7 +15,7 @@ final readonly class UserCreatedMessage
     }
 
     public static function fromEvent(
-        UserCreatedEvent $event,
+        UserCreated $event,
     ): self {
         return new self(
             $event->email,
