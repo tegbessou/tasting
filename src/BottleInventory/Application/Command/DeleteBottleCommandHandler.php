@@ -6,7 +6,7 @@ namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\Exception\BottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\DeleteBottleNotAuthorizeForThisUserException;
-use App\BottleInventory\Domain\Repository\BottleWriteRepositoryInterface;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\Service\AuthorizationService;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\Shared\Application\Command\AsCommandHandler;
@@ -16,7 +16,7 @@ use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 final readonly class DeleteBottleCommandHandler
 {
     public function __construct(
-        private BottleWriteRepositoryInterface $bottleWriteRepository,
+        private BottleRepositoryInterface $bottleRepository,
         private DomainEventDispatcherInterface $eventDispatcher,
         private AuthorizationService $authorizationService,
     ) {
@@ -24,7 +24,7 @@ final readonly class DeleteBottleCommandHandler
 
     public function __invoke(DeleteBottleCommand $removeBottleCommand): void
     {
-        $bottle = $this->bottleWriteRepository->ofId(
+        $bottle = $this->bottleRepository->ofId(
             new BottleId($removeBottleCommand->id)
         );
 
@@ -42,6 +42,6 @@ final readonly class DeleteBottleCommandHandler
 
         $this->eventDispatcher->dispatch($bottle);
 
-        $this->bottleWriteRepository->delete($bottle);
+        $this->bottleRepository->delete($bottle);
     }
 }

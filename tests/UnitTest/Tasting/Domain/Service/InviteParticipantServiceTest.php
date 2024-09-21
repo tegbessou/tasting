@@ -10,7 +10,7 @@ use App\Tasting\Domain\Event\TastingCreatedEvent;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
-use App\Tasting\Domain\Repository\InvitationWriteRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipantService;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
@@ -22,25 +22,25 @@ use PHPUnit\Framework\TestCase;
 
 final class InviteParticipantServiceTest extends TestCase
 {
-    private InvitationWriteRepositoryInterface $invitationWriteRepository;
+    private InvitationRepositoryInterface $invitationRepository;
 
     #[\Override]
     protected function setUp(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationWriteRepositoryInterface::class);
+        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationWriteRepository->method('nextIdentity')
             ->willReturn(
                 InvitationId::fromString('190db0e2-6a9e-4e29-b3d9-3db8b1d0178d'),
             )
         ;
 
-        $this->invitationWriteRepository = $invitationWriteRepository;
+        $this->invitationRepository = $invitationWriteRepository;
     }
 
     public function testInviteParticipants(): void
     {
         $inviteParticipantService = new InviteParticipantService(
-            $this->invitationWriteRepository,
+            $this->invitationRepository,
         );
 
         $owner = Participant::create(
@@ -76,7 +76,7 @@ final class InviteParticipantServiceTest extends TestCase
     public function testInviteParticipantsFailedOwnerCannotBeInvited(): void
     {
         $inviteParticipantService = new InviteParticipantService(
-            $this->invitationWriteRepository,
+            $this->invitationRepository,
         );
 
         $participant = Participant::create(
@@ -102,7 +102,7 @@ final class InviteParticipantServiceTest extends TestCase
     public function testInviteParticipantsFailedParticipantAlreadyInvited(): void
     {
         $inviteParticipantService = new InviteParticipantService(
-            $this->invitationWriteRepository,
+            $this->invitationRepository,
         );
 
         $participant = Participant::create(
@@ -142,7 +142,7 @@ final class InviteParticipantServiceTest extends TestCase
     public function testInviteParticipantsFailedParticipantAlreadyParticipating(): void
     {
         $inviteParticipantService = new InviteParticipantService(
-            $this->invitationWriteRepository,
+            $this->invitationRepository,
         );
 
         $participant = Participant::create(
@@ -188,7 +188,7 @@ final class InviteParticipantServiceTest extends TestCase
     public function testInviteParticipantsThatDispatchEvent(): void
     {
         $inviteParticipantService = new InviteParticipantService(
-            $this->invitationWriteRepository,
+            $this->invitationRepository,
         );
 
         $owner = Participant::create(

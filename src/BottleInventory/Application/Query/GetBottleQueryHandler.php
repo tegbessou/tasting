@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BottleInventory\Application\Query;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Repository\BottleReadRepositoryInterface;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\Shared\Application\Query\AsQueryHandler;
 
@@ -13,13 +13,13 @@ use App\Shared\Application\Query\AsQueryHandler;
 final readonly class GetBottleQueryHandler
 {
     public function __construct(
-        private BottleReadRepositoryInterface $bottleReadRepository,
+        private BottleRepositoryInterface $bottleRepository,
     ) {
     }
 
     public function __invoke(
         GetBottleQuery $query,
     ): ?Bottle {
-        return $this->bottleReadRepository->ofId(BottleId::fromString($query->id));
+        return $this->bottleRepository->ofId(BottleId::fromString($query->id));
     }
 }

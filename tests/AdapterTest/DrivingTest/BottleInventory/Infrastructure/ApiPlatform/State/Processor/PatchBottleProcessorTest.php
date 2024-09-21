@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
@@ -13,13 +14,12 @@ use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\BottleInventory\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRepository;
 use App\Tests\Shared\ApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class PatchBottleProcessorTest extends ApiTestCase
 {
-    private BottleWriteDoctrineRepository $doctrineWriteBottleRepository;
+    private BottleRepositoryInterface $doctrineBottleRepository;
 
     #[\Override]
     public function setUp(): void
@@ -27,7 +27,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
         static::bootKernel();
 
         $container = static::getContainer();
-        $this->doctrineWriteBottleRepository = $container->get(BottleWriteDoctrineRepository::class);
+        $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
 
         parent::setUp();
     }
@@ -47,7 +47,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(204);
 
-        $bottle = $this->doctrineWriteBottleRepository->ofId(
+        $bottle = $this->doctrineBottleRepository->ofId(
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
         );
 
@@ -61,7 +61,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(1099.99),
         );
-        $this->doctrineWriteBottleRepository->update($bottle);
+        $this->doctrineBottleRepository->update($bottle);
     }
 
     public function testUpdateOwnerIdWithoutEffect(): void
@@ -72,7 +72,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(204);
 
-        $bottle = $this->doctrineWriteBottleRepository->ofId(
+        $bottle = $this->doctrineBottleRepository->ofId(
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
         );
 

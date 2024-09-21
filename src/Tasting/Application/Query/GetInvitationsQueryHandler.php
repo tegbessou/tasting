@@ -6,28 +6,28 @@ namespace App\Tasting\Application\Query;
 
 use App\Shared\Application\Query\AsQueryHandler;
 use App\Tasting\Domain\Exception\ParticipantDoesntExistException;
-use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
-use App\Tasting\Domain\Repository\ParticipantReadRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
+use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 
 #[AsQueryHandler]
 final readonly class GetInvitationsQueryHandler
 {
     public function __construct(
-        private InvitationReadRepositoryInterface $invitationReadRepository,
-        private ParticipantReadRepositoryInterface $participantReadRepository,
+        private InvitationRepositoryInterface $invitationRepository,
+        private ParticipantRepositoryInterface $participantRepository,
     ) {
     }
 
-    public function __invoke(GetInvitationsQuery $query): InvitationReadRepositoryInterface
+    public function __invoke(GetInvitationsQuery $query): InvitationRepositoryInterface
     {
-        $invitationRepository = $this->invitationReadRepository;
+        $invitationRepository = $this->invitationRepository;
 
         if ($query->targetEmail === null) {
-            return $this->invitationReadRepository->sortCreatedAt();
+            return $this->invitationRepository->sortCreatedAt();
         }
 
-        $participant = $this->participantReadRepository->ofEmail(
+        $participant = $this->participantRepository->ofEmail(
             ParticipantEmail::fromString($query->targetEmail),
         );
 

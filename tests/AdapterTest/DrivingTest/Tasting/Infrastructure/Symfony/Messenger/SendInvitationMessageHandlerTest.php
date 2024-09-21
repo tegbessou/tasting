@@ -6,14 +6,13 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Application\Service\NotificationServiceInterface;
 use App\Tasting\Domain\Entity\Invitation;
-use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Service\GetInvitationLinkService;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Infrastructure\Doctrine\Repository\InvitationWriteDoctrineRepository;
-use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
-use App\Tasting\Infrastructure\Doctrine\Repository\TastingReadDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -23,10 +22,9 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
 
-    private InvitationWriteDoctrineRepository $doctrineInvitationWriteRepository;
-    private ParticipantReadDoctrineRepository $doctrineParticipantReadRepository;
-    private TastingReadDoctrineRepository $doctrineTastingReadRepository;
-    private InvitationReadRepositoryInterface $doctrineInvitationReadRepository;
+    private InvitationRepositoryInterface $doctrineInvitationRepository;
+    private ParticipantDoctrineRepository $doctrineParticipantRepository;
+    private TastingDoctrineRepository $doctrineTastingRepository;
     private EntityManagerInterface $entityManager;
     private NotificationServiceInterface $notificationService;
 
@@ -36,19 +34,18 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->doctrineInvitationWriteRepository = $container->get(InvitationWriteDoctrineRepository::class);
-        $this->doctrineParticipantReadRepository = $container->get(ParticipantReadDoctrineRepository::class);
-        $this->doctrineTastingReadRepository = $container->get(TastingReadDoctrineRepository::class);
-        $this->doctrineInvitationReadRepository = $container->get(InvitationReadRepositoryInterface::class);
+        $this->doctrineInvitationRepository = $container->get(InvitationRepositoryInterface::class);
+        $this->doctrineParticipantRepository = $container->get(ParticipantDoctrineRepository::class);
+        $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
         $this->notificationService = $container->get(NotificationServiceInterface::class);
     }
 
     public function testSendInvitation(): void
     {
-        $tasting = $this->doctrineTastingReadRepository->ofId(TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'));
+        $tasting = $this->doctrineTastingRepository->ofId(TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'));
 
-        $participant = $this->doctrineParticipantReadRepository->ofId(ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'));
+        $participant = $this->doctrineParticipantRepository->ofId(ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'));
 
         $invitation = Invitation::create(
             InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'),
@@ -59,7 +56,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
 
         $invitation::eraseRecordedEvents();
 
-        $this->doctrineInvitationWriteRepository->add($invitation);
+        $this->doctrineInvitationRepository->add($invitation);
 
         $this->bus('event.bus')->dispatch(new InvitationCreatedMessage(
             '66b52f43-8185-4923-b601-a48ea69dccf5',
@@ -81,7 +78,7 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
         $this->assertEquals('Invitation à déguster une bouteille de vin', $notifications[0]->title());
         $this->assertEquals('Hugues Gobet vous invite à déguster une bouteille de vin Domaine Leflaive Montrachet Grand Cru 2016', $notifications[0]->body());
 
-        $invitation = $this->doctrineInvitationReadRepository->ofId(InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'));
+        $invitation = $this->doctrineInvitationRepository->ofId(InvitationId::fromString('66b52f43-8185-4923-b601-a48ea69dccf5'));
         $this->assertNotNull($invitation->sentAt());
 
         $this->entityManager->remove($invitation);

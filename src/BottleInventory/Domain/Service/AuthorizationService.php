@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App\BottleInventory\Domain\Service;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Repository\UserReadRepositoryInterface;
+use App\BottleInventory\Domain\Repository\UserRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 
 final readonly class AuthorizationService
 {
     public function __construct(
-        private UserReadRepositoryInterface $userReadRepository,
+        private UserRepositoryInterface $userRepository,
     ) {
     }
 
     public function isCurrentUserOwnerOfTheBottle(
         Bottle $bottle,
     ): bool {
-        $user = $this->userReadRepository->ofEmail($bottle->owner()->email());
+        $user = $this->userRepository->ofEmail($bottle->owner()->email());
 
         if ($user === null) {
             return false;
@@ -32,6 +32,6 @@ final readonly class AuthorizationService
     public function isExistUser(
         OwnerEmail $ownerEmail,
     ): bool {
-        return $this->userReadRepository->ofEmail($ownerEmail) !== null;
+        return $this->userRepository->ofEmail($ownerEmail) !== null;
     }
 }

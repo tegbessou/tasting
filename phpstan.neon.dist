@@ -4,7 +4,11 @@ parameters:
         -
             identifier: missingType.iterableValue
         -
-            identifier: return.phpDocType
-        -
             message: '#Variable \$userAuthenticated might not be defined.#'
             path: src/Security/Application/Command/AuthenticateUserCommandHandler.php
+        -
+            message: '#PHPDoc tag \@return with type App\\Shared\\Infrastructure\\Doctrine\\DoctrineRepository\<T of object\> is not subtype of native type static\(App\\Shared\\Infrastructure\\Doctrine\\DoctrineRepository\<T of object\>\).#'
+            path: src/Shared/Infrastructure/Doctrine/DoctrineRepository.php
+        -
+            message: '#PHPDoc tag \@return with type App\\Shared\\Domain\\Repository\\RepositoryInterface\<T of object\> is not subtype of native type static\(App\\Shared\\Domain\\Repository\\RepositoryInterface\<T of object\>\).#'
+            path: src/Shared/Domain/Repository/RepositoryInterface.php

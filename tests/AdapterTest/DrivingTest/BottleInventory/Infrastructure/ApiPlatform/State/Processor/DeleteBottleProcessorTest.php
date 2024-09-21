@@ -6,6 +6,7 @@ namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPl
 
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Entity\Owner;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
@@ -15,14 +16,13 @@ use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\BottleInventory\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRepository;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DeleteBottleProcessorTest extends ApiTestCase
 {
-    private BottleWriteDoctrineRepository $doctrineBottleWriteRepository;
+    private BottleRepositoryInterface $doctrineBottleRepository;
     private EntityManagerInterface $entityManager;
 
     #[\Override]
@@ -31,7 +31,7 @@ final class DeleteBottleProcessorTest extends ApiTestCase
         static::bootKernel();
 
         $container = static::getContainer();
-        $this->doctrineBottleWriteRepository = $container->get(BottleWriteDoctrineRepository::class);
+        $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
         parent::setUp();
@@ -57,7 +57,7 @@ final class DeleteBottleProcessorTest extends ApiTestCase
             BottlePrice::fromFloat(29.90),
         );
 
-        $this->doctrineBottleWriteRepository->add($bottle);
+        $this->doctrineBottleRepository->add($bottle);
 
         $this->delete('/api/bottles/9b676c71-3ad3-4c67-a464-aefef9f1940a');
 

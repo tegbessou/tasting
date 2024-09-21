@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tasting\Application\Query;
 
 use App\Shared\Application\Query\QueryInterface;
-use App\Tasting\Domain\Repository\InvitationReadRepositoryInterface;
+use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 
 /**
- * @implements QueryInterface<InvitationReadRepositoryInterface>
+ * @implements QueryInterface<InvitationRepositoryInterface>
  */
 final readonly class GetInvitationsQuery implements QueryInterface
 {

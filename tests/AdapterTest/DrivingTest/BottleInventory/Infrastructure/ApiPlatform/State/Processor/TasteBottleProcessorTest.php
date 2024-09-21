@@ -6,6 +6,7 @@ namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPl
 
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Entity\Owner;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
@@ -15,7 +16,6 @@ use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\BottleInventory\Infrastructure\Doctrine\Repository\BottleWriteDoctrineRepository;
 use App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage;
 use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +26,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
 {
     use InteractsWithMessenger;
 
-    private BottleWriteDoctrineRepository $doctrineBottleWriteRepository;
+    private BottleRepositoryInterface $doctrineBottleRepository;
     private EntityManagerInterface $entityManager;
 
     #[\Override]
@@ -35,7 +35,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
         static::bootKernel();
 
         $container = static::getContainer();
-        $this->doctrineBottleWriteRepository = $container->get(BottleWriteDoctrineRepository::class);
+        $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
         parent::setUp();
@@ -61,12 +61,12 @@ final class TasteBottleProcessorTest extends ApiTestCase
             BottlePrice::fromFloat(29.90),
         );
 
-        $this->doctrineBottleWriteRepository->add($bottle);
+        $this->doctrineBottleRepository->add($bottle);
         $this->transport('bottle_inventory_to_tasting')->queue()->assertEmpty();
 
         $this->post('/api/bottles/72dcf99e-823e-4c0b-b841-49175a1e68e5/taste');
 
-        $bottle = $this->doctrineBottleWriteRepository->ofId(
+        $bottle = $this->doctrineBottleRepository->ofId(
             BottleId::fromString('72dcf99e-823e-4c0b-b841-49175a1e68e5')
         );
 
@@ -75,7 +75,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
 
         $this->transport('bottle_inventory_to_tasting')->queue()->assertContains(BottleTastedMessage::class, 1);
 
-        $this->doctrineBottleWriteRepository->delete($bottle);
+        $this->doctrineBottleRepository->delete($bottle);
     }
 
     #[DataProvider('provideInvalidData')]

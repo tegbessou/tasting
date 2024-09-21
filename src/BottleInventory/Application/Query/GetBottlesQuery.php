@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Query;
 
-use App\BottleInventory\Domain\Repository\BottleReadRepositoryInterface;
+use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\Shared\Application\Query\QueryInterface;
 
 /**
- * @implements QueryInterface<BottleReadRepositoryInterface>
+ * @implements QueryInterface<BottleRepositoryInterface>
  */
 final class GetBottlesQuery implements QueryInterface
 {

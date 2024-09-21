@@ -6,7 +6,7 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
-use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantReadDoctrineRepository;
+use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -15,7 +15,7 @@ final class CreateParticipantMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
 
-    private ParticipantReadDoctrineRepository $participantRepository;
+    private ParticipantDoctrineRepository $participantRepository;
 
     #[\Override]
     public function setUp(): void
@@ -23,7 +23,7 @@ final class CreateParticipantMessageHandlerTest extends KernelTestCase
         static::bootKernel();
 
         $container = static::getContainer();
-        $this->participantRepository = $container->get(ParticipantReadDoctrineRepository::class);
+        $this->participantRepository = $container->get(ParticipantDoctrineRepository::class);
 
         parent::setUp();
     }

@@ -7,9 +7,9 @@ namespace App\BottleInventory\Domain\Service;
 use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleGrapeVarietiesDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleOwnerDoesntExistException;
-use App\BottleInventory\Domain\Repository\CountryReadRepositoryInterface;
-use App\BottleInventory\Domain\Repository\GrapeVarietyReadRepositoryInterface;
-use App\BottleInventory\Domain\Repository\OwnerReadRepositoryInterface;
+use App\BottleInventory\Domain\Repository\CountryRepositoryInterface;
+use App\BottleInventory\Domain\Repository\GrapeVarietyRepositoryInterface;
+use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\CountryName;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyName;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
@@ -17,9 +17,9 @@ use App\BottleInventory\Domain\ValueObject\OwnerId;
 final readonly class BottleValidator
 {
     public function __construct(
-        private CountryReadRepositoryInterface $countryReadRepository,
-        private GrapeVarietyReadRepositoryInterface $grapeVarietyReadRepository,
-        private OwnerReadRepositoryInterface $ownerReadRepository,
+        private CountryRepositoryInterface $countryReadRepository,
+        private GrapeVarietyRepositoryInterface $grapeVarietyReadRepository,
+        private OwnerRepositoryInterface $ownerRepository,
     ) {
     }
 
@@ -39,7 +39,7 @@ final readonly class BottleValidator
             return;
         }
 
-        if ($this->ownerReadRepository->exist(OwnerId::fromString($ownerId))) {
+        if ($this->ownerRepository->exist(OwnerId::fromString($ownerId))) {
             return;
         }
 
