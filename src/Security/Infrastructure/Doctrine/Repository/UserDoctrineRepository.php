@@ -31,18 +31,6 @@ final readonly class UserDoctrineRepository implements UserRepositoryInterface
     }
 
     #[\Override]
-    public function ofId(UserId $id): ?User
-    {
-        return $this->entityManager->find(self::ENTITY_CLASS, $id->value());
-    }
-
-    #[\Override]
-    public function exist(UserId $id): bool
-    {
-        return $this->ofId($id) !== null;
-    }
-
-    #[\Override]
     public function nextIdentity(): UserId
     {
         return UserId::fromString(
