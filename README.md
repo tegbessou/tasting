@@ -135,6 +135,26 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 ## Value object rule
 - Id method should be named value
 
+## Architecture rules
+- Each Domain should have its own folder
+- Domain never should have a dependency with another domain except Shared, to avoid to have dependency between domain
+- Transaction for CommandHandler are started in the MessengerCommandBus
+- Each Exception in Adapter should be logged
+- An Adapter should always dispatch a command or a query
+- An Aggregate should only be modified by the Aggregate himself children Entity should be modified by the Aggregate
+- An Aggregate should only have one repository
+- An Aggregate and Entity should always be created by a factory (method or class)
+- An Aggregate or Entity action (domain method) should always dispatch an event
+- All Aggregate attributes except boolean should be a ValueObject
+- EventListener should always be in the Application or Infrastructure layer
+- All Aggregate and Entity should have a created at, created by, updated at and updated by
+- All Aggregate and Entity method should be Unit tested
+- All Adapter (Contract or Driving) method should be Contract or Driving tested
+- If we need to read information from Aggregate without Aggregate we should use a read model
+
+![img.png](resources/v1-domain.png)
+![img.png](resources/v2-domain.png)
+
 ## Refactoring DDD
 /!\ Important change to do
 One repository for an aggregate root
@@ -184,13 +204,17 @@ Create a participant when we invite a participant that doesn't exist
     => If not exist
     => If a participant already exist when we create the user
 
-Add log on exception + create a channel by bounded context
-
-Start transaction in command handler => mais du coup si on fait ça est-ce que les command et query handlers ne sont pas
-de l'infra => No problem because we will create an interface in application and the implementation in infra
-
 Add created at, created by, updated at and updated by for each entity or aggregate
 
 For post request we should return 200 with payload of the created object and test it
 
 Compress picture of bottle when we save it
+
+Setup phparkitect
+
+## TODO
+Add log on exception + create a channel by bounded context => OK
+
+Start transaction in command handler => mais du coup si on fait ça est-ce que les command et query handlers ne sont pas
+de l'infra => No problem because we will create an interface in application and the implementation in infra
+=> Setup in the MessengerCommandBus => OK

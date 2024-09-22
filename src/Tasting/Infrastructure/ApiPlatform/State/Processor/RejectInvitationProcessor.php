@@ -12,15 +12,19 @@ use App\Tasting\Application\Command\RejectInvitationCommand;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @implements ProcessorInterface<TastingResource, void>
  */
+#[WithMonologChannel('tasting')]
 final readonly class RejectInvitationProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -38,7 +42,23 @@ final readonly class RejectInvitationProcessor implements ProcessorInterface
                     $uriVariables['id'],
                 ),
             );
-        } catch (TastingDoesntExistException|InvitationDoesntExistException) {
+        } catch (TastingDoesntExistException $exception) {
+            $this->logger->error(
+                'Reject invitation: Tasting doesn\'t exist',
+                [
+                    'tastingId' => $exception->tastingId,
+                ],
+            );
+
+            throw new NotFoundHttpException();
+        } catch (InvitationDoesntExistException $exception) {
+            $this->logger->error(
+                'Reject invitation: Invitation doesn\'t exist',
+                [
+                    'invitationId' => $exception->invitationId,
+                ],
+            );
+
             throw new NotFoundHttpException();
         }
     }

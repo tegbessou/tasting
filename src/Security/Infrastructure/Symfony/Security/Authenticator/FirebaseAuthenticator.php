@@ -15,6 +15,8 @@ use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Application\Query\QueryBusInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -25,6 +27,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[WithMonologChannel('security')]
 final class FirebaseAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
@@ -32,6 +35,7 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
         protected readonly CommandBusInterface $commandBus,
         protected readonly QueryBusInterface $queryBus,
         protected readonly TranslatorInterface $translator,
+        protected readonly LoggerInterface $logger,
     ) {
     }
 
@@ -49,12 +53,20 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
         $token = $this->tokenExtractor->extract($request);
 
         if ($token === false || $token === '') {
+            $this->logger->error(
+                'Unable to extract a JWT token from the request.',
+            );
+
             throw new \LogicException('Unable to extract a JWT token from the request. Also, make sure to call `supports()` before `authenticate()` to get a proper client error.');
         }
 
         $providerId = $request->headers->get(FirebaseAuthenticatorInterface::HEADER_IDENTITY_PROVIDER);
 
         if ($providerId === null) {
+            $this->logger->error(
+                'No provider ID in request.',
+            );
+
             throw new \LogicException('No provider ID in request.');
         }
 
@@ -65,7 +77,35 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
                     $providerId,
                 )
             );
-        } catch (InvalidTokenException|ExpiredTokenException|InvalidPayloadException $exception) {
+        } catch (InvalidTokenException $exception) {
+            $this->logger->error(
+                'Log in user: Invalid token',
+                [
+                    'exception' => $exception,
+                    'provider' => $providerId,
+                ],
+            );
+
+            throw new AuthenticationException($exception->getMessage());
+        } catch (ExpiredTokenException $exception) {
+            $this->logger->error(
+                'Log in user: Token expired',
+                [
+                    'exception' => $exception,
+                    'provider' => $providerId,
+                ],
+            );
+
+            throw new AuthenticationException($exception->getMessage());
+        } catch (InvalidPayloadException $exception) {
+            $this->logger->error(
+                'Log in user: Invalid payload',
+                [
+                    'exception' => $exception,
+                    'provider' => $providerId,
+                ],
+            );
+
             throw new AuthenticationException($exception->getMessage());
         }
 

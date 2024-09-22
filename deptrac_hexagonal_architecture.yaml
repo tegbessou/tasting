@@ -56,6 +56,13 @@ deptrac:
               - type: classNameRegex
                 value: '#^Ramsey\\#'
 
+        - name: Logger
+          collectors:
+              - type: classNameRegex
+                value: '#^Monolog\\#'
+              - type: classNameRegex
+                value: '#^Psr\\#'
+
         - name: Helpers
           collectors:
               - type: classNameRegex
@@ -90,6 +97,7 @@ deptrac:
             - Attributes
             - Collection
             - Uuid
+            - Logger
 
         Helpers:
             - Vendors

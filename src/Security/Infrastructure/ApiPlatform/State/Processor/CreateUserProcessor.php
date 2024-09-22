@@ -9,20 +9,23 @@ use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Security\Application\Command\CreateUserCommand;
 use App\Security\Domain\Exception\UserAlreadyExistsException;
-use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
 use App\Security\Infrastructure\Symfony\Validator\ConstraintViolation\BuildUserAlreadyExistConstraintViolation;
 use App\Shared\Application\Command\CommandBusInterface;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Webmozart\Assert\Assert;
 
 /**
  * @implements ProcessorInterface<UserResource, void>
  */
+#[WithMonologChannel('security')]
 final readonly class CreateUserProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
         private BuildUserAlreadyExistConstraintViolation $buildUserAlreadyExistConstraintViolation,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -35,11 +38,27 @@ final readonly class CreateUserProcessor implements ProcessorInterface
         try {
             $this->commandBus->dispatch(
                 new CreateUserCommand(
-                    UserEmail::fromString($data->email)
+                    $data->email,
                 ),
             );
-        } catch (UserAlreadyExistsException) {
+        } catch (UserAlreadyExistsException $exception) {
+            $this->logger->error(
+                'Create user: User already exists',
+                [
+                    'email' => $exception->email,
+                ],
+            );
+
             throw new ValidationException($this->buildUserAlreadyExistConstraintViolation->build($data->email));
+        } catch (\InvalidArgumentException $exception) {
+            $this->logger->error(
+                'Create user: Invalid argument',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
+
+            throw $exception;
         }
     }
 }

@@ -10,15 +10,19 @@ use App\Security\Application\Query\GetUserIsCurrentQuery;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
 use App\Shared\Application\Query\QueryBusInterface;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @implements ProviderInterface<UserResource>
  */
+#[WithMonologChannel('security')]
 final readonly class GetUserProvider implements ProviderInterface
 {
     public function __construct(
         private QueryBusInterface $queryBus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -32,6 +36,13 @@ final readonly class GetUserProvider implements ProviderInterface
         );
 
         if ($user === null) {
+            $this->logger->error(
+                'Get user: User not found',
+                [
+                    'email' => $uriVariables['email'],
+                ],
+            );
+
             throw new NotFoundHttpException();
         }
 

@@ -9,14 +9,18 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\CreateParticipantCommand;
 use App\Tasting\Domain\Exception\ParticipantDoesntExistException;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
+#[WithMonologChannel('tasting')]
 final readonly class CreateParticipantMessageHandler
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -34,7 +38,14 @@ final readonly class CreateParticipantMessageHandler
                     $createdMessage->fullName,
                 ),
             );
-        } catch (ParticipantDoesntExistException) {
+        } catch (ParticipantDoesntExistException $exception) {
+            $this->logger->error(
+                'Create participant: Participant doesn\'t exist',
+                [
+                    'email' => $exception->email,
+                ],
+            );
+
             throw new UnrecoverableMessageHandlingException();
         }
     }

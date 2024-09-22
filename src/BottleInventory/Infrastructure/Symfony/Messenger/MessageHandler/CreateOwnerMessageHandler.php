@@ -10,14 +10,18 @@ use App\BottleInventory\Domain\Exception\OwnerDoesntExistInSecurityException;
 use App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
+#[WithMonologChannel('bottle_inventory')]
 final readonly class CreateOwnerMessageHandler
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -35,8 +39,33 @@ final readonly class CreateOwnerMessageHandler
                     $createdMessage->fullName,
                 ),
             );
-        } catch (OwnerAlreadyExistException|OwnerDoesntExistInSecurityException) {
+        } catch (OwnerDoesntExistInSecurityException $exception) {
+            $this->logger->error(
+                'Create owner: Owner not found in security bounded context',
+                [
+                    'email' => $exception->email,
+                ],
+            );
+
             throw new UnrecoverableMessageHandlingException();
+        } catch (OwnerAlreadyExistException $exception) {
+            $this->logger->error(
+                'Create owner: Owner already exists',
+                [
+                    'email' => $exception->email,
+                ],
+            );
+
+            throw new UnrecoverableMessageHandlingException();
+        } catch (\InvalidArgumentException $exception) {
+            $this->logger->error(
+                'Create owner: Owner creation failed',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
+
+            throw $exception;
         }
     }
 }

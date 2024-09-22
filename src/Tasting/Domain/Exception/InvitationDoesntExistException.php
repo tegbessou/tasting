@@ -6,8 +6,9 @@ namespace App\Tasting\Domain\Exception;
 
 final class InvitationDoesntExistException extends \Exception
 {
-    public function __construct(string $bottleId)
-    {
-        parent::__construct(sprintf('Invitation with id %s doesn\'t exist', $bottleId));
+    public function __construct(
+        public string $invitationId,
+    ) {
+        parent::__construct(sprintf('Invitation with id %s doesn\'t exist', $invitationId));
     }
 }

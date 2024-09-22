@@ -9,14 +9,18 @@ use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\CreateTastingCommand;
 use App\Tasting\Domain\Exception\OwnerDoesntExistException;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
+#[WithMonologChannel('tasting')]
 final readonly class CreateTastingMessageHandler
 {
     public function __construct(
         private CommandBusInterface $bus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -32,7 +36,23 @@ final readonly class CreateTastingMessageHandler
                 $bottleTastedMessage->bottleName,
                 $bottleTastedMessage->ownerEmail,
             ));
-        } catch (OwnerDoesntExistException) {
+        } catch (OwnerDoesntExistException $exception) {
+            $this->logger->error(
+                'Create tasting: Owner doesn\'t exist',
+                [
+                    'email' => $exception->ownerEmail,
+                ],
+            );
+
+            throw new UnrecoverableMessageHandlingException();
+        } catch (\InvalidArgumentException $exception) {
+            $this->logger->error(
+                'Create tasting: Invalid argument',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
+
             throw new UnrecoverableMessageHandlingException();
         }
     }

@@ -6,7 +6,7 @@ namespace App\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use ApiPlatform\Symfony\Validator\Exception\ValidationException;
+use ApiPlatform\Validator\Exception\ValidationException;
 use App\BottleInventory\Application\Command\UpdateBottleCommand;
 use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;
@@ -19,18 +19,22 @@ use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\Bui
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @implements ProcessorInterface<BottleResource, void>
  */
+#[WithMonologChannel('bottle_inventory')]
 final readonly class PatchBottleProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
         private BuildCountryDoesntExistConstraintViolation $buildCountryDoesntExistConstraintViolation,
         private BuildGrapeVarietiesDoesntExistConstraintViolation $buildGrapeVarietiesDoesntExistConstraintViolation,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -63,13 +67,38 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
                     $data->price
                 ),
             );
-        } catch (UpdateBottleDoesntExistException) {
+        } catch (UpdateBottleDoesntExistException $exception) {
+            $this->logger->error(
+                'Patch bottle: Bottle doesn\'t exist found',
+                [
+                    'bottleId' => $exception->bottleId,
+                ],
+            );
+
             throw new NotFoundHttpException();
         } catch (UpdateBottleNotAuthorizeForThisUserException) {
+            $this->logger->error(
+                'Patch bottle: User not authorized to update this bottle',
+            );
+
             throw new AccessDeniedHttpException();
         } catch (BottleCountryDoesntExistException $exception) {
+            $this->logger->error(
+                'Patch bottle: Country doesn\'t exist',
+                [
+                    'bottleId' => $exception->country,
+                ],
+            );
+
             throw new ValidationException($this->buildCountryDoesntExistConstraintViolation->build($exception->country));
         } catch (BottleGrapeVarietiesDoesntExistException $exception) {
+            $this->logger->error(
+                'Patch bottle: Grape varieties doesn\'t exist',
+                [
+                    'bottleId' => $exception->grapeVarieties,
+                ],
+            );
+
             throw new ValidationException($this->buildGrapeVarietiesDoesntExistConstraintViolation->build($exception->grapeVarieties));
         }
     }

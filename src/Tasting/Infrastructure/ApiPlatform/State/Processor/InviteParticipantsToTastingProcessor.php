@@ -17,17 +17,21 @@ use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerCannotBeInvitedConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildParticipantsAlreadyInvitedConstraintViolation;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @implements ProcessorInterface<TastingResource, void>
  */
+#[WithMonologChannel('tasting')]
 final readonly class InviteParticipantsToTastingProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
         private BuildOwnerCannotBeInvitedConstraintViolation $buildOwnerCannotBeInvitedConstraintViolation,
         private BuildParticipantsAlreadyInvitedConstraintViolation $buildParticipantsAlreadyInvitedConstraintViolation,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -50,11 +54,29 @@ final readonly class InviteParticipantsToTastingProcessor implements ProcessorIn
                     $participants,
                 ),
             );
-        } catch (TastingDoesntExistException) {
+        } catch (TastingDoesntExistException $exception) {
+            $this->logger->error(
+                'Invite participants: Tasting doesn\'t exist',
+                [
+                    'tastingId' => $exception->tastingId,
+                ],
+            );
+
             throw new NotFoundHttpException();
         } catch (OwnerCannotBeInvitedToTastingException) {
+            $this->logger->error(
+                'Invite participants: Owner cannot be invited to tasting',
+            );
+
             throw new ValidationException($this->buildOwnerCannotBeInvitedConstraintViolation->build());
         } catch (ParticipantsAlreadyInvitedException $exception) {
+            $this->logger->error(
+                'Invite participants: Participants already invited',
+                [
+                    'participants' => $exception->participants,
+                ],
+            );
+
             throw new ValidationException($this->buildParticipantsAlreadyInvitedConstraintViolation->build($exception));
         }
     }
