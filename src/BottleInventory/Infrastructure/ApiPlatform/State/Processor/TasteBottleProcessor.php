@@ -12,16 +12,20 @@ use App\BottleInventory\Domain\Exception\TasteBottleNotAuthorizeForThisUserExcep
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @implements ProcessorInterface<BottleResource, void>
  */
+#[WithMonologChannel('bottle_inventory')]
 final readonly class TasteBottleProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -35,9 +39,20 @@ final readonly class TasteBottleProcessor implements ProcessorInterface
             $this->commandBus->dispatch(
                 new TasteBottleCommand($data->id->__toString())
             );
-        } catch (BottleDoesntExistException) {
+        } catch (BottleDoesntExistException $exception) {
+            $this->logger->error(
+                'Taste bottle: Bottle doesn\'t exist found',
+                [
+                    'bottleId' => $exception->bottleId,
+                ],
+            );
+
             throw new NotFoundHttpException();
         } catch (TasteBottleNotAuthorizeForThisUserException) {
+            $this->logger->error(
+                'Taste bottle: User not authorized to taste this bottle',
+            );
+
             throw new AccessDeniedHttpException();
         }
     }

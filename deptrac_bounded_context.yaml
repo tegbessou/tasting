@@ -72,6 +72,10 @@ deptrac:
                 value: '#^ArrayIterator#'
               - type: classNameRegex
                 value: '#^Ramsey#'
+              - type: classNameRegex
+                value: '#^Monolog#'
+              - type: classNameRegex
+                value: '#^Psr#'
 
     ruleset:
         Security: [ Shared, Vendors ]

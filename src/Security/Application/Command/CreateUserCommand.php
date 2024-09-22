@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Application\Command;
 
-use App\Security\Domain\ValueObject\UserEmail;
 use App\Shared\Application\Command\CommandInterface;
 
 /**
@@ -13,7 +12,7 @@ use App\Shared\Application\Command\CommandInterface;
 final readonly class CreateUserCommand implements CommandInterface
 {
     public function __construct(
-        public UserEmail $email,
+        public string $email,
     ) {
     }
 }

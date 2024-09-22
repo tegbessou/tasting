@@ -45,7 +45,7 @@ final readonly class UpdateBottleCommandHandler
         );
 
         if ($bottle === null) {
-            throw new UpdateBottleDoesntExistException();
+            throw new UpdateBottleDoesntExistException($command->bottleId);
         }
 
         if (

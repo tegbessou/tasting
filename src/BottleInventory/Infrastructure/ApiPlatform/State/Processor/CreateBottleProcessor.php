@@ -20,10 +20,13 @@ use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\Bui
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerDoesntExistConstraintViolation;
 use App\Shared\Application\Command\CommandBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 
 /**
  * @implements ProcessorInterface<BottleResource, void>
  */
+#[WithMonologChannel('bottle_inventory')]
 final readonly class CreateBottleProcessor implements ProcessorInterface
 {
     public function __construct(
@@ -31,6 +34,7 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
         private BuildOwnerDoesntExistConstraintViolation $buildOwnerDoesntExistConstraintViolation,
         private BuildCountryDoesntExistConstraintViolation $buildCountryDoesntExistConstraintViolation,
         private BuildGrapeVarietiesDoesntExistConstraintViolation $buildGrapeVarietiesDoesntExistConstraintViolation,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -70,11 +74,41 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
                 ),
             );
         } catch (BottleOwnerDoesntExistException $exception) {
+            $this->logger->error(
+                'Create bottle: Owner not found',
+                [
+                    'ownerId' => $exception->ownerId,
+                ],
+            );
+
             throw new ValidationException($this->buildOwnerDoesntExistConstraintViolation->build($exception->ownerId));
         } catch (BottleCountryDoesntExistException $exception) {
+            $this->logger->error(
+                'Create bottle: Country doesn\'t exist',
+                [
+                    'country' => $exception->country,
+                ],
+            );
+
             throw new ValidationException($this->buildCountryDoesntExistConstraintViolation->build($exception->country));
         } catch (BottleGrapeVarietiesDoesntExistException $exception) {
+            $this->logger->error(
+                'Create bottle: Grape varieties doesn\'t exist',
+                [
+                    'grape_varieties' => $exception->grapeVarieties,
+                ],
+            );
+
             throw new ValidationException($this->buildGrapeVarietiesDoesntExistConstraintViolation->build($exception->grapeVarieties));
+        } catch (\InvalidArgumentException $exception) {
+            $this->logger->error(
+                'Create bottle: Bottle creation failed',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
+
+            throw $exception;
         }
     }
 }

@@ -6,4 +6,9 @@ namespace App\BottleInventory\Domain\Exception;
 
 final class UpdateBottleDoesntExistException extends \Exception
 {
+    public function __construct(
+        public string $bottleId,
+    ) {
+        parent::__construct();
+    }
 }

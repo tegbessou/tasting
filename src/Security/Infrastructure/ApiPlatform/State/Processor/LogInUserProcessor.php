@@ -13,16 +13,20 @@ use App\Security\Domain\Exception\InvalidTokenException;
 use App\Security\Infrastructure\ApiPlatform\Resource\AuthorizeTokenResource;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
 use App\Shared\Application\Command\CommandBusInterface;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Webmozart\Assert\Assert;
 
 /**
  * @implements ProcessorInterface<UserResource, AuthorizeTokenResource>
  */
+#[WithMonologChannel('security')]
 final readonly class LogInUserProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -40,7 +44,35 @@ final readonly class LogInUserProcessor implements ProcessorInterface
                     $data->password,
                 ),
             );
-        } catch (InvalidTokenException|ExpiredTokenException|InvalidPayloadException $exception) {
+        } catch (InvalidTokenException $exception) {
+            $this->logger->error(
+                'Log in user: Invalid token',
+                [
+                    'exception' => $exception,
+                    'provider' => 'firebase',
+                ],
+            );
+
+            throw new AuthenticationException($exception->getMessage());
+        } catch (ExpiredTokenException $exception) {
+            $this->logger->error(
+                'Log in user: Token expired',
+                [
+                    'exception' => $exception,
+                    'provider' => 'firebase',
+                ],
+            );
+
+            throw new AuthenticationException($exception->getMessage());
+        } catch (InvalidPayloadException $exception) {
+            $this->logger->error(
+                'Log in user: Invalid payload',
+                [
+                    'exception' => $exception,
+                    'provider' => 'firebase',
+                ],
+            );
+
             throw new AuthenticationException($exception->getMessage());
         }
 
