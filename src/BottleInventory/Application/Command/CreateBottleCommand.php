@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Command;
 
+use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\Shared\Application\Command\CommandInterface;
 
 /**
- * @implements CommandInterface<void>
+ * @implements CommandInterface<BottleId>
  */
 final readonly class CreateBottleCommand implements CommandInterface
 {

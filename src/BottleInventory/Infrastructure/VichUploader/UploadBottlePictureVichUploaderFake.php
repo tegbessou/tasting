@@ -24,15 +24,21 @@ final readonly class UploadBottlePictureVichUploaderFake implements UploadBottle
         Bottle $bottle,
         string $picturePath,
         string $pictureOriginalName,
-    ): void {
+    ): string {
         try {
-            $file = new UploadedFile($picturePath, $pictureOriginalName, test: true);
-
             $bottleResource = BottleResource::fromModel($bottle);
+
+            $file = new UploadedFile(
+                $picturePath,
+                $pictureOriginalName,
+                test: true,
+            );
 
             $bottleResource->picture = $file;
 
             $this->uploadHandler->upload($bottleResource, 'picture');
+
+            return $file->getFilename();
         } catch (FileNotFoundException) {
             throw new ReplaceBottlePictureFileNotFoundException();
         }

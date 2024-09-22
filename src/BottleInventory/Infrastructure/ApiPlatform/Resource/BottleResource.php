@@ -32,21 +32,20 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
 #[ApiResource(
-    shortName: 'BottleInventory',
+    shortName: 'Bottle',
     operations: [
         new Post(
             uriTemplate: '/bottles',
-            output: false,
             processor: CreateBottleProcessor::class,
         ),
         new Post(
             uriTemplate: '/bottles/{id}/pictures',
             inputFormats: ['multipart' => ['multipart/form-data']],
-            status: Response::HTTP_NO_CONTENT,
+            status: Response::HTTP_OK,
             controller: ReplaceBottlePictureController::class,
+            normalizationContext: ['groups' => ['read_bottle']],
             denormalizationContext: ['groups' => ['write_bottle_picture']],
             validationContext: ['groups' => ['write_bottle_picture']],
-            output: false,
             deserialize: false,
         ),
         new Get(
@@ -55,7 +54,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         ),
         new GetCollection(
             uriTemplate: '/bottles',
-            normalizationContext: ['groups' => ['read_bottle_collection']],
+            normalizationContext: ['groups' => ['read_bottle']],
             filters: [BottleFilter::class],
             provider: GetBottleCollectionProvider::class,
         ),
@@ -66,7 +65,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         ),
         new Patch(
             uriTemplate: '/bottles/{id}',
-            output: false,
             provider: GetBottleProvider::class,
             processor: PatchBottleProcessor::class,
         ),
@@ -83,50 +81,57 @@ final class BottleResource
 {
     public function __construct(
         #[ApiProperty(identifier: true)]
-        #[Groups(['read_bottle_collection'])]
+        #[Groups(['read_bottle'])]
         public ?AbstractUid $id = null,
         #[ApiProperty]
         #[Assert\NotBlank]
-        #[Groups(['read_bottle_collection'])]
+        #[Groups(['read_bottle'])]
         public ?string $name = null,
         #[ApiProperty]
         #[Assert\NotBlank]
-        #[Groups(['read_bottle_collection'])]
+        #[Groups(['read_bottle'])]
         public ?string $estateName = null,
         #[ApiProperty]
         #[Assert\NotBlank]
         #[Assert\Type(type: WineType::class)]
+        #[Groups(['read_bottle'])]
         public ?WineType $wineType = null,
         #[ApiProperty]
         #[Assert\NotBlank]
         #[Assert\LessThanOrEqual(2100)]
         #[Assert\GreaterThanOrEqual(1800)]
-        #[Groups(['read_bottle_collection'])]
+        #[Groups(['read_bottle'])]
         public ?int $year = null,
         #[ApiProperty]
         #[Assert\NotBlank]
+        #[Groups(['read_bottle'])]
         public ?array $grapeVarieties = null,
         #[ApiProperty]
         #[Assert\NotBlank]
         #[Assert\Type(type: Rate::class)]
-        #[Groups(['read_bottle_collection'])]
+        #[Groups(['read_bottle'])]
         public ?Rate $rate = null,
         #[ApiProperty]
         #[Assert\NotBlank]
+        #[Groups(['read_bottle'])]
         public ?OwnerResource $owner = null,
         #[ApiProperty]
+        #[Groups(['read_bottle'])]
         public ?string $country = null,
         #[ApiProperty]
         #[Assert\GreaterThanOrEqual(0.0)]
+        #[Groups(['read_bottle'])]
         public ?float $price = null,
         #[ApiProperty]
+        #[Assert\File(mimeTypes: ['image/jpeg', 'image/jpg', 'image/webp', 'image/png'])]
         #[Vich\UploadableField(mapping: 'bottles', fileNameProperty: 'picturePath')]
         #[Groups(['write_bottle_picture'])]
         public ?File $picture = null,
-        #[Groups(['read_bottle_collection'])]
+        #[ApiProperty]
+        #[Groups(['read_bottle'])]
         public ?string $picturePath = null,
         #[ApiProperty]
-        #[Groups(['read_bottle_collection'])]
+        #[Groups(['read_bottle'])]
         public ?\DateTime $saveAt = null,
         #[ApiProperty]
         public ?\DateTime $tastedAt = null,

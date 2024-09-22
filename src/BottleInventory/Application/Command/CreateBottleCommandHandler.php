@@ -12,6 +12,7 @@ use App\BottleInventory\Domain\Service\BottleValidator;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
+use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
@@ -32,7 +33,7 @@ final readonly class CreateBottleCommandHandler
     ) {
     }
 
-    public function __invoke(CreateBottleCommand $createBottleCommand): void
+    public function __invoke(CreateBottleCommand $createBottleCommand): BottleId
     {
         $this->validator->validate(
             $createBottleCommand->country,
@@ -64,5 +65,7 @@ final readonly class CreateBottleCommandHandler
         $this->dispatcher->dispatch($bottle);
 
         $this->bottleRepository->add($bottle);
+
+        return $bottle->id();
     }
 }

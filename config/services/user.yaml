@@ -36,6 +36,11 @@ services:
   App\Security\Application\EventListener\OnUserCreated:
     tags: [kernel.event_listener]
 
+when@dev:
+  services:
+    App\Security\Domain\Service\AuthenticateUserInterface:
+      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
+
 when@test:
   services:
     App\Security\Domain\Service\AuthenticateUserInterface:

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c75ede98d019a67f0c64c93affcfdc05",
+    "content-hash": "9ecb7f26b9e735a210bee51b797ccf78",
     "packages": [
         {
             "name": "api-platform/core",
@@ -455,6 +455,54 @@
                 }
             ],
             "time": "2023-11-29T23:19:16+00:00"
+        },
+        {
+            "name": "codebuds/webp-converter",
+            "version": "0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codebuds33/webp-converter.git",
+                "reference": "d6910399ad5ba65d46eb9946cdff943e3bdaaae3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codebuds33/webp-converter/zipball/d6910399ad5ba65d46eb9946cdff943e3bdaaae3",
+                "reference": "d6910399ad5ba65d46eb9946cdff943e3bdaaae3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": "^8.3",
+                "symfony/http-foundation": "^7.0"
+            },
+            "require-dev": {
+                "rector/rector": "^1.0",
+                "roave/security-advisories": "dev-latest",
+                "symfony/mime": "^7.0",
+                "symfony/phpunit-bridge": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CodeBuds\\WebPConverter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis de Best",
+                    "email": "dennis@codebuds.com"
+                }
+            ],
+            "description": "A service that uses php GD to convert Jpeg, Png, Gif and Bmp into WebP",
+            "support": {
+                "issues": "https://github.com/codebuds33/webp-converter/issues",
+                "source": "https://github.com/codebuds33/webp-converter/tree/0.7.0"
+            },
+            "time": "2024-02-25T12:56:34+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",

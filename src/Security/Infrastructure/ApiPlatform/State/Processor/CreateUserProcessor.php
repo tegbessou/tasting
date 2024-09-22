@@ -8,10 +8,12 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Security\Application\Command\CreateUserCommand;
+use App\Security\Application\Query\GetUserQuery;
 use App\Security\Domain\Exception\UserAlreadyExistsException;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
 use App\Security\Infrastructure\Symfony\Validator\ConstraintViolation\BuildUserAlreadyExistConstraintViolation;
 use App\Shared\Application\Command\CommandBusInterface;
+use App\Shared\Application\Query\QueryBusInterface;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Webmozart\Assert\Assert;
@@ -25,18 +27,18 @@ final readonly class CreateUserProcessor implements ProcessorInterface
     public function __construct(
         private CommandBusInterface $commandBus,
         private BuildUserAlreadyExistConstraintViolation $buildUserAlreadyExistConstraintViolation,
-        private LoggerInterface $logger,
+        private LoggerInterface $logger, private QueryBusInterface $queryBus,
     ) {
     }
 
     #[\Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): UserResource
     {
         Assert::isInstanceOf($data, UserResource::class);
         Assert::notNull($data->email);
 
         try {
-            $this->commandBus->dispatch(
+            $userEmail = $this->commandBus->dispatch(
                 new CreateUserCommand(
                     $data->email,
                 ),
@@ -60,5 +62,11 @@ final readonly class CreateUserProcessor implements ProcessorInterface
 
             throw $exception;
         }
+
+        $user = $this->queryBus->ask(
+            new GetUserQuery($userEmail),
+        );
+
+        return UserResource::fromModel($user);
     }
 }

@@ -189,8 +189,6 @@ User context is responsible to send notification when invitation is sent
 Extract it in a microservice and a new project
 
 ## Refactoring tech
-
-Explain architecture choices in the README
 Add an elastic search to search wine
 
 Separate each bounded context in microservice
@@ -204,17 +202,4 @@ Create a participant when we invite a participant that doesn't exist
     => If not exist
     => If a participant already exist when we create the user
 
-Add created at, created by, updated at and updated by for each entity or aggregate
-
-For post request we should return 200 with payload of the created object and test it
-
-Compress picture of bottle when we save it
-
 Setup phparkitect
-
-## TODO
-Add log on exception + create a channel by bounded context => OK
-
-Start transaction in command handler => mais du coup si on fait ça est-ce que les command et query handlers ne sont pas
-de l'infra => No problem because we will create an interface in application and the implementation in infra
-=> Setup in the MessengerCommandBus => OK

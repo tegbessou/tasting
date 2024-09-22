@@ -23,7 +23,7 @@ final readonly class CreateUserCommandHandler
     /**
      * @throws UserAlreadyExistsException
      */
-    public function __invoke(CreateUserCommand $createUserCommand): void
+    public function __invoke(CreateUserCommand $createUserCommand): UserEmail
     {
         if ($this->userRepository->ofEmail(UserEmail::fromString($createUserCommand->email)) !== null) {
             throw new UserAlreadyExistsException($createUserCommand->email);
@@ -37,5 +37,7 @@ final readonly class CreateUserCommandHandler
         $this->dispatcher->dispatch($user);
 
         $this->userRepository->add($user);
+
+        return $user->email();
     }
 }

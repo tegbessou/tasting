@@ -76,6 +76,8 @@ deptrac:
                 value: '#^Monolog#'
               - type: classNameRegex
                 value: '#^Psr#'
+              - type: classNameRegex
+                value: '#^CodeBuds#'
 
     ruleset:
         Security: [ Shared, Vendors ]

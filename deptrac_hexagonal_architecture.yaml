@@ -38,6 +38,8 @@ deptrac:
                 value: '#^Lexik\\#'
               - type: classNameRegex
                 value: '#^Vich\\#'
+              - type: classNameRegex
+                value: '#^CodeBuds#'
 
         - name: Attributes
           collectors:
