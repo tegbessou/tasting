@@ -16,8 +16,8 @@ services:
       - '../../src/Country/'
       - '../../src/Security/'
 
-  App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
-    alias: App\Tasting\Infrastructure\Security\Http\Client\UserHttpClient
+  App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
 
   App\Tasting\Application\Service\NotificationInterface:
     alias: App\Tasting\Infrastructure\Firebase\NotificationFirebase
@@ -25,8 +25,8 @@ services:
 
 when@test:
   services:
-    App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface:
-      alias: App\Tasting\Infrastructure\Security\Http\Client\UserFakeHttpClient
+    App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
+      alias: App\Tasting\Infrastructure\Security\Repository\UserFakeRepository
 
     App\Tasting\Application\Service\NotificationInterface:
       alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake

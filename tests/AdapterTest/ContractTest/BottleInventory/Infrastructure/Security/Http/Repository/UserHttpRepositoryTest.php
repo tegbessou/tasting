@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\AdapterTest\ContractTest\BottleInventory\Infrastructure\Security\Http\Repository;
 
-use App\BottleInventory\Domain\Repository\UserRepositoryInterface;
+use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\User;
 use App\BottleInventory\Domain\ValueObject\UserEmail;
@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UserHttpRepositoryTest extends KernelTestCase
 {
-    private UserRepositoryInterface $httpUserRepository;
+    private UserAdapterInterface $httpUserRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -20,7 +20,7 @@ final class UserHttpRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->httpUserRepository = $container->get(UserRepositoryInterface::class);
+        $this->httpUserRepository = $container->get(UserAdapterInterface::class);
     }
 
     public function testOfEmail(): void

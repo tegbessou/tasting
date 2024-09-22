@@ -7,12 +7,12 @@ namespace App\Tests\AdapterTest\ContractTest\Tasting\Infrastructure\Security\Htt
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
-use App\Tasting\Infrastructure\Security\Http\Repository\UserHttpRepository;
+use App\Tasting\Infrastructure\Security\Adapter\UserAdapter;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UserHttpReadRepositoryTest extends KernelTestCase
 {
-    private UserHttpRepository $httpUserRepository;
+    private UserAdapter $httpUserRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -20,7 +20,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->httpUserRepository = $container->get(UserHttpRepository::class);
+        $this->httpUserRepository = $container->get(UserAdapter::class);
     }
 
     public function testOfEmail(): void

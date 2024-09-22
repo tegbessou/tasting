@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Tasting\Infrastructure\Security\Http\Repository;
+namespace App\Tasting\Infrastructure\Security\Adapter;
 
-use App\Tasting\Domain\Repository\UserRepositoryInterface;
+use App\Tasting\Domain\Adapter\UserAdapterInterface;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\User;
-use App\Tasting\Infrastructure\Security\Http\Client\UserHttpClientInterface;
+use App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface;
 use App\Tasting\Infrastructure\Security\Translator\UserTranslator;
 
-final readonly class UserHttpRepository implements UserRepositoryInterface
+final readonly class UserAdapter implements UserAdapterInterface
 {
     public function __construct(
-        private UserHttpClientInterface $userHttpClient,
+        private UserRepositoryInterface $userHttpClient,
     ) {
     }
 

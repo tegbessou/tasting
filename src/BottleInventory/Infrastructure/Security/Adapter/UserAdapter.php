@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\BottleInventory\Infrastructure\Security\Http\Repository;
+namespace App\BottleInventory\Infrastructure\Security\Adapter;
 
-use App\BottleInventory\Domain\Repository\UserRepositoryInterface;
+use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\User;
-use App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface;
+use App\BottleInventory\Infrastructure\Security\Repository\UserRepositoryInterface;
 use App\BottleInventory\Infrastructure\Security\Translator\UserTranslator;
 
-final readonly class UserHttpRepository implements UserRepositoryInterface
+final readonly class UserAdapter implements UserAdapterInterface
 {
     public function __construct(
-        private UserHttpClientInterface $userHttpClient,
+        private UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -22,7 +22,7 @@ final readonly class UserHttpRepository implements UserRepositoryInterface
     {
         try {
             return UserTranslator::toUser(
-                $this->userHttpClient->ofEmail($email->value())
+                $this->userRepository->ofEmail($email->value())
             );
         } catch (\LogicException) {
             return null;

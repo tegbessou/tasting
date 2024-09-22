@@ -17,22 +17,22 @@ services:
   App\BottleInventory\Application\EventListener\OnBottleTasted:
     tags: [kernel.event_listener]
 
-  App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
-    alias: App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClient
+  App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
+    alias: App\BottleInventory\Infrastructure\Country\Repository\CountryRepository
 
-  App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface:
-    alias: App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClient
+  App\BottleInventory\Infrastructure\Security\Repository\UserRepositoryInterface:
+    alias: App\BottleInventory\Infrastructure\Security\Repository\UserRepository
 
   App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
     alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploader
 
 when@test:
   services:
-    App\BottleInventory\Infrastructure\Country\Http\Client\CountryHttpClientInterface:
-      alias: App\BottleInventory\Infrastructure\Country\Http\Client\CountryFakeHttpClient
+    App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
+      alias: App\BottleInventory\Infrastructure\Country\Repository\CountryFakeRepository
 
-    App\BottleInventory\Infrastructure\Security\Http\Client\UserHttpClientInterface:
-      alias: App\BottleInventory\Infrastructure\Security\Http\Client\UserFakeHttpClient
+    App\BottleInventory\Infrastructure\Security\Repository\UserRepositoryInterface:
+      alias: App\BottleInventory\Infrastructure\Security\Repository\UserFakeRepository
 
     App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
       alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderFake
