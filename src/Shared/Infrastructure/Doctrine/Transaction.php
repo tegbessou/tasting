@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 final readonly class Transaction implements TransactionInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
