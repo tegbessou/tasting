@@ -8,7 +8,6 @@ use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class ReplaceBottlePictureControllerTest extends ApiTestCase
