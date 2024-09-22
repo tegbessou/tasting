@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\BottleInventory\Infrastructure\Security\Http\Client;
+namespace App\BottleInventory\Infrastructure\Security\Repository;
 
-final readonly class UserFakeHttpClient implements UserHttpClientInterface
+final readonly class UserFakeRepository implements UserRepositoryInterface
 {
     #[\Override]
     public function ofEmail(string $email): array

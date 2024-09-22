@@ -162,10 +162,18 @@ Challenge Invitation entity to follow aggregate rules
 
 Challenge the presence of an entity Owner in tasting to use with participant entity
 
+### Refactoring bottle
+
+Owner should not be referenced, we only need to store uuid of the user from security context
+=> When we create a bottle we create a read model to store the owner with information from security context
+
 ### Refactoring tasting
 
 Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
 should be created only when a tasting is created
+=> We do not duplicate the participant, we only store uuid of the user from security context => Wrong we must create a participant
+when we invite a friend
+=> So we have to duplicate the participant in tasting context and security context, the participant is create when user is invited
 
 I need to create an owner entity in tasting context this entity should be created when a tasting is created
 
@@ -191,15 +199,6 @@ Extract it in a microservice and a new project
 ## Refactoring tech
 Add an elastic search to search wine
 
-Separate each bounded context in microservice
-
-Replace HttpRepository
-    => HttpRepository should only be used to get data (replace HttpClient)
-    => Adapter should be used to call the repository + translate data with Translator
-    => Country/BottleInventory/Security to replace
-
-Create a participant when we invite a participant that doesn't exist
-    => If not exist
-    => If a participant already exist when we create the user
-
 Setup phparkitect
+
+Separate each bounded context in microservice

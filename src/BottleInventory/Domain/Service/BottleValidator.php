@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Service;
 
+use App\BottleInventory\Domain\Adapter\CountryAdapterInterface;
 use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleGrapeVarietiesDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleOwnerDoesntExistException;
-use App\BottleInventory\Domain\Repository\CountryRepositoryInterface;
 use App\BottleInventory\Domain\Repository\GrapeVarietyRepositoryInterface;
 use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\CountryName;
@@ -17,7 +17,7 @@ use App\BottleInventory\Domain\ValueObject\OwnerId;
 final readonly class BottleValidator
 {
     public function __construct(
-        private CountryRepositoryInterface $countryReadRepository,
+        private CountryAdapterInterface $countryReadRepository,
         private GrapeVarietyRepositoryInterface $grapeVarietyReadRepository,
         private OwnerRepositoryInterface $ownerRepository,
     ) {

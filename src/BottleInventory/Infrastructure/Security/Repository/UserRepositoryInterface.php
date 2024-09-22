@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tasting\Infrastructure\Security\Http\Client;
+namespace App\BottleInventory\Infrastructure\Security\Repository;
 
-interface UserHttpClientInterface
+interface UserRepositoryInterface
 {
     public const USER_URI = '/api/users';
     public const USER_LOGIN_URI = '/api/users/login';

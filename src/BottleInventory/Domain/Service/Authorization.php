@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Service;
 
+use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Repository\UserRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 
 final readonly class Authorization
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
+        private UserAdapterInterface $userRepository,
     ) {
     }
 

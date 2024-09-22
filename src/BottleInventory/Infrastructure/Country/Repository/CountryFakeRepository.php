@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\BottleInventory\Infrastructure\Country\Http\Client;
+namespace App\BottleInventory\Infrastructure\Country\Repository;
 
-final readonly class CountryFakeHttpClient implements CountryHttpClientInterface
+final readonly class CountryFakeRepository implements CountryRepositoryInterface
 {
     #[\Override]
     public function ofName(string $name): array
