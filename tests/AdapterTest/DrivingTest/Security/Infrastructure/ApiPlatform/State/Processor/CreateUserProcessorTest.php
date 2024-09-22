@@ -36,7 +36,12 @@ final class CreateUserProcessorTest extends ApiTestCase
             'email' => 'new-user@gmail.com',
         ]);
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/User',
+            '@type' => 'User',
+            'email' => 'new-user@gmail.com',
+        ]);
 
         $this->transport('security_to_bottle_inventory')->queue()->assertContains(UserCreatedMessage::class, 1);
         $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);

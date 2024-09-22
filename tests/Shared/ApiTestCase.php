@@ -86,12 +86,13 @@ class ApiTestCase extends BaseApiTestCase
     }
 
     protected function revertUploadFile(
-        string $name,
+        string $partialName,
+        string $name = 'cote-rotie.png',
     ): void {
         $filesystem = new Filesystem();
         $finder = new Finder();
 
-        $finder->files()->in('public/images/bottle/')->name($name);
+        $finder->files()->in('public/images/bottle/')->name($partialName);
 
         if (!$finder->hasResults()) {
             return;
@@ -100,7 +101,7 @@ class ApiTestCase extends BaseApiTestCase
         foreach ($finder as $file) {
             $absoluteFilePath = $file->getRealPath();
 
-            $filesystem->copy($absoluteFilePath, __DIR__.'/../../fixtures/images/bottle/cote-rotie.png');
+            $filesystem->copy($absoluteFilePath, __DIR__.'/../../fixtures/images/bottle/'.$name);
             $filesystem->remove($absoluteFilePath);
         }
     }

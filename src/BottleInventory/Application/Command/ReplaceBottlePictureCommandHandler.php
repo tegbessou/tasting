@@ -43,14 +43,14 @@ final readonly class ReplaceBottlePictureCommandHandler
             throw new UpdateBottleNotAuthorizeForThisUserException();
         }
 
-        $this->uploadBottlePicture->upload(
+        $pictureName = $this->uploadBottlePicture->upload(
             $bottle,
             $command->picturePath,
             $command->pictureOriginalName,
         );
 
         $bottle->addPicture(
-            BottlePicture::fromString($command->pictureOriginalName),
+            BottlePicture::fromString($pictureName),
         );
 
         $this->eventDispatcher->dispatch($bottle);

@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\BottleInventory\Application\Command\UpdateBottleCommand;
+use App\BottleInventory\Application\Query\GetBottleQuery;
 use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;
 use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
@@ -18,6 +19,7 @@ use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildCountryDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
 use App\Shared\Application\Command\CommandBusInterface;
+use App\Shared\Application\Query\QueryBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
@@ -34,12 +36,12 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
         private CommandBusInterface $commandBus,
         private BuildCountryDoesntExistConstraintViolation $buildCountryDoesntExistConstraintViolation,
         private BuildGrapeVarietiesDoesntExistConstraintViolation $buildGrapeVarietiesDoesntExistConstraintViolation,
-        private LoggerInterface $logger,
+        private LoggerInterface $logger, private QueryBusInterface $queryBus,
     ) {
     }
 
     #[\Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): BottleResource
     {
         Assert::isInstanceOf($data, BottleResource::class);
         Assert::notNull($data->id);
@@ -101,5 +103,15 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
 
             throw new ValidationException($this->buildGrapeVarietiesDoesntExistConstraintViolation->build($exception->grapeVarieties));
         }
+
+        $bottle = $this->queryBus->ask(
+            new GetBottleQuery($data->id->__toString())
+        );
+
+        if ($bottle === null) {
+            throw new \LogicException();
+        }
+
+        return BottleResource::fromModel($bottle);
     }
 }

@@ -8,5 +8,5 @@ use App\BottleInventory\Domain\Entity\Bottle;
 
 interface UploadBottlePictureInterface
 {
-    public function upload(Bottle $bottle, string $picturePath, string $pictureOriginalName): void;
+    public function upload(Bottle $bottle, string $picturePath, string $pictureOriginalName): string;
 }

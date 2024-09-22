@@ -37,7 +37,19 @@ final class CreateBottleProcessorTest extends ApiTestCase
             'country' => 'France',
         ]);
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Bottle',
+            '@type' => 'Bottle',
+            'name' => 'Pavillon Rouge du Château Margaux',
+            'estateName' => 'Château Margaux',
+            'year' => 1995,
+            'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
+            'wineType' => 'red',
+            'rate' => 'xs',
+            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+            'country' => 'France',
+        ]);
 
         $bottle = $this->entityManager->getRepository(Bottle::class)->findOneBy([
             'name.value' => 'Pavillon Rouge du Château Margaux',

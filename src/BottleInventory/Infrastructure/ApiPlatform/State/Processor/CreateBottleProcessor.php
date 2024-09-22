@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\BottleInventory\Application\Command\CreateBottleCommand;
+use App\BottleInventory\Application\Query\GetBottleQuery;
 use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;
 use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
@@ -19,6 +20,7 @@ use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\Bui
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerDoesntExistConstraintViolation;
 use App\Shared\Application\Command\CommandBusInterface;
+use App\Shared\Application\Query\QueryBusInterface;
 use App\Shared\Infrastructure\Webmozart\Assert;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
@@ -31,6 +33,7 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
+        private QueryBusInterface $queryBus,
         private BuildOwnerDoesntExistConstraintViolation $buildOwnerDoesntExistConstraintViolation,
         private BuildCountryDoesntExistConstraintViolation $buildCountryDoesntExistConstraintViolation,
         private BuildGrapeVarietiesDoesntExistConstraintViolation $buildGrapeVarietiesDoesntExistConstraintViolation,
@@ -39,7 +42,7 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
     }
 
     #[\Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): BottleResource
     {
         Assert::isInstanceOf($data, BottleResource::class);
         Assert::notNull($data->name);
@@ -60,7 +63,7 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
         }
 
         try {
-            $this->commandBus->dispatch(
+            $bottleId = $this->commandBus->dispatch(
                 new CreateBottleCommand(
                     $data->name,
                     $data->estateName,
@@ -110,5 +113,15 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
 
             throw $exception;
         }
+
+        $bottle = $this->queryBus->ask(
+            new GetBottleQuery($bottleId->value()),
+        );
+
+        if ($bottle === null) {
+            throw new \LogicException('Bottle not found');
+        }
+
+        return BottleResource::fromModel($bottle);
     }
 }

@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Security\Domain\Entity\User;
 use App\Security\Domain\ValueObject\UserIsCurrent;
 use App\Security\Infrastructure\ApiPlatform\State\Processor\CreateUserProcessor;
 use App\Security\Infrastructure\ApiPlatform\State\Processor\LogInUserProcessor;
@@ -21,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             '/users',
             security: 'is_granted("PUBLIC_ACCESS")',
-            output: false,
             processor: CreateUserProcessor::class,
         ),
         new Post(
@@ -63,6 +63,15 @@ final class UserResource
         return new self(
             $userIsCurrent->email()->value(),
             $userIsCurrent->isCurrent(),
+        );
+    }
+
+    public static function fromModel(
+        User $user,
+    ): self {
+        return new self(
+            $user->email()->value(),
+            true,
         );
     }
 }

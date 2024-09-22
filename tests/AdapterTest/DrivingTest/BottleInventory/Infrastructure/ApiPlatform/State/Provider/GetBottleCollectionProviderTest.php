@@ -15,12 +15,12 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
-            '@context' => '/api/contexts/BottleInventory',
+            '@context' => '/api/contexts/Bottle',
             '@id' => '/api/bottles',
             '@type' => 'hydra:Collection',
             'hydra:member' => [
                 [
-                    '@type' => 'BottleInventory',
+                    '@type' => 'Bottle',
                     'name' => 'Caymus Vineyards Special Selection Cabernet Sauvignon',
                     'estateName' => 'Caymus Vineyards',
                     'year' => 2013,
@@ -28,7 +28,7 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
                     'picturePath' => 'caymus.jpg',
                 ],
                 [
-                    '@type' => 'BottleInventory',
+                    '@type' => 'Bottle',
                     'name' => 'Château Latour',
                     'estateName' => 'Château Latour',
                     'year' => 2010,
@@ -50,7 +50,7 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
-            '@context' => '/api/contexts/BottleInventory',
+            '@context' => '/api/contexts/Bottle',
             '@id' => '/api/bottles',
             '@type' => 'hydra:Collection',
             'hydra:totalItems' => $totalItems,

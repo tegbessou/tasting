@@ -45,7 +45,19 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'price' => 620.00,
         ]);
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Bottle',
+            '@type' => 'Bottle',
+            'name' => 'Grange',
+            'estateName' => 'Penfolds',
+            'year' => 2018,
+            'grapeVarieties' => ['Syrah'],
+            'wineType' => 'red',
+            'rate' => 'xs',
+            'country' => 'France',
+            'price' => 620,
+        ]);
 
         $bottle = $this->doctrineBottleRepository->ofId(
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
@@ -70,7 +82,12 @@ final class PatchBottleProcessorTest extends ApiTestCase
             'owner' => '/api/owners/0e4ccb23-7a1f-4f30-b188-6aad71b4735f',
         ]);
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Bottle',
+            '@type' => 'Bottle',
+            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+        ]);
 
         $bottle = $this->doctrineBottleRepository->ofId(
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
