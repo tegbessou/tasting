@@ -8,7 +8,7 @@ use App\Security\Domain\Exception\InvalidEmailException;
 use App\Security\Domain\Exception\InvalidPasswordException;
 use App\Security\Domain\Service\LogInInterface;
 use App\Security\Domain\ValueObject\UserServiceLoggedIn;
-use App\Shared\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 
 #[AsCommandHandler]
 final readonly class LogInUserServiceCommandHandler

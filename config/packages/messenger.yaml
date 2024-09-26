@@ -87,15 +87,7 @@ framework:
                     queues:
                         tasting:
                             binding_keys: [tasting_from_external]
-        default_bus: command.bus
-        buses:
-            command.bus: ~
-            query.bus: ~
-            event.bus: ~
         routing:
-            'App\Shared\Application\Command\CommandInterface': sync
-            'App\Shared\Application\Query\QueryInterface': sync
-
             'App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage': bottle_inventory_to_tasting
 
             'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': [security_to_bottle_inventory, security_to_tasting]

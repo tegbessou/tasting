@@ -9,14 +9,14 @@ use App\BottleInventory\Application\Query\GetBottleQuery;
 use App\BottleInventory\Domain\Exception\ReplaceBottlePictureBottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Application\Query\QueryBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 #[AsController]
 final class ReplaceBottlePictureController extends AbstractController

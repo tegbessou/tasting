@@ -19,8 +19,8 @@ use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Domain\Service\DomainEventDispatcherInterface;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class CreateBottleCommandHandler

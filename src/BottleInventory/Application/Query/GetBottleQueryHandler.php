@@ -7,7 +7,7 @@ namespace App\BottleInventory\Application\Query;
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleId;
-use App\Shared\Application\Query\AsQueryHandler;
+use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetBottleQueryHandler

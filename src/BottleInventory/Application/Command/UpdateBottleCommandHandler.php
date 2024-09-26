@@ -18,15 +18,15 @@ use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Application\EventDispatcher\DomainEventDispatcher;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class UpdateBottleCommandHandler
 {
     public function __construct(
         private BottleRepositoryInterface $bottleRepository,
-        private DomainEventDispatcher $eventDispatcher,
+        private DomainEventDispatcherInterface $eventDispatcher,
         private BottleValidator $bottleValidator,
         private Authorization $authorizationService,
     ) {

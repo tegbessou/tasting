@@ -7,7 +7,7 @@ namespace App\Country\Domain\Repository;
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Domain\Repository\RepositoryInterface;
+use TegCorp\SharedKernelBundle\Domain\Repository\RepositoryInterface;
 
 /**
  * @extends RepositoryInterface<Country>

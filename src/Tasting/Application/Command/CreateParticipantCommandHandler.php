@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Command;
 
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Exception\ParticipantDoesntExistException;
 use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\Service\Authorization;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantFullName;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class CreateParticipantCommandHandler

@@ -6,8 +6,8 @@ namespace App\Security\Application\Command;
 
 use App\Security\Domain\Service\AuthenticateUserInterface;
 use App\Security\Domain\ValueObject\UserAuthenticated;
-use App\Shared\Application\Command\CommandInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
+use TegCorp\SharedKernelBundle\Application\Command\CommandInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
  * @implements CommandInterface<UserAuthenticated>

@@ -6,7 +6,7 @@ namespace App\Security\Application\Query;
 
 use App\Security\Domain\Entity\User;
 use App\Security\Domain\ValueObject\UserEmail;
-use App\Shared\Application\Query\QueryInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**
  * @implements QueryInterface<User>

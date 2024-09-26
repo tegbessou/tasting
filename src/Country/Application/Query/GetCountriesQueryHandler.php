@@ -6,7 +6,7 @@ namespace App\Country\Application\Query;
 
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Application\Query\AsQueryHandler;
+use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetCountriesQueryHandler

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Command;
 
-use App\Shared\Application\Command\CommandInterface;
+use TegCorp\SharedKernelBundle\Application\Command\CommandInterface;
 
 /**
  * @implements CommandInterface<void>

@@ -8,9 +8,9 @@ use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Owner>

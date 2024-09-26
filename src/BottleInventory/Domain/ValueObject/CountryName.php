@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\ValueObject;
 
-use App\Shared\Infrastructure\Webmozart\Assert;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 final readonly class CountryName
 {

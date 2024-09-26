@@ -7,9 +7,9 @@ namespace App\Country\Domain\Entity;
 use App\Country\Domain\Event\CountryCreated;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Domain\Entity\EntityDomainEventTrait;
-use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use Doctrine\ORM\Mapping as ORM;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
 #[ORM\Entity]
 final class Country implements EntityWithDomainEventInterface

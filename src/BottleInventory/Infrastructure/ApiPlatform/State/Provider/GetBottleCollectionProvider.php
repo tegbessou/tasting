@@ -11,8 +11,8 @@ use App\BottleInventory\Application\Query\GetBottlesQuery;
 use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
-use App\Shared\Application\Query\QueryBusInterface;
-use App\Shared\Infrastructure\ApiPlatform\State\Pagination\Paginator;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 
 /**
  * @implements ProviderInterface<BottleResource>

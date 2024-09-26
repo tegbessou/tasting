@@ -7,8 +7,8 @@ namespace App\BottleInventory\Infrastructure\Doctrine\Repository;
 use App\BottleInventory\Domain\Entity\GrapeVariety;
 use App\BottleInventory\Domain\Repository\GrapeVarietyRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyName;
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<GrapeVariety>

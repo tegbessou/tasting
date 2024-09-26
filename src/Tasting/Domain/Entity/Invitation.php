@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Entity;
 
-use App\Shared\Domain\Entity\EntityDomainEventTrait;
-use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use App\Tasting\Domain\Event\InvitationAccepted;
 use App\Tasting\Domain\Event\InvitationCreated;
 use App\Tasting\Domain\Event\InvitationRejected;
@@ -22,6 +20,8 @@ use App\Tasting\Domain\ValueObject\InvitationSentAt;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
 use App\Tasting\Domain\ValueObject\InvitationUpdatedAt;
 use Doctrine\ORM\Mapping as ORM;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
 #[ORM\Entity]
 final class Invitation implements EntityWithDomainEventInterface

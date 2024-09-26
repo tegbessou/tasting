@@ -11,8 +11,6 @@ use App\Security\Domain\Exception\InvalidPayloadException;
 use App\Security\Domain\Exception\InvalidTokenException;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Infrastructure\Symfony\Security\Model\UserModel;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Application\Query\QueryBusInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
 use Monolog\Attribute\WithMonologChannel;
@@ -26,6 +24,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 
 #[WithMonologChannel('security')]
 final class FirebaseAuthenticator extends AbstractAuthenticator

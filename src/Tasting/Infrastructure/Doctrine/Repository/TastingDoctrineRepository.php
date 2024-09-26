@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Doctrine\Repository;
 
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
@@ -12,6 +11,7 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Tasting>

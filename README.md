@@ -151,6 +151,8 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 - All Aggregate and Entity method should be Unit tested
 - All Adapter (Contract or Driving) method should be Contract or Driving tested
 - If we need to read information from Aggregate without Aggregate we should use a read model
+- To request an external api we should use a Repository, then an adapter is created to use this repository and use a translator
+to transform this data to our domain
 
 ![img.png](resources/v1-domain.png)
 ![img.png](resources/v2-domain.png)

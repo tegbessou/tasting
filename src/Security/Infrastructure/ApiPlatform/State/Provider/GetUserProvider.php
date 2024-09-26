@@ -9,10 +9,10 @@ use ApiPlatform\State\ProviderInterface;
 use App\Security\Application\Query\GetUserIsCurrentQuery;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
-use App\Shared\Application\Query\QueryBusInterface;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 
 /**
  * @implements ProviderInterface<UserResource>

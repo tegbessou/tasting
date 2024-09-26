@@ -18,13 +18,13 @@ use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserExce
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildCountryDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Application\Query\QueryBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
  * @implements ProcessorInterface<BottleResource, void>
@@ -36,7 +36,8 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
         private CommandBusInterface $commandBus,
         private BuildCountryDoesntExistConstraintViolation $buildCountryDoesntExistConstraintViolation,
         private BuildGrapeVarietiesDoesntExistConstraintViolation $buildGrapeVarietiesDoesntExistConstraintViolation,
-        private LoggerInterface $logger, private QueryBusInterface $queryBus,
+        private LoggerInterface $logger,
+        private QueryBusInterface $queryBus,
     ) {
     }
 

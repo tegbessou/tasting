@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Command;
 
-use App\Shared\Application\Command\AsCommandHandler;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 
 #[AsCommandHandler]
 final readonly class DeleteInvitationCommandHandler

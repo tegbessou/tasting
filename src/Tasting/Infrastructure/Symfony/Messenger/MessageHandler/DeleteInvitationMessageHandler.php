@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Symfony\Messenger\MessageHandler;
 
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\DeleteInvitationCommand;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 #[AsMessageHandler]
 final readonly class DeleteInvitationMessageHandler

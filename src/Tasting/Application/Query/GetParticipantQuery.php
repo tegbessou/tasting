@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Query;
 
-use App\Shared\Application\Query\QueryInterface;
 use App\Tasting\Domain\Entity\Participant;
+use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**
  * @implements QueryInterface<Participant|null>

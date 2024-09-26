@@ -7,9 +7,9 @@ namespace App\BottleInventory\Domain\Entity;
 use App\BottleInventory\Domain\Event\GrapeVarietyCreated;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyId;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyName;
-use App\Shared\Domain\Entity\EntityDomainEventTrait;
-use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use Doctrine\ORM\Mapping as ORM;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
 #[ORM\Entity]
 final class GrapeVariety implements EntityWithDomainEventInterface

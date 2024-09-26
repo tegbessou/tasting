@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Repository;
 
-use App\Shared\Domain\Repository\RepositoryInterface;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantId;
+use TegCorp\SharedKernelBundle\Domain\Repository\RepositoryInterface;
 
 /**
  * @extends RepositoryInterface<Participant>

@@ -6,7 +6,7 @@ namespace App\Security\Application\Query;
 
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserIsCurrent;
-use App\Shared\Application\Query\QueryInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**
  * @implements QueryInterface<UserIsCurrent|null>

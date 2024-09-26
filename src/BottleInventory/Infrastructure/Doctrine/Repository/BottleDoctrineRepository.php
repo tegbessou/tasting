@@ -13,10 +13,10 @@ use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleSavedAt;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Bottle>

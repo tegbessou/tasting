@@ -12,7 +12,7 @@ use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleSavedAt;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\Shared\Domain\Repository\RepositoryInterface;
+use TegCorp\SharedKernelBundle\Domain\Repository\RepositoryInterface;
 
 /**
  * @extends RepositoryInterface<Bottle>

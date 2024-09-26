@@ -8,9 +8,9 @@ use App\BottleInventory\Domain\Event\OwnerCreated;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerFullName;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
-use App\Shared\Domain\Entity\EntityDomainEventTrait;
-use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use Doctrine\ORM\Mapping as ORM;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
 #[ORM\Entity]
 class Owner implements EntityWithDomainEventInterface

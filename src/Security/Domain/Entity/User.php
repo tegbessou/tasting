@@ -7,9 +7,9 @@ namespace App\Security\Domain\Entity;
 use App\Security\Domain\Event\UserCreated;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserId;
-use App\Shared\Domain\Entity\EntityDomainEventTrait;
-use App\Shared\Domain\Entity\EntityWithDomainEventInterface;
 use Doctrine\ORM\Mapping as ORM;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
+use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
 #[ORM\Entity]
 final class User implements EntityWithDomainEventInterface

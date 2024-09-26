@@ -8,8 +8,8 @@ use App\Security\Domain\Entity\User;
 use App\Security\Domain\Exception\UserAlreadyExistsException;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\ValueObject\UserEmail;
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Domain\Service\DomainEventDispatcherInterface;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class CreateUserCommandHandler

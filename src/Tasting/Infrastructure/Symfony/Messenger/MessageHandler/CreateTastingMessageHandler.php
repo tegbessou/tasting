@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Symfony\Messenger\MessageHandler;
 
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\CreateTastingCommand;
 use App\Tasting\Domain\Exception\OwnerDoesntExistException;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
@@ -13,6 +11,8 @@ use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 #[AsMessageHandler]
 #[WithMonologChannel('tasting')]

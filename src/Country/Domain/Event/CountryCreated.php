@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Country\Domain\Event;
 
-use App\Shared\Domain\Event\DomainEventInterface;
+use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 
 final readonly class CountryCreated implements DomainEventInterface
 {

@@ -6,10 +6,10 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\Shared\Application\Query\QueryBusInterface;
-use App\Shared\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 use App\Tasting\Application\Query\GetInvitationsQuery;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\InvitationResource;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 
 /**
  * @implements ProviderInterface<InvitationResource>

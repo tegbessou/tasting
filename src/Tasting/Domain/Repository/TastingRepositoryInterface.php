@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Repository;
 
-use App\Shared\Domain\Repository\RepositoryInterface;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
+use TegCorp\SharedKernelBundle\Domain\Repository\RepositoryInterface;
 
 /**
  * @extends RepositoryInterface<Tasting>

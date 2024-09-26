@@ -7,7 +7,7 @@ namespace App\Security\Application\Query;
 use App\Security\Domain\Entity\User;
 use App\Security\Domain\Exception\UserNotFoundException;
 use App\Security\Domain\Repository\UserRepositoryInterface;
-use App\Shared\Application\Query\AsQueryHandler;
+use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetUserQueryHandler

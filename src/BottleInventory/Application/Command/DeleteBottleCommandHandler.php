@@ -9,8 +9,8 @@ use App\BottleInventory\Domain\Exception\DeleteBottleNotAuthorizeForThisUserExce
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\Service\Authorization;
 use App\BottleInventory\Domain\ValueObject\BottleId;
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Domain\Service\DomainEventDispatcherInterface;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class DeleteBottleCommandHandler

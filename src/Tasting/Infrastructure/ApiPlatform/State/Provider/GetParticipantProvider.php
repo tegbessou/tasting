@@ -6,12 +6,12 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\Shared\Application\Query\QueryBusInterface;
 use App\Tasting\Application\Query\GetParticipantQuery;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\ParticipantResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 
 /**
  * @implements ProviderInterface<ParticipantResource>
