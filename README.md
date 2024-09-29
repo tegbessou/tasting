@@ -164,6 +164,10 @@ Challenge Invitation entity to follow aggregate rules
 
 Challenge the presence of an entity Owner in tasting to use with participant entity
 
+Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
+Remove Assert from Webmozart and create my own domain service to assert this
+Enforce rules that domains must be independent from each other
+
 ### Refactoring bottle
 
 Owner should not be referenced, we only need to store uuid of the user from security context

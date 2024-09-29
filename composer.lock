@@ -2152,16 +2152,16 @@
         },
         {
             "name": "google/cloud-core",
-            "version": "v1.59.1",
+            "version": "v1.60.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-core.git",
-                "reference": "35aae23dc4d0b860b6c3733e5cf381a510b506d9"
+                "reference": "7d63ba4295b799dc63227b6c9daf9dc207650eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/35aae23dc4d0b860b6c3733e5cf381a510b506d9",
-                "reference": "35aae23dc4d0b860b6c3733e5cf381a510b506d9",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/7d63ba4295b799dc63227b6c9daf9dc207650eb4",
+                "reference": "7d63ba4295b799dc63227b6c9daf9dc207650eb4",
                 "shasum": ""
             },
             "require": {
@@ -2212,22 +2212,22 @@
             ],
             "description": "Google Cloud PHP shared dependency, providing functionality useful to all components.",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-core/tree/v1.59.1"
+                "source": "https://github.com/googleapis/google-cloud-php-core/tree/v1.60.0"
             },
-            "time": "2024-08-10T02:24:23+00:00"
+            "time": "2024-09-28T04:24:22+00:00"
         },
         {
             "name": "google/cloud-storage",
-            "version": "v1.42.1",
+            "version": "v1.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-storage.git",
-                "reference": "2a418cad887e44d08a86de19a878ea3607212edb"
+                "reference": "e6f5f0d9cad317291aedea238af693a4e1a26801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/2a418cad887e44d08a86de19a878ea3607212edb",
-                "reference": "2a418cad887e44d08a86de19a878ea3607212edb",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/e6f5f0d9cad317291aedea238af693a4e1a26801",
+                "reference": "e6f5f0d9cad317291aedea238af693a4e1a26801",
                 "shasum": ""
             },
             "require": {
@@ -2269,9 +2269,9 @@
             ],
             "description": "Cloud Storage Client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-storage/tree/v1.42.1"
+                "source": "https://github.com/googleapis/google-cloud-php-storage/tree/v1.43.0"
             },
-            "time": "2024-07-08T23:14:13+00:00"
+            "time": "2024-09-28T04:24:22+00:00"
         },
         {
             "name": "google/common-protos",
@@ -3924,16 +3924,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.31.0",
+            "version": "1.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "249f15fb843bf240cf058372dad29e100cee6c17"
+                "reference": "6ca22b154efdd9e3c68c56f5d94670920a1c19a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/249f15fb843bf240cf058372dad29e100cee6c17",
-                "reference": "249f15fb843bf240cf058372dad29e100cee6c17",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/6ca22b154efdd9e3c68c56f5d94670920a1c19a4",
+                "reference": "6ca22b154efdd9e3c68c56f5d94670920a1c19a4",
                 "shasum": ""
             },
             "require": {
@@ -3965,9 +3965,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.31.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.32.0"
             },
-            "time": "2024-09-22T11:32:18+00:00"
+            "time": "2024-09-26T07:23:32+00:00"
         },
         {
             "name": "psr/cache",
@@ -10320,16 +10320,16 @@
         },
         {
             "name": "tegbessou/shared-kernel",
-            "version": "1.1.1",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tegbessou/shared-kernel.git",
-                "reference": "f5140b42911a1449c58c52d6aaecc9d02dc43f98"
+                "reference": "13e18a7a2229397a6f0cf2e328c5027f0992bae7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tegbessou/shared-kernel/zipball/f5140b42911a1449c58c52d6aaecc9d02dc43f98",
-                "reference": "f5140b42911a1449c58c52d6aaecc9d02dc43f98",
+                "url": "https://api.github.com/repos/tegbessou/shared-kernel/zipball/13e18a7a2229397a6f0cf2e328c5027f0992bae7",
+                "reference": "13e18a7a2229397a6f0cf2e328c5027f0992bae7",
                 "shasum": ""
             },
             "require": {
@@ -10354,7 +10354,8 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.64",
                 "phpstan/phpstan": "^1.12",
-                "phpunit/phpunit": "^11.3"
+                "phpunit/phpunit": "^11.3",
+                "qossmic/deptrac": "^2.0"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -10378,10 +10379,10 @@
             ],
             "description": "Shared Kernel",
             "support": {
-                "source": "https://github.com/tegbessou/shared-kernel/tree/1.1.1",
+                "source": "https://github.com/tegbessou/shared-kernel/tree/1.3.1",
                 "issues": "https://github.com/tegbessou/shared-kernel/issues"
             },
-            "time": "2024-09-26T07:07:57+00:00"
+            "time": "2024-09-27T15:36:45+00:00"
         },
         {
             "name": "twig/extra-bundle",
@@ -12413,16 +12414,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.4",
+            "version": "1.12.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd"
+                "reference": "7e6c6cb7cecb0a6254009a1a8a7d54ec99812b17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
-                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7e6c6cb7cecb0a6254009a1a8a7d54ec99812b17",
+                "reference": "7e6c6cb7cecb0a6254009a1a8a7d54ec99812b17",
                 "shasum": ""
             },
             "require": {
@@ -12467,7 +12468,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-19T07:58:01+00:00"
+            "time": "2024-09-26T12:45:22+00:00"
         },
         {
             "name": "phpstan/phpstan-dibi",
@@ -15159,22 +15160,22 @@
         },
         {
             "name": "zenstruck/messenger-test",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zenstruck/messenger-test.git",
-                "reference": "063455f6ff6471409c2930e0d53a416eb23e0d1f"
+                "reference": "85e795689186710dec1b7104b3e72fb3f20bf5e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zenstruck/messenger-test/zipball/063455f6ff6471409c2930e0d53a416eb23e0d1f",
-                "reference": "063455f6ff6471409c2930e0d53a416eb23e0d1f",
+                "url": "https://api.github.com/repos/zenstruck/messenger-test/zipball/85e795689186710dec1b7104b3e72fb3f20bf5e2",
+                "reference": "85e795689186710dec1b7104b3e72fb3f20bf5e2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "symfony/deprecation-contracts": "^2.2|^3.0",
-                "symfony/framework-bundle": "^5.4|^6.0|^7.0",
+                "symfony/framework-bundle": "^5.4.44|^6.0|^7.0",
                 "symfony/messenger": "^5.4|^6.0|^7.0",
                 "zenstruck/assert": "^1.0"
             },
@@ -15219,7 +15220,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zenstruck/messenger-test/issues",
-                "source": "https://github.com/zenstruck/messenger-test/tree/v1.10.0"
+                "source": "https://github.com/zenstruck/messenger-test/tree/v1.11.0"
             },
             "funding": [
                 {
@@ -15227,7 +15228,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-31T14:08:07+00:00"
+            "time": "2024-09-26T17:33:17+00:00"
         }
     ],
     "aliases": [],
