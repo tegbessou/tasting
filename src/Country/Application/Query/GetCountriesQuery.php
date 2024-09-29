@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Country\Application\Query;
 
 use App\Country\Domain\Repository\CountryRepositoryInterface;
-use App\Shared\Application\Query\QueryInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**
  * @implements QueryInterface<CountryRepositoryInterface>

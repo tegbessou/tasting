@@ -8,7 +8,7 @@ use App\Security\Domain\Entity\User;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\Service\GetUserAuthenticatedInterface;
 use App\Security\Domain\ValueObject\UserIsCurrent;
-use App\Shared\Application\Query\AsQueryHandler;
+use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetUserIsCurrentQueryHandler

@@ -8,10 +8,10 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\BottleInventory\Application\Query\GetOwnerQuery;
 use App\BottleInventory\Infrastructure\ApiPlatform\Resource\OwnerResource;
-use App\Shared\Application\Query\QueryBusInterface;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 
 /**
  * @implements ProviderInterface<OwnerResource>

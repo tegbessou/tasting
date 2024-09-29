@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Service;
 
-use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
@@ -13,6 +12,7 @@ use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 final readonly class InviteParticipant
 {

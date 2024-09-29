@@ -7,8 +7,6 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Processor;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\InviteParticipantsCommand;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
@@ -20,6 +18,8 @@ use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildPartic
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
  * @implements ProcessorInterface<TastingResource, void>

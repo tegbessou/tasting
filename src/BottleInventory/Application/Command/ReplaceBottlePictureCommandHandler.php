@@ -11,8 +11,8 @@ use App\BottleInventory\Domain\Service\Authorization;
 use App\BottleInventory\Domain\Service\UploadBottlePictureInterface;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Domain\Service\DomainEventDispatcherInterface;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class ReplaceBottlePictureCommandHandler

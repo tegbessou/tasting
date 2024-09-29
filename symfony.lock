@@ -43,9 +43,6 @@
     "doctrine/collections": {
         "version": "1.6.7"
     },
-    "doctrine/common": {
-        "version": "3.0.2"
-    },
     "doctrine/data-fixtures": {
         "version": "1.4.4"
     },
@@ -713,6 +710,9 @@
     },
     "symfony/yaml": {
         "version": "v5.1.5"
+    },
+    "tegbessou/shared-kernel": {
+        "version": "dev-main"
     },
     "theseer/tokenizer": {
         "version": "1.2.1"

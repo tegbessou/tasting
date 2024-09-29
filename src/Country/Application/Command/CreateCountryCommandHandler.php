@@ -8,7 +8,7 @@ use App\Country\Domain\Entity\Country;
 use App\Country\Domain\Exception\CountryAlreadyExistsException;
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 
 #[AsCommandHandler]
 final readonly class CreateCountryCommandHandler

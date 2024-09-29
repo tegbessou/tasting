@@ -8,10 +8,10 @@ use App\Country\Domain\Entity\Country;
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Country>

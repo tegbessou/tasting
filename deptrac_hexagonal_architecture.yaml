@@ -9,71 +9,86 @@ deptrac:
     layers:
         - name: Domain
           collectors:
-              - type: directory
-                value: .+/Domain/.*
+            - type: directory
+              value: .+/Domain/.*
 
         - name: Application
           collectors:
-              - type: directory
-                value: .+/Application/.*
+            - type: directory
+              value: .+/Application/.*
 
         - name: Infrastructure
           collectors:
-              - type: directory
-                value: .+/Infrastructure/(?!(Webmozart/Assert)).*
+            - type: directory
+              value: .+/Infrastructure/(?!(Webmozart/Assert)).*
+
+        - name: Shared Kernel Domain
+          collectors:
+            - type: classNameRegex
+              value: '#^TegCorp\\SharedKernelBundle\\Domain#'
+
+        - name: Shared Kernel Application
+          collectors:
+            - type: classNameRegex
+              value: '#^TegCorp\\SharedKernelBundle\\Application#'
+
+        - name: Shared Kernel Infrastructure
+          collectors:
+            - type: classNameRegex
+              value: '#^TegCorp\\SharedKernelBundle\\Infrastructure\\(?!(Webmozart\\Assert))#'
 
         - name: Vendors
           collectors:
-              - type: classNameRegex
-                value: '#^ApiPlatform\\#'
-              - type: classNameRegex
-                value: '#^Symfony\\(?!(Contracts\\EventDispatcher))#'
-              - type: classNameRegex
-                value: '#^Doctrine\\ORM\\(?!(Mapping))#'
-              - type: classNameRegex
-                value: '#^Webmozart\\Assert\\Assert#'
-              - type: classNameRegex
-                value: '#^Kreait\\#'
-              - type: classNameRegex
-                value: '#^Lexik\\#'
-              - type: classNameRegex
-                value: '#^Vich\\#'
-              - type: classNameRegex
-                value: '#^CodeBuds#'
+            - type: classNameRegex
+              value: '#^ApiPlatform\\#'
+            - type: classNameRegex
+              value: '#^Symfony\\(?!(Contracts\\EventDispatcher))#'
+            - type: classNameRegex
+              value: '#^Doctrine\\ORM\\(?!(Mapping))#'
+            - type: classNameRegex
+              value: '#^Webmozart\\Assert\\Assert#'
+            - type: classNameRegex
+              value: '#^Kreait\\#'
+            - type: classNameRegex
+              value: '#^Lexik\\#'
+            - type: classNameRegex
+              value: '#^Vich\\#'
+            - type: classNameRegex
+              value: '#^CodeBuds#'
 
         - name: Attributes
           collectors:
-              - type: classNameRegex
-                value: '#^Doctrine\\ORM\\Mapping#'
-              - type: classNameRegex
-                value: '#^Override#'#'
+            - type: classNameRegex
+              value: '#^Doctrine\\ORM\\Mapping#'
+            - type: classNameRegex
+              value: '#^Override#'#'
 
         - name: Collection
           collectors:
-              - type: classNameRegex
-                value: '#^Doctrine\\Common\\Collections#'
+            - type: classNameRegex
+              value: '#^Doctrine\\Common\\Collections#'
 
         - name: Uuid
           collectors:
-              - type: classNameRegex
-                value: '#^Ramsey\\#'
+            - type: classNameRegex
+              value: '#^Ramsey\\#'
 
         - name: Logger
           collectors:
-              - type: classNameRegex
-                value: '#^Monolog\\#'
-              - type: classNameRegex
-                value: '#^Psr\\#'
+            - type: classNameRegex
+              value: '#^Monolog\\#'
+            - type: classNameRegex
+              value: '#^Psr\\#'
 
         - name: Helpers
           collectors:
-              - type: classNameRegex
-                value: '#^App\\Shared\\Infrastructure\\Webmozart\\Assert#'
+            - type: classNameRegex
+              value: '#^TegCorp\\SharedKernelBundle\\Infrastructure\\Webmozart\\Assert#'
 
         - name: Events
           collectors:
-              - type: classNameRegex
-                value: '#^Symfony\\Contracts\\EventDispatcher\\#'
+            - type: classNameRegex
+              value: '#^Symfony\\Contracts\\EventDispatcher\\#'
 
     ruleset:
         Domain:
@@ -82,6 +97,7 @@ deptrac:
             - Events
             - Collection
             - Uuid
+            - Shared Kernel Domain
 
         Application:
             - Domain
@@ -90,6 +106,8 @@ deptrac:
             - Events
             - Collection
             - Uuid
+            - Shared Kernel Domain
+            - Shared Kernel Application
 
         Infrastructure:
             - Domain
@@ -100,6 +118,9 @@ deptrac:
             - Collection
             - Uuid
             - Logger
+            - Shared Kernel Domain
+            - Shared Kernel Application
+            - Shared Kernel Infrastructure
 
         Helpers:
             - Vendors

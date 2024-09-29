@@ -9,8 +9,8 @@ use ApiPlatform\State\Pagination\Pagination;
 use ApiPlatform\State\ProviderInterface;
 use App\Country\Application\Query\GetCountriesQuery;
 use App\Country\Infrastructure\ApiPlatform\Resource\CountryResource;
-use App\Shared\Application\Query\QueryBusInterface;
-use App\Shared\Infrastructure\ApiPlatform\State\Pagination\Paginator;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 
 /**
  * @implements ProviderInterface<CountryResource>

@@ -29,8 +29,8 @@ deptrac:
 
         - name: Shared
           collectors:
-              - type: directory
-                value: src/Shared/.*
+              - type: classNameRegex
+                value: '#^TegCorp\\SharedKernelBundle#'
 
         - name: Vendors
           collectors:

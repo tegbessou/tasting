@@ -7,7 +7,7 @@ namespace App\BottleInventory\Application\Query;
 use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\Repository\OwnerRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
-use App\Shared\Application\Query\AsQueryHandler;
+use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetOwnerQueryHandler

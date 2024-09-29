@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Event;
 
-use App\Shared\Domain\Event\DomainEventInterface;
 use Symfony\Contracts\EventDispatcher\Event;
+use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 
 final class GrapeVarietyCreated extends Event implements DomainEventInterface
 {

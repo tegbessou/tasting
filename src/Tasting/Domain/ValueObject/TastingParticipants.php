@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\ValueObject;
 
-use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Domain\Entity\Participant;
 use Doctrine\ORM\Mapping as ORM;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 #[ORM\Embeddable]
 final readonly class TastingParticipants

@@ -8,12 +8,12 @@ use App\BottleInventory\Application\Command\CreateOwnerCommand;
 use App\BottleInventory\Domain\Exception\OwnerAlreadyExistException;
 use App\BottleInventory\Domain\Exception\OwnerDoesntExistInSecurityException;
 use App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 #[AsMessageHandler]
 #[WithMonologChannel('bottle_inventory')]

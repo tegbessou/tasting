@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BottleInventory\Application\Command;
 
 use App\BottleInventory\Domain\ValueObject\BottleId;
-use App\Shared\Application\Command\CommandInterface;
+use TegCorp\SharedKernelBundle\Application\Command\CommandInterface;
 
 /**
  * @implements CommandInterface<BottleId>

@@ -6,8 +6,6 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Infrastructure\Webmozart\Assert;
 use App\Tasting\Application\Command\RejectInvitationCommand;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
@@ -15,6 +13,8 @@ use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
  * @implements ProcessorInterface<TastingResource, void>

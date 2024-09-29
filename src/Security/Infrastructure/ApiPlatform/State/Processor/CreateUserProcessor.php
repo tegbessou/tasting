@@ -12,10 +12,10 @@ use App\Security\Application\Query\GetUserQuery;
 use App\Security\Domain\Exception\UserAlreadyExistsException;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
 use App\Security\Infrastructure\Symfony\Validator\ConstraintViolation\BuildUserAlreadyExistConstraintViolation;
-use App\Shared\Application\Command\CommandBusInterface;
-use App\Shared\Application\Query\QueryBusInterface;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -27,7 +27,8 @@ final readonly class CreateUserProcessor implements ProcessorInterface
     public function __construct(
         private CommandBusInterface $commandBus,
         private BuildUserAlreadyExistConstraintViolation $buildUserAlreadyExistConstraintViolation,
-        private LoggerInterface $logger, private QueryBusInterface $queryBus,
+        private LoggerInterface $logger,
+        private QueryBusInterface $queryBus,
     ) {
     }
 

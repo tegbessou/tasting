@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Query;
 
-use App\Shared\Application\Query\AsQueryHandler;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
+use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetInvitationQueryHandler

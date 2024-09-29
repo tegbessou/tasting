@@ -7,7 +7,7 @@ namespace App\BottleInventory\Domain\Repository;
 use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\OwnerId;
-use App\Shared\Domain\Repository\RepositoryInterface;
+use TegCorp\SharedKernelBundle\Domain\Repository\RepositoryInterface;
 
 /**
  * @extends RepositoryInterface<Owner>

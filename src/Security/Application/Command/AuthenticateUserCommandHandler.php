@@ -8,7 +8,7 @@ use App\Security\Domain\Exception\IdentityProviderDoesntExistException;
 use App\Security\Domain\Exception\InvalidTokenException;
 use App\Security\Domain\Service\AuthenticateUserInterface;
 use App\Security\Domain\ValueObject\UserAuthenticated;
-use App\Shared\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 
 #[AsCommandHandler]
 final readonly class AuthenticateUserCommandHandler

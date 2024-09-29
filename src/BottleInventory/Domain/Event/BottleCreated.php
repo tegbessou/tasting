@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Domain\Event;
 
-use App\Shared\Domain\Event\DomainEvent;
-use App\Shared\Domain\Event\DomainEventInterface;
+use TegCorp\SharedKernelBundle\Domain\Event\DomainEvent;
+use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 
 final class BottleCreated extends DomainEvent implements DomainEventInterface
 {

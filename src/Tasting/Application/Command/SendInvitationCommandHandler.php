@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Command;
 
-use App\Shared\Application\Command\AsCommandHandler;
-use App\Shared\Domain\Service\DomainEventDispatcherInterface;
 use App\Tasting\Application\Service\MailerInterface;
 use App\Tasting\Application\Service\NotificationInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
@@ -16,6 +14,8 @@ use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
+use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class SendInvitationCommandHandler

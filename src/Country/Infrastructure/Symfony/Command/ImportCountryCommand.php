@@ -6,12 +6,12 @@ namespace App\Country\Infrastructure\Symfony\Command;
 
 use App\Country\Application\Command\CreateCountryCommand;
 use App\Country\Domain\Exception\CountryAlreadyExistsException;
-use App\Shared\Application\Command\CommandBusInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 
 #[AsCommand('country:import', description: 'Import countries from csv file')]
 final class ImportCountryCommand extends Command

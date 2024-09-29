@@ -12,10 +12,10 @@ use App\Security\Domain\Exception\InvalidPayloadException;
 use App\Security\Domain\Exception\InvalidTokenException;
 use App\Security\Infrastructure\ApiPlatform\Resource\AuthorizeTokenResource;
 use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
-use App\Shared\Application\Command\CommandBusInterface;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use Webmozart\Assert\Assert;
 
 /**

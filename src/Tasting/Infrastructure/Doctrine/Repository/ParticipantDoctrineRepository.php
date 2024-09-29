@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Doctrine\Repository;
 
-use App\Shared\Infrastructure\Doctrine\DoctrineRepository;
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Participant>
