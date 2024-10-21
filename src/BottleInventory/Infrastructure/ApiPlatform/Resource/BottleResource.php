@@ -113,8 +113,9 @@ final class BottleResource
         public ?Rate $rate = null,
         #[ApiProperty]
         #[Assert\NotBlank]
+        #[Assert\Email]
         #[Groups(['read_bottle'])]
-        public ?OwnerResource $owner = null,
+        public ?string $ownerId = null,
         #[ApiProperty]
         #[Groups(['read_bottle'])]
         public ?string $country = null,
@@ -148,9 +149,7 @@ final class BottleResource
             $bottle->year()->value(),
             $bottle->grapeVarieties()->values(),
             Rate::from($bottle->rate()->value()),
-            OwnerResource::fromModel(
-                $bottle->owner(),
-            ),
+            $bottle->ownerId()->value(),
             $bottle->country()?->value() ?? null,
             $bottle->price()?->amount() ?? null,
             picturePath: $bottle->picture()?->path() ?? null,

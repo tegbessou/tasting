@@ -53,8 +53,8 @@ final readonly class ReplaceBottlePictureCommandHandler
             BottlePicture::fromString($pictureName),
         );
 
-        $this->eventDispatcher->dispatch($bottle);
-
         $this->bottleRepository->update($bottle);
+
+        $this->eventDispatcher->dispatch($bottle);
     }
 }

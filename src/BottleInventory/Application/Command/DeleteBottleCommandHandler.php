@@ -40,8 +40,8 @@ final readonly class DeleteBottleCommandHandler
 
         $bottle->delete();
 
-        $this->eventDispatcher->dispatch($bottle);
-
         $this->bottleRepository->delete($bottle);
+
+        $this->eventDispatcher->dispatch($bottle);
     }
 }

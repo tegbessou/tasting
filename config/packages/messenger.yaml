@@ -14,7 +14,6 @@ framework:
                             binding_keys: [ bottle_inventory ]
             bottle_inventory_from_external:
                 dsn: '%env(MESSENGER_TRANSPORT_BOTTLE_INVENTORY_DSN)%'
-                serializer: App\BottleInventory\Infrastructure\Symfony\Messenger\Serializer\ExternalMessageSerializer
                 options:
                     exchange:
                         name: bottle_inventory_from_external
@@ -90,7 +89,7 @@ framework:
         routing:
             'App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage': bottle_inventory_to_tasting
 
-            'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': [security_to_bottle_inventory, security_to_tasting]
+            'App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage': [security_to_tasting]
 
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage': tasting
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface': tasting
@@ -113,6 +112,5 @@ when@test:
                     serializer: messenger.transport.native_php_serializer
 
             routing:
-                'App\BottleInventory\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': bottle_inventory
                 'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': tasting_from_external
                 'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage': tasting_from_external

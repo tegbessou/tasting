@@ -43,8 +43,8 @@ final readonly class AcceptInvitationCommandHandler
 
         $tasting->acceptInvitation($invitation);
 
-        $this->dispatcher->dispatch($invitation);
-
         $this->invitationRepository->update();
+
+        $this->dispatcher->dispatch($invitation);
     }
 }

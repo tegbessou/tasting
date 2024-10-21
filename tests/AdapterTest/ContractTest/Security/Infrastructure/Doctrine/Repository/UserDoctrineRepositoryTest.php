@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\Security\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Security\Infrastructure\Doctrine\Repository;
 
 use App\Security\Domain\Entity\User;
 use App\Security\Domain\Repository\UserRepositoryInterface;

@@ -37,10 +37,10 @@ final readonly class CreateTastingCommandHandler
             $participant,
         );
 
-        $this->domainEventDispatcher->dispatch($tasting);
-
         $this->tastingRepository->add(
             $tasting,
         );
+
+        $this->domainEventDispatcher->dispatch($tasting);
     }
 }

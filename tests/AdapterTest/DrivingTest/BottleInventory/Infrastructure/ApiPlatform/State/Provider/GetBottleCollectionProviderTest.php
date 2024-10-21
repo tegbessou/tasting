@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Provider;
+namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Provider;
 
-use App\Tests\Shared\ApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 
 final class GetBottleCollectionProviderTest extends ApiTestCase
 {

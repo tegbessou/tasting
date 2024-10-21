@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Provider;
 
-use App\Tests\Shared\ApiTestCase;
+use Shared\ApiTestCase;
 
 final class GetInvitationCollectionProviderTest extends ApiTestCase
 {

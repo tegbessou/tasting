@@ -65,8 +65,8 @@ final readonly class UpdateBottleCommandHandler
             $command->price !== null ? BottlePrice::fromFloat($command->price) : null
         );
 
-        $this->eventDispatcher->dispatch($bottle);
-
         $this->bottleRepository->update($bottle);
+
+        $this->eventDispatcher->dispatch($bottle);
     }
 }

@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
+namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
+use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
 use App\BottleInventory\Infrastructure\Symfony\Messenger\Message\BottleTastedMessage;
-use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class TasteBottleProcessorTest extends ApiTestCase
@@ -43,11 +43,6 @@ final class TasteBottleProcessorTest extends ApiTestCase
 
     public function testTasteBottle(): void
     {
-        $owner = $this->entityManager
-            ->getRepository(Owner::class)
-            ->find('be6d32dc-2313-4dbf-8c66-6807d1335bbc')
-        ;
-
         $bottle = Bottle::create(
             BottleId::fromString('72dcf99e-823e-4c0b-b841-49175a1e68e5'),
             BottleName::fromString('Mercurey 1er cru clos l\'évêque'),
@@ -56,7 +51,7 @@ final class TasteBottleProcessorTest extends ApiTestCase
             BottleYear::fromInt(2018),
             BottleGrapeVarieties::fromArray(['Pinot Noir']),
             BottleRate::fromString('-'),
-            $owner,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(29.90),
         );

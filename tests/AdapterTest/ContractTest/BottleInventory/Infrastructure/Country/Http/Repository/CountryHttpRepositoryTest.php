@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\BottleInventory\Infrastructure\Country\Http\Repository;
+namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Country\Http\Repository;
 
 use App\BottleInventory\Domain\Adapter\CountryAdapterInterface;
 use App\BottleInventory\Domain\ValueObject\CountryName;

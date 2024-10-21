@@ -7,19 +7,32 @@ namespace App\BottleInventory\Domain\ValueObject;
 final readonly class User
 {
     public function __construct(
-        private UserEmail $email,
+        private UserId $id,
+        private UserName $name,
         private bool $currentUser,
     ) {
     }
 
-    public static function create(UserEmail $email, bool $isCurrentEmail): self
-    {
-        return new self($email, $isCurrentEmail);
+    public static function create(
+        UserId $email,
+        UserName $name,
+        bool $isCurrentEmail,
+    ): self {
+        return new self(
+            $email,
+            $name,
+            $isCurrentEmail,
+        );
     }
 
-    public function email(): UserEmail
+    public function id(): UserId
     {
-        return $this->email;
+        return $this->id;
+    }
+
+    public function name(): UserName
+    {
+        return $this->name;
     }
 
     public function isCurrentUser(): bool

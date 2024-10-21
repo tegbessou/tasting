@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
+namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
@@ -14,8 +14,8 @@ use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\Tests\Shared\ApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 
 final class PatchBottleProcessorTest extends ApiTestCase
 {
@@ -86,7 +86,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Bottle',
             '@type' => 'Bottle',
-            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+            'ownerId' => 'hugues.gobet@gmail.com',
         ]);
 
         $bottle = $this->doctrineBottleRepository->ofId(
@@ -94,8 +94,8 @@ final class PatchBottleProcessorTest extends ApiTestCase
         );
 
         $this->assertEquals(
-            'be6d32dc-2313-4dbf-8c66-6807d1335bbc',
-            $bottle->owner()->id()->value(),
+            'hugues.gobet@gmail.com',
+            $bottle->ownerId()->value(),
         );
     }
 

@@ -5,37 +5,26 @@ declare(strict_types=1);
 namespace DataFixtures\BottleInventory;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
+use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class BottleFixtures extends Fixture implements DependentFixtureInterface
+final class BottleFixtures extends Fixture
 {
     #[\Override]
     public function load(ObjectManager $manager): void
     {
         $bottles = [];
-
-        $ownerHugues = $manager
-            ->getRepository(Owner::class)
-            ->find('be6d32dc-2313-4dbf-8c66-6807d1335bbc')
-        ;
-
-        $ownerRoot = $manager
-            ->getRepository(Owner::class)
-            ->find('0e4ccb23-7a1f-4f30-b188-6aad71b4735f')
-        ;
 
         $bottles[] = Bottle::create(
             BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
@@ -45,7 +34,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2015),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot']),
             BottleRate::fromString('++'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(1099.99),
         )->addPicture(BottlePicture::fromString('chateau-margaux.jpg'));
@@ -58,7 +47,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2010),
             BottleGrapeVarieties::fromArray(['Pinot Noir']),
             BottleRate::fromString('+'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(2999.99),
         )->addPicture(BottlePicture::fromString('romanee-conti.jpg'));
@@ -71,7 +60,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2010),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
             BottleRate::fromString('++'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(999.99),
         )->addPicture(BottlePicture::fromString('chateau-latour.jpg'));
@@ -84,7 +73,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2015),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
             BottleRate::fromString('--'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('États-Unis'),
             BottlePrice::fromFloat(1299.99),
         )->addPicture(BottlePicture::fromString('opus-one.jpg'));
@@ -97,7 +86,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2012),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Cabernet Franc']),
             BottleRate::fromString('xs'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('Italie'),
             BottlePrice::fromFloat(899.99),
         )->addPicture(BottlePicture::fromString('tenuta-san-guido.webp'));
@@ -110,7 +99,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2016),
             BottleGrapeVarieties::fromArray(['Chardonnay']),
             BottleRate::fromString('++'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(1599.99),
         )->addPicture(BottlePicture::fromString('montrachet.png'));
@@ -123,7 +112,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2008),
             BottleGrapeVarieties::fromArray(['Shiraz', 'Cabernet Sauvignon']),
             BottleRate::fromString('='),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('Australie'),
             BottlePrice::fromFloat(1799.99),
         )->addPicture(BottlePicture::fromString('penfolds.webp'));
@@ -136,7 +125,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2013),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon']),
             BottleRate::fromString('++'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('États-Unis'),
             BottlePrice::fromFloat(259.99),
         )->addPicture(BottlePicture::fromString('caymus.jpg'));
@@ -149,7 +138,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2011),
             BottleGrapeVarieties::fromArray(['Tempranillo', 'Cabernet Sauvignon']),
             BottleRate::fromString('--'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('Espagne'),
             BottlePrice::fromFloat(1499.99),
         )->addPicture(BottlePicture::fromString('vega-sicilia.webp'));
@@ -162,7 +151,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2019),
             BottleGrapeVarieties::fromArray(['Sauvignon Blanc']),
             BottleRate::fromString('-'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('New Zealand'),
             BottlePrice::fromFloat(49.99),
         )->addPicture(BottlePicture::fromString('cloudy-bay.png'));
@@ -175,7 +164,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2016),
             BottleGrapeVarieties::fromArray(['Nebbiolo']),
             BottleRate::fromString('xs'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('Italy'),
             BottlePrice::fromFloat(899.99),
         )->addPicture(BottlePicture::fromString('gaja.jpg'));
@@ -188,7 +177,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2014),
             BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot']),
             BottleRate::fromString('='),
-            $ownerRoot,
+            BottleOwnerId::fromString('root@gmail.com'),
             BottleCountry::fromString('United States'),
             BottlePrice::fromFloat(199.99),
         )->addPicture(BottlePicture::fromString('ridge-vineyards.png'));
@@ -201,7 +190,7 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
             BottleYear::fromInt(2014),
             BottleGrapeVarieties::fromArray(['Syrah', 'Viognier']),
             BottleRate::fromString('++'),
-            $ownerHugues,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(358.99),
         );
@@ -211,13 +200,5 @@ final class BottleFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
-    }
-
-    #[\Override]
-    public function getDependencies(): array
-    {
-        return [
-            OwnerFixtures::class,
-        ];
     }
 }

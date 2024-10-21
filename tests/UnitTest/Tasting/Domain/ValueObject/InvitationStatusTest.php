@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTest\Tasting\Domain\ValueObject;
+namespace UnitTest\Tasting\Domain\ValueObject;
 
 use App\Tasting\Domain\ValueObject\InvitationStatus;
 use PHPUnit\Framework\TestCase;

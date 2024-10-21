@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
+namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 
 final class CreateBottleProcessorTest extends ApiTestCase
 {
@@ -33,7 +33,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
             'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
             'wineType' => 'red',
             'rate' => 'xs',
-            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+            'ownerId' => 'hugues.gobet@gmail.com',
             'country' => 'France',
         ]);
 
@@ -47,7 +47,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
             'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
             'wineType' => 'red',
             'rate' => 'xs',
-            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+            'ownerId' => 'hugues.gobet@gmail.com',
             'country' => 'France',
         ]);
 
@@ -113,7 +113,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
                 [
-                    'propertyPath' => 'owner',
+                    'propertyPath' => 'ownerId',
                     'message' => 'Cette valeur ne doit pas être vide.',
                     'code' => 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 ],
@@ -128,7 +128,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'yellow',
                 'rate' => 'xs',
-                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+                'ownerId' => 'hugues.gobet@gmail.com',
                 'country' => 'France',
             ],
             'statusCode' => 400,
@@ -143,14 +143,14 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'top',
-                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+                'ownerId' => 'hugues.gobet@gmail.com',
                 'country' => 'France',
             ],
             'statusCode' => 400,
             'violations' => [],
         ];
 
-        yield 'Owner doesn\'t exists' => [
+        yield 'Owner bad email' => [
             'payload' => [
                 'name' => 'Pavillon Rouge du Château Margaux',
                 'estateName' => 'Château Margaux',
@@ -158,11 +158,17 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'owner' => '/api/owners/d46b4522-b265-4e35-8f33-c95db871b7b8',
+                'ownerId' => 'hugues.gobet',
                 'country' => 'France',
             ],
-            'statusCode' => 404,
-            'violations' => [],
+            'statusCode' => 422,
+            'violations' => [
+                [
+                    'propertyPath' => 'ownerId',
+                    'message' => 'Cette valeur n\'est pas une adresse email valide.',
+                    'code' => 'bd79c0ab-ddba-46cc-a703-a7a4b08de310',
+                ],
+            ],
         ];
 
         yield 'One grape varieties doesn\'t exist' => [
@@ -173,7 +179,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Riesling', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+                'ownerId' => 'hugues.gobet@gmail.com',
                 'country' => 'France',
             ],
             'statusCode' => 422,
@@ -193,7 +199,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Riesling', 'Négrette', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+                'ownerId' => 'hugues.gobet@gmail.com',
                 'country' => 'France',
             ],
             'statusCode' => 422,
@@ -213,7 +219,7 @@ final class CreateBottleProcessorTest extends ApiTestCase
                 'grapeVarieties' => ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
                 'wineType' => 'red',
                 'rate' => 'xs',
-                'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+                'ownerId' => 'hugues.gobet@gmail.com',
                 'country' => 'Italy',
             ],
             'statusCode' => 422,

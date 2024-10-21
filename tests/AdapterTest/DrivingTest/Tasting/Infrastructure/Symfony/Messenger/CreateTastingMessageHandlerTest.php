@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
+namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;

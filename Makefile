@@ -3,6 +3,7 @@ EXEC_PHP = $(DOCKER_COMPOSE) exec -T -u www-data -e PHP_CS_FIXER_IGNORE_ENV=1 ph
 EXEC_YARN = $(DOCKER_COMPOSE) exec -T -u www-data php yarn --cache-folder=/home/app
 EXEC_SYMFONY = $(DOCKER_COMPOSE) exec -T -u www-data php bin/console
 EXEC_DB = $(DOCKER_COMPOSE) exec -T db sh -c
+EXEC_MONGODB = $(DOCKER_COMPOSE) exec -T document
 COMPOSER = $(EXEC_PHP) composer
 
 .DEFAULT_GOAL := help
@@ -124,11 +125,13 @@ Database:
 db-load-fixtures: wait-db db-drop db-create
 	@echo "\nLoading fixtures from dump...\e[0m"
 	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv.sql"
+	@$(EXEC_MONGODB) mongorestore --drop --db dadv /home/app/dump/documents/dadv
 
 ## Load database from dump test
 db-load-fixtures-test: wait-db db-drop-test db-create-test
 	@echo "\nLoading fixtures from dump...\e[0m"
 	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv-test.sql"
+	@$(EXEC_MONGODB) mongorestore --drop --db dadv_test /home/app/dump/documents/dadv_test
 
 ## Recreate database structure
 db-reload-schema: wait-db db-drop db-create db-migrate
@@ -174,21 +177,25 @@ db-migrate-test: env-test wait-db
 db-reload-fixtures: env-dev wait-db db-reload-schema
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
+	@$(EXEC_SYMFONY) doctrine:mongodb:fixtures:load --no-interaction
 
 	@$(MAKE) import-country
 
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv > /home/app/dump/dadv.sql"
+	@$(EXEC_MONGODB) mongodump --db dadv --out /home/app/dump/documents
 
 ## Reload fixtures
 db-reload-fixtures-test: env-test wait-db db-reload-schema-test
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
+	@$(EXEC_SYMFONY) doctrine:mongodb:fixtures:load --no-interaction
 
 	@$(MAKE) import-country-test
 
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv_test > /home/app/dump/dadv-test.sql"
+	@$(EXEC_MONGODB) mongodump --db dadv_test --out /home/app/dump/documents
 
 #################################
 Test:

@@ -14,6 +14,7 @@ use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
+use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
@@ -48,9 +49,8 @@ final class Bottle implements EntityWithDomainEventInterface
         private BottleGrapeVarieties $grapeVarieties,
         #[ORM\Embedded(columnPrefix: false)]
         private BottleRate $rate,
-        #[ORM\ManyToOne(targetEntity: Owner::class)]
-        #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
-        private Owner $owner,
+        #[ORM\Embedded(columnPrefix: false)]
+        private BottleOwnerId $ownerId,
         #[ORM\Embedded(columnPrefix: false)]
         private ?BottleCountry $country = null,
         #[ORM\Embedded(columnPrefix: false)]
@@ -70,7 +70,7 @@ final class Bottle implements EntityWithDomainEventInterface
         BottleYear $year,
         BottleGrapeVarieties $grapeVarieties,
         BottleRate $rate,
-        Owner $owner,
+        BottleOwnerId $owner,
         ?BottleCountry $country = null,
         ?BottlePrice $price = null,
     ): self {
@@ -91,7 +91,6 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleCreated(
                 $bottle->id->value(),
-                $bottle->owner->email()->value(),
             )
         );
 
@@ -105,7 +104,7 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottlePictureAdded(
                 $this->id->value(),
-                $this->owner->email()->value(),
+                $picture->path(),
             )
         );
 
@@ -121,7 +120,7 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleTasted(
                 $this->id->value(),
-                $this->owner->email()->value()
+                $this->ownerId->value(),
             )
         );
 
@@ -133,7 +132,6 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleDeleted(
                 $this->id->value(),
-                $this->owner->email()->value(),
             )
         );
     }
@@ -160,7 +158,6 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleUpdated(
                 $this->id->value(),
-                $this->owner->email()->value(),
             )
         );
     }
@@ -205,9 +202,9 @@ final class Bottle implements EntityWithDomainEventInterface
         return $this->picture;
     }
 
-    public function owner(): Owner
+    public function ownerId(): BottleOwnerId
     {
-        return $this->owner;
+        return $this->ownerId;
     }
 
     public function country(): ?BottleCountry

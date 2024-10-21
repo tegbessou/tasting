@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\BottleInventory\Infrastructure\Security\Adapter;
 
 use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
-use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\User;
+use App\BottleInventory\Domain\ValueObject\UserId;
 use App\BottleInventory\Infrastructure\Security\Repository\UserRepositoryInterface;
 use App\BottleInventory\Infrastructure\Security\Translator\UserTranslator;
 
@@ -18,7 +18,7 @@ final readonly class UserAdapter implements UserAdapterInterface
     }
 
     #[\Override]
-    public function ofEmail(OwnerEmail $email): ?User
+    public function ofId(UserId $email): ?User
     {
         try {
             return UserTranslator::toUser(

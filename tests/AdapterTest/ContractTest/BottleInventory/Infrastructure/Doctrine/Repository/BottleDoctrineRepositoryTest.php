@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\BottleInventory\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Doctrine\Repository;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
+use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
@@ -124,11 +124,6 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
 
     public function testAddWithAllInformation(): void
     {
-        $owner = $this->entityManager
-            ->getRepository(Owner::class)
-            ->find('be6d32dc-2313-4dbf-8c66-6807d1335bbc')
-        ;
-
         $bottle = Bottle::create(
             BottleId::fromString('2ccee98f-f2d2-4aaa-b059-7c38bb7e57cf'),
             BottleName::fromString('Château Rayas'),
@@ -137,7 +132,7 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
             BottleYear::fromInt(2015),
             BottleGrapeVarieties::fromArray(['Grenache']),
             BottleRate::fromString('+'),
-            $owner,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(129.99),
         );
@@ -189,11 +184,6 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
 
     public function testDelete(): void
     {
-        $owner = $this->entityManager
-            ->getRepository(Owner::class)
-            ->find('be6d32dc-2313-4dbf-8c66-6807d1335bbc')
-        ;
-
         $bottle = Bottle::create(
             BottleId::fromString('9b676c71-3ad3-4c67-a464-aefef9f1940a'),
             BottleName::fromString('Mercurey 1er cru clos l\'évêque'),
@@ -202,7 +192,7 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
             BottleYear::fromInt(2018),
             BottleGrapeVarieties::fromArray(['Pinot Noir']),
             BottleRate::fromString('-'),
-            $owner,
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(29.90),
         );

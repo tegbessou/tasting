@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\BottleInventory\Infrastructure\Security\Translator;
 
 use App\BottleInventory\Domain\ValueObject\User;
-use App\BottleInventory\Domain\ValueObject\UserEmail;
+use App\BottleInventory\Domain\ValueObject\UserId;
+use App\BottleInventory\Domain\ValueObject\UserName;
 
 final class UserTranslator
 {
@@ -16,7 +17,8 @@ final class UserTranslator
         }
 
         return User::create(
-            UserEmail::fromString($data['email']),
+            UserId::fromString($data['email']),
+            UserName::fromString('Hoge Hoge'),
             $data['isCurrent'],
         );
     }

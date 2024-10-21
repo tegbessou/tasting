@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Country\Infrastructure\ApiPlatform\State\Provider;
 
-use App\Tests\Shared\ApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 
 final class GetCountryCollectionProviderTest extends ApiTestCase
 {

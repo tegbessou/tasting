@@ -11,7 +11,6 @@ final class BottleCreated extends DomainEvent implements DomainEventInterface
 {
     public function __construct(
         public string $bottleId,
-        public string $ownerId,
     ) {
         parent::__construct();
     }

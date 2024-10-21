@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Shared;
+namespace Shared;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use PHPUnit\Framework\ExpectationFailedException;

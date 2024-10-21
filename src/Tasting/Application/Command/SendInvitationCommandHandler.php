@@ -70,8 +70,8 @@ final readonly class SendInvitationCommandHandler
             BottleName::fromString($command->bottleName),
         );
 
-        $this->eventDispatcher->dispatch($invitation);
-
         $this->invitationRepository->update();
+
+        $this->eventDispatcher->dispatch($invitation);
     }
 }

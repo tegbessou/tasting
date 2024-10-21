@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\Symfony\Controller;
+namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\Symfony\Controller;
 
-use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class ReplaceBottlePictureControllerTest extends ApiTestCase
@@ -55,7 +55,7 @@ final class ReplaceBottlePictureControllerTest extends ApiTestCase
             'grapeVarieties' => ['Syrah', 'Viognier'],
             'wineType' => 'red',
             'rate' => '++',
-            'owner' => '/api/owners/be6d32dc-2313-4dbf-8c66-6807d1335bbc',
+            'ownerId' => 'hugues.gobet@gmail.com',
             'country' => 'France',
             'picturePath' => 'cote-rotie.png',
         ]);

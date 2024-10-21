@@ -10,7 +10,6 @@ final readonly class BottleDeleted implements DomainEventInterface
 {
     public function __construct(
         public string $bottleId,
-        public string $ownerId,
     ) {
     }
 }

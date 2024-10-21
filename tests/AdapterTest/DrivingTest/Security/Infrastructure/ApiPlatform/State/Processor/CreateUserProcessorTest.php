@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Processor;
+namespace AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Processor;
 
 use App\Security\Domain\Entity\User;
 use App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage;
-use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class CreateUserProcessorTest extends ApiTestCase
@@ -43,7 +43,6 @@ final class CreateUserProcessorTest extends ApiTestCase
             'email' => 'new-user@gmail.com',
         ]);
 
-        $this->transport('security_to_bottle_inventory')->queue()->assertContains(UserCreatedMessage::class, 1);
         $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy([

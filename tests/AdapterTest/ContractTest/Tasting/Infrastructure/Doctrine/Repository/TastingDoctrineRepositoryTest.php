@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;

@@ -43,7 +43,7 @@ jobs:
         run: make docker-compose.override.yaml
 
       - name: Up needed docker
-        run: docker compose up -d nginx-proxy redis php db
+        run: docker compose up -d nginx-proxy redis php db document
 
       - name: Get composer cache directory
         id: composercache

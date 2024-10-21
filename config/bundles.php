@@ -22,4 +22,5 @@ return [
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
     Zenstruck\Messenger\Test\ZenstruckMessengerTestBundle::class => ['test' => true],
     TegCorp\SharedKernelBundle\TegCorpSharedKernelBundle::class => ['all' => true],
+    Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle::class => ['all' => true],
 ];

@@ -39,8 +39,8 @@ final readonly class CreateParticipantCommandHandler
             new ParticipantFullName($command->fullName),
         );
 
-        $this->dispatcher->dispatch($participant);
-
         $this->participantRepository->add($participant);
+
+        $this->dispatcher->dispatch($participant);
     }
 }

@@ -166,7 +166,9 @@ Challenge the presence of an entity Owner in tasting to use with participant ent
 
 Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
 Remove Assert from Webmozart and create my own domain service to assert this
-Enforce rules that domains must be independent from each other
+Enforce rules that domains must be independent of each other
+
+Challenge Domain Event to have all information to write projection, instead of using repository to read data
 
 ### Refactoring bottle
 
@@ -194,6 +196,8 @@ Add a read model to handle invitation by user
 
 If I create data in another domain, i don't have to check if data exist in the main domain
 
+When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
+
 ### Refactoring user
 
 Add friend system + invitation....
@@ -208,3 +212,64 @@ Add an elastic search to search wine
 Setup phparkitect
 
 Separate each bounded context in microservice
+
+Create an api resource for each representation
+
+Reflect to add test on command handler and query handler
+
+Renommer les tests d'adapter en test d'intégration
+
+## TODO
+
+### Bottle only
+
+Owner should not be referenced, we only need to store uuid of the user from security context => OK
+=> When we create a bottle we create a read model to store the owner with information from security context
+
+Where we store read model (database) ?
+
+The read model is a proper model that is used to read data from the domain model
+
+Projection should be placed in the Application layer to transform data from the domain to the read model
+Projections are not part of the domain, they are part of the application layer because they update the read model
+
+Read model should be placed in the Application layer
+To read and store read model we will use Adapters
+
+Domain event dispatch should have all data to write projection
+
+Create an api resource for each representation (except get and get collection group it)
+Change read source
+
+### Remaining
+
+- [ ] Add all information in event
+  - [ ] Upgrade bottle event test
+- [X] Bottle creation
+  - [X] Create a bottle list read model
+  - [X] Create a bottle read model
+- [X] Bottle change picture
+  - [X] Update a bottle list read model to replace the picture
+  - [X] Update a bottle read model to replace the picture
+- [ ] Bottle update
+  - [ ] Update a bottle list read model to replace all information
+  - [ ] Update a bottle read model to replace all information
+- [ ] Bottle tasted
+  - [ ] Update a bottle list read model to add the tasted at
+  - [ ] Update a bottle read model to replace the tasted at
+- [ ] Bottle removed
+  - [ ] Update a bottle list read model to add the tasted at
+  - [ ] Update a bottle read model to replace the tasted at
+- [ ] Change read source
+  - [ ] Bottle list
+  - [ ] Bottle
+- [ ] Separate each operation in different resource
+  - [ ] Bottle list
+  - [ ] Bottle
+  - [ ] Bottle picture
+  - [ ] Bottle tasted
+  - [ ] Bottle removed
+  - [ ] Bottle post
+  - [ ] Bottle put
+- [ ] Clean read method from write model in the repository
+- [ ] Clean the code
