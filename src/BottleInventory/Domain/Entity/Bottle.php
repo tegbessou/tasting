@@ -9,6 +9,7 @@ use App\BottleInventory\Domain\Event\BottleDeleted;
 use App\BottleInventory\Domain\Event\BottlePictureAdded;
 use App\BottleInventory\Domain\Event\BottleTasted;
 use App\BottleInventory\Domain\Event\BottleUpdated;
+use App\BottleInventory\Domain\Exception\BottleAddPicturePictureCannotBeNullException;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
 use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
@@ -101,6 +102,12 @@ final class Bottle implements EntityWithDomainEventInterface
     {
         $this->picture = $picture;
 
+        $picture = $this->picture;
+
+        if ($picture->path() === null) {
+            throw new BottleAddPicturePictureCannotBeNullException();
+        }
+
         self::recordEvent(
             new BottlePictureAdded(
                 $this->id->value(),
@@ -121,6 +128,7 @@ final class Bottle implements EntityWithDomainEventInterface
             new BottleTasted(
                 $this->id->value(),
                 $this->ownerId->value(),
+                $this->tastedAt->dateUs(),
             )
         );
 
@@ -158,6 +166,14 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleUpdated(
                 $this->id->value(),
+                $this->name->value(),
+                $this->estateName->value(),
+                $this->wineType->value(),
+                $this->year->value(),
+                $this->grapeVarieties->values(),
+                $this->rate->value(),
+                $this->country?->value() ?? null,
+                $this->price?->amount() ?? null,
             )
         );
     }

@@ -28,7 +28,7 @@ final readonly class AddPictureBottleListProjection
             );
         } catch (BottleDoesntExistException $exception) {
             $this->logger->error(
-                'Add picture bottle projection: Bottle list projection creation failed',
+                'Add picture bottle projection: Bottle list projection update failed',
                 [
                     'exception' => $exception->getMessage(),
                 ],

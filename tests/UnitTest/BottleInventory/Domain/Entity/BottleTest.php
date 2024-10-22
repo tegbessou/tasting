@@ -566,6 +566,9 @@ final class BottleTest extends TestCase
         $bottle->taste();
 
         $this->assertInstanceOf(BottleTasted::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('hugues.gobet@gmail.com', $bottle::getRecordedEvent()[0]->ownerId);
+        $this->assertEquals((new \DateTimeImmutable())->format('Y-m-d'), $bottle::getRecordedEvent()[0]->tastedAt);
         $bottle::eraseRecordedEvents();
     }
 
@@ -659,6 +662,16 @@ final class BottleTest extends TestCase
         );
 
         $this->assertInstanceOf(BottleUpdated::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('Vouvray moelleux - cuvée constance', $bottle::getRecordedEvent()[0]->name);
+        $this->assertEquals('Domaine Huet', $bottle::getRecordedEvent()[0]->estateName);
+        $this->assertEquals('white', $bottle::getRecordedEvent()[0]->wineType);
+        $this->assertEquals(2018, $bottle::getRecordedEvent()[0]->year);
+        $this->assertEquals(['Chenin'], $bottle::getRecordedEvent()[0]->grapeVarieties);
+        $this->assertEquals('++', $bottle::getRecordedEvent()[0]->rate);
+        $this->assertEquals('France', $bottle::getRecordedEvent()[0]->country);
+        $this->assertEquals(120.99, $bottle::getRecordedEvent()[0]->price);
+
         $bottle::eraseRecordedEvents();
     }
 }

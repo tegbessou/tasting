@@ -5,30 +5,37 @@ declare(strict_types=1);
 namespace App\BottleInventory\Application\Projection;
 
 use App\BottleInventory\Application\Exception\BottleDoesntExistException;
-use App\BottleInventory\Application\Projection\Projector\AddPictureBottleProjector;
-use App\BottleInventory\Domain\Event\BottlePictureAdded;
+use App\BottleInventory\Application\Projection\Projector\UpdateBottleProjector;
+use App\BottleInventory\Domain\Event\BottleUpdated;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 
 #[WithMonologChannel('bottle_inventory')]
-final readonly class AddPictureBottleProjection
+final readonly class UpdateBottleProjection
 {
     public function __construct(
-        private AddPictureBottleProjector $addPictureBottleProjector,
+        private UpdateBottleProjector $updateBottleProjector,
         private LoggerInterface $logger,
     ) {
     }
 
-    public function __invoke(BottlePictureAdded $event): void
+    public function __invoke(BottleUpdated $event): void
     {
         try {
-            $this->addPictureBottleProjector->project(
+            $this->updateBottleProjector->project(
                 $event->bottleId,
-                $event->picture,
+                $event->name,
+                $event->estateName,
+                $event->wineType,
+                $event->year,
+                $event->grapeVarieties,
+                $event->rate,
+                $event->country,
+                $event->price,
             );
         } catch (BottleDoesntExistException $exception) {
             $this->logger->error(
-                'Add picture bottle projection: Bottle projection update failed',
+                'Update bottle projection: Bottle projection update failed',
                 [
                     'exception' => $exception->getMessage(),
                 ],

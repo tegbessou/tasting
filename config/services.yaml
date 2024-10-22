@@ -43,6 +43,15 @@ services:
   App\BottleInventory\Application\Projection\AddPictureBottleListProjection:
     tags: [kernel.event_listener]
 
+  App\BottleInventory\Application\Projection\TasteBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\UpdateBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\UpdateBottleListProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
 

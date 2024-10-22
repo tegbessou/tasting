@@ -78,6 +78,8 @@ deptrac:
                 value: '#^Psr#'
               - type: classNameRegex
                 value: '#^CodeBuds#'
+              - type: classNameRegex
+                value: '#^WithMonologChannel#'
 
     ruleset:
         Security: [ Shared, Vendors ]

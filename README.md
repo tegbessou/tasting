@@ -251,12 +251,11 @@ Change read source
 - [X] Bottle change picture
   - [X] Update a bottle list read model to replace the picture
   - [X] Update a bottle read model to replace the picture
-- [ ] Bottle update
-  - [ ] Update a bottle list read model to replace all information
-  - [ ] Update a bottle read model to replace all information
-- [ ] Bottle tasted
-  - [ ] Update a bottle list read model to add the tasted at
-  - [ ] Update a bottle read model to replace the tasted at
+- [X] Bottle tasted
+  - [X] Update a bottle read model to replace the tasted at
+- [X] Bottle update
+  - [X] Update a bottle list read model to replace all information
+  - [X] Update a bottle read model to replace all information
 - [ ] Bottle removed
   - [ ] Update a bottle list read model to add the tasted at
   - [ ] Update a bottle read model to replace the tasted at
