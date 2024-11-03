@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Country\Infrastructure\ApiPlatform\OpenApi;
 
-use ApiPlatform\Api\FilterInterface;
+use ApiPlatform\Metadata\FilterInterface;
 use Symfony\Component\PropertyInfo\Type;
 
 final readonly class CountryFilter implements FilterInterface

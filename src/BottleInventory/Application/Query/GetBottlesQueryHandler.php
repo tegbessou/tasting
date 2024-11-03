@@ -4,61 +4,51 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Query;
 
-use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\ValueObject\BottleEstateName;
-use App\BottleInventory\Domain\ValueObject\BottleName;
-use App\BottleInventory\Domain\ValueObject\BottleRate;
-use App\BottleInventory\Domain\ValueObject\BottleSavedAt;
-use App\BottleInventory\Domain\ValueObject\BottleWineType;
-use App\BottleInventory\Domain\ValueObject\BottleYear;
+use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
 use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetBottlesQueryHandler
 {
     public function __construct(
-        private BottleRepositoryInterface $bottleRepository,
+        private BottleListAdapterInterface $bottleListAdapter,
     ) {
     }
 
-    public function __invoke(GetBottlesQuery $query): BottleRepositoryInterface
+    public function __invoke(GetBottlesQuery $query): BottleListAdapterInterface
     {
-        $bottleRepository = $this->bottleRepository;
+        $bottleListAdapter = $this->bottleListAdapter;
 
-        $bottleRepository = $bottleRepository->sortName();
+        $bottleListAdapter = $bottleListAdapter->sortName();
 
         if ($query->name !== null) {
-            $bottleRepository = $bottleRepository->withName(BottleName::fromString($query->name));
+            $bottleListAdapter = $bottleListAdapter->withName($query->name);
         }
 
         if ($query->estateName !== null) {
-            $bottleRepository = $bottleRepository->withEstateName(BottleEstateName::fromString($query->estateName));
+            $bottleListAdapter = $bottleListAdapter->withEstateName($query->estateName);
         }
 
         if ($query->year !== null) {
-            $bottleRepository = $bottleRepository->withYear(BottleYear::fromInt($query->year));
+            $bottleListAdapter = $bottleListAdapter->withYear($query->year);
         }
 
         if ($query->rate !== null) {
-            $bottleRepository = $bottleRepository->withRate(BottleRate::fromString($query->rate));
+            $bottleListAdapter = $bottleListAdapter->withRate($query->rate);
         }
 
         if ($query->savedAt !== null) {
-            $bottleRepository = $bottleRepository->savedAt(BottleSavedAt::create(
-                new \DateTimeImmutable(
-                    $query->savedAt
-                ),
-            ));
+            $bottleListAdapter = $bottleListAdapter->savedAt($query->savedAt);
         }
 
         if ($query->type !== null) {
-            $bottleRepository = $bottleRepository->withWineType(BottleWineType::fromString($query->type));
+            $bottleListAdapter = $bottleListAdapter->withWineType($query->type);
         }
 
         if ($query->page !== null && $query->limit !== null) {
-            $bottleRepository = $bottleRepository->withPagination($query->page, $query->limit);
+            $bottleListAdapter = $bottleListAdapter->withPagination($query->page, $query->limit);
         }
 
-        return $bottleRepository;
+        return $bottleListAdapter;
     }
 }

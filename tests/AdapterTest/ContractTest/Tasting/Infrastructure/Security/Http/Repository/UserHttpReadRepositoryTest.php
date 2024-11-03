@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\Tasting\Infrastructure\Security\Http\Repository;
+namespace AdapterTest\ContractTest\Tasting\Infrastructure\Security\Http\Repository;
 
 use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\User;

@@ -6,7 +6,7 @@ namespace App\BottleInventory\Domain\Service;
 
 use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\ValueObject\OwnerEmail;
+use App\BottleInventory\Domain\ValueObject\UserId;
 
 final readonly class Authorization
 {
@@ -18,20 +18,18 @@ final readonly class Authorization
     public function isCurrentUserOwnerOfTheBottle(
         Bottle $bottle,
     ): bool {
-        $user = $this->userRepository->ofEmail($bottle->owner()->email());
+        $user = $this->userRepository->ofId(
+            UserId::fromString(
+                $bottle->ownerId()->value(),
+            ),
+        );
 
         if ($user === null) {
             return false;
         }
 
         return $user->isCurrentUser()
-            && $bottle->owner()->email()->value() === $user->email()->value()
+            && $bottle->ownerId()->value() === $user->id()->value()
         ;
-    }
-
-    public function isExistUser(
-        OwnerEmail $ownerEmail,
-    ): bool {
-        return $this->userRepository->ofEmail($ownerEmail) !== null;
     }
 }

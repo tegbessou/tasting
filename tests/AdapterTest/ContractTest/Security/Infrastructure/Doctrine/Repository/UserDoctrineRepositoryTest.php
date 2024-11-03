@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\Security\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Security\Infrastructure\Doctrine\Repository;
 
 use App\Security\Domain\Entity\User;
 use App\Security\Domain\Repository\UserRepositoryInterface;
@@ -26,7 +26,6 @@ final class UserDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineUserRepository = $container->get(UserRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         $this->entityManager->beginTransaction();
     }
 

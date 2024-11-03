@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Provider;
+namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Provider;
 
-use App\Tests\Shared\ApiTestCase;
+use Shared\ApiTestCase;
 
 final class GetBottleProviderTest extends ApiTestCase
 {

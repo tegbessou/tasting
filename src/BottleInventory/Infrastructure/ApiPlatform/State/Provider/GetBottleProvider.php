@@ -7,14 +7,14 @@ namespace App\BottleInventory\Infrastructure\ApiPlatform\State\Provider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\BottleInventory\Application\Query\GetBottleQuery;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\GetBottleResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 
 /**
- * @implements ProviderInterface<BottleResource>
+ * @implements ProviderInterface<GetBottleResource>
  */
 #[WithMonologChannel('bottle_inventory')]
 final readonly class GetBottleProvider implements ProviderInterface
@@ -26,7 +26,7 @@ final readonly class GetBottleProvider implements ProviderInterface
     }
 
     #[\Override]
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?BottleResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?GetBottleResource
     {
         $bottle = $this->queryBus->ask(new GetBottleQuery($uriVariables['id']));
 
@@ -41,6 +41,6 @@ final readonly class GetBottleProvider implements ProviderInterface
             throw new NotFoundHttpException();
         }
 
-        return BottleResource::fromModel($bottle);
+        return GetBottleResource::fromModel($bottle);
     }
 }

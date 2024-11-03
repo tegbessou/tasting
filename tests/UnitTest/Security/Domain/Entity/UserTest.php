@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTest\Security\Domain\Entity;
+namespace UnitTest\Security\Domain\Entity;
 
 use App\Security\Domain\Entity\User;
 use App\Security\Domain\Event\UserCreated;

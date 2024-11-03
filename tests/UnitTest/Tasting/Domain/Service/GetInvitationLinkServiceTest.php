@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTest\Tasting\Domain\Service;
+namespace UnitTest\Tasting\Domain\Service;
 
 use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationLink;

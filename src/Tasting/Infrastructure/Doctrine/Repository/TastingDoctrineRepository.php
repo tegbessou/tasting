@@ -11,7 +11,7 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
-use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\ORM\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Tasting>

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTest\BottleInventory\Domain\Entity;
+namespace UnitTest\BottleInventory\Domain\Entity;
 
 use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Entity\Owner;
 use App\BottleInventory\Domain\Event\BottleCreated;
 use App\BottleInventory\Domain\Event\BottleDeleted;
 use App\BottleInventory\Domain\Event\BottlePictureAdded;
@@ -16,14 +15,12 @@ use App\BottleInventory\Domain\ValueObject\BottleEstateName;
 use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
 use App\BottleInventory\Domain\ValueObject\BottleId;
 use App\BottleInventory\Domain\ValueObject\BottleName;
+use App\BottleInventory\Domain\ValueObject\BottleOwnerId;
 use App\BottleInventory\Domain\ValueObject\BottlePicture;
 use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use App\BottleInventory\Domain\ValueObject\OwnerEmail;
-use App\BottleInventory\Domain\ValueObject\OwnerFullName;
-use App\BottleInventory\Domain\ValueObject\OwnerId;
 use PHPUnit\Framework\TestCase;
 
 final class BottleTest extends TestCase
@@ -38,11 +35,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -80,16 +73,8 @@ final class BottleTest extends TestCase
             $bottle->rate()->value(),
         );
         $this->assertEquals(
-            'e4c419fc-d31a-4655-a7d5-7b193c4b52e6',
-            $bottle->owner()->id()->value(),
-        );
-        $this->assertEquals(
             'hugues.gobet@gmail.com',
-            $bottle->owner()->email()->value(),
-        );
-        $this->assertEquals(
-            'Hugues Gobet',
-            $bottle->owner()->fullName()->value(),
+            $bottle->ownerId()->value(),
         );
         $this->assertEquals(
             'France',
@@ -113,11 +98,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -135,11 +116,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -157,11 +134,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -179,11 +152,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -201,11 +170,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -223,11 +188,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -245,11 +206,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -267,11 +224,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(1899),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -289,11 +242,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2101),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -311,11 +260,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('top'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -333,12 +278,44 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
+            BottlePrice::fromFloat(12.99),
+        );
+    }
+
+    public function testCreateFailedBadOwnerIdLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Bottle::create(
+            BottleId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
+            BottleCountry::fromString('France'),
+            BottlePrice::fromFloat(12.99),
+        );
+    }
+
+    public function testCreateFailedBadOwnerId(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        Bottle::create(
+            BottleId::fromString('12'),
+            BottleName::fromString('Château de Fonsalette'),
+            BottleEstateName::fromString('Château Rayas'),
+            BottleWineType::fromString('red'),
+            BottleYear::fromInt(2000),
+            BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
+            BottleRate::fromString('xs'),
+            BottleOwnerId::fromString('pedro.gobet'),
+            BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
     }
@@ -355,11 +332,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString(''),
             BottlePrice::fromFloat(12.99),
         );
@@ -377,11 +350,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(-12.99),
         );
@@ -397,11 +366,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         )->addPicture(
@@ -423,11 +388,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         )->addPicture(
@@ -447,11 +408,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         )->addPicture(BottlePicture::fromString('chateau-de-fonsalette.gif'));
@@ -469,11 +426,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         )->addPicture(BottlePicture::fromString(''));
@@ -489,11 +442,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -515,16 +464,22 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
 
         $this->assertInstanceOf(BottleCreated::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('Château de Fonsalette', $bottle::getRecordedEvent()[0]->name);
+        $this->assertEquals('Château Rayas', $bottle::getRecordedEvent()[0]->estateName);
+        $this->assertEquals('red', $bottle::getRecordedEvent()[0]->wineType);
+        $this->assertEquals(2000, $bottle::getRecordedEvent()[0]->year);
+        $this->assertEquals(['Grenache', 'Cinsault', 'Syrah'], $bottle::getRecordedEvent()[0]->grapeVarieties);
+        $this->assertEquals('xs', $bottle::getRecordedEvent()[0]->rate);
+        $this->assertEquals('hugues.gobet@gmail.com', $bottle::getRecordedEvent()[0]->ownerId);
+        $this->assertEquals('France', $bottle::getRecordedEvent()[0]->country);
+        $this->assertEquals(12.99, $bottle::getRecordedEvent()[0]->price);
         $bottle::eraseRecordedEvents();
     }
 
@@ -540,11 +495,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -562,11 +513,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -578,6 +525,8 @@ final class BottleTest extends TestCase
         );
 
         $this->assertInstanceOf(BottlePictureAdded::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('chateau-de-fonsalette.webp', $bottle::getRecordedEvent()[0]->picture);
         $bottle::eraseRecordedEvents();
     }
 
@@ -593,11 +542,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -621,11 +566,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -635,6 +576,9 @@ final class BottleTest extends TestCase
         $bottle->taste();
 
         $this->assertInstanceOf(BottleTasted::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('hugues.gobet@gmail.com', $bottle::getRecordedEvent()[0]->ownerId);
+        $this->assertEquals((new \DateTimeImmutable())->format('Y-m-d'), $bottle::getRecordedEvent()[0]->tastedAt);
         $bottle::eraseRecordedEvents();
     }
 
@@ -648,11 +592,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -675,11 +615,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -717,11 +653,7 @@ final class BottleTest extends TestCase
             BottleYear::fromInt(2000),
             BottleGrapeVarieties::fromArray(['Grenache', 'Cinsault', 'Syrah']),
             BottleRate::fromString('xs'),
-            Owner::create(
-                OwnerId::fromString('e4c419fc-d31a-4655-a7d5-7b193c4b52e6'),
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
-                OwnerFullName::fromString('Hugues Gobet'),
-            ),
+            BottleOwnerId::fromString('hugues.gobet@gmail.com'),
             BottleCountry::fromString('France'),
             BottlePrice::fromFloat(12.99),
         );
@@ -740,6 +672,16 @@ final class BottleTest extends TestCase
         );
 
         $this->assertInstanceOf(BottleUpdated::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('Vouvray moelleux - cuvée constance', $bottle::getRecordedEvent()[0]->name);
+        $this->assertEquals('Domaine Huet', $bottle::getRecordedEvent()[0]->estateName);
+        $this->assertEquals('white', $bottle::getRecordedEvent()[0]->wineType);
+        $this->assertEquals(2018, $bottle::getRecordedEvent()[0]->year);
+        $this->assertEquals(['Chenin'], $bottle::getRecordedEvent()[0]->grapeVarieties);
+        $this->assertEquals('++', $bottle::getRecordedEvent()[0]->rate);
+        $this->assertEquals('France', $bottle::getRecordedEvent()[0]->country);
+        $this->assertEquals(120.99, $bottle::getRecordedEvent()[0]->price);
+
         $bottle::eraseRecordedEvents();
     }
 }

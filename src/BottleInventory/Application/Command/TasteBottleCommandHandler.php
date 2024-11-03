@@ -39,8 +39,8 @@ final readonly class TasteBottleCommandHandler
 
         $bottle->taste();
 
-        $this->eventDispatcher->dispatch($bottle);
-
         $this->bottleRepository->update($bottle);
+
+        $this->eventDispatcher->dispatch($bottle);
     }
 }

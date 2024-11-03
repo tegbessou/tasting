@@ -55,13 +55,17 @@ deptrac:
               value: '#^Vich\\#'
             - type: classNameRegex
               value: '#^CodeBuds#'
+            - type: classNameRegex
+              value: '#^Doctrine\\ODM\\MongoDB\\(?!(Mapping))#'
 
         - name: Attributes
           collectors:
             - type: classNameRegex
               value: '#^Doctrine\\ORM\\Mapping#'
             - type: classNameRegex
-              value: '#^Override#'#'
+              value: '#^Override#'
+            - type: classNameRegex
+              value: '#^Doctrine\\ODM\\MongoDB\\Mapping\\Annotations#'
 
         - name: Collection
           collectors:
@@ -108,6 +112,7 @@ deptrac:
             - Uuid
             - Shared Kernel Domain
             - Shared Kernel Application
+            - Logger
 
         Infrastructure:
             - Domain

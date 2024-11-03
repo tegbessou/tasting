@@ -47,6 +47,13 @@ services:
     networks:
       - web
 
+  document:
+    image: mongo:8.0
+    volumes:
+      - .:/home/app
+    networks:
+      - web
+
 networks:
     web:
 

@@ -7,7 +7,7 @@ namespace App\BottleInventory\Infrastructure\VichUploader;
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Exception\ReplaceBottlePictureFileNotFoundException;
 use App\BottleInventory\Domain\Service\UploadBottlePictureInterface;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\ReplaceBottlePictureResource;
 use App\BottleInventory\Infrastructure\CodeBuds\CompressPicture;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -27,22 +27,26 @@ final readonly class UploadBottlePictureVichUploader implements UploadBottlePict
         string $pictureOriginalName,
     ): string {
         try {
-            $bottleResource = BottleResource::fromModel($bottle);
+            $replacePictureBottleResource = new ReplaceBottlePictureResource();
 
             $file = new UploadedFile(
                 $picturePath,
                 $pictureOriginalName,
             );
 
-            $bottleResource->picture = $file;
+            $replacePictureBottleResource->picture = $file;
 
-            $this->uploadHandler->upload($bottleResource, 'picture');
+            $this->uploadHandler->upload($replacePictureBottleResource, 'picture');
+
+            if ($replacePictureBottleResource->picture === null) {
+                throw new ReplaceBottlePictureFileNotFoundException();
+            }
 
             $compressedPicture = CompressPicture::compressPicture(
-                $file->getPathname(),
+                $replacePictureBottleResource->picture->getPathname(),
             );
 
-            $this->uploadHandler->remove($bottleResource, 'picture');
+            $this->uploadHandler->remove($replacePictureBottleResource, 'picture');
 
             return $compressedPicture->pictureOriginalName;
         } catch (FileNotFoundException) {

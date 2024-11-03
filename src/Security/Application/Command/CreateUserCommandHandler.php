@@ -34,9 +34,9 @@ final readonly class CreateUserCommandHandler
             UserEmail::fromString($createUserCommand->email),
         );
 
-        $this->dispatcher->dispatch($user);
-
         $this->userRepository->add($user);
+
+        $this->dispatcher->dispatch($user);
 
         return $user->email();
     }

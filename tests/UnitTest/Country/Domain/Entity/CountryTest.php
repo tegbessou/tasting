@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTest\Country\Domain\Entity;
+namespace UnitTest\Country\Domain\Entity;
 
 use App\Country\Domain\Entity\Country;
 use App\Country\Domain\ValueObject\CountryId;

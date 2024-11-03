@@ -11,9 +11,9 @@ use App\Tasting\Infrastructure\Doctrine\Repository\InvitationDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
-use App\Tests\Shared\ApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
@@ -80,7 +80,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         if ($statusCode === 422) {
             $this->assertJsonContains([
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
+                'title' => 'An error occurred',
                 'violations' => $violations,
             ]);
         }
@@ -149,7 +149,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
         $this->assertJsonContains([
             '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
+            'title' => 'An error occurred',
             'violations' => [
                 [
                     'propertyPath' => 'participants',

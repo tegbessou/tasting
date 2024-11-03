@@ -153,6 +153,7 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 - If we need to read information from Aggregate without Aggregate we should use a read model
 - To request an external api we should use a Repository, then an adapter is created to use this repository and use a translator
 to transform this data to our domain
+- One resource class by operation
 
 ![img.png](resources/v1-domain.png)
 ![img.png](resources/v2-domain.png)
@@ -166,12 +167,7 @@ Challenge the presence of an entity Owner in tasting to use with participant ent
 
 Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
 Remove Assert from Webmozart and create my own domain service to assert this
-Enforce rules that domains must be independent from each other
-
-### Refactoring bottle
-
-Owner should not be referenced, we only need to store uuid of the user from security context
-=> When we create a bottle we create a read model to store the owner with information from security context
+Enforce rules that domains must be independent of each other
 
 ### Refactoring tasting
 
@@ -194,6 +190,10 @@ Add a read model to handle invitation by user
 
 If I create data in another domain, i don't have to check if data exist in the main domain
 
+When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
+
+Create an api resource for each representation
+
 ### Refactoring user
 
 Add friend system + invitation....
@@ -203,8 +203,20 @@ User context is responsible to send notification when invitation is sent
 Extract it in a microservice and a new project
 
 ## Refactoring tech
-Add an elastic search to search wine
-
-Setup phparkitect
+Setup phparkitect pour les règles de nommages
 
 Separate each bounded context in microservice
+
+Reflect to add test on command handler and query handler => Va être nécessaire use test case
+
+Renommer les tests d'adapter en test d'intégration
+
+Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode.
+
+## TODO
+
+### Refactoring user
+
+Create an api resource for each representation
+
+Create read model for user

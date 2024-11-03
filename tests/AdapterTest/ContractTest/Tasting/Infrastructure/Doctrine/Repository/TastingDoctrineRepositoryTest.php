@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
@@ -31,7 +31,6 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineParticipantRepository = $container->get(ParticipantDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         $this->entityManager->beginTransaction();
 
         parent::setUp();

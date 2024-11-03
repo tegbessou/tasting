@@ -13,7 +13,7 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\InvitationDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationRejectedMessage;
-use App\Tests\Shared\ApiTestCase;
+use Shared\ApiTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class RejectInvitationProcessorTest extends ApiTestCase

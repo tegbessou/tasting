@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UnitTest\Tasting\Domain\Entity;
+namespace UnitTest\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;

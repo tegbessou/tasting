@@ -6,6 +6,7 @@ $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
     ->exclude('var')
     ->exclude('tests/Shared')
+    ->exclude('src/BottleInventory/Application/ReadModel')
 ;
 
 return (new PhpCsFixer\Config())

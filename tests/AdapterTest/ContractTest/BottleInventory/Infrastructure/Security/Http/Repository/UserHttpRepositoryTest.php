@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\BottleInventory\Infrastructure\Security\Http\Repository;
+namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Security\Http\Repository;
 
 use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
-use App\BottleInventory\Domain\ValueObject\OwnerEmail;
 use App\BottleInventory\Domain\ValueObject\User;
-use App\BottleInventory\Domain\ValueObject\UserEmail;
+use App\BottleInventory\Domain\ValueObject\UserId;
+use App\BottleInventory\Domain\ValueObject\UserName;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UserHttpRepositoryTest extends KernelTestCase
@@ -23,37 +23,39 @@ final class UserHttpRepositoryTest extends KernelTestCase
         $this->httpUserRepository = $container->get(UserAdapterInterface::class);
     }
 
-    public function testOfEmail(): void
+    public function testOfId(): void
     {
         $this->assertEquals(
             User::create(
-                UserEmail::fromString('hugues.gobet@gmail.com'),
+                UserId::fromString('hugues.gobet@gmail.com'),
+                UserName::fromString('Hoge Hoge'),
                 true,
             ),
-            $this->httpUserRepository->ofEmail(
-                OwnerEmail::fromString('hugues.gobet@gmail.com'),
+            $this->httpUserRepository->ofId(
+                UserId::fromString('hugues.gobet@gmail.com'),
             ),
         );
     }
 
-    public function testOfEmailNotCurrent(): void
+    public function testOfIdNotCurrent(): void
     {
         $this->assertEquals(
             User::create(
-                UserEmail::fromString('root@gmail.com'),
+                UserId::fromString('root@gmail.com'),
+                UserName::fromString('Hoge Hoge'),
                 false,
             ),
-            $this->httpUserRepository->ofEmail(
-                OwnerEmail::fromString('root@gmail.com'),
+            $this->httpUserRepository->ofId(
+                UserId::fromString('root@gmail.com'),
             ),
         );
     }
 
-    public function testOfNull(): void
+    public function testOfIdNull(): void
     {
         $this->assertNull(
-            $this->httpUserRepository->ofEmail(
-                OwnerEmail::fromString('pedro@gmail.com'),
+            $this->httpUserRepository->ofId(
+                UserId::fromString('pedro@gmail.com'),
             ),
         );
     }

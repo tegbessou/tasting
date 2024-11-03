@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Repository;
+namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Repository;
 
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
@@ -23,7 +23,6 @@ final class CountryDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineCountryRepository = $container->get(CountryRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         $this->entityManager->beginTransaction();
 
         parent::setUp();

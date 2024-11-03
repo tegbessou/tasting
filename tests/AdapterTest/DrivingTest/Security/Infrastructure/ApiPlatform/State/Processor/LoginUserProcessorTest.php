@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Processor;
+namespace AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Processor;
 
-use App\Tests\Shared\ApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 
 final class LoginUserProcessorTest extends ApiTestCase
 {
@@ -41,8 +41,8 @@ final class LoginUserProcessorTest extends ApiTestCase
             'statusCode' => 422,
             'violations' => [
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: Cette valeur ne doit pas être vide.
+                'title' => 'An error occurred',
+                'description' => 'email: Cette valeur ne doit pas être vide.
 password: Cette valeur ne doit pas être vide.',
             ],
         ];
@@ -55,8 +55,8 @@ password: Cette valeur ne doit pas être vide.',
             'statusCode' => 422,
             'violations' => [
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: Cette valeur n\'est pas une adresse email valide.',
+                'title' => 'An error occurred',
+                'description' => 'email: Cette valeur n\'est pas une adresse email valide.',
             ],
         ];
     }

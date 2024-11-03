@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Shared;
+namespace Shared;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseApiTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -44,13 +44,13 @@ class ApiTestCase extends BaseApiTestCase
         ]);
     }
 
-    protected function patch(string $uri, array $json, array $headers = [], string $identityProvider = 'apple'): void
+    protected function put(string $uri, array $json, array $headers = [], string $identityProvider = 'apple'): void
     {
         $client = static::createClient();
 
-        $headers['Content-Type'] = 'application/merge-patch+json';
+        $headers['Content-Type'] = 'application/ld+json';
 
-        $this->response = $client->request('PATCH', $uri, [
+        $this->response = $client->request('PUT', $uri, [
             'headers' => self::getHeaders($headers, $identityProvider),
             'json' => $json,
         ]);
@@ -74,7 +74,7 @@ class ApiTestCase extends BaseApiTestCase
         string $attribute,
         string $message = '',
     ): void {
-        $members = $this->getResponseContent()['hydra:member'];
+        $members = $this->getResponseContent()['member'];
 
         if ($members === []) {
             throw new \InvalidArgumentException('Response does not contain any member');

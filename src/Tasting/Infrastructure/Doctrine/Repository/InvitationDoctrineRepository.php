@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
-use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\ORM\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Invitation>

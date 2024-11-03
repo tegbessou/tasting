@@ -8,8 +8,9 @@ use App\BottleInventory\Application\Command\ReplaceBottlePictureCommand;
 use App\BottleInventory\Application\Query\GetBottleQuery;
 use App\BottleInventory\Domain\Exception\ReplaceBottlePictureBottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\GetBottleResource;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -27,7 +28,7 @@ final class ReplaceBottlePictureController extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request): BottleResource
+    public function __invoke(Request $request): JsonResponse
     {
         $id = $request->attributes->get('id');
 
@@ -56,6 +57,6 @@ final class ReplaceBottlePictureController extends AbstractController
             throw new \LogicException();
         }
 
-        return BottleResource::fromModel($bottle);
+        return new JsonResponse(GetBottleResource::fromModel($bottle));
     }
 }

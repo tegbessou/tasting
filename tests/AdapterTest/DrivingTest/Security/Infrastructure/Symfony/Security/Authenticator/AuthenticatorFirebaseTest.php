@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdapterTest\DrivingTest\Security\Infrastructure\Symfony\Security\Authenticator;
+namespace AdapterTest\DrivingTest\Security\Infrastructure\Symfony\Security\Authenticator;
 
-use App\Tests\Shared\ApiTestCase;
+use Shared\ApiTestCase;
 
 final class AuthenticatorFirebaseTest extends ApiTestCase
 {

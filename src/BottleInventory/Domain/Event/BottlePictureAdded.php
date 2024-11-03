@@ -10,7 +10,7 @@ final class BottlePictureAdded implements DomainEventInterface
 {
     public function __construct(
         public string $bottleId,
-        public string $ownerId,
+        public string $picture,
     ) {
     }
 }

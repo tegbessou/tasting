@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp
 
-RUN apt update && apt install -y wget
+RUN apt update && apt install -y wget unzip
 
 RUN install-php-extensions \
  pdo_mysql \
@@ -8,7 +8,8 @@ RUN install-php-extensions \
  intl \
  zip \
  opcache \
- amqp
+ amqp \
+ mongodb
 
 RUN docker-php-source extract \
     && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/6.0.2.tar.gz \

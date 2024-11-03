@@ -6,12 +6,13 @@
     "require": {
         "php": "^8.3",
         "ext-iconv": "*",
-        "api-platform/core": "^3.2",
+        "api-platform/core": "^4.0",
         "codebuds/webp-converter": "^0.7.0",
         "composer/package-versions-deprecated": "^1.11",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/mongodb-odm-bundle": "^5.0",
         "doctrine/orm": "^3.2",
         "kreait/firebase-bundle": "^5.1",
         "lexik/jwt-authentication-bundle": "^3.1",
@@ -51,7 +52,7 @@
         "symfony/web-link": "^7.1",
         "symfony/web-profiler-bundle": "^7.1",
         "symfony/yaml": "^7.1",
-        "tegbessou/shared-kernel": "^1.0",
+        "tegbessou/shared-kernel": "^1.6",
         "twig/extra-bundle": "^3.8",
         "twig/twig": "^3.8",
         "vich/uploader-bundle": "^2.3"
@@ -104,7 +105,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/",
+            "AdapterTest\\": "tests/AdapterTest",
+            "UnitTest\\": "tests/UnitTest",
+            "Shared\\": "tests/Shared",
             "DataFixtures\\": "fixtures/"
         }
     },

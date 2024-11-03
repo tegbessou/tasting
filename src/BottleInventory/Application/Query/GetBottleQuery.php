@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Query;
 
-use App\BottleInventory\Domain\Entity\Bottle;
+use App\BottleInventory\Application\ReadModel\Bottle;
 use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**

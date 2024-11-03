@@ -26,7 +26,6 @@ final class ParticipantDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineParticipantRepository = $container->get(ParticipantRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         $this->entityManager->beginTransaction();
 
         parent::setUp();

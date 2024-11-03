@@ -1,5 +1,3 @@
-parameters:
-
 services:
   _defaults:
     autowire: true
@@ -28,6 +26,37 @@ services:
 
   App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
     alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploader
+
+  App\BottleInventory\Application\Adapter\BottleListAdapterInterface:
+    alias: App\BottleInventory\Infrastructure\Doctrine\Adapter\BottleListDoctrineAdapter
+    public: true
+
+  App\BottleInventory\Application\Projection\CreateBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\CreateBottleListProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\AddPictureBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\AddPictureBottleListProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\TasteBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\UpdateBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\UpdateBottleListProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\DeleteBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\DeleteBottleListProjection:
+    tags: [kernel.event_listener]
 
   App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\UserRepository

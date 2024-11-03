@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Country\Infrastructure\ApiPlatform\State\Provider;
 
-use App\Tests\Shared\ApiTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Shared\ApiTestCase;
 
 final class GetCountryCollectionProviderTest extends ApiTestCase
 {
@@ -17,8 +17,8 @@ final class GetCountryCollectionProviderTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Country',
             '@id' => '/api/countries',
-            '@type' => 'hydra:Collection',
-            'hydra:member' => [
+            '@type' => 'Collection',
+            'member' => [
                 [
                     '@type' => 'Country',
                     'name' => 'Afghanistan',
@@ -28,7 +28,7 @@ final class GetCountryCollectionProviderTest extends ApiTestCase
                     'name' => 'Afrique du Sud',
                 ],
             ],
-            'hydra:totalItems' => 241,
+            'totalItems' => 241,
         ]);
     }
 
@@ -43,14 +43,14 @@ final class GetCountryCollectionProviderTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Country',
             '@id' => '/api/countries',
-            '@type' => 'hydra:Collection',
-            'hydra:member' => [
+            '@type' => 'Collection',
+            'member' => [
                 [
                     '@type' => 'Country',
                     'name' => 'France',
                 ],
             ],
-            'hydra:totalItems' => $totalItems,
+            'totalItems' => $totalItems,
         ]);
     }
 
