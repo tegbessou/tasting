@@ -13,7 +13,8 @@ use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;
 use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleGrapeVarietiesDoesntExistException;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\GetBottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\PostBottleResource;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildCountryDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
 use Monolog\Attribute\WithMonologChannel;
@@ -23,7 +24,7 @@ use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<BottleResource, void>
+ * @implements ProcessorInterface<GetBottleResource, void>
  */
 #[WithMonologChannel('bottle_inventory')]
 final readonly class CreateBottleProcessor implements ProcessorInterface
@@ -38,9 +39,9 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
     }
 
     #[\Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): BottleResource
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): GetBottleResource
     {
-        Assert::isInstanceOf($data, BottleResource::class);
+        Assert::isInstanceOf($data, PostBottleResource::class);
         Assert::notNull($data->name);
         Assert::notNull($data->estateName);
         Assert::notNull($data->wineType);
@@ -108,6 +109,6 @@ final readonly class CreateBottleProcessor implements ProcessorInterface
             throw new \LogicException('Bottle not found');
         }
 
-        return BottleResource::fromModel($bottle);
+        return GetBottleResource::fromModel($bottle);
     }
 }

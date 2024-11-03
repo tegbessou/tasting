@@ -24,6 +24,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'chateau-margaux.jpg',
         );
 
         $bottles[] = new BottleList(
@@ -35,6 +36,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'romanee-conti.jpg',
         );
 
         $bottles[] = new BottleList(
@@ -46,6 +48,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'chateau-latour.jpg',
         );
 
         $bottles[] = new BottleList(
@@ -57,6 +60,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'opus-one.jpg',
         );
 
         $bottles[] = new BottleList(
@@ -68,6 +72,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'tenuta-san-guido.webp',
         );
 
         $bottles[] = new BottleList(
@@ -79,6 +84,7 @@ final class BottleListFixtures extends Fixture
             'white',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'montrachet.png',
         );
 
         $bottles[] = new BottleList(
@@ -90,6 +96,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'penfolds.webp',
         );
 
         $bottles[] = new BottleList(
@@ -101,6 +108,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'caymus.jpg',
         );
 
         $bottles[] = new BottleList(
@@ -112,6 +120,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'vega-sicilia.webp',
         );
 
         $bottles[] = new BottleList(
@@ -123,6 +132,7 @@ final class BottleListFixtures extends Fixture
             'white',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'cloudy-bay.png',
         );
 
         $bottles[] = new BottleList(
@@ -134,6 +144,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'hugues.gobet@gmail.com',
+            'gaja.jpg',
         );
 
         $bottles[] = new BottleList(
@@ -145,6 +156,7 @@ final class BottleListFixtures extends Fixture
             'red',
             '2021-01-01',
             'root@gmail.com',
+            'ridge-vineyards.png',
         );
 
         $bottles[] = new BottleList(

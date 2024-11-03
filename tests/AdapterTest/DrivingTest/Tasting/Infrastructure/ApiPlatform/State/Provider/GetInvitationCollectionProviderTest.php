@@ -16,8 +16,8 @@ final class GetInvitationCollectionProviderTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Invitation',
             '@id' => '/api/invitations',
-            '@type' => 'hydra:Collection',
-            'hydra:member' => [
+            '@type' => 'Collection',
+            'member' => [
                 [
                     '@type' => 'Invitation',
                     '@id' => '/api/invitations/abed2f69-9aae-4d92-a91c-edfa7c985674',
@@ -34,7 +34,7 @@ final class GetInvitationCollectionProviderTest extends ApiTestCase
                     ],
                 ],
             ],
-            'hydra:totalItems' => 1,
+            'totalItems' => 1,
         ]);
     }
 }

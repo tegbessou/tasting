@@ -17,15 +17,15 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Bottle',
             '@id' => '/api/bottles',
-            '@type' => 'hydra:Collection',
-            'hydra:member' => [
+            '@type' => 'Collection',
+            'member' => [
                 [
                     '@type' => 'Bottle',
                     'name' => 'Caymus Vineyards Special Selection Cabernet Sauvignon',
                     'estateName' => 'Caymus Vineyards',
                     'year' => 2013,
                     'rate' => '++',
-                    'picturePath' => 'caymus.jpg',
+                    'picture' => 'caymus.jpg',
                 ],
                 [
                     '@type' => 'Bottle',
@@ -33,12 +33,12 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
                     'estateName' => 'Château Latour',
                     'year' => 2010,
                     'rate' => '++',
-                    'picturePath' => 'chateau-latour.jpg',
+                    'picture' => 'chateau-latour.jpg',
                 ],
             ],
-            'hydra:totalItems' => 13,
+            'totalItems' => 13,
         ]);
-        $this->assertAttributeExistInEachElement('saveAt');
+        $this->assertAttributeExistInEachElement('savedAt');
     }
 
     #[DataProvider('provideCollectionFilter')]
@@ -52,8 +52,8 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
         $this->assertJsonContains([
             '@context' => '/api/contexts/Bottle',
             '@id' => '/api/bottles',
-            '@type' => 'hydra:Collection',
-            'hydra:totalItems' => $totalItems,
+            '@type' => 'Collection',
+            'totalItems' => $totalItems,
         ]);
     }
 
@@ -65,7 +65,7 @@ final class GetBottleCollectionProviderTest extends ApiTestCase
         ];
         yield 'Filter by estate name' => [
             'uri' => '/api/bottles?estateName=Domaine de la',
-            'totalItems' => 1,
+            'totalItems' => 2,
         ];
         yield 'Filter by year' => [
             'uri' => '/api/bottles?year=2010',

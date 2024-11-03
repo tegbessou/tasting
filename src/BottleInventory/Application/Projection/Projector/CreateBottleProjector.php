@@ -7,7 +7,6 @@ namespace App\BottleInventory\Application\Projection\Projector;
 use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
 use App\BottleInventory\Application\ReadModel\Bottle;
 use App\BottleInventory\Domain\Adapter\UserAdapterInterface;
-use App\BottleInventory\Domain\Entity\Bottle as BottleEntity;
 use App\BottleInventory\Domain\ValueObject\UserId;
 
 final readonly class CreateBottleProjector
@@ -18,10 +17,21 @@ final readonly class CreateBottleProjector
     ) {
     }
 
-    public function project(BottleEntity $bottle): void
-    {
+    public function project(
+        string $bottleId,
+        string $name,
+        string $estateName,
+        string $wineType,
+        int $year,
+        string $rate,
+        array $grapeVarieties,
+        string $createdAt,
+        string $ownerId,
+        ?string $country = null,
+        ?float $price = null,
+    ): void {
         $owner = $this->userAdapter->ofId(
-            UserId::fromString($bottle->ownerId()->value()),
+            UserId::fromString($ownerId),
         );
 
         if ($owner === null) {
@@ -29,18 +39,18 @@ final readonly class CreateBottleProjector
         }
 
         $bottle = new Bottle(
-            $bottle->id()->value(),
-            $bottle->name()->value(),
-            $bottle->estateName()->value(),
-            $bottle->rate()->value(),
-            $bottle->year()->value(),
-            $bottle->wineType()->value(),
-            $bottle->savedAt()?->dateUs() ?? (new \DateTimeImmutable())->format('Y-m-d'),
-            $bottle->grapeVarieties()->values(),
+            $bottleId,
+            $name,
+            $estateName,
+            $rate,
+            $year,
+            $wineType,
+            $createdAt,
+            $grapeVarieties,
             $owner->id()->value(),
             $owner->name()->value(),
-            $bottle->country()?->value(),
-            $bottle->price()?->amount(),
+            $country,
+            $price,
         );
 
         $this->bottleAdapter->add($bottle);

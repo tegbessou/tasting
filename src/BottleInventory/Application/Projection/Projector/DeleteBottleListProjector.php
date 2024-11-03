@@ -7,14 +7,14 @@ namespace App\BottleInventory\Application\Projection\Projector;
 use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
 use App\BottleInventory\Application\Exception\BottleDoesntExistException;
 
-final readonly class AddPictureBottleListProjector
+final readonly class DeleteBottleListProjector
 {
     public function __construct(
         private BottleListAdapterInterface $bottleListAdapter,
     ) {
     }
 
-    public function project(string $bottleId, string $picture): void
+    public function project(string $bottleId): void
     {
         $bottleList = $this->bottleListAdapter->ofId($bottleId);
 
@@ -22,8 +22,6 @@ final readonly class AddPictureBottleListProjector
             throw new BottleDoesntExistException($bottleId);
         }
 
-        $bottleList->picture = $picture;
-
-        $this->bottleListAdapter->update($bottleList);
+        $this->bottleListAdapter->delete($bottleList);
     }
 }

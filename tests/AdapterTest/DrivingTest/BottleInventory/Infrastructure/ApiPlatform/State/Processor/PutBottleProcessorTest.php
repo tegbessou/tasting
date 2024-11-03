@@ -17,7 +17,7 @@ use App\BottleInventory\Domain\ValueObject\BottleYear;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
 
-final class PatchBottleProcessorTest extends ApiTestCase
+final class PutBottleProcessorTest extends ApiTestCase
 {
     private BottleRepositoryInterface $doctrineBottleRepository;
 
@@ -34,12 +34,12 @@ final class PatchBottleProcessorTest extends ApiTestCase
 
     public function testUpdateBottle(): void
     {
-        $this->patch('/api/bottles/7bd55df3-e53c-410b-83a4-8e5ed9bcd50d', [
+        $this->put('/api/bottles/7bd55df3-e53c-410b-83a4-8e5ed9bcd50d', [
             'name' => 'Grange',
             'estateName' => 'Penfolds',
             'year' => 2018,
             'grapeVarieties' => ['Syrah'],
-            'type' => 'red',
+            'wineType' => 'red',
             'rate' => 'xs',
             'country' => 'France',
             'price' => 620.00,
@@ -76,29 +76,6 @@ final class PatchBottleProcessorTest extends ApiTestCase
         $this->doctrineBottleRepository->update($bottle);
     }
 
-    public function testUpdateOwnerIdWithoutEffect(): void
-    {
-        $this->patch('/api/bottles/7bd55df3-e53c-410b-83a4-8e5ed9bcd50d', [
-            'owner' => '/api/owners/0e4ccb23-7a1f-4f30-b188-6aad71b4735f',
-        ]);
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/Bottle',
-            '@type' => 'Bottle',
-            'ownerId' => 'hugues.gobet@gmail.com',
-        ]);
-
-        $bottle = $this->doctrineBottleRepository->ofId(
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-        );
-
-        $this->assertEquals(
-            'hugues.gobet@gmail.com',
-            $bottle->ownerId()->value(),
-        );
-    }
-
     #[DataProvider('provideInvalidData')]
     public function testUpdateBottleWithInvalidData(
         string $id,
@@ -106,7 +83,7 @@ final class PatchBottleProcessorTest extends ApiTestCase
         int $statusCode,
         array $violations,
     ): void {
-        $this->patch(
+        $this->put(
             sprintf('/api/bottles/%s', $id),
             $payload,
         );
@@ -202,7 +179,14 @@ final class PatchBottleProcessorTest extends ApiTestCase
         yield 'Bad wine type value' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
+                'name' => 'Grange',
+                'estateName' => 'Penfolds',
+                'year' => 2018,
+                'grapeVarieties' => ['Syrah'],
                 'wineType' => 'yellow',
+                'rate' => 'xs',
+                'country' => 'France',
+                'price' => 620.00,
             ],
             'statusCode' => 400,
             'violations' => [],
@@ -211,7 +195,14 @@ final class PatchBottleProcessorTest extends ApiTestCase
         yield 'Bad rate value' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
+                'name' => 'Grange',
+                'estateName' => 'Penfolds',
+                'year' => 2018,
+                'grapeVarieties' => ['Syrah'],
+                'wineType' => 'red',
                 'rate' => 'top',
+                'country' => 'France',
+                'price' => 620.00,
             ],
             'statusCode' => 400,
             'violations' => [],
@@ -220,7 +211,14 @@ final class PatchBottleProcessorTest extends ApiTestCase
         yield 'One grape varieties doesn\'t exist' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
+                'name' => 'Grange',
+                'estateName' => 'Penfolds',
+                'year' => 2018,
                 'grapeVarieties' => ['Riesling', 'Merlot', 'Cabernet Franc', 'Petit Verdot'],
+                'wineType' => 'red',
+                'rate' => 'xs',
+                'country' => 'France',
+                'price' => 620.00,
             ],
             'statusCode' => 422,
             'violations' => [
@@ -234,7 +232,14 @@ final class PatchBottleProcessorTest extends ApiTestCase
         yield 'Many grape varieties doesn\'t exist' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
+                'name' => 'Grange',
+                'estateName' => 'Penfolds',
+                'year' => 2018,
                 'grapeVarieties' => ['Riesling', 'Négrette', 'Cabernet Franc', 'Petit Verdot'],
+                'wineType' => 'red',
+                'rate' => 'xs',
+                'country' => 'France',
+                'price' => 620.00,
             ],
             'statusCode' => 422,
             'violations' => [
@@ -248,7 +253,14 @@ final class PatchBottleProcessorTest extends ApiTestCase
         yield 'Country doesn\'t exist' => [
             'id' => '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'payload' => [
+                'name' => 'Grange',
+                'estateName' => 'Penfolds',
+                'year' => 2018,
+                'grapeVarieties' => ['Syrah'],
+                'wineType' => 'red',
+                'rate' => 'xs',
                 'country' => 'Italy',
+                'price' => 620.00,
             ],
             'statusCode' => 422,
             'violations' => [

@@ -57,6 +57,15 @@ final class CreateBottleProjectionTest extends KernelTestCase
 
         $event = new BottleCreated(
             '4ad98deb-4295-455d-99e2-66e148c162af',
+            'Château de Fonsalette',
+            'Château Rayas',
+            'red',
+            2000,
+            'xs',
+            ['Grenache', 'Cinsault', 'Syrah'],
+            'hugues.gobet@gmail.com',
+            'France',
+            12.99,
         );
 
         $projection($event);

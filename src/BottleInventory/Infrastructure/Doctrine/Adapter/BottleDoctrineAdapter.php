@@ -33,4 +33,11 @@ final readonly class BottleDoctrineAdapter implements BottleAdapterInterface
     {
         $this->documentManager->flush();
     }
+
+    #[\Override]
+    public function delete(Bottle $bottle): void
+    {
+        $this->documentManager->remove($bottle);
+        $this->documentManager->flush();
+    }
 }

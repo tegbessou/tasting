@@ -22,18 +22,18 @@ final readonly class UpdateBottleListProjector
         int $year,
         string $rate,
     ): void {
-        $bottle = $this->bottleListAdapter->ofId($bottleId);
+        $bottleList = $this->bottleListAdapter->ofId($bottleId);
 
-        if ($bottle === null) {
+        if ($bottleList === null) {
             throw new BottleDoesntExistException($bottleId);
         }
 
-        $bottle->name = $name;
-        $bottle->estateName = $estateName;
-        $bottle->wineType = $wineType;
-        $bottle->year = $year;
-        $bottle->rate = $rate;
+        $bottleList->name = $name;
+        $bottleList->estateName = $estateName;
+        $bottleList->wineType = $wineType;
+        $bottleList->year = $year;
+        $bottleList->rate = $rate;
 
-        $this->bottleListAdapter->update($bottle);
+        $this->bottleListAdapter->update($bottleList);
     }
 }

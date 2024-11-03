@@ -29,6 +29,18 @@ final readonly class CreateBottleProjection
             throw new \LogicException('Bottle not found');
         }
 
-        $this->createBottleProjector->project($bottle);
+        $this->createBottleProjector->project(
+            $bottle->id()->value(),
+            $bottle->name()->value(),
+            $bottle->estateName()->value(),
+            $bottle->wineType()->value(),
+            $bottle->year()->value(),
+            $bottle->rate()->value(),
+            $bottle->grapeVarieties()->values(),
+            $bottle->savedAt()?->dateUs() ?? (new \DateTimeImmutable())->format('Y-m-d'),
+            $bottle->ownerId()->value(),
+            $bottle->country()?->value(),
+            $bottle->price()?->amount(),
+        );
     }
 }

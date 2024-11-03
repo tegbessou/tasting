@@ -23,7 +23,6 @@ final class CountryDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineCountryRepository = $container->get(CountryRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         $this->entityManager->beginTransaction();
 
         parent::setUp();

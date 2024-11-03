@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
+use App\BottleInventory\Application\Projection\CreateBottleListProjection;
+use App\BottleInventory\Application\Projection\CreateBottleProjection;
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
@@ -22,6 +24,8 @@ use Shared\ApiTestCase;
 final class DeleteBottleProcessorTest extends ApiTestCase
 {
     private BottleRepositoryInterface $doctrineBottleRepository;
+    private CreateBottleProjection $createBottleProjection;
+    private CreateBottleListProjection $createBottleListProjection;
 
     #[\Override]
     public function setUp(): void
@@ -30,6 +34,8 @@ final class DeleteBottleProcessorTest extends ApiTestCase
 
         $container = static::getContainer();
         $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
+        $this->createBottleProjection = $container->get(CreateBottleProjection::class);
+        $this->createBottleListProjection = $container->get(CreateBottleListProjection::class);
 
         parent::setUp();
     }
@@ -49,9 +55,15 @@ final class DeleteBottleProcessorTest extends ApiTestCase
             BottlePrice::fromFloat(29.90),
         );
 
-        $bottle::eraseRecordedEvents();
-
         $this->doctrineBottleRepository->add($bottle);
+
+        $projectionBottle = $this->createBottleProjection;
+        $projectionBottleList = $this->createBottleListProjection;
+
+        $projectionBottle($bottle::getRecordedEvent()[0]);
+        $projectionBottleList($bottle::getRecordedEvent()[0]);
+
+        $bottle::eraseRecordedEvents();
 
         $this->delete('/api/bottles/9b676c71-3ad3-4c67-a464-aefef9f1940a');
 

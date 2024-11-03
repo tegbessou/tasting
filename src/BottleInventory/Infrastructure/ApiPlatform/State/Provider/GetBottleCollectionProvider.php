@@ -10,12 +10,12 @@ use ApiPlatform\State\ProviderInterface;
 use App\BottleInventory\Application\Query\GetBottlesQuery;
 use App\BottleInventory\Domain\Enum\Rate;
 use App\BottleInventory\Domain\Enum\WineType;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\GetCollectionBottleResource;
 use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 
 /**
- * @implements ProviderInterface<BottleResource>
+ * @implements ProviderInterface<GetCollectionBottleResource>
  */
 final readonly class GetBottleCollectionProvider implements ProviderInterface
 {
@@ -26,7 +26,7 @@ final readonly class GetBottleCollectionProvider implements ProviderInterface
     }
 
     /**
-     * @return Paginator<BottleResource>|list<BottleResource>
+     * @return Paginator<GetCollectionBottleResource>|list<GetCollectionBottleResource>
      */
     #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Paginator|array
@@ -58,7 +58,7 @@ final readonly class GetBottleCollectionProvider implements ProviderInterface
         $resources = [];
 
         foreach ($models as $model) {
-            $resources[] = BottleResource::fromModel($model);
+            $resources[] = GetCollectionBottleResource::fromModel($model);
         }
 
         if (null !== $paginator = $models->paginator()) {

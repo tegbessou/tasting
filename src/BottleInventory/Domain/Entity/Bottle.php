@@ -71,7 +71,7 @@ final class Bottle implements EntityWithDomainEventInterface
         BottleYear $year,
         BottleGrapeVarieties $grapeVarieties,
         BottleRate $rate,
-        BottleOwnerId $owner,
+        BottleOwnerId $ownerId,
         ?BottleCountry $country = null,
         ?BottlePrice $price = null,
     ): self {
@@ -83,7 +83,7 @@ final class Bottle implements EntityWithDomainEventInterface
             $year,
             $grapeVarieties,
             $rate,
-            $owner,
+            $ownerId,
             $country,
             $price,
             BottleSavedAt::create(),
@@ -92,7 +92,16 @@ final class Bottle implements EntityWithDomainEventInterface
         self::recordEvent(
             new BottleCreated(
                 $bottle->id->value(),
-            )
+                $bottle->name->value(),
+                $bottle->estateName->value(),
+                $bottle->wineType->value(),
+                $bottle->year->value(),
+                $bottle->rate->value(),
+                $bottle->grapeVarieties->values(),
+                $bottle->ownerId->value(),
+                $bottle->country?->value() ?? null,
+                $bottle->price?->amount() ?? null,
+            ),
         );
 
         return $bottle;

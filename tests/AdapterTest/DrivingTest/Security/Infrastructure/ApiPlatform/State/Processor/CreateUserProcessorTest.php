@@ -74,8 +74,8 @@ final class CreateUserProcessorTest extends ApiTestCase
             'statusCode' => 422,
             'violations' => [
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: L\'utilisateur avec l\'email hugues.gobet@gmail.com existe déjà.',
+                'title' => 'An error occurred',
+                'description' => 'email: L\'utilisateur avec l\'email hugues.gobet@gmail.com existe déjà.',
             ],
         ];
 
@@ -84,8 +84,8 @@ final class CreateUserProcessorTest extends ApiTestCase
             'statusCode' => 422,
             'violations' => [
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: Cette valeur ne doit pas être vide.',
+                'title' => 'An error occurred',
+                'description' => 'email: Cette valeur ne doit pas être vide.',
             ],
         ];
     }

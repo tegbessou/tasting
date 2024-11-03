@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Query;
 
-use App\BottleInventory\Domain\Entity\Bottle;
-use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\ValueObject\BottleId;
+use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
+use App\BottleInventory\Application\ReadModel\Bottle;
 use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
 #[AsQueryHandler]
 final readonly class GetBottleQueryHandler
 {
     public function __construct(
-        private BottleRepositoryInterface $bottleRepository,
+        private BottleAdapterInterface $bottleAdapter,
     ) {
     }
 
     public function __invoke(
         GetBottleQuery $query,
     ): ?Bottle {
-        return $this->bottleRepository->ofId(BottleId::fromString($query->id));
+        return $this->bottleAdapter->ofId($query->id);
     }
 }

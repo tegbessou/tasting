@@ -88,4 +88,63 @@ final class BottleListDoctrineAdapterTest extends KernelTestCase
         $this->documentManager->remove($bottle);
         $this->documentManager->flush();
     }
+
+    public function testSortName(): void
+    {
+        $bottles = $this->bottleListDoctrineAdapter->sortName()
+            ->getIterator()
+        ;
+
+        $this->assertEquals('Caymus Vineyards Special Selection Cabernet Sauvignon', $bottles->current()->name);
+    }
+
+    public function testWithName(): void
+    {
+        $bottles = $this->bottleListDoctrineAdapter->withName('Chateau')
+            ->getIterator()
+        ;
+
+        $this->assertNotNull($bottles->current());
+        $this->assertStringContainsString('Château', $bottles->current()->name);
+    }
+
+    public function testWithEstateName(): void
+    {
+        $bottles = $this->bottleListDoctrineAdapter->withEstateName('Chateau')
+            ->getIterator()
+        ;
+
+        $this->assertNotNull($bottles->current());
+        $this->assertStringContainsString('Château', $bottles->current()->estateName);
+    }
+
+    public function testWithYear(): void
+    {
+        $bottles = $this->bottleListDoctrineAdapter->withYear(2011)
+            ->getIterator()
+        ;
+
+        $this->assertNotNull($bottles->current());
+        $this->assertEquals(2011, $bottles->current()->year);
+    }
+
+    public function testWithRate(): void
+    {
+        $bottles = $this->bottleListDoctrineAdapter->withRate('++')
+            ->getIterator()
+        ;
+
+        $this->assertNotNull($bottles->current());
+        $this->assertEquals('++', $bottles->current()->rate);
+    }
+
+    public function testWithWineType(): void
+    {
+        $bottles = $this->bottleListDoctrineAdapter->withWineType('white')
+            ->getIterator()
+        ;
+
+        $this->assertNotNull($bottles->current());
+        $this->assertEquals('white', $bottles->current()->wineType);
+    }
 }

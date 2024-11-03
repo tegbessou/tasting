@@ -31,7 +31,6 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineParticipantRepository = $container->get(ParticipantDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         $this->entityManager->beginTransaction();
 
         parent::setUp();

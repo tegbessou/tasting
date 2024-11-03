@@ -16,7 +16,6 @@ final readonly class CompressPicture
                 'saveFile' => true,
                 'force' => true,
                 'quality' => 10,
-                'savePath' => $path,
             ],
         );
 

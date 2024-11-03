@@ -9,7 +9,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\BottleInventory\Application\Command\TasteBottleCommand;
 use App\BottleInventory\Domain\Exception\BottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\TasteBottleNotAuthorizeForThisUserException;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\TasteBottleResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -18,7 +18,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<BottleResource, void>
+ * @implements ProcessorInterface<TasteBottleResource, void>
  */
 #[WithMonologChannel('bottle_inventory')]
 final readonly class TasteBottleProcessor implements ProcessorInterface
@@ -32,12 +32,13 @@ final readonly class TasteBottleProcessor implements ProcessorInterface
     #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        Assert::isInstanceOf($data, BottleResource::class);
-        Assert::notNull($data->id);
+        Assert::isInstanceOf($data, TasteBottleResource::class);
+        Assert::notNull($uriVariables['id']);
+        Assert::uuid($uriVariables['id']);
 
         try {
             $this->commandBus->dispatch(
-                new TasteBottleCommand($data->id->__toString())
+                new TasteBottleCommand($uriVariables['id'])
             );
         } catch (BottleDoesntExistException $exception) {
             $this->logger->error(

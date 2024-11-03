@@ -7,6 +7,11 @@ namespace App\BottleInventory\Application\ReadModel;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 #[MongoDB\Document]
+#[MongoDB\Index(keys: [
+    'name' => 'text',
+    'estateName' => 'text',
+    'wineType' => 'text',
+])]
 class BottleList
 {
     public function __construct(
@@ -23,7 +28,7 @@ class BottleList
         #[MongoDB\Field(type: 'string')]
         public string $wineType,
         #[MongoDB\Field(type: 'string')]
-        public string $createdAt,
+        public string $savedAt,
         #[MongoDB\Field(type: 'string')]
         public string $ownerId,
         #[MongoDB\Field(type: 'string', nullable: true)]

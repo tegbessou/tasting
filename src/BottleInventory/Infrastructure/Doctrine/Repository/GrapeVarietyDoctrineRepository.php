@@ -8,20 +8,15 @@ use App\BottleInventory\Domain\Entity\GrapeVariety;
 use App\BottleInventory\Domain\Repository\GrapeVarietyRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\GrapeVarietyName;
 use Doctrine\ORM\EntityManagerInterface;
-use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
 
-/**
- * @extends DoctrineRepository<GrapeVariety>
- */
-final class GrapeVarietyDoctrineRepository extends DoctrineRepository implements GrapeVarietyRepositoryInterface
+final readonly class GrapeVarietyDoctrineRepository implements GrapeVarietyRepositoryInterface
 {
     private const ENTITY_CLASS = GrapeVariety::class;
     private const ALIAS = 'grape_variety';
 
     public function __construct(
-        EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     ) {
-        parent::__construct($entityManager, self::ENTITY_CLASS, self::ALIAS);
     }
 
     #[\Override]

@@ -23,21 +23,21 @@ class Bottle
         #[MongoDB\Field(type: 'string')]
         public string $wineType,
         #[MongoDB\Field(type: 'string')]
-        public string $createdAt,
+        public string $savedAt,
         #[MongoDB\Field(type: 'hash')]
         /** @var string[] $grapeVarieties */
         public array $grapeVarieties,
         #[MongoDB\Field(type: 'string')]
-        public string $ownerId,
+        public string  $ownerId,
         #[MongoDB\Field(type: 'string')]
-        public string $ownerName,
+        public string  $ownerName,
         #[MongoDB\Field(type: 'string', nullable: true)]
         public ?string $country = null,
         #[MongoDB\Field(type: 'float', nullable: true)]
         public ?float $price = null,
         #[MongoDB\Field(type: 'string', nullable: true)]
         public ?string $picture = null,
-        #[MongoDB\Field(type: 'date_immutable')]
+        #[MongoDB\Field(type: 'string', nullable: true)]
         public ?string $tastedAt = null,
     ) {
     }

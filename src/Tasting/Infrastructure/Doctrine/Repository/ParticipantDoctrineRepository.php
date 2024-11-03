@@ -10,7 +10,7 @@ use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
-use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\DoctrineRepository;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\ORM\DoctrineRepository;
 
 /**
  * @extends DoctrineRepository<Participant>

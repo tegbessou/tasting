@@ -80,7 +80,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         if ($statusCode === 422) {
             $this->assertJsonContains([
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
+                'title' => 'An error occurred',
                 'violations' => $violations,
             ]);
         }
@@ -149,7 +149,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
         $this->assertJsonContains([
             '@type' => 'ConstraintViolationList',
-            'hydra:title' => 'An error occurred',
+            'title' => 'An error occurred',
             'violations' => [
                 [
                     'propertyPath' => 'participants',

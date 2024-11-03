@@ -15,7 +15,8 @@ use App\BottleInventory\Domain\Exception\BottleCountryDoesntExistException;
 use App\BottleInventory\Domain\Exception\BottleGrapeVarietiesDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleDoesntExistException;
 use App\BottleInventory\Domain\Exception\UpdateBottleNotAuthorizeForThisUserException;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\GetBottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\PutBottleResource;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildCountryDoesntExistConstraintViolation;
 use App\BottleInventory\Infrastructure\Symfony\Validator\ConstraintViolation\BuildGrapeVarietiesDoesntExistConstraintViolation;
 use Monolog\Attribute\WithMonologChannel;
@@ -27,10 +28,10 @@ use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<BottleResource, void>
+ * @implements ProcessorInterface<GetBottleResource, void>
  */
 #[WithMonologChannel('bottle_inventory')]
-final readonly class PatchBottleProcessor implements ProcessorInterface
+final readonly class PutBottleProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
@@ -42,10 +43,11 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
     }
 
     #[\Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): BottleResource
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): PutBottleResource
     {
-        Assert::isInstanceOf($data, BottleResource::class);
-        Assert::notNull($data->id);
+        Assert::isInstanceOf($data, PutBottleResource::class);
+        Assert::notNull($uriVariables['id']);
+        Assert::uuid($uriVariables['id']);
         Assert::notNull($data->name);
         Assert::notNull($data->estateName);
         Assert::notNull($data->wineType);
@@ -59,7 +61,7 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
         try {
             $this->commandBus->dispatch(
                 new UpdateBottleCommand(
-                    $data->id->__toString(),
+                    $uriVariables['id'],
                     $data->name,
                     $data->estateName,
                     $data->wineType->value,
@@ -106,13 +108,13 @@ final readonly class PatchBottleProcessor implements ProcessorInterface
         }
 
         $bottle = $this->queryBus->ask(
-            new GetBottleQuery($data->id->__toString())
+            new GetBottleQuery($uriVariables['id'])
         );
 
         if ($bottle === null) {
             throw new \LogicException();
         }
 
-        return BottleResource::fromModel($bottle);
+        return PutBottleResource::fromModel($bottle);
     }
 }

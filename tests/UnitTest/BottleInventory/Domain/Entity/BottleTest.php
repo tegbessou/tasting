@@ -470,6 +470,16 @@ final class BottleTest extends TestCase
         );
 
         $this->assertInstanceOf(BottleCreated::class, $bottle::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $bottle::getRecordedEvent()[0]->bottleId);
+        $this->assertEquals('Château de Fonsalette', $bottle::getRecordedEvent()[0]->name);
+        $this->assertEquals('Château Rayas', $bottle::getRecordedEvent()[0]->estateName);
+        $this->assertEquals('red', $bottle::getRecordedEvent()[0]->wineType);
+        $this->assertEquals(2000, $bottle::getRecordedEvent()[0]->year);
+        $this->assertEquals(['Grenache', 'Cinsault', 'Syrah'], $bottle::getRecordedEvent()[0]->grapeVarieties);
+        $this->assertEquals('xs', $bottle::getRecordedEvent()[0]->rate);
+        $this->assertEquals('hugues.gobet@gmail.com', $bottle::getRecordedEvent()[0]->ownerId);
+        $this->assertEquals('France', $bottle::getRecordedEvent()[0]->country);
+        $this->assertEquals(12.99, $bottle::getRecordedEvent()[0]->price);
         $bottle::eraseRecordedEvents();
     }
 

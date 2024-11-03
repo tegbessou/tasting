@@ -41,8 +41,8 @@ final class LoginUserProcessorTest extends ApiTestCase
             'statusCode' => 422,
             'violations' => [
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: Cette valeur ne doit pas être vide.
+                'title' => 'An error occurred',
+                'description' => 'email: Cette valeur ne doit pas être vide.
 password: Cette valeur ne doit pas être vide.',
             ],
         ];
@@ -55,8 +55,8 @@ password: Cette valeur ne doit pas être vide.',
             'statusCode' => 422,
             'violations' => [
                 '@type' => 'ConstraintViolationList',
-                'hydra:title' => 'An error occurred',
-                'hydra:description' => 'email: Cette valeur n\'est pas une adresse email valide.',
+                'title' => 'An error occurred',
+                'description' => 'email: Cette valeur n\'est pas une adresse email valide.',
             ],
         ];
     }

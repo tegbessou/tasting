@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
+use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
+use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
 use App\BottleInventory\Domain\ValueObject\BottleCountry;
@@ -27,6 +29,8 @@ final class TasteBottleProcessorTest extends ApiTestCase
     use InteractsWithMessenger;
 
     private BottleRepositoryInterface $doctrineBottleRepository;
+    private BottleListAdapterInterface $bottleListAdapter;
+    private BottleAdapterInterface $bottleAdapter;
     private EntityManagerInterface $entityManager;
 
     #[\Override]
@@ -36,6 +40,8 @@ final class TasteBottleProcessorTest extends ApiTestCase
 
         $container = static::getContainer();
         $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
+        $this->bottleListAdapter = $container->get(BottleListAdapterInterface::class);
+        $this->bottleAdapter = $container->get(BottleAdapterInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
         parent::setUp();
@@ -69,6 +75,9 @@ final class TasteBottleProcessorTest extends ApiTestCase
         $this->assertNotNull($bottle->tastedAt());
 
         $this->transport('bottle_inventory_to_tasting')->queue()->assertContains(BottleTastedMessage::class, 1);
+
+        $this->bottleListAdapter->delete($this->bottleListAdapter->ofId('72dcf99e-823e-4c0b-b841-49175a1e68e5'));
+        $this->bottleAdapter->delete($this->bottleAdapter->ofId('72dcf99e-823e-4c0b-b841-49175a1e68e5'));
 
         $this->doctrineBottleRepository->delete($bottle);
     }

@@ -7,7 +7,7 @@ namespace App\BottleInventory\Infrastructure\VichUploader;
 use App\BottleInventory\Domain\Entity\Bottle;
 use App\BottleInventory\Domain\Exception\ReplaceBottlePictureFileNotFoundException;
 use App\BottleInventory\Domain\Service\UploadBottlePictureInterface;
-use App\BottleInventory\Infrastructure\ApiPlatform\Resource\BottleResource;
+use App\BottleInventory\Infrastructure\ApiPlatform\Resource\ReplaceBottlePictureResource;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Handler\UploadHandler;
@@ -26,7 +26,7 @@ final readonly class UploadBottlePictureVichUploaderFake implements UploadBottle
         string $pictureOriginalName,
     ): string {
         try {
-            $bottleResource = BottleResource::fromModel($bottle);
+            $replacePictureBottleResource = new ReplaceBottlePictureResource();
 
             $file = new UploadedFile(
                 $picturePath,
@@ -34,9 +34,9 @@ final readonly class UploadBottlePictureVichUploaderFake implements UploadBottle
                 test: true,
             );
 
-            $bottleResource->picture = $file;
+            $replacePictureBottleResource->picture = $file;
 
-            $this->uploadHandler->upload($bottleResource, 'picture');
+            $this->uploadHandler->upload($replacePictureBottleResource, 'picture');
 
             return $file->getFilename();
         } catch (FileNotFoundException) {

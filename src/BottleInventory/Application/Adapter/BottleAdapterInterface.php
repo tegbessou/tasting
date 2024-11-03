@@ -13,4 +13,6 @@ interface BottleAdapterInterface
     public function add(Bottle $bottle): void;
 
     public function update(Bottle $bottle): void;
+
+    public function delete(Bottle $bottle): void;
 }

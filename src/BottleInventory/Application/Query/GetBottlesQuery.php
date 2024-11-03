@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Query;
 
-use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
+use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
 use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**
- * @implements QueryInterface<BottleRepositoryInterface>
+ * @implements QueryInterface<BottleListAdapterInterface>
  */
 final class GetBottlesQuery implements QueryInterface
 {

@@ -52,6 +52,12 @@ services:
   App\BottleInventory\Application\Projection\UpdateBottleListProjection:
     tags: [kernel.event_listener]
 
+  App\BottleInventory\Application\Projection\DeleteBottleProjection:
+    tags: [kernel.event_listener]
+
+  App\BottleInventory\Application\Projection\DeleteBottleListProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
 

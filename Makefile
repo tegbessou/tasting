@@ -203,13 +203,13 @@ Test:
 ## Launch unit test
 unit-test: env-test
 	@echo "\nLaunching unit tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit --testsuite unit-test
+	@$(EXEC_PHP) bin/phpunit --testsuite unit-test --display-warnings
 	@$(MAKE) env-dev
 
 ## Launch adapter test
 adapter-test: env-test db-load-fixtures-test
 	@echo "\nLaunching adapter tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test
+	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test --display-warnings
 	@$(MAKE) env-dev
 
 ## Launch behat

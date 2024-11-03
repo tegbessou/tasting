@@ -6,7 +6,7 @@
     "require": {
         "php": "^8.3",
         "ext-iconv": "*",
-        "api-platform/core": "^3.2",
+        "api-platform/core": "^4.0",
         "codebuds/webp-converter": "^0.7.0",
         "composer/package-versions-deprecated": "^1.11",
         "doctrine/annotations": "^2.0",
@@ -52,7 +52,7 @@
         "symfony/web-link": "^7.1",
         "symfony/web-profiler-bundle": "^7.1",
         "symfony/yaml": "^7.1",
-        "tegbessou/shared-kernel": "^1.0",
+        "tegbessou/shared-kernel": "^1.6",
         "twig/extra-bundle": "^3.8",
         "twig/twig": "^3.8",
         "vich/uploader-bundle": "^2.3"

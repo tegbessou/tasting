@@ -56,7 +56,7 @@ deptrac:
             - type: classNameRegex
               value: '#^CodeBuds#'
             - type: classNameRegex
-              value: '#^Doctrine\\ODM\\MongoDB\\DocumentManager#'
+              value: '#^Doctrine\\ODM\\MongoDB\\(?!(Mapping))#'
 
         - name: Attributes
           collectors:

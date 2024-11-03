@@ -47,8 +47,6 @@ final class ReplaceBottlePictureControllerTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            '@context' => '/api/contexts/Bottle',
-            '@type' => 'Bottle',
             'name' => 'Guigal Côte-Rôtie',
             'estateName' => 'E. Guigal',
             'year' => 2014,
@@ -132,7 +130,7 @@ final class ReplaceBottlePictureControllerTest extends ApiTestCase
                 'ous-one.jpeg',
             ),
             'uuid' => '635e809c-aaaf-40df-8483-83cfbe2c5504',
-            'partialName' => 'ous-one*.jpeg',
+            'partialName' => 'ous-one*.jpg',
             'name' => 'ous-one.jpeg',
         ];
     }
