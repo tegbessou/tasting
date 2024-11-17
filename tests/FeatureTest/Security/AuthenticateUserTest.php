@@ -17,6 +17,7 @@ final class AuthenticateUserTest extends KernelTestCase
     private UserRepositoryInterface $userRepository;
     private CommandBusInterface $commandBus;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

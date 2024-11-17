@@ -10,7 +10,8 @@ use Doctrine\Persistence\ObjectManager;
 
 final class UserFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    #[\Override]
+    public function load(ObjectManager $manager): void
     {
         $users = [];
         $users[] = new User(

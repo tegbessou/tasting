@@ -14,6 +14,9 @@ final readonly class AuthenticateUser
     ) {
     }
 
+    /**
+     * @param non-empty-string $token
+     */
     public function authenticateUser(string $token, string $providerId): UserAuthenticated
     {
         match ($providerId) {
