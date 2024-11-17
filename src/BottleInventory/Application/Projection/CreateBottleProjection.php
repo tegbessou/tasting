@@ -4,43 +4,54 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Projection;
 
+use App\BottleInventory\Application\Exception\BottleDoesntExistException;
+use App\BottleInventory\Application\Exception\OwnerDoesntExistException;
 use App\BottleInventory\Application\Projection\Projector\CreateBottleProjector;
 use App\BottleInventory\Domain\Event\BottleCreated;
-use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\ValueObject\BottleId;
+use Psr\Log\LoggerInterface;
 
 final readonly class CreateBottleProjection
 {
     public function __construct(
         private CreateBottleProjector $createBottleProjector,
-        private BottleRepositoryInterface $bottleRepository,
+        private LoggerInterface $logger,
     ) {
     }
 
     public function __invoke(BottleCreated $event): void
     {
-        $bottle = $this->bottleRepository->ofId(
-            BottleId::fromString(
-                $event->bottleId
-            ),
-        );
+        try {
+            $this->createBottleProjector->project(
+                $event->bottleId,
+                $event->name,
+                $event->estateName,
+                $event->wineType,
+                $event->year,
+                $event->rate,
+                $event->grapeVarieties,
+                $event->savedAt,
+                $event->ownerId,
+                $event->country,
+                $event->price,
+            );
+        } catch (BottleDoesntExistException $exception) {
+            $this->logger->error(
+                'Create bottle projection: Bottle projection creation failed',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
 
-        if ($bottle === null) {
-            throw new \LogicException('Bottle not found');
+            throw $exception;
+        } catch (OwnerDoesntExistException $exception) {
+            $this->logger->error(
+                'Create bottle projection: Owner doesn\'t exist',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
+
+            throw $exception;
         }
-
-        $this->createBottleProjector->project(
-            $bottle->id()->value(),
-            $bottle->name()->value(),
-            $bottle->estateName()->value(),
-            $bottle->wineType()->value(),
-            $bottle->year()->value(),
-            $bottle->rate()->value(),
-            $bottle->grapeVarieties()->values(),
-            $bottle->savedAt()?->dateUs() ?? (new \DateTimeImmutable())->format('Y-m-d'),
-            $bottle->ownerId()->value(),
-            $bottle->country()?->value(),
-            $bottle->price()?->amount(),
-        );
     }
 }

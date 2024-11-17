@@ -7,8 +7,8 @@ namespace App\Tasting\Domain\Exception;
 final class ParticipantDoesntExistException extends \Exception
 {
     public function __construct(
-        public readonly string $email,
+        public readonly string $id,
     ) {
-        parent::__construct(sprintf('Participant %s does not exist', $this->email));
+        parent::__construct(sprintf('Participant %s does not exist', $this->id));
     }
 }

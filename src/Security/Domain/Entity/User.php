@@ -35,8 +35,9 @@ final class User implements EntityWithDomainEventInterface
 
         $user::recordEvent(
             new UserCreated(
+                $user->id->value(),
                 $user->email->value(),
-            )
+            ),
         );
 
         return $user;

@@ -99,6 +99,7 @@ final class Bottle implements EntityWithDomainEventInterface
                 $bottle->rate->value(),
                 $bottle->grapeVarieties->values(),
                 $bottle->ownerId->value(),
+                $bottle->savedAt?->dateUs() ?? (new \DateTime())->format('Y-m-d'),
                 $bottle->country?->value() ?? null,
                 $bottle->price?->amount() ?? null,
             ),

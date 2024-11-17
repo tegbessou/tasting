@@ -42,7 +42,7 @@ final readonly class CreateParticipantMessageHandler
             $this->logger->error(
                 'Create participant: Participant doesn\'t exist',
                 [
-                    'email' => $exception->email,
+                    'email' => $exception->id,
                 ],
             );
 

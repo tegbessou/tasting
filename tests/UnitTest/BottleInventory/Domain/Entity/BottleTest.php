@@ -478,6 +478,7 @@ final class BottleTest extends TestCase
         $this->assertEquals(['Grenache', 'Cinsault', 'Syrah'], $bottle::getRecordedEvent()[0]->grapeVarieties);
         $this->assertEquals('xs', $bottle::getRecordedEvent()[0]->rate);
         $this->assertEquals('hugues.gobet@gmail.com', $bottle::getRecordedEvent()[0]->ownerId);
+        $this->assertNotNull($bottle::getRecordedEvent()[0]->savedAt);
         $this->assertEquals('France', $bottle::getRecordedEvent()[0]->country);
         $this->assertEquals(12.99, $bottle::getRecordedEvent()[0]->price);
         $bottle::eraseRecordedEvents();

@@ -202,6 +202,14 @@ User context is responsible to send notification when invitation is sent
 
 Extract it in a microservice and a new project
 
+### Refactoring country
+
+Create an api resource for each representation
+
+Create read model for country
+
+Verify each event dispatch test to add test on property of event
+
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
@@ -217,6 +225,11 @@ Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie
 
 ### Refactoring user
 
-Create an api resource for each representation
+Create an api resource for each representation => OK
 
-Create read model for user
+Create read model for user => OK
+
+Dispatch event when user is authenticated
+
+Create user at this moment + remove endpoint to create user
+

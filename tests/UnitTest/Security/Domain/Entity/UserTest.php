@@ -71,6 +71,8 @@ final class UserTest extends TestCase
         );
 
         $this->assertInstanceOf(UserCreated::class, $user::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $user::getRecordedEvent()[0]->id);
+        $this->assertEquals('hugues.gobet@gmail.com', $user::getRecordedEvent()[0]->email);
         $user::eraseRecordedEvents();
     }
 

@@ -18,6 +18,7 @@ final class BottleCreated extends DomainEvent implements DomainEventInterface
         public string $rate,
         public array $grapeVarieties,
         public string $ownerId,
+        public string $savedAt,
         public ?string $country = null,
         public ?float $price = null,
     ) {

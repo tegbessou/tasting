@@ -7,15 +7,14 @@ namespace App\Security\Infrastructure\ApiPlatform\State\Provider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Security\Application\Query\GetUserIsCurrentQuery;
-use App\Security\Domain\ValueObject\UserEmail;
-use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
+use App\Security\Infrastructure\ApiPlatform\Resource\GetUserResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 
 /**
- * @implements ProviderInterface<UserResource>
+ * @implements ProviderInterface<GetUserResource>
  */
 #[WithMonologChannel('security')]
 final readonly class GetUserProvider implements ProviderInterface
@@ -27,11 +26,11 @@ final readonly class GetUserProvider implements ProviderInterface
     }
 
     #[\Override]
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): UserResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): GetUserResource
     {
         $user = $this->queryBus->ask(
             new GetUserIsCurrentQuery(
-                UserEmail::fromString($uriVariables['email']),
+                $uriVariables['email'],
             ),
         );
 
@@ -46,6 +45,6 @@ final readonly class GetUserProvider implements ProviderInterface
             throw new NotFoundHttpException();
         }
 
-        return UserResource::fromValue($user);
+        return GetUserResource::fromValue($user);
     }
 }

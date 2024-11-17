@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Security\Application\Query;
 
-use App\Security\Domain\Entity\User;
-use App\Security\Domain\Repository\UserRepositoryInterface;
+use App\Security\Application\Adapter\UserAdapterInterface;
+use App\Security\Application\ReadModel\User;
 use App\Security\Domain\Service\GetUserAuthenticatedInterface;
+use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserIsCurrent;
 use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 
@@ -14,21 +15,21 @@ use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 final readonly class GetUserIsCurrentQueryHandler
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
+        private UserAdapterInterface $userAdapter,
         private GetUserAuthenticatedInterface $getUserAuthenticated,
     ) {
     }
 
     public function __invoke(GetUserIsCurrentQuery $getUserIsCurrentQuery): ?UserIsCurrent
     {
-        $user = $this->userRepository->ofEmail($getUserIsCurrentQuery->email);
+        $user = $this->userAdapter->ofId($getUserIsCurrentQuery->email);
 
         if ($user === null) {
             return null;
         }
 
         return UserIsCurrent::create(
-            $user->email(),
+            UserEmail::fromString($user->email),
             $this->isCurrentOrService($user),
         );
     }
@@ -36,7 +37,7 @@ final readonly class GetUserIsCurrentQueryHandler
     private function isCurrentOrService(
         User $user,
     ): bool {
-        return $this->getUserAuthenticated->getUser()->email()->equals($user->email())
+        return $this->getUserAuthenticated->getUser()->email()->equals(UserEmail::fromString($user->email))
             || str_contains($this->getUserAuthenticated->getUser()->email()->value(), 'services')
         ;
     }

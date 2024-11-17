@@ -58,15 +58,22 @@ services:
   App\BottleInventory\Application\Projection\DeleteBottleListProjection:
     tags: [kernel.event_listener]
 
+  App\Security\Application\Projection\CreateUserProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
+
+  App\Security\Application\Adapter\UserAdapterInterface:
+    alias: App\Security\Infrastructure\Doctrine\Adapter\UserDoctrineAdapter
+    public: true
 
   App\Tasting\Application\Service\NotificationInterface:
     alias: App\Tasting\Infrastructure\Firebase\NotificationFirebase
     public: true
 
-  App\Security\Domain\Service\AuthenticateUserInterface:
-    alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFirebase
+  App\Security\Domain\Service\AuthenticateUserFromProviderInterface:
+    alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebase
 
   App\Security\Domain\Service\LogInInterface:
     alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFirebase
@@ -85,8 +92,8 @@ services:
 
 when@dev:
   services:
-    App\Security\Domain\Service\AuthenticateUserInterface:
-      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
+    App\Security\Domain\Service\AuthenticateUserFromProviderInterface:
+      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
 when@test:
   services:
@@ -106,8 +113,8 @@ when@test:
       alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake
       public: true
 
-    App\Security\Domain\Service\AuthenticateUserInterface:
-      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFakeFirebase
+    App\Security\Domain\Service\AuthenticateUserFromProviderInterface:
+      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
     App\Security\Domain\Service\LogInInterface:
       alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFakeFirebase

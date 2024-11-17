@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Security\Infrastructure\Firebase\Security\Authenticator;
 
-use App\Security\Domain\Service\AuthenticateUserInterface;
+use App\Security\Domain\Service\AuthenticateUserFromProviderInterface;
 use App\Security\Domain\ValueObject\UserAuthenticated;
 use Kreait\Firebase\Contract\Auth;
 
-final readonly class AuthenticateUserFakeFirebase implements AuthenticateUserInterface
+final readonly class AuthenticateUserFromProviderFakeFirebase implements AuthenticateUserFromProviderInterface
 {
     public function __construct(
         /** @phpstan-ignore-next-line */
@@ -19,6 +19,10 @@ final readonly class AuthenticateUserFakeFirebase implements AuthenticateUserInt
     #[\Override]
     public function authenticateUserWithApple(string $token): UserAuthenticated
     {
+        if ($token === 'tokenusernotexist') {
+            return new UserAuthenticated('nexistepas@gmail.com');
+        }
+
         return new UserAuthenticated('hugues.gobet@gmail.com');
     }
 
