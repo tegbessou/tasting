@@ -9,7 +9,6 @@ use App\Security\Application\Query\GetUserQuery;
 use App\Security\Domain\Exception\ExpiredTokenException;
 use App\Security\Domain\Exception\InvalidPayloadException;
 use App\Security\Domain\Exception\InvalidTokenException;
-use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Infrastructure\Symfony\Security\Model\UserModel;
 use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
@@ -111,15 +110,15 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
 
         $user = $this->queryBus->ask(
             new GetUserQuery(
-                $userAuthenticated->email(),
+                $userAuthenticated->email()->value(),
             ),
         );
 
-        $email = $user->email();
+        $email = $user->email;
 
         return new SelfValidatingPassport(
             new UserBadge(
-                $email->value(),
+                $email,
                 fn () => $this->loadUser($email),
             )
         );
@@ -142,7 +141,7 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
         return new JWTAuthenticationFailureResponse($errorMessage);
     }
 
-    private function loadUser(UserEmail $email): UserModel
+    private function loadUser(string $email): UserModel
     {
         $userEntity = $this->queryBus->ask(
             new GetUserQuery(
@@ -151,8 +150,8 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
         );
 
         return new UserModel(
-            $userEntity->id()->value(),
-            $userEntity->email()->value(),
+            $userEntity->id,
+            $userEntity->email,
         );
     }
 }

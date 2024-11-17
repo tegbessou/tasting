@@ -7,8 +7,8 @@ namespace App\Security\Domain\Exception;
 final class UserAlreadyExistsException extends \Exception
 {
     public function __construct(
-        public string $email,
+        public string $id,
     ) {
-        parent::__construct(sprintf('User with email %s already exists', $email));
+        parent::__construct(sprintf('User with email %s already exists', $id));
     }
 }

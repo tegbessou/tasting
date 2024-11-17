@@ -65,5 +65,8 @@ jobs:
       - name: Unit test
         run: make unit-test
 
-      - name: Adapter test test
+      - name: Adapter test
         run: make adapter-test
+
+      - name: Feature test
+        run: make feature-test

@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Security\Application\Command;
 
-use App\Security\Domain\Exception\IdentityProviderDoesntExistException;
+use App\Security\Domain\Entity\User;
 use App\Security\Domain\Exception\InvalidTokenException;
-use App\Security\Domain\Service\AuthenticateUserInterface;
+use App\Security\Domain\Repository\UserRepositoryInterface;
+use App\Security\Domain\Service\AuthenticateUser;
 use App\Security\Domain\ValueObject\UserAuthenticated;
+use App\Security\Domain\ValueObject\UserEmail;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class AuthenticateUserCommandHandler
 {
     public function __construct(
-        private AuthenticateUserInterface $authenticateUser,
+        private AuthenticateUser $authenticateUser,
+        private DomainEventDispatcherInterface $dispatcher,
+        private UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -27,12 +32,25 @@ final readonly class AuthenticateUserCommandHandler
             throw new InvalidTokenException();
         }
 
-        match ($authenticateUserCommand->providerId) {
-            AuthenticateUserInterface::IDENTITY_PROVIDER_APPLE => $userAuthenticated = $this->authenticateUser->authenticateUserWithApple($authenticateUserCommand->token),
-            AuthenticateUserInterface::IDENTITY_PROVIDER_GOOGLE => $userAuthenticated = $this->authenticateUser->authenticateUserWithGoogle($authenticateUserCommand->token),
-            AuthenticateUserInterface::IDENTITY_PROVIDER_FIREBASE => $userAuthenticated = $this->authenticateUser->authenticateUserWithFirebase($authenticateUserCommand->token),
-            default => throw new IdentityProviderDoesntExistException('Invalid provider id'),
-        };
+        $userAuthenticated = $this->authenticateUser->authenticateUser(
+            $authenticateUserCommand->token,
+            $authenticateUserCommand->providerId,
+        );
+
+        $user = $this->userRepository->ofEmail(
+            UserEmail::fromString($userAuthenticated->email()->value()),
+        );
+
+        if ($user === null) {
+            $user = User::create(
+                $this->userRepository->nextIdentity(),
+                UserEmail::fromString($userAuthenticated->email()->value()),
+            );
+
+            $this->userRepository->add($user);
+        }
+
+        $this->dispatcher->dispatch($user);
 
         return $userAuthenticated;
     }

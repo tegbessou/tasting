@@ -4,31 +4,43 @@ declare(strict_types=1);
 
 namespace App\BottleInventory\Application\Projection;
 
+use App\BottleInventory\Application\Exception\BottleDoesntExistException;
 use App\BottleInventory\Application\Projection\Projector\CreateBottleListProjector;
 use App\BottleInventory\Domain\Event\BottleCreated;
-use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\ValueObject\BottleId;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 
+#[WithMonologChannel('bottle_inventory')]
 final readonly class CreateBottleListProjection
 {
     public function __construct(
         private CreateBottleListProjector $createBottleListProjector,
-        private BottleRepositoryInterface $bottleRepository,
+        private LoggerInterface $logger,
     ) {
     }
 
     public function __invoke(BottleCreated $event): void
     {
-        $bottle = $this->bottleRepository->ofId(
-            BottleId::fromString(
-                $event->bottleId
-            ),
-        );
+        try {
+            $this->createBottleListProjector->project(
+                $event->bottleId,
+                $event->name,
+                $event->estateName,
+                $event->wineType,
+                $event->year,
+                $event->rate,
+                $event->savedAt,
+                $event->ownerId,
+            );
+        } catch (BottleDoesntExistException $exception) {
+            $this->logger->error(
+                'Create bottle list projection: Bottle list projection creation failed',
+                [
+                    'exception' => $exception->getMessage(),
+                ],
+            );
 
-        if ($bottle === null) {
-            throw new \LogicException('Bottle not found');
+            throw $exception;
         }
-
-        $this->createBottleListProjector->project($bottle);
     }
 }

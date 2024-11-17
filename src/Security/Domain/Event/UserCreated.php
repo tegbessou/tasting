@@ -9,6 +9,7 @@ use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 final class UserCreated implements DomainEventInterface
 {
     public function __construct(
+        public string $id,
         public string $email,
     ) {
     }

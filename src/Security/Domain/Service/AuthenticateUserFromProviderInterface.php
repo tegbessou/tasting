@@ -6,7 +6,7 @@ namespace App\Security\Domain\Service;
 
 use App\Security\Domain\ValueObject\UserAuthenticated;
 
-interface AuthenticateUserInterface
+interface AuthenticateUserFromProviderInterface
 {
     public const IDENTITY_PROVIDER_APPLE = 'apple.com';
     public const IDENTITY_PROVIDER_GOOGLE = 'google.com';

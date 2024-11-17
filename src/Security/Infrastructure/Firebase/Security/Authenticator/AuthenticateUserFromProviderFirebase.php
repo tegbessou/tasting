@@ -6,13 +6,13 @@ namespace App\Security\Infrastructure\Firebase\Security\Authenticator;
 
 use App\Security\Domain\Exception\ExpiredTokenException;
 use App\Security\Domain\Exception\InvalidPayloadException;
-use App\Security\Domain\Service\AuthenticateUserInterface;
+use App\Security\Domain\Service\AuthenticateUserFromProviderInterface;
 use App\Security\Domain\ValueObject\UserAuthenticated;
 use Kreait\Firebase\Auth\SignIn\FailedToSignIn;
 use Kreait\Firebase\Contract\Auth;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\InvalidTokenException;
 
-final readonly class AuthenticateUserFirebase implements AuthenticateUserInterface
+final readonly class AuthenticateUserFromProviderFirebase implements AuthenticateUserFromProviderInterface
 {
     public function __construct(
         private Auth $auth,
@@ -47,7 +47,7 @@ final readonly class AuthenticateUserFirebase implements AuthenticateUserInterfa
     public function authenticateUserWithGoogle(string $token): UserAuthenticated
     {
         try {
-            $payload = $this->auth->signInWithIdpAccessToken(AuthenticateUserInterface::IDENTITY_PROVIDER_GOOGLE, $token);
+            $payload = $this->auth->signInWithIdpAccessToken(AuthenticateUserFromProviderInterface::IDENTITY_PROVIDER_GOOGLE, $token);
         } catch (FailedToSignIn) {
             throw new InvalidTokenException();
         }

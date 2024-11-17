@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security\Application\Command;
 
-use App\Security\Domain\Service\AuthenticateUserInterface;
+use App\Security\Domain\Service\AuthenticateUserFromProviderInterface;
 use App\Security\Domain\ValueObject\UserAuthenticated;
 use TegCorp\SharedKernelBundle\Application\Command\CommandInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
@@ -23,9 +23,9 @@ final readonly class AuthenticateUserCommand implements CommandInterface
         Assert::inArray(
             $providerId,
             [
-                AuthenticateUserInterface::IDENTITY_PROVIDER_APPLE,
-                AuthenticateUserInterface::IDENTITY_PROVIDER_GOOGLE,
-                AuthenticateUserInterface::IDENTITY_PROVIDER_FIREBASE,
+                AuthenticateUserFromProviderInterface::IDENTITY_PROVIDER_APPLE,
+                AuthenticateUserFromProviderInterface::IDENTITY_PROVIDER_GOOGLE,
+                AuthenticateUserFromProviderInterface::IDENTITY_PROVIDER_FIREBASE,
             ],
         );
 

@@ -11,7 +11,7 @@ use App\Security\Domain\Exception\ExpiredTokenException;
 use App\Security\Domain\Exception\InvalidPayloadException;
 use App\Security\Domain\Exception\InvalidTokenException;
 use App\Security\Infrastructure\ApiPlatform\Resource\AuthorizeTokenResource;
-use App\Security\Infrastructure\ApiPlatform\Resource\UserResource;
+use App\Security\Infrastructure\ApiPlatform\Resource\PostLoginUserResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -19,7 +19,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use Webmozart\Assert\Assert;
 
 /**
- * @implements ProcessorInterface<UserResource, AuthorizeTokenResource>
+ * @implements ProcessorInterface<PostLoginUserResource, AuthorizeTokenResource>
  */
 #[WithMonologChannel('security')]
 final readonly class LogInUserProcessor implements ProcessorInterface
@@ -31,9 +31,9 @@ final readonly class LogInUserProcessor implements ProcessorInterface
     }
 
     #[\Override]
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): AuthorizeTokenResource
     {
-        Assert::isInstanceOf($data, UserResource::class);
+        Assert::isInstanceOf($data, PostLoginUserResource::class);
         Assert::notNull($data->email);
         Assert::notNull($data->password);
 

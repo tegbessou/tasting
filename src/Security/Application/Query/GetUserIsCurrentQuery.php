@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Security\Application\Query;
 
-use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserIsCurrent;
 use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
@@ -14,7 +13,7 @@ use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 final readonly class GetUserIsCurrentQuery implements QueryInterface
 {
     public function __construct(
-        public UserEmail $email,
+        public string $email,
     ) {
     }
 }

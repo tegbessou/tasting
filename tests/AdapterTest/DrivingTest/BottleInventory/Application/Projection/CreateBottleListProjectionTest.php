@@ -64,6 +64,7 @@ final class CreateBottleListProjectionTest extends KernelTestCase
             'xs',
             ['Grenache', 'Cinsault', 'Syrah'],
             'hugues.gobet@gmail.com',
+            '2021-10-10',
             'France',
             12.99,
         );
