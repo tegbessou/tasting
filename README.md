@@ -217,9 +217,9 @@ Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie
 
 ### Refactoring country
 
-Create an api resource for each representation
+Create an api resource for each representation => OK
 
-Create read model for country
+Create read model for country => OK
 
-Verify each event dispatch test to add test on property of event
+Verify each event dispatch test to add test on property of event => OK
 

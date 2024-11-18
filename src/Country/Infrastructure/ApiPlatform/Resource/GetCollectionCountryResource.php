@@ -14,16 +14,14 @@ use Symfony\Component\Uid\AbstractUid;
 use Symfony\Component\Uid\Uuid;
 
 #[ApiResource(
-    uriTemplate: '/countries',
     shortName: 'Country',
-    operations: [
-        new GetCollection(
-            filters: [CountryFilter::class],
-            provider: GetCountryCollectionProvider::class,
-        ),
-    ],
 )]
-final class CountryResource
+#[GetCollection(
+    '/countries',
+    filters: [CountryFilter::class],
+    provider: GetCountryCollectionProvider::class,
+)]
+final class GetCollectionCountryResource
 {
     public function __construct(
         #[ApiProperty(readable: false, writable: false, identifier: true)]

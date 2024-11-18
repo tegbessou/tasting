@@ -18,10 +18,6 @@ interface CountryRepositoryInterface extends RepositoryInterface
 
     public function exist(CountryName $name): bool;
 
-    public function withName(CountryName $name): self;
-
-    public function sortName(): self;
-
     public function nextIdentity(): CountryId;
 
     public function add(Country $country): void;

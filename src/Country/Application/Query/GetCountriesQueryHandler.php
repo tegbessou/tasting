@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Country\Application\Query;
 
+use App\Country\Application\Adapter\CountryAdapterInterface;
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
 use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
@@ -12,13 +13,13 @@ use TegCorp\SharedKernelBundle\Application\Query\AsQueryHandler;
 final readonly class GetCountriesQueryHandler
 {
     public function __construct(
-        private CountryRepositoryInterface $countryRepository,
+        private CountryAdapterInterface $countryAdapter,
     ) {
     }
 
     public function __invoke(GetCountriesQuery $query): CountryRepositoryInterface
     {
-        $countryRepository = $this->countryRepository;
+        $countryRepository = $this->countryAdapter;
 
         $countryRepository = $countryRepository->sortName();
 

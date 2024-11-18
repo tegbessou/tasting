@@ -10,6 +10,7 @@ final readonly class CountryCreated implements DomainEventInterface
 {
     public function __construct(
         public string $countryId,
+        public string $name,
     ) {
     }
 }

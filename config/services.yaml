@@ -61,11 +61,18 @@ services:
   App\Security\Application\Projection\CreateUserProjection:
     tags: [kernel.event_listener]
 
+  App\Country\Application\Projection\CreateCountryProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
 
   App\Security\Application\Adapter\UserAdapterInterface:
     alias: App\Security\Infrastructure\Doctrine\Adapter\UserDoctrineAdapter
+    public: true
+
+  App\Country\Application\Adapter\CountryAdapterInterface:
+    alias: App\Country\Infrastructure\Doctrine\Adapter\CountryDoctrineAdapter
     public: true
 
   App\Tasting\Application\Service\NotificationInterface:
