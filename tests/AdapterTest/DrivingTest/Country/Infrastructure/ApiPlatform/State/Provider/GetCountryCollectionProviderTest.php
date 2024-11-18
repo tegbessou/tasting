@@ -28,7 +28,7 @@ final class GetCountryCollectionProviderTest extends ApiTestCase
                     'name' => 'Afrique du Sud',
                 ],
             ],
-            'totalItems' => 241,
+            'totalItems' => 30,
         ]);
     }
 

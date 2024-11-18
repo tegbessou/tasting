@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UnitTest\Country\Domain\Entity;
 
 use App\Country\Domain\Entity\Country;
+use App\Country\Domain\Event\CountryCreated;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +31,8 @@ final class CountryTest extends TestCase
             'France2',
             $country->name()->value(),
         );
+
+        $country::eraseRecordedEvents();
     }
 
     public function testCreateFailedWithBadIdLength(): void
@@ -70,6 +73,18 @@ final class CountryTest extends TestCase
             CountryId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
             CountryName::fromString('iVvrNxngRgHFxDkHzimAvebLxJaKfmwxPxqVdqTfMVHLeUXWyxJVbGARSkbnegRPvrtJWrjvyTQfAqLUrNXWfrgPXxAwHYqbXzkDgXZRMTqkvFTtvXhAJkrqTHeqCQyEbtGhnJVcSyaNMvmMYwkSzHUhvFTFSCQjjAwjXvWZgdXunMyzNtfJjAkxAyhHjTrURubcAATTHRBfENQKLfHhjUCbhdErTUcGgDSVPSDqrPQcpAecNMpgeDMqncYtVeQf'),
         );
+    }
+
+    public function testCreateSuccessEventDispatch(): void
+    {
+        $country = Country::create(
+            CountryId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26'),
+            CountryName::fromString('Taboulistan'),
+        );
+
+        $this->assertInstanceOf(CountryCreated::class, $country::getRecordedEvent()[0]);
+        $this->assertEquals('af785dbb-4ac1-4786-a5aa-1fed08f6ec26', $country::getRecordedEvent()[0]->countryId);
+        $this->assertEquals('Taboulistan', $country::getRecordedEvent()[0]->name);
     }
 
     public function testCreateFailedEventDispatch(): void

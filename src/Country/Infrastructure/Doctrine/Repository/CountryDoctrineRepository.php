@@ -9,7 +9,6 @@ use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
 use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\ORM\DoctrineRepository;
 
@@ -31,29 +30,6 @@ final class CountryDoctrineRepository extends DoctrineRepository implements Coun
         CountryName $name,
     ): ?Country {
         return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name->value()]);
-    }
-
-    #[\Override]
-    public function exist(CountryName $name): bool
-    {
-        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name->value()]) !== null;
-    }
-
-    #[\Override]
-    public function withName(
-        CountryName $name,
-    ): self {
-        return $this->filter(static function (QueryBuilder $qb) use ($name): void {
-            $qb->where(sprintf('%s.name.value = :name', self::ALIAS))->setParameter('name', $name->value());
-        });
-    }
-
-    #[\Override]
-    public function sortName(): self
-    {
-        return $this->filter(static function (QueryBuilder $qb): void {
-            $qb->orderBy(sprintf('%s.name.value', self::ALIAS), 'ASC');
-        });
     }
 
     #[\Override]

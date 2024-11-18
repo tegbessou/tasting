@@ -9,12 +9,14 @@ use App\Country\Domain\Exception\CountryAlreadyExistsException;
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
 final readonly class CreateCountryCommandHandler
 {
     public function __construct(
         private CountryRepositoryInterface $countryRepository,
+        private DomainEventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -33,5 +35,7 @@ final readonly class CreateCountryCommandHandler
         );
 
         $this->countryRepository->add($country);
+
+        $this->dispatcher->dispatch($country);
     }
 }

@@ -13,6 +13,9 @@ doctrine_mongodb:
                 bottle_inventory:
                     dir: '%kernel.project_dir%/src/BottleInventory/Application/'
                     prefix: 'App\BottleInventory\Application\'
+                country:
+                    dir: '%kernel.project_dir%/src/Country/Application/'
+                    prefix: 'App\Country\Application\'
                 security:
                     dir: '%kernel.project_dir%/src/Security/Application/'
                     prefix: 'App\Security\Application\'

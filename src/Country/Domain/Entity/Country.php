@@ -36,6 +36,7 @@ final class Country implements EntityWithDomainEventInterface
         $country::recordEvent(
             new CountryCreated(
                 $country->id->value(),
+                $country->name->value(),
             )
         );
 

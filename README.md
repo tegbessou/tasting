@@ -215,11 +215,27 @@ Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie
 
 ## TODO
 
-### Refactoring country
+### Refactoring tasting
+
+Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
+should be created only when a tasting is created
+=> We do not duplicate the participant, we only store uuid of the user from security context => Wrong we must create a participant
+when we invite a friend
+=> So we have to duplicate the participant in tasting context and security context, the participant is create when user is invited
+
+I need to create an owner entity in tasting context this entity should be created when a tasting is created
+
+All entity should be handled by aggregate root
+
+When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
+them, the tasting service should check if the friend is already a participant and if not create a participant entity
+
+Remove all repository and keep only the tasting repository
+
+Add a read model to handle invitation by user
+
+If I create data in another domain, i don't have to check if data exist in the main domain
+
+When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
 
 Create an api resource for each representation
-
-Create read model for country
-
-Verify each event dispatch test to add test on property of event
-

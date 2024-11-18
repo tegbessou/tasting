@@ -8,12 +8,12 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\Pagination;
 use ApiPlatform\State\ProviderInterface;
 use App\Country\Application\Query\GetCountriesQuery;
-use App\Country\Infrastructure\ApiPlatform\Resource\CountryResource;
+use App\Country\Infrastructure\ApiPlatform\Resource\GetCollectionCountryResource;
 use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 
 /**
- * @implements ProviderInterface<CountryResource>
+ * @implements ProviderInterface<GetCollectionCountryResource>
  */
 final readonly class GetCountryCollectionProvider implements ProviderInterface
 {
@@ -24,7 +24,7 @@ final readonly class GetCountryCollectionProvider implements ProviderInterface
     }
 
     /**
-     * @return Paginator<CountryResource>|list<CountryResource>
+     * @return Paginator<GetCollectionCountryResource>|list<GetCollectionCountryResource>
      */
     #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array|Paginator
@@ -42,7 +42,7 @@ final readonly class GetCountryCollectionProvider implements ProviderInterface
         $resources = [];
 
         foreach ($models as $model) {
-            $resources[] = CountryResource::fromModel($model);
+            $resources[] = GetCollectionCountryResource::fromModel($model);
         }
 
         if (null !== $paginator = $models->paginator()) {

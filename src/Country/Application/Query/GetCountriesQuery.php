@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Country\Application\Query;
 
-use App\Country\Domain\Repository\CountryRepositoryInterface;
+use App\Country\Application\Adapter\CountryAdapterInterface;
 use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 
 /**
- * @implements QueryInterface<CountryRepositoryInterface>
+ * @implements QueryInterface<CountryAdapterInterface>
  */
 final readonly class GetCountriesQuery implements QueryInterface
 {
