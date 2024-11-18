@@ -37,4 +37,24 @@ final class CountryDoctrineAdapterTest extends KernelTestCase
             $this->countryAdapter->ofName('Taboulistan'),
         );
     }
+
+    public function testWithName(): void
+    {
+        $doctrineCountryRepository = $this->countryAdapter->withName('France');
+
+        $countries = $doctrineCountryRepository->getIterator();
+
+        $this->assertNotNull($countries->current());
+        $this->assertEquals('France', $countries->current()->name);
+    }
+
+    public function testOrderByName(): void
+    {
+        $doctrineAdapterRepository = $this->countryAdapter->sortName();
+
+        $countries = $doctrineAdapterRepository->getIterator();
+
+        $this->assertNotNull($countries->current());
+        $this->assertEquals('Afghanistan', $countries->current()->name);
+    }
 }

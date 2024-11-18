@@ -7,12 +7,20 @@ namespace App\Country\Infrastructure\Doctrine\Adapter;
 use App\Country\Application\Adapter\CountryAdapterInterface;
 use App\Country\Application\ReadModel\Country;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\ODM\DoctrineRepository;
 
-final readonly class CountryDoctrineAdapter implements CountryAdapterInterface
+/**
+ * @extends DoctrineRepository<Country>
+ */
+final class CountryDoctrineAdapter extends DoctrineRepository implements CountryAdapterInterface
 {
+    private const string MODEL_CLASS = Country::class;
+
     public function __construct(
-        private DocumentManager $documentManager,
+        DocumentManager $documentManager,
     ) {
+        parent::__construct($documentManager, self::MODEL_CLASS);
     }
 
     #[\Override]
@@ -26,5 +34,22 @@ final readonly class CountryDoctrineAdapter implements CountryAdapterInterface
     {
         $this->documentManager->persist($country);
         $this->documentManager->flush();
+    }
+
+    #[\Override]
+    public function withName(
+        string $name,
+    ): self {
+        return $this->filter(static function (Builder $qb) use ($name): void {
+            $qb->field('name')->text($name);
+        });
+    }
+
+    #[\Override]
+    public function sortName(): self
+    {
+        return $this->filter(static function (Builder $qb): void {
+            $qb->sort('name', 'ASC');
+        });
     }
 }

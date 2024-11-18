@@ -55,24 +55,4 @@ final class CountryDoctrineRepositoryTest extends KernelTestCase
     {
         $this->assertTrue($this->doctrineCountryRepository->exist(CountryName::fromString('France')));
     }
-
-    public function testWithName(): void
-    {
-        $doctrineCountryRepository = $this->doctrineCountryRepository->withName(CountryName::fromString('France'));
-
-        $countries = $doctrineCountryRepository->getIterator();
-
-        $this->assertNotNull($countries->current());
-        $this->assertEquals('France', $countries->current()->name()->value());
-    }
-
-    public function testOrderByName(): void
-    {
-        $doctrineCountryRepository = $this->doctrineCountryRepository->sortName();
-
-        $countries = $doctrineCountryRepository->getIterator();
-
-        $this->assertNotNull($countries->current());
-        $this->assertEquals('Afghanistan', $countries->current()->name()->value());
-    }
 }

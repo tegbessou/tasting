@@ -7,7 +7,7 @@ namespace App\Country\Infrastructure\ApiPlatform\Resource;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Country\Domain\Entity\Country;
+use App\Country\Application\ReadModel\Country;
 use App\Country\Infrastructure\ApiPlatform\OpenApi\CountryFilter;
 use App\Country\Infrastructure\ApiPlatform\State\Provider\GetCountryCollectionProvider;
 use Symfony\Component\Uid\AbstractUid;
@@ -34,8 +34,8 @@ final class GetCollectionCountryResource
     public static function fromModel(Country $country): self
     {
         return new self(
-            new Uuid($country->id()->value()),
-            $country->name()->value()
+            new Uuid($country->id),
+            $country->name,
         );
     }
 }

@@ -7,6 +7,9 @@ namespace App\Country\Application\ReadModel;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 #[MongoDB\Document]
+#[MongoDB\Index(keys: [
+    'name' => 'text',
+])]
 class Country
 {
     public function __construct(
