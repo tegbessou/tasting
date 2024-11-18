@@ -16,8 +16,6 @@ interface CountryRepositoryInterface extends RepositoryInterface
 {
     public function ofName(CountryName $name): ?Country;
 
-    public function exist(CountryName $name): bool;
-
     public function nextIdentity(): CountryId;
 
     public function add(Country $country): void;

@@ -33,12 +33,6 @@ final class CountryDoctrineRepository extends DoctrineRepository implements Coun
     }
 
     #[\Override]
-    public function exist(CountryName $name): bool
-    {
-        return $this->entityManager->getRepository(self::ENTITY_CLASS)->findOneBy(['name.value' => $name->value()]) !== null;
-    }
-
-    #[\Override]
     public function nextIdentity(): CountryId
     {
         return CountryId::fromString(

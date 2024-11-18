@@ -50,9 +50,4 @@ final class CountryDoctrineRepositoryTest extends KernelTestCase
 
         $this->assertNull($country);
     }
-
-    public function testExist(): void
-    {
-        $this->assertTrue($this->doctrineCountryRepository->exist(CountryName::fromString('France')));
-    }
 }

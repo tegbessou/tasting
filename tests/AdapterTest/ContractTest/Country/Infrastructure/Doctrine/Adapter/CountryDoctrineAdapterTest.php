@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Adapter;
 
 use App\Country\Application\Adapter\CountryAdapterInterface;
+use App\Country\Application\ReadModel\Country;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -36,6 +37,22 @@ final class CountryDoctrineAdapterTest extends KernelTestCase
         $this->assertNull(
             $this->countryAdapter->ofName('Taboulistan'),
         );
+    }
+
+    public function testAdd(): void
+    {
+        $country = new Country(
+            'b5880b05-073b-4224-95ed-21af2cf4e737',
+            'Taboulistan',
+        );
+
+        $this->countryAdapter->add($country);
+
+        $country = $this->countryAdapter->ofName('Taboulistan');
+        $this->assertNotNull($country);
+
+        $this->documentManager->remove($country);
+        $this->documentManager->flush();
     }
 
     public function testWithName(): void
