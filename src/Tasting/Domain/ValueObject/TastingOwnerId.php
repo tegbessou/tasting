@@ -13,9 +13,9 @@ final readonly class TastingOwnerId
     public function __construct(
         string $value,
     ) {
-        Assert::minLength($value, 36);
-        Assert::maxLength($value, 36);
-        Assert::uuid($value);
+        Assert::minLength($value, 1);
+        Assert::maxLength($value, 256);
+        Assert::email($value);
 
         $this->value = $value;
     }

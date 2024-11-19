@@ -4,63 +4,108 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Entity;
 
+use App\Tasting\Domain\Event\InvitationAccepted;
+use App\Tasting\Domain\Event\InvitationRejected;
+use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
+use App\Tasting\Domain\Event\TastingParticipantInvited;
+use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationMustBePendingException;
+use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
+use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
+use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\InvitationId;
+use App\Tasting\Domain\ValueObject\InvitationStatus;
+use App\Tasting\Domain\ValueObject\InvitationTarget;
+use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
+use App\Tasting\Domain\ValueObject\TastingInvitations;
+use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Domain\ValueObject\TastingParticipants;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Domain\Entity\EntityDomainEventTrait;
 use TegCorp\SharedKernelBundle\Domain\Entity\EntityWithDomainEventInterface;
 
-#[ORM\Entity]
-class Tasting implements EntityWithDomainEventInterface
+final class Tasting implements EntityWithDomainEventInterface
 {
     use EntityDomainEventTrait;
 
-    /**
-     * @param Collection<int, Invitation> $invitations
-     */
     public function __construct(
-        #[ORM\Embedded(columnPrefix: false)]
-        private TastingId $id,
-        // Bottle Name
-        #[ORM\Embedded(columnPrefix: false)]
-        private BottleName $bottleName,
-        #[ORM\Embedded(columnPrefix: false)]
+        private readonly TastingId $id,
+        private readonly BottleName $bottleName,
         private TastingParticipants $participants,
-        #[ORM\ManyToOne(targetEntity: Participant::class)]
-        #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
-        private Participant $owner,
-        #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Invitation::class, cascade: ['persist'])]
-        private Collection $invitations = new ArrayCollection(),
+        private readonly TastingOwnerId $ownerId,
+        private TastingInvitations $invitations,
     ) {
     }
 
     public static function create(
         TastingId $id,
         BottleName $bottleName,
-        Participant $owner,
+        TastingOwnerId $ownerId,
     ): self {
         $tasting = new self(
             $id,
             $bottleName,
-            TastingParticipants::fromOwner($owner->id()),
-            $owner,
+            TastingParticipants::fromOwner($ownerId),
+            $ownerId,
+            TastingInvitations::empty(),
         );
 
         self::recordEvent(
             new TastingCreated(
                 $tasting->id->value(),
-                $owner->id()->value(),
+                $ownerId->value(),
             )
         );
 
         return $tasting;
+    }
+
+    public function invite(
+        InvitationId $invitationId,
+        InvitationTarget $invitationTarget,
+    ): void {
+        $invitation = Invitation::create(
+            $invitationId,
+            $invitationTarget,
+            GetInvitationLink::getLink(),
+        );
+
+        $this->invitations = TastingInvitations::fromArray(
+            array_merge(
+                $this->invitations->values(),
+                [$invitation],
+            )
+        );
+
+        self::recordEvent(
+            new TastingParticipantInvited(
+                $invitationId->value(),
+                $invitationTarget->value(),
+                $invitation->link()->value(),
+                $this->ownerId()->value(),
+                $this->bottleName()->value(),
+            ),
+        );
+    }
+
+    public function sendInvitation(Invitation $invitation): void
+    {
+        if ($invitation->isAlreadySent()) {
+            throw new InvitationAlreadySentException();
+        }
+
+        $invitation->send();
+
+        self::recordEvent(
+            new InvitationSent(
+                $invitation->id()->value(),
+                $invitation->sentAt()->value() ?? throw new \InvalidArgumentException(),
+            ),
+        );
     }
 
     public function acceptInvitation(Invitation $invitation): void
@@ -69,10 +114,20 @@ class Tasting implements EntityWithDomainEventInterface
             throw new InvitationMustBePendingException();
         }
 
-        $invitation->accept();
+        if (!$invitation->isAlreadySent()) {
+            throw new InvitationMustBeSentBeforeBeingAcceptedException();
+        }
+
+        $invitation->changeStatus(InvitationStatus::fromString('accepted'));
+
+        self::recordEvent(
+            new InvitationAccepted(
+                $this->id->value(),
+            ),
+        );
 
         $this->participants = $this->participants->add(
-            $invitation->target()->id(),
+            ParticipantId::fromString($invitation->target()->value()),
         );
     }
 
@@ -82,7 +137,17 @@ class Tasting implements EntityWithDomainEventInterface
             throw new InvitationMustBePendingException();
         }
 
-        $invitation->reject();
+        if (!$invitation->isAlreadySent()) {
+            throw new InvitationMustBeSentBeforeBeingRejectedException();
+        }
+
+        $invitation->changeStatus(InvitationStatus::fromString('rejected'));
+
+        self::recordEvent(
+            new InvitationRejected(
+                $this->id->value(),
+            ),
+        );
     }
 
     public function removeInvitation(Invitation $invitation): void
@@ -97,15 +162,18 @@ class Tasting implements EntityWithDomainEventInterface
             throw new InvitationDoesntExistException($invitation->id()->value());
         }
 
-        $this->invitations->remove(
-            $index,
+        $oldInvitations = $this->invitations->values();
+        unset($oldInvitations[$index]);
+
+        $this->invitations = TastingInvitations::fromArray(
+            array_values($oldInvitations),
         );
     }
 
-    public function participantAlreadyInvited(Participant $participant): bool
+    public function participantAlreadyInvited(string $participantId): bool
     {
-        return $this->invitations->exists(
-            fn (int $key, Invitation $invitation) => $invitation->target()->id()->value() === $participant->id()->value(),
+        return $this->invitations->isAlreadyInvited(
+            ParticipantId::fromString($participantId),
         );
     }
 
@@ -124,15 +192,12 @@ class Tasting implements EntityWithDomainEventInterface
         return $this->participants;
     }
 
-    public function owner(): Participant
+    public function ownerId(): TastingOwnerId
     {
-        return $this->owner;
+        return $this->ownerId;
     }
 
-    /**
-     * @return Collection<int, Invitation>
-     */
-    public function invitations(): Collection
+    public function invitations(): TastingInvitations
     {
         return $this->invitations;
     }

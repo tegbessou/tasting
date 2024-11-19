@@ -70,7 +70,7 @@ final class TastingResource
             new Uuid($tasting->id()->value()),
             $tasting->participants()->values(),
             $tasting->bottleName()->value(),
-            OwnerResource::fromModel($tasting->owner()),
+            OwnerResource::fromModel($tasting->ownerId()),
         );
     }
 }

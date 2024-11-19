@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\ValueObject;
 
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final readonly class InvitationCreatedAt
 {
-    #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $createdAt;
 
     public function __construct(\DateTimeImmutable $createdAt)

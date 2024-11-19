@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Service;
 
-use App\Tasting\Domain\Entity\Invitation;
-use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\TastingParticipantsInvited;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
+use App\Tasting\Domain\ValueObject\InvitationTarget;
+use App\Tasting\Domain\ValueObject\ParticipantId;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 final readonly class InviteParticipant
@@ -21,24 +21,22 @@ final readonly class InviteParticipant
     ) {
     }
 
+    /**
+     * @param string[] $participants
+     */
     public function inviteParticipants(
         Tasting $tasting,
         array $participants,
     ): void {
-        Assert::allIsInstanceOf($participants, Participant::class);
+        Assert::allEmail($participants);
 
         $this->canInviteParticipants($tasting, $participants);
 
-        /** @var Participant $participant */
         foreach ($participants as $participant) {
-            $invitation = Invitation::create(
+            $tasting->invite(
                 $this->invitationRepository->nextIdentity(),
-                $tasting,
-                $participant,
-                GetInvitationLink::getLink(),
+                InvitationTarget::fromString($participant),
             );
-
-            $tasting->invitations()->add($invitation);
         }
 
         $tasting::recordEvent(
@@ -64,7 +62,7 @@ final readonly class InviteParticipant
         }
 
         foreach ($participants as $participant) {
-            if ($tasting->owner()->id()->value() !== $participant->id()->value()) {
+            if ($tasting->ownerId()->value() !== $participant) {
                 continue;
             }
 
@@ -76,13 +74,12 @@ final readonly class InviteParticipant
     {
         $participantsAlreadyInvited = [];
 
-        /** @var Participant $participant */
         foreach ($participants as $participant) {
             if (!$tasting->participantAlreadyInvited($participant)) {
                 continue;
             }
 
-            $participantsAlreadyInvited[] = $participant->fullName()->value();
+            $participantsAlreadyInvited[] = $participant;
         }
 
         if ($participantsAlreadyInvited === []) {
@@ -96,13 +93,13 @@ final readonly class InviteParticipant
     {
         $participantsAlreadyParticipating = [];
 
-        /** @var Participant $participant */
+        /** @var string $participant */
         foreach ($participants as $participant) {
-            if (!$tasting->participants()->contains($participant)) {
+            if (!$tasting->participants()->contains(ParticipantId::fromString($participant))) {
                 continue;
             }
 
-            $participantsAlreadyParticipating[] = $participant->fullName()->value();
+            $participantsAlreadyParticipating[] = $participant;
         }
 
         if ($participantsAlreadyParticipating === []) {

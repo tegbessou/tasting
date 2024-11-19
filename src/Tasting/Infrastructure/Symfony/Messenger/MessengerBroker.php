@@ -6,8 +6,8 @@ namespace App\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Application\Service\MessageBrokerInterface;
 use App\Tasting\Domain\Event\InvitationAccepted;
-use App\Tasting\Domain\Event\InvitationCreated;
 use App\Tasting\Domain\Event\InvitationRejected;
+use App\Tasting\Domain\Event\TastingParticipantInvited;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationRejectedMessage;
@@ -21,7 +21,7 @@ final readonly class MessengerBroker implements MessageBrokerInterface
     }
 
     #[\Override]
-    public function dispatchInvitationCreatedMessage(InvitationCreated $event): void
+    public function dispatchInvitationCreatedMessage(TastingParticipantInvited $event): void
     {
         $this->eventBus->dispatch(
             InvitationCreatedMessage::fromEvent($event),

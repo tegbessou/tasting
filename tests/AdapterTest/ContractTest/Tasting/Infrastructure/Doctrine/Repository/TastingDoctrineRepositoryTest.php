@@ -102,7 +102,7 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
         );
         $this->assertEquals(
             'hugues.gobet@gmail.com',
-            $tasting->owner()->email()->value(),
+            $tasting->ownerId()->email()->value(),
         );
 
         $this->entityManager->remove($tasting);

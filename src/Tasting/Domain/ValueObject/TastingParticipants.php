@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\ValueObject;
 
-use App\Tasting\Domain\Entity\Participant;
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final readonly class TastingParticipants
 {
-    #[ORM\Column(name: 'participants', type: 'json')]
+    /** @var string[] */
     private array $values;
 
     public function __construct(
@@ -19,7 +16,7 @@ final readonly class TastingParticipants
     ) {
         Assert::isArray($participants);
         Assert::minCount($participants, 1);
-        Assert::allUuid($participants);
+        Assert::allEmail($participants);
 
         $this->values = $participants;
     }
@@ -46,16 +43,16 @@ final readonly class TastingParticipants
         return new self($participants);
     }
 
-    public static function fromOwner(ParticipantId $participantId): self
+    public static function fromOwner(TastingOwnerId $ownerId): self
     {
         return new self([
-            $participantId->value(),
+            $ownerId->value(),
         ]);
     }
 
-    public function contains(Participant $participant): bool
+    public function contains(ParticipantId $participantId): bool
     {
-        return in_array($participant->id()->value(), $this->values, true);
+        return in_array($participantId->value(), $this->values, true);
     }
 
     public function values(): array

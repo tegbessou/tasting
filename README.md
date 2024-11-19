@@ -134,9 +134,11 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Value object rule
 - Id method should be named value
+- Value object should be immutable
 
 ## Architecture rules
 - Each Domain should have its own folder
+- Each Entity is responsible for it's state so they must recreate the value object of a property when they must be changed
 - Domain never should have a dependency with another domain except Shared, to avoid to have dependency between domain
 - Transaction for CommandHandler are started in the MessengerCommandBus
 - Each Exception in Adapter should be logged
@@ -169,30 +171,13 @@ Put doctrine entity in infrastructure and seperate domain entity from doctrine e
 Remove Assert from Webmozart and create my own domain service to assert this
 Enforce rules that domains must be independent of each other
 
+All value object should be recreated in the entity and not in their own code
+
+Reflect to put spefication for Invitation Status
+
 ### Refactoring tasting
 
-Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
-should be created only when a tasting is created
-=> We do not duplicate the participant, we only store uuid of the user from security context => Wrong we must create a participant
-when we invite a friend
-=> So we have to duplicate the participant in tasting context and security context, the participant is create when user is invited
-
-I need to create an owner entity in tasting context this entity should be created when a tasting is created
-
-All entity should be handled by aggregate root
-
-When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
-them, the tasting service should check if the friend is already a participant and if not create a participant entity
-
-Remove all repository and keep only the tasting repository
-
-Add a read model to handle invitation by user
-
-If I create data in another domain, i don't have to check if data exist in the main domain
-
 When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
-
-Create an api resource for each representation
 
 ### Refactoring user
 
@@ -214,17 +199,6 @@ Renommer les tests d'adapter en test d'intégration
 Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode.
 
 ## TODO
-
-### Refactoring tasting
-
-Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
-should be created only when a tasting is created
-=> We do not duplicate the participant, we only store uuid of the user from security context => Wrong we must create a participant
-when we invite a friend
-=> So we have to duplicate the participant in tasting context and security context, the participant is create when user is invited
-
-I need to create an owner entity in tasting context this entity should be created when a tasting is created
-
 All entity should be handled by aggregate root
 
 When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
@@ -236,6 +210,14 @@ Add a read model to handle invitation by user
 
 If I create data in another domain, i don't have to check if data exist in the main domain
 
-When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
-
 Create an api resource for each representation
+
+- [ ] Remove Participant entity
+  - [ ] Store only id (email) of participant in tasting, same for owner
+  - [ ] When user is created dispatch an event then we need to update information in tasting if it's email is present
+
+- [ ] When a participant is invited to taste:
+  - [ ] we should create a read model invitation with all needed information
+  - [ ] we should create add information of participant in read model tasting
+
+Domain is okay verify all type and methods, and value object

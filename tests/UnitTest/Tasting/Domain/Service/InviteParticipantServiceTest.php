@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UnitTest\Tasting\Domain\Service;
 
-use App\Tasting\Domain\Entity\Participant;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
@@ -14,10 +13,8 @@ use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\InvitationId;
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
-use App\Tasting\Domain\ValueObject\ParticipantFullName;
-use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
+use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use PHPUnit\Framework\TestCase;
 
 final class InviteParticipantServiceTest extends TestCase
@@ -43,25 +40,17 @@ final class InviteParticipantServiceTest extends TestCase
             $this->invitationRepository,
         );
 
-        $owner = Participant::create(
-            ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-            ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-            ParticipantFullName::fromString('Hugues Gobet'),
-        );
+        $owner = 'hugues.gobet@gmail.com';
 
-        $participant = Participant::create(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            ParticipantEmail::fromString('root@gmail.com'),
-            ParticipantFullName::fromString('Root'),
-        );
+        $participant = 'root@gmail.com';
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             BottleName::fromString('Sassicaia 2012'),
-            $owner,
+            TastingOwnerId::fromString($owner),
         );
 
-        $this->assertCount(0, $tasting->invitations());
+        $this->assertCount(0, $tasting->invitations()->values());
 
         $inviteParticipantService->inviteParticipants(
             $tasting,
@@ -70,7 +59,7 @@ final class InviteParticipantServiceTest extends TestCase
             ],
         );
 
-        $this->assertCount(1, $tasting->invitations());
+        $this->assertCount(1, $tasting->invitations()->values());
     }
 
     public function testInviteParticipantsFailedOwnerCannotBeInvited(): void
@@ -79,16 +68,12 @@ final class InviteParticipantServiceTest extends TestCase
             $this->invitationRepository,
         );
 
-        $participant = Participant::create(
-            ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-            ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-            ParticipantFullName::fromString('Hugues Gobet'),
-        );
+        $participant = 'hugues.gobet@gmail.com';
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             BottleName::fromString('Sassicaia 2012'),
-            $participant,
+            TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
         $this->expectException(OwnerCannotBeInvitedToTastingException::class);
@@ -105,22 +90,14 @@ final class InviteParticipantServiceTest extends TestCase
             $this->invitationRepository,
         );
 
-        $participant = Participant::create(
-            ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-            ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-            ParticipantFullName::fromString('Hugues Gobet'),
-        );
+        $participant = 'hugues.gobet@gmail.com';
 
-        $newParticipant = Participant::create(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            ParticipantEmail::fromString('root@gmail.com'),
-            ParticipantFullName::fromString('Root'),
-        );
+        $newParticipant = 'root@gmail.com';
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             BottleName::fromString('Sassicaia 2012'),
-            $participant,
+            TastingOwnerId::fromString($participant),
         );
 
         $inviteParticipantService->inviteParticipants(
@@ -131,7 +108,7 @@ final class InviteParticipantServiceTest extends TestCase
         );
 
         $this->expectException(ParticipantsAlreadyInvitedException::class);
-        $this->expectExceptionMessage('Participants Root are already invited');
+        $this->expectExceptionMessage('Participants root@gmail.com are already invited');
 
         $inviteParticipantService->inviteParticipants(
             $tasting,
@@ -145,22 +122,14 @@ final class InviteParticipantServiceTest extends TestCase
             $this->invitationRepository,
         );
 
-        $participant = Participant::create(
-            ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-            ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-            ParticipantFullName::fromString('Hugues Gobet'),
-        );
+        $participant = 'hugues.gobet@gmail.com';
 
-        $newParticipant = Participant::create(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            ParticipantEmail::fromString('root@gmail.com'),
-            ParticipantFullName::fromString('Root'),
-        );
+        $newParticipant = 'root@gmail.com';
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             BottleName::fromString('Sassicaia 2012'),
-            $participant,
+            TastingOwnerId::fromString($participant),
         );
 
         $inviteParticipantService->inviteParticipants(
@@ -170,14 +139,14 @@ final class InviteParticipantServiceTest extends TestCase
             ],
         );
 
-        $invitation = $tasting->invitations()->first();
+        $invitation = $tasting->invitations()->values()[0];
         $invitation->send();
         $tasting->acceptInvitation($invitation);
 
         $tasting->removeInvitation($invitation);
 
         $this->expectException(ParticipantsAlreadyParticipatingException::class);
-        $this->expectExceptionMessage('Participants Root are already participating');
+        $this->expectExceptionMessage('Participants root@gmail.com are already participating');
 
         $inviteParticipantService->inviteParticipants(
             $tasting,
@@ -191,22 +160,14 @@ final class InviteParticipantServiceTest extends TestCase
             $this->invitationRepository,
         );
 
-        $owner = Participant::create(
-            ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-            ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-            ParticipantFullName::fromString('Hugues Gobet'),
-        );
+        $owner = 'hugues.gobet@gmail.com';
 
-        $participant = Participant::create(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            ParticipantEmail::fromString('root@gmail.com'),
-            ParticipantFullName::fromString('Root'),
-        );
+        $participant = 'root@gmail.com';
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             BottleName::fromString('Sassicaia 2012'),
-            $owner,
+            TastingOwnerId::fromString($owner),
         );
 
         $inviteParticipantService->inviteParticipants(
