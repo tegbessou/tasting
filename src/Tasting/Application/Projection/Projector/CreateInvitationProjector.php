@@ -6,10 +6,11 @@ namespace App\Tasting\Application\Projection\Projector;
 
 use App\Tasting\Application\Adapter\InvitationAdapterInterface;
 use App\Tasting\Application\Exception\InvitationFromDoesntExistException;
-use App\Tasting\Application\Exception\InvitationTargetDoesntExistException;
 use App\Tasting\Application\ReadModel\Invitation;
 use App\Tasting\Domain\Adapter\UserAdapterInterface;
 use App\Tasting\Domain\ValueObject\ParticipantId;
+use App\Tasting\Domain\ValueObject\User;
+use App\Tasting\Domain\ValueObject\UserEmail;
 
 final readonly class CreateInvitationProjector
 {
@@ -37,7 +38,9 @@ final readonly class CreateInvitationProjector
         $target = $this->userAdapter->ofEmail(ParticipantId::fromString($targetId));
 
         if ($target === null) {
-            throw new InvitationTargetDoesntExistException($targetId);
+            $target = new User(
+                UserEmail::fromString($targetId),
+            );
         }
 
         $invitation = new Invitation(
@@ -45,11 +48,11 @@ final readonly class CreateInvitationProjector
             $tastingId,
             $bottleName,
             $from->email()->value(),
-            $from->fullName()->value(),
+            $from->fullName()?->value() ?? throw new \LogicException(),
             $target->email()->value(),
-            $target->fullName()->value(),
             $link,
             $createdAt,
+            targetName: $target->fullName()?->value() ?? null,
         );
 
         $this->invitationAdapter->add($invitation);

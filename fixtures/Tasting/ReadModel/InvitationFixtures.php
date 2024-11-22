@@ -23,9 +23,9 @@ final class InvitationFixtures extends Fixture
             'Pedor',
             'root@gmail.com',
             // todo changer ça
-            'Pedor',
             GetInvitationLink::getLink()->value(),
             new \DateTimeImmutable(),
+            'Pedor',
         );
 
         $manager->persist($invitation);

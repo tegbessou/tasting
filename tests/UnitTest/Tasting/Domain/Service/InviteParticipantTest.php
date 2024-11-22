@@ -17,7 +17,7 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use PHPUnit\Framework\TestCase;
 
-final class InviteParticipantServiceTest extends TestCase
+final class InviteParticipantTest extends TestCase
 {
     private InvitationRepositoryInterface $invitationRepository;
     private Tasting $tasting;

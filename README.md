@@ -161,17 +161,9 @@ to transform this data to our domain
 ![img.png](resources/v2-domain.png)
 
 ## Refactoring DDD
-/!\ Important change to do
-One repository for an aggregate root
-Challenge Invitation entity to follow aggregate rules
-
-Challenge the presence of an entity Owner in tasting to use with participant entity
+All value object should be recreated in the entity and not in their own code
 
 Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
-Remove Assert from Webmozart and create my own domain service to assert this
-Enforce rules that domains must be independent of each other
-
-All value object should be recreated in the entity and not in their own code
 
 Reflect to put specification for Invitation Status
 
@@ -196,37 +188,19 @@ Setup phparkitect pour les règles de nommages
 
 Separate each bounded context in microservice
 
-Reflect to add test on command handler and query handler => Va être nécessaire use test case
+Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
 
-Renommer les tests d'adapter en test d'intégration
+Renommer les tests d'adapter en test d'intégration => a vérifier selon la pyramide des tests
 
-Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode.
+Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
 
-Dans les tests revoir la façon de clear les datas existantes pour les tests AdapterTest (tous les tests)
+Dans les tests revoir la façon de clear les datas existantes pour les tests AdapterTest (tous les tests) => high
 
 ## TODO
-All entity should be handled by aggregate root
+- [X] When user is created dispatch an event then we need to update information in tasting if it's email is present
+  - [X] Invite a guest which do not exist in our system and test it
+    - [X] Create the invitation and the read model should be created with an empty name for target (change read model to accept this)
+    - [X] When a user is created with this email, I should to update invitation model to this name
 
-When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
-them, the tasting service should check if the friend is already a participant and if not create a participant entity
-
-Remove all repository and keep only the tasting repository
-
-Add a read model to handle invitation by user
-
-If I create data in another domain, i don't have to check if data exist in the main domain
-
-Create an api resource for each representation
-
-- [X] Remove Participant entity
-  - [X] Store only id (email) of participant in tasting, same for owner
-  - [ ] When user is created dispatch an event then we need to update information in tasting if it's email is present
-
-- [X] When a participant is invited to taste:
-  - [X] we should create a read model invitation with all needed information
-  - [X] we should create add information of participant in read model tasting
-
-- [X] Handle invitation when user doesn't exist just don't save targetName
-
-- [X] See all event in tasting and verify if they need to update read model
-- [X] Finish to separate resource and clean existing code
+- [ ] Normalise from/owner (id, email, name, fullName...) and target (id, email, name, fullName...)
+- [ ] Look no participant mention in tasting

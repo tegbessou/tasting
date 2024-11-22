@@ -53,7 +53,7 @@ final readonly class TastingMapper
     {
         /** @var Invitation $invitation */
         foreach ($tasting->invitations()->values() as $invitation) {
-            $invitationDoctrineFound = $tastingDoctrine->invitations->findFirst(static fn (int $key, InvitationDoctrine $invitationDoctrine) => $invitation->id()->value() === $invitationDoctrine->id);
+            $invitationDoctrineFound = $tastingDoctrine->invitations->findFirst(static fn (int|string $key, InvitationDoctrine $invitationDoctrine) => $invitation->id()->value() === $invitationDoctrine->id);
 
             if ($invitationDoctrineFound === null) {
                 $tastingDoctrine->addInvitation(

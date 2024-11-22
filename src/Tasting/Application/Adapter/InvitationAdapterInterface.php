@@ -23,4 +23,6 @@ interface InvitationAdapterInterface extends RepositoryInterface
     public function withParticipantAndTasting(string $targetId, string $subjectId): InvitationAdapterInterface;
 
     public function delete(Invitation $invitation): void;
+
+    public function update(): void;
 }

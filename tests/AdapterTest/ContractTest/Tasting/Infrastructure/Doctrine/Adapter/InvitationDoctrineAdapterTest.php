@@ -35,9 +35,9 @@ final class InvitationDoctrineAdapterTest extends KernelTestCase
             'hugues.gobet@gmail.com',
             'Pedro',
             'root@gmail.com',
-            'Pedro',
             GetInvitationLink::getLink()->value(),
             new \DateTimeImmutable(),
+            'Pedro',
         );
 
         $this->invitationAdapter->add($invitation);
@@ -97,9 +97,9 @@ final class InvitationDoctrineAdapterTest extends KernelTestCase
             'hugues.gobet@gmail.com',
             'Pedro',
             'root@gmail.com',
-            'Pedro',
             GetInvitationLink::getLink()->value(),
             new \DateTimeImmutable(),
+            'Pedro',
         );
 
         $this->invitationAdapter->add($invitation);

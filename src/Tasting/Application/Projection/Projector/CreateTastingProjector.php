@@ -44,7 +44,7 @@ final readonly class CreateTastingProjector
             [
                 [
                     $owner->email()->value(),
-                    $owner->fullName()->value(),
+                    $owner->fullName()?->value() ?? throw new \LogicException(),
                 ],
             ],
             $bottleName,

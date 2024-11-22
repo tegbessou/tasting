@@ -17,7 +17,6 @@ use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -26,7 +25,6 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
     private readonly DeleteInvitationProjection $deleteInvitationProjection;
     private readonly InvitationAdapterInterface $invitationAdapter;
     private readonly TastingRepositoryInterface $tastingRepository;
-    private readonly DocumentManager $documentManager;
     private readonly EntityManagerInterface $entityManager;
 
     public function testInvitationProjection(): void
@@ -37,7 +35,6 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
         $projection = $this->deleteInvitationProjection = $container->get(DeleteInvitationProjection::class);
         $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
         $this->tastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
         $invitationReadModel = new Invitation(
@@ -47,9 +44,9 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
             'hugues.gobet@gmail.com',
             'Pedro',
             'root@gmail.com',
-            'Pedro',
             GetInvitationLink::getLink()->value(),
             new \DateTimeImmutable(),
+            'Pedro',
         );
 
         $this->invitationAdapter->add($invitationReadModel);

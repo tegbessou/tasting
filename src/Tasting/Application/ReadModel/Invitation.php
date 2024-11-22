@@ -23,10 +23,10 @@ class Invitation
         #[MongoDB\Field(type: 'string')]
         public string $targetId,
         #[MongoDB\Field(type: 'string')]
-        public string $targetName,
-        #[MongoDB\Field(type: 'string')]
         public string $link,
         #[MongoDB\Field(type: 'date_immutable')]
         public \DateTimeImmutable $createdAt,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $targetName = null,
     ) {}
 }

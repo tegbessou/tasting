@@ -12,21 +12,21 @@ final readonly class UserFakeRepository implements UserRepositoryInterface
         if ($email === 'hugues.gobet@gmail.com') {
             return [
                 'email' => 'hugues.gobet@gmail.com',
-                'isCurrent' => true,
+                'fullName' => 'Pedro',
             ];
         }
 
         if ($email === 'root@gmail.com') {
             return [
                 'email' => 'root@gmail.com',
-                'isCurrent' => false,
+                'fullName' => 'Pedro',
             ];
         }
 
         if ($email === 'new@gmail.com') {
             return [
                 'email' => 'new@gmail.com',
-                'isCurrent' => true,
+                'fullName' => null,
             ];
         }
 

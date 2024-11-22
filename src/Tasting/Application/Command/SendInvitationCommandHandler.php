@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Command;
 
+use App\Tasting\Application\Exception\OwnerDoesntExistException;
 use App\Tasting\Application\Service\MailerInterface;
 use App\Tasting\Application\Service\NotificationInterface;
 use App\Tasting\Domain\Adapter\UserAdapterInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
-use App\Tasting\Domain\Exception\OwnerDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
@@ -59,7 +59,7 @@ final readonly class SendInvitationCommandHandler
 
         $this->emailService->sendInvitationEmail(
             $owner->email()->value(),
-            $owner->fullName()->value(),
+            $owner->fullName()?->value() ?? throw new \LogicException(),
             $invitation->target()->value(),
             $tasting->bottleName()->value(),
             $invitation->link()->value(),

@@ -111,6 +111,9 @@ services:
   App\Tasting\Application\EventListener\OnInvitationRejected:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
+    tags: [kernel.event_listener]
+
 when@dev:
   services:
     App\Security\Domain\Service\AuthenticateUserFromProviderInterface:

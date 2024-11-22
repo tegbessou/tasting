@@ -67,4 +67,10 @@ final class InvitationDoctrineAdapter extends DoctrineRepository implements Invi
         $this->documentManager->remove($invitation);
         $this->documentManager->flush();
     }
+
+    #[\Override]
+    public function update(): void
+    {
+        $this->documentManager->flush();
+    }
 }

@@ -7,6 +7,7 @@ namespace AdapterTest\ContractTest\Tasting\Infrastructure\Security\Http\Reposito
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
+use App\Tasting\Domain\ValueObject\UserFullName;
 use App\Tasting\Infrastructure\Security\Adapter\UserAdapter;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -28,7 +29,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
         $this->assertEquals(
             User::create(
                 UserEmail::fromString('hugues.gobet@gmail.com'),
-                true,
+                UserFullName::fromString('Pedro'),
             ),
             $this->httpUserRepository->ofEmail(
                 ParticipantId::fromString('hugues.gobet@gmail.com'),
@@ -36,23 +37,8 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
         );
     }
 
-    public function testOfEmailNotCurrent(): void
-    {
-        $this->assertEquals(
-            User::create(
-                UserEmail::fromString('root@gmail.com'),
-                false,
-            ),
-            $this->httpUserRepository->ofEmail(
-                ParticipantId::fromString('root@gmail.com'),
-            ),
-        );
-    }
-
     public function testOfEmailNull(): void
     {
-        $this->expectException(\LogicException::class);
-
         $this->assertNull(
             $this->httpUserRepository->ofEmail(
                 ParticipantId::fromString('pedro@gmail.com'),

@@ -29,8 +29,8 @@ final readonly class GetCollectionInvitationResource
         public string $fromId,
         public string $fromName,
         public string $targetId,
-        public string $targetName,
         public string $link,
+        public ?string $targetName = null,
     ) {
     }
 
@@ -42,8 +42,8 @@ final readonly class GetCollectionInvitationResource
             $invitation->fromId,
             $invitation->fromName,
             $invitation->targetId,
-            $invitation->targetName,
             $invitation->link,
+            $invitation->targetName,
         );
     }
 }

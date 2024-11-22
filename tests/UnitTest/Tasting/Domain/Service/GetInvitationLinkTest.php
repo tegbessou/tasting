@@ -8,7 +8,7 @@ use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use PHPUnit\Framework\TestCase;
 
-final class GetInvitationLinkServiceTest extends TestCase
+final class GetInvitationLinkTest extends TestCase
 {
     public function testGetLink(): void
     {

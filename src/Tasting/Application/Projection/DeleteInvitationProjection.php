@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Projection;
 
-use App\BottleInventory\Application\Exception\BottleDoesntExistException;
+use App\Tasting\Application\Exception\InvitationDoesntExistException;
 use App\Tasting\Application\Projection\Projector\DeleteInvitationProjector;
 use App\Tasting\Domain\Event\InvitationRemoved;
 use Monolog\Attribute\WithMonologChannel;
@@ -25,9 +25,9 @@ final readonly class DeleteInvitationProjection
             $this->projector->project(
                 $event->invitationId,
             );
-        } catch (BottleDoesntExistException $exception) {
+        } catch (InvitationDoesntExistException $exception) {
             $this->logger->error(
-                'Delete bottle projection: Delete bottle projection failed',
+                'Delete invitation projection: Delete invitation projection failed',
                 [
                     'exception' => $exception->getMessage(),
                 ],
