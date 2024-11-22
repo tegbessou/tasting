@@ -11,8 +11,7 @@ use App\Tasting\Application\Command\InviteParticipantsCommand;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\PostTastingInviteResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerCannotBeInvitedConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildParticipantsAlreadyInvitedConstraintViolation;
 use Monolog\Attribute\WithMonologChannel;
@@ -22,7 +21,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<TastingResource, void>
+ * @implements ProcessorInterface<PostTastingInviteResource, void>
  */
 #[WithMonologChannel('tasting')]
 final readonly class InviteParticipantsToTastingProcessor implements ProcessorInterface
@@ -39,19 +38,14 @@ final readonly class InviteParticipantsToTastingProcessor implements ProcessorIn
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
         Assert::uuid($uriVariables['id']);
-        Assert::isInstanceOf($data, TastingResource::class);
+        Assert::isInstanceOf($data, PostTastingInviteResource::class);
         Assert::allEmail($data->participants);
-
-        $participants = array_map(
-            fn (string $participantEmail) => ParticipantEmail::fromString($participantEmail),
-            $data->participants,
-        );
 
         try {
             $this->commandBus->dispatch(
                 new InviteParticipantsCommand(
                     $uriVariables['id'],
-                    $participants,
+                    $data->participants,
                 ),
             );
         } catch (TastingDoesntExistException $exception) {

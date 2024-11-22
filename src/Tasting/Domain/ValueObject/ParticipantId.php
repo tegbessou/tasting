@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\ValueObject;
 
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final class ParticipantId
 {
-    #[ORM\Id]
-    #[ORM\Column(name: 'id', type: 'uuid', length: 36, unique: true)]
     private string $value;
 
     public function __construct(
         string $value,
     ) {
-        Assert::minLength($value, 36);
-        Assert::maxLength($value, 36);
-        Assert::uuid($value);
+        Assert::minLength($value, 1);
+        Assert::maxLength($value, 256);
+        Assert::email($value);
 
         $this->value = $value;
     }

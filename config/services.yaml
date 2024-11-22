@@ -18,6 +18,9 @@ services:
   App\BottleInventory\Application\EventListener\OnBottleTasted:
     tags: [kernel.event_listener]
 
+  App\Security\Application\EventListener\OnUserCreated:
+    tags: [kernel.event_listener]
+
   App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
     alias: App\BottleInventory\Infrastructure\Country\Repository\CountryRepository
 
@@ -64,8 +67,17 @@ services:
   App\Country\Application\Projection\CreateCountryProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
+  App\Tasting\Application\Projection\CreateTastingProjection:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\Projection\CreateInvitationProjection:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\Projection\DeleteInvitationProjection:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Security\Repository\ParticipantRepository
 
   App\Security\Application\Adapter\UserAdapterInterface:
     alias: App\Security\Infrastructure\Doctrine\Adapter\UserDoctrineAdapter
@@ -73,6 +85,14 @@ services:
 
   App\Country\Application\Adapter\CountryAdapterInterface:
     alias: App\Country\Infrastructure\Doctrine\Adapter\CountryDoctrineAdapter
+    public: true
+
+  App\Tasting\Application\Adapter\TastingAdapterInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Adapter\TastingDoctrineAdapter
+    public: true
+
+  App\Tasting\Application\Adapter\InvitationAdapterInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Adapter\InvitationDoctrineAdapter
     public: true
 
   App\Tasting\Application\Service\NotificationInterface:
@@ -94,7 +114,7 @@ services:
   App\Tasting\Application\EventListener\OnInvitationRejected:
     tags: [kernel.event_listener]
 
-  App\Security\Application\EventListener\OnUserCreated:
+  App\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
     tags: [kernel.event_listener]
 
 when@dev:
@@ -113,8 +133,8 @@ when@test:
     App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
       alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderFake
 
-    App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
-      alias: App\Tasting\Infrastructure\Security\Repository\UserFakeRepository
+    App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
+      alias: App\Tasting\Infrastructure\Security\Repository\ParticipantFakeRepository
 
     App\Tasting\Application\Service\NotificationInterface:
       alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake

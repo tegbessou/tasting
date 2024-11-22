@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace DataFixtures\Tasting;
 
-use App\Tasting\Domain\Entity\Participant;
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
-use App\Tasting\Domain\ValueObject\ParticipantFullName;
 use App\Tasting\Domain\ValueObject\ParticipantId;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ParticipantFixtures extends Fixture
+final class ParticipantFixtures
 {
-    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $participants = [];

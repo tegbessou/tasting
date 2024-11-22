@@ -7,17 +7,15 @@ namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
 use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
+use App\Tasting\Domain\ValueObject\TastingOwnerId;
+use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class TastingDoctrineRepositoryTest extends KernelTestCase
 {
     private TastingRepositoryInterface $doctrineTastingRepository;
-
-    private ParticipantDoctrineRepository $doctrineParticipantRepository;
 
     private EntityManagerInterface $entityManager;
 
@@ -28,7 +26,6 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->doctrineTastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->doctrineParticipantRepository = $container->get(ParticipantDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
         $this->entityManager->beginTransaction();
@@ -70,23 +67,21 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
     {
         $tastings = $this->doctrineTastingRepository->withBottle(
             BottleName::fromString('Domaine Leflaive Montrachet Grand Cru 2016'),
-        )->getIterator();
+        );
 
         $this->assertNotNull($tastings->current());
-        $this->assertStringContainsString('9964e539-05ff-4611-b39c-ffd6d108b8b7', $tastings->current()->owner()->id()->value());
+        $this->assertStringContainsString('hugues.gobet@gmail.com', $tastings->current()->ownerId()->value());
     }
 
     public function testAdd(): void
     {
-        $participant = $this->doctrineParticipantRepository->ofEmail(
-            ParticipantEmail::fromString('hugues.gobet@gmail.com'),
-        );
-
         $tasting = Tasting::create(
             TastingId::fromString('0d022ae1-7129-49c2-b0a4-ed8b8612715f'),
             BottleName::fromString('Château Margaux 2015'),
-            $participant,
+            TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
+
+        $tasting::eraseRecordedEvents();
 
         $this->doctrineTastingRepository->add($tasting);
 
@@ -102,10 +97,15 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
         );
         $this->assertEquals(
             'hugues.gobet@gmail.com',
-            $tasting->owner()->email()->value(),
+            $tasting->ownerId()->value(),
         );
 
-        $this->entityManager->remove($tasting);
+        $tastingDoctrine = $this->entityManager
+            ->getRepository(TastingDoctrine::class)
+            ->find('0d022ae1-7129-49c2-b0a4-ed8b8612715f')
+        ;
+
+        $this->entityManager->remove($tastingDoctrine);
         $this->entityManager->flush();
     }
 

@@ -134,9 +134,11 @@ To see this mail go to: https://mailcatcher.du-vin-des-amis.docker
 
 ## Value object rule
 - Id method should be named value
+- Value object should be immutable
 
 ## Architecture rules
 - Each Domain should have its own folder
+- Each Entity is responsible for it's state so they must recreate the value object of a property when they must be changed
 - Domain never should have a dependency with another domain except Shared, to avoid to have dependency between domain
 - Transaction for CommandHandler are started in the MessengerCommandBus
 - Each Exception in Adapter should be logged
@@ -159,40 +161,12 @@ to transform this data to our domain
 ![img.png](resources/v2-domain.png)
 
 ## Refactoring DDD
-/!\ Important change to do
-One repository for an aggregate root
-Challenge Invitation entity to follow aggregate rules
 
-Challenge the presence of an entity Owner in tasting to use with participant entity
-
-Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
-Remove Assert from Webmozart and create my own domain service to assert this
-Enforce rules that domains must be independent of each other
+Reflect to put specification for Invitation Status
 
 ### Refactoring tasting
 
-Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
-should be created only when a tasting is created
-=> We do not duplicate the participant, we only store uuid of the user from security context => Wrong we must create a participant
-when we invite a friend
-=> So we have to duplicate the participant in tasting context and security context, the participant is create when user is invited
-
-I need to create an owner entity in tasting context this entity should be created when a tasting is created
-
-All entity should be handled by aggregate root
-
-When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
-them, the tasting service should check if the friend is already a participant and if not create a participant entity
-
-Remove all repository and keep only the tasting repository
-
-Add a read model to handle invitation by user
-
-If I create data in another domain, i don't have to check if data exist in the main domain
-
 When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
-
-Create an api resource for each representation
 
 ### Refactoring user
 
@@ -202,40 +176,24 @@ User context is responsible to send notification when invitation is sent
 
 Extract it in a microservice and a new project
 
+Add a fullname to user
+
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
 Separate each bounded context in microservice
 
-Reflect to add test on command handler and query handler => Va être nécessaire use test case
-
-Renommer les tests d'adapter en test d'intégration
-
-Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode.
+Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
 
 ## TODO
+Dans les tests revoir la façon de clear les datas existantes pour les tests AdapterTest (tous les tests) => high
 
-### Refactoring tasting
+Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
 
-Participant should exist only in tasting context so have to remove creation when friend is invited because a participant
-should be created only when a tasting is created
-=> We do not duplicate the participant, we only store uuid of the user from security context => Wrong we must create a participant
-when we invite a friend
-=> So we have to duplicate the participant in tasting context and security context, the participant is create when user is invited
+Normaliser delete instead of remove
 
-I need to create an owner entity in tasting context this entity should be created when a tasting is created
+All value object should be recreated in the entity and not in their own code
 
-All entity should be handled by aggregate root
+Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
 
-When we want to invite a friend to taste a bottle, we get a list of friend and we pass id to the tasting service to invite
-them, the tasting service should check if the friend is already a participant and if not create a participant entity
-
-Remove all repository and keep only the tasting repository
-
-Add a read model to handle invitation by user
-
-If I create data in another domain, i don't have to check if data exist in the main domain
-
-When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
-
-Create an api resource for each representation
+Renommer les tests d'adapter en test d'intégration => a vérifier selon la pyramide des tests

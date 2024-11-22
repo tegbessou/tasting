@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tasting\Infrastructure\Firebase;
 
 use App\Tasting\Application\Service\NotificationInterface;
-use App\Tasting\Domain\Entity\Participant;
-use App\Tasting\Domain\ValueObject\BottleName;
 use Kreait\Firebase\Messaging\Notification;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -20,15 +18,18 @@ final class NotificationFirebaseFake implements NotificationInterface
     }
 
     #[\Override]
-    public function sendInvitationNotification(Participant $owner, Participant $target, BottleName $bottleName): void
-    {
+    public function sendInvitationNotification(
+        string $fromFullName,
+        string $targetId,
+        string $bottleName,
+    ): void {
         $notification = Notification::create(
             $this->translator->trans('tasting.invitation.title', [], 'notifications'),
             $this->translator->trans(
                 'tasting.invitation.body',
                 [
-                    'fullName' => $owner->fullName()->value(),
-                    'bottleName' => $bottleName->value(),
+                    'fullName' => $fromFullName,
+                    'bottleName' => $bottleName,
                 ],
                 'notifications',
             )

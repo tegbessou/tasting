@@ -19,12 +19,16 @@ final readonly class DeleteInvitationMessageHandler
     }
 
     public function __invoke(
-        InvitationStatusChangedInterface $invitationAcceptedMessage,
+        InvitationStatusChangedInterface $invitationStatusChangedMessage,
     ): void {
-        Assert::uuid($invitationAcceptedMessage->getInvitationId());
+        Assert::uuid($invitationStatusChangedMessage->getTastingId());
+        Assert::uuid($invitationStatusChangedMessage->getInvitationId());
 
         $this->commandBus->dispatch(
-            new DeleteInvitationCommand($invitationAcceptedMessage->getInvitationId()),
+            new DeleteInvitationCommand(
+                $invitationStatusChangedMessage->getTastingId(),
+                $invitationStatusChangedMessage->getInvitationId(),
+            ),
         );
     }
 }

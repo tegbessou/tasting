@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\ValueObject;
 
 use App\Tasting\Domain\Enum\TastingInvitationStatus as TastingInvitationStatusEnum;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Embeddable]
 final readonly class InvitationStatus
 {
-    public function __construct(#[ORM\Column(name: 'status', type: 'string', length: 10, nullable: false, enumType: TastingInvitationStatusEnum::class)]
+    public function __construct(
         public TastingInvitationStatusEnum $status)
     {
     }
@@ -36,5 +34,10 @@ final readonly class InvitationStatus
     public function isRejected(): bool
     {
         return $this->status === TastingInvitationStatusEnum::REJECTED;
+    }
+
+    public function value(): TastingInvitationStatusEnum
+    {
+        return $this->status;
     }
 }

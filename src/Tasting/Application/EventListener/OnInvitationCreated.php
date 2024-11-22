@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tasting\Application\EventListener;
 
 use App\Tasting\Application\Service\MessageBrokerInterface;
-use App\Tasting\Domain\Event\InvitationCreated;
+use App\Tasting\Domain\Event\TastingParticipantInvited;
 
 final readonly class OnInvitationCreated
 {
@@ -14,7 +14,7 @@ final readonly class OnInvitationCreated
     ) {
     }
 
-    public function __invoke(InvitationCreated $event): void
+    public function __invoke(TastingParticipantInvited $event): void
     {
         $this->messageBrokerService->dispatchInvitationCreatedMessage(
             $event,

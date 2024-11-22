@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\ValueObject;
 
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final readonly class InvitationId
 {
-    #[ORM\Id]
-    #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
     private string $value;
 
     public function __construct(

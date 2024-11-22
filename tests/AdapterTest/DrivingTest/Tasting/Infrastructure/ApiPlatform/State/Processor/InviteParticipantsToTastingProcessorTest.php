@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Processor;
 
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
-use App\Tasting\Domain\ValueObject\ParticipantId;
+use App\Tasting\Application\Adapter\InvitationAdapterInterface;
 use App\Tasting\Domain\ValueObject\TastingId;
+use App\Tasting\Infrastructure\Doctrine\Entity\Invitation;
 use App\Tasting\Infrastructure\Doctrine\Repository\InvitationDoctrineRepository;
-use App\Tasting\Infrastructure\Doctrine\Repository\ParticipantDoctrineRepository;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,8 +21,8 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
     private InvitationDoctrineRepository $invitationDoctrineRepository;
     private EntityManagerInterface $entityManager;
-    private ParticipantDoctrineRepository $participantDoctrineRepository;
     private TastingDoctrineRepository $tastingDoctrineRepository;
+    private InvitationAdapterInterface $invitationAdapter;
 
     #[\Override]
     protected function setUp(): void
@@ -32,8 +31,8 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         $container = self::getContainer();
         $this->invitationDoctrineRepository = $container->get(InvitationDoctrineRepository::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->participantDoctrineRepository = $container->get(ParticipantDoctrineRepository::class);
         $this->tastingDoctrineRepository = $container->get(TastingDoctrineRepository::class);
+        $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
     }
 
     public function testInviteParticipantsToTasting(): void
@@ -48,22 +47,17 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 
         $this->transport('tasting')->queue()->assertContains(InvitationCreatedMessage::class, 1);
 
-        $invitations = $this->invitationDoctrineRepository->withParticipantAndTasting(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
-        )->getIterator();
-
-        $this->assertNotNull($invitations->current());
-
-        $this->assertEquals(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            $invitations->current()->target()->id(),
+        $tasting = $this->tastingDoctrineRepository->ofId(
+            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722')
         );
 
-        foreach ($invitations as $invitation) {
-            $this->entityManager->remove($invitation);
-        }
+        $invitation = $tasting->invitations()->values()[0];
 
+        $invitationReadModel = $this->invitationAdapter->ofId($invitation->id()->value());
+        $this->invitationAdapter->delete($invitationReadModel);
+
+        $invitationDoctrine = $this->entityManager->getRepository(Invitation::class)->find($invitation->id()->value());
+        $this->entityManager->remove($invitationDoctrine);
         $this->entityManager->flush();
     }
 
@@ -153,38 +147,22 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'participants',
-                    'message' => 'Les participants Root sont déjà invités.',
+                    'message' => 'Les participants root@gmail.com sont déjà invités.',
                 ],
             ],
         ]);
 
-        $invitations = $this->invitationDoctrineRepository->withParticipantAndTasting(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722'),
-        )->getIterator();
-
-        foreach ($invitations as $invitation) {
-            $this->entityManager->remove($invitation);
-        }
-
-        $this->entityManager->flush();
-    }
-
-    public function testInviteParticipantToTastingWithParticipantNotExistInDatabase(): void
-    {
-        $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
-            'participants' => [
-                'stephanie.saintmarcel@gmail.com',
-            ],
-        ]);
-
-        $this->assertResponseStatusCodeSame(204);
-
-        $participant = $this->participantDoctrineRepository->ofEmail(
-            ParticipantEmail::fromString('stephanie.saintmarcel@gmail.com'),
+        $tasting = $this->tastingDoctrineRepository->ofId(
+            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722')
         );
 
-        $this->assertNotNull($participant);
-        $this->assertNull($participant->fullName()->value());
+        $invitation = $tasting->invitations()->values()[0];
+
+        $invitationReadModel = $this->invitationAdapter->ofId($invitation->id()->value());
+        $this->invitationAdapter->delete($invitationReadModel);
+
+        $invitationDoctrine = $this->entityManager->getRepository(Invitation::class)->find($invitation->id()->value());
+        $this->entityManager->remove($invitationDoctrine);
+        $this->entityManager->flush();
     }
 }

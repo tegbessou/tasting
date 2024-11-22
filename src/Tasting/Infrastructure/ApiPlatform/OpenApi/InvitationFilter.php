@@ -14,7 +14,7 @@ final readonly class InvitationFilter implements FilterInterface
     {
         return [
             'name' => [
-                'property' => 'target.email',
+                'property' => 'target.id',
                 'type' => Type::BUILTIN_TYPE_STRING,
                 'required' => false,
             ],

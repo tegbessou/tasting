@@ -7,12 +7,16 @@ namespace FeatureTest\Security;
 use App\Security\Application\Command\AuthenticateUserCommand;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\ValueObject\UserEmail;
+use App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
+use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class AuthenticateUserTest extends KernelTestCase
 {
+    use InteractsWithMessenger;
+
     private EntityManagerInterface $entityManager;
     private UserRepositoryInterface $userRepository;
     private CommandBusInterface $commandBus;
@@ -43,6 +47,9 @@ final class AuthenticateUserTest extends KernelTestCase
         $this->assertNull($user);
 
         $authenticatedUser = $this->commandBus->dispatch($command);
+
+        $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('security_to_tasting')->reset();
 
         $this->assertEquals(UserEmail::fromString('nexistepas@gmail.com'), $authenticatedUser->email());
 

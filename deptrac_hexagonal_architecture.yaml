@@ -121,6 +121,7 @@ deptrac:
             - Helpers
             - Attributes
             - Collection
+            - Events
             - Uuid
             - Logger
             - Shared Kernel Domain

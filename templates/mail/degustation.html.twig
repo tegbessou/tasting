@@ -62,7 +62,7 @@
         <img src="{{ email.image('@images/logo.jpg') }}" alt="{{ 'tasting.invitation.app_name'|trans({}, 'mails') }}">
     </div>
     <div class="content">
-        <p>{{ 'tasting.invitation.salutation'|trans({'targetFullName': targetFullName}, 'mails') }}</p>
+        <p>{{ 'tasting.invitation.salutation'|trans({}, 'mails') }}</p>
         <p>{{ 'tasting.invitation.body'|trans({'ownerFullName': ownerFullName, 'bottleName': bottleName}, 'mails') }}</p>
         <p>{{ 'tasting.invitation.join'|trans({}, 'mails') }}</p>
         <a href="{{ link }}" target="_blank">{{ 'tasting.invitation.join_link'|trans({}, 'mails') }}</a>

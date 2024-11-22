@@ -8,51 +8,54 @@ use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
+use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
+use App\Tasting\Infrastructure\Doctrine\Mapper\TastingMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Uid\Uuid;
-use TegCorp\SharedKernelBundle\Infrastructure\Doctrine\ORM\DoctrineRepository;
 
-/**
- * @extends DoctrineRepository<Tasting>
- */
-final class TastingDoctrineRepository extends DoctrineRepository implements TastingRepositoryInterface
+final readonly class TastingDoctrineRepository implements TastingRepositoryInterface
 {
-    private const ENTITY_CLASS = Tasting::class;
-    private const ALIAS = 'tasting';
+    private const ENTITY_CLASS = TastingDoctrine::class;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
+        private EntityManagerInterface $entityManager,
     ) {
-        parent::__construct($entityManager, self::ENTITY_CLASS, self::ALIAS);
     }
 
     #[\Override]
     public function ofId(TastingId $id): ?Tasting
     {
-        return $this->entityManager->find(self::ENTITY_CLASS, $id);
+        $tastingDoctrine = $this->entityManager->find(self::ENTITY_CLASS, $id->value());
+
+        if ($tastingDoctrine === null) {
+            return null;
+        }
+
+        return TastingMapper::toDomain($tastingDoctrine);
     }
 
     #[\Override]
-    public function withBottle(BottleName $name): self
+    public function withBottle(BottleName $name): \Iterator
     {
-        return $this->filter(static function (QueryBuilder $qb) use ($name): void {
-            $qb->where(
-                sprintf(
-                    '%s.bottleName.name = :name',
-                    self::ALIAS))
-                ->setParameter(
-                    'name',
-                    $name->value(),
-                )
-            ;
-        });
+        $bottles = $this->entityManager->getRepository(self::ENTITY_CLASS)->findBy([
+            'bottleName' => $name->value(),
+        ]);
+
+        $bottlesMapped = [];
+
+        foreach ($bottles as $bottle) {
+            $bottlesMapped[] = TastingMapper::toDomain($bottle);
+        }
+
+        yield from $bottlesMapped;
     }
 
     #[\Override]
     public function add(Tasting $tasting): void
     {
-        $this->entityManager->persist($tasting);
+        $tastingDoctrine = TastingMapper::toInfrastructurePersist($tasting);
+
+        $this->entityManager->persist($tastingDoctrine);
         $this->entityManager->flush();
     }
 
@@ -65,8 +68,16 @@ final class TastingDoctrineRepository extends DoctrineRepository implements Tast
     }
 
     #[\Override]
-    public function update(): void
+    public function update(Tasting $tasting): void
     {
+        $tastingOrm = $this->entityManager->getRepository(self::ENTITY_CLASS)->find($tasting->id()->value());
+
+        if ($tastingOrm === null) {
+            throw new \LogicException('TastingDoctrineRepository Tasting must exist in doctrine.');
+        }
+
+        TastingMapper::toInfrastructureUpdate($tasting, $tastingOrm);
+
         $this->entityManager->flush();
     }
 }

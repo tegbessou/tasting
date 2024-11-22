@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
+use App\Tasting\Application\ReadModel\Tasting as TastingReadModel;
 use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
@@ -15,6 +19,8 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
     use InteractsWithMessenger;
 
     private TastingDoctrineRepository $doctrineTastingRepository;
+    private EntityManagerInterface $entityManager;
+    private DocumentManager $documentManager;
 
     #[\Override]
     protected function setUp(): void
@@ -23,6 +29,8 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
         $container = self::getContainer();
 
         $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testCreateTasting(): void
@@ -38,9 +46,17 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
 
         $tastings = $this->doctrineTastingRepository->withBottle(
             BottleName::fromString('Château Margaux 2015'),
-        )->getIterator();
+        );
 
         $this->assertNotNull($tastings->current());
-        $this->assertEquals('9964e539-05ff-4611-b39c-ffd6d108b8b7', $tastings->current()->owner()->id()->value());
+        $this->assertEquals('hugues.gobet@gmail.com', $tastings->current()->ownerId()->value());
+
+        $tastingReadModel = $this->documentManager->getRepository(TastingReadModel::class)->find($tastings->current()->id()->value());
+        $this->documentManager->remove($tastingReadModel);
+        $this->documentManager->flush();
+
+        $tasting = $this->entityManager->getRepository(TastingDoctrine::class)->find($tastings->current()->id()->value());
+        $this->entityManager->remove($tasting);
+        $this->entityManager->flush();
     }
 }

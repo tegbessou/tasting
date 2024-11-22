@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tasting\Application\Command;
 
+use App\Tasting\Application\Exception\OwnerDoesntExistException;
 use App\Tasting\Application\Service\MailerInterface;
 use App\Tasting\Application\Service\NotificationInterface;
+use App\Tasting\Domain\Adapter\ParticipantAdapterInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
-use App\Tasting\Domain\Exception\InvitationTargetDoesntExistException;
-use App\Tasting\Domain\Exception\OwnerDoesntExistException;
-use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
-use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\Exception\TastingDoesntExistException;
+use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
+use App\Tasting\Domain\ValueObject\ParticipantId;
+use App\Tasting\Domain\ValueObject\TastingId;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
@@ -21,17 +21,25 @@ use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 final readonly class SendInvitationCommandHandler
 {
     public function __construct(
-        private InvitationRepositoryInterface $invitationRepository,
-        private ParticipantRepositoryInterface $participantRepository,
+        private TastingRepositoryInterface $tastingRepository,
         private MailerInterface $emailService,
         private NotificationInterface $notificationService,
         private DomainEventDispatcherInterface $eventDispatcher,
+        private ParticipantAdapterInterface $userAdapter,
     ) {
     }
 
     public function __invoke(SendInvitationCommand $command): void
     {
-        $invitation = $this->invitationRepository->ofId(
+        $tasting = $this->tastingRepository->ofId(
+            TastingId::fromString($command->tastingId),
+        );
+
+        if ($tasting === null) {
+            throw new TastingDoesntExistException($command->tastingId);
+        }
+
+        $invitation = $tasting->invitations()->find(
             InvitationId::fromString($command->invitationId),
         );
 
@@ -39,39 +47,32 @@ final readonly class SendInvitationCommandHandler
             throw new InvitationDoesntExistException($command->invitationId);
         }
 
-        $owner = $this->participantRepository->ofEmail(
-            ParticipantEmail::fromString($command->ownerEmail),
+        $owner = $this->userAdapter->ofId(
+            ParticipantId::fromString($tasting->ownerId()->value()),
         );
 
         if ($owner === null) {
-            throw new OwnerDoesntExistException($command->ownerEmail);
+            throw new OwnerDoesntExistException($tasting->ownerId()->value());
         }
 
-        $target = $this->participantRepository->ofEmail(
-            ParticipantEmail::fromString($command->targetEmail),
-        );
-
-        if ($target === null) {
-            throw new InvitationTargetDoesntExistException($command->targetEmail);
-        }
-
-        $invitation->send();
+        $tasting->sendInvitation($invitation);
 
         $this->emailService->sendInvitationEmail(
-            $owner,
-            $target,
-            BottleName::fromString($command->bottleName),
-            $invitation->link(),
+            $owner->id()->value(),
+            $owner->fullName()?->value() ?? throw new \LogicException(),
+            $invitation->target()->value(),
+            $tasting->bottleName()->value(),
+            $invitation->link()->value(),
         );
 
         $this->notificationService->sendInvitationNotification(
-            $owner,
-            $target,
-            BottleName::fromString($command->bottleName),
+            $owner->fullName()->value(),
+            $invitation->target()->value(),
+            $tasting->bottleName()->value(),
         );
 
-        $this->invitationRepository->update();
+        $this->tastingRepository->update($tasting);
 
-        $this->eventDispatcher->dispatch($invitation);
+        $this->eventDispatcher->dispatch($tasting);
     }
 }

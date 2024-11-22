@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
-use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Repository\ParticipantRepositoryInterface;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\GetInvitationLink;
+use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
-use App\Tasting\Domain\ValueObject\InvitationId;
-use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Infrastructure\Doctrine\Repository\InvitationDoctrineRepository;
+use App\Tasting\Domain\ValueObject\TastingOwnerId;
+use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -23,10 +21,10 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
 
-    private InvitationDoctrineRepository $invitationDoctrineRepository;
     private TastingRepositoryInterface $tastingDoctrineRepository;
-    private ParticipantRepositoryInterface $participantDoctrineRepository;
+    private InviteParticipant $inviteParticipant;
     private EntityManagerInterface $entityManager;
+    private DocumentManager $documentManager;
 
     #[\Override]
     protected function setUp(): void
@@ -34,65 +32,63 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->invitationDoctrineRepository = $container->get(InvitationDoctrineRepository::class);
         $this->tastingDoctrineRepository = $container->get(TastingRepositoryInterface::class);
-        $this->participantDoctrineRepository = $container->get(ParticipantRepositoryInterface::class);
+        $this->inviteParticipant = $container->get(InviteParticipant::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
+        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testRemoveInvitation(): void
     {
-        $owner = $this->participantDoctrineRepository->ofId(
-            ParticipantId::fromString('9964e539-05ff-4611-b39c-ffd6d108b8b7'),
-        );
+        $owner = 'hugues.gobet@gmail.com';
 
-        $newParticipant = $this->participantDoctrineRepository->ofId(
-            ParticipantId::fromString('c9350812-3f30-4fa4-8580-295ca65a4451'),
-        );
-
-        $this->participantDoctrineRepository->add($newParticipant);
+        $participant = 'root@gmail.com';
 
         $tasting = Tasting::create(
-            TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
+            TastingId::fromString('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc'),
             BottleName::fromString('Sassicaia 2012'),
-            $owner,
+            TastingOwnerId::fromString($owner),
         );
+
+        $tasting::eraseRecordedEvents();
 
         $this->tastingDoctrineRepository->add($tasting);
 
-        $invitation = Invitation::create(
-            InvitationId::fromString('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc'),
+        $this->inviteParticipant->inviteParticipants(
             $tasting,
-            $owner,
-            GetInvitationLink::getLink(),
+            [
+                $participant,
+            ],
         );
 
-        $this->invitationDoctrineRepository->add($invitation);
+        $this->tastingDoctrineRepository->update($tasting);
 
-        $invitation->send();
-        $invitation->accept();
+        $invitation = $tasting->invitations()->values()[0];
 
-        $this->invitationDoctrineRepository->update();
+        $tasting->sendInvitation($invitation);
+
+        $this->tastingDoctrineRepository->update($tasting);
+
+        $tasting->acceptInvitation($invitation);
+
+        $this->tastingDoctrineRepository->update($tasting);
 
         $this->bus('event.bus')->dispatch(new InvitationAcceptedMessage(
             '9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc',
+            $invitation->id()->value(),
         ));
 
         $this->transport('tasting')->queue()->assertContains(InvitationAcceptedMessage::class, 1);
         $this->transport('tasting')->process();
         $this->transport('tasting')->queue()->assertContains(InvitationAcceptedMessage::class, 0);
 
-        $invitationFromToAssert = $this->invitationDoctrineRepository->ofId(
-            InvitationId::fromString('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc'),
+        $tasting = $this->tastingDoctrineRepository->ofId(
+            TastingId::fromString('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc'),
         );
 
-        $this->assertNull($invitationFromToAssert);
+        $this->assertCount(0, $tasting->invitations()->values());
 
-        $tastingToRemove = $this->tastingDoctrineRepository->ofId(
-            TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
-        );
-
-        $this->invitationDoctrineRepository->delete($invitation);
+        $tastingToRemove = $this->entityManager->getRepository(TastingDoctrine::class)->find('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc');
         $this->entityManager->remove($tastingToRemove);
         $this->entityManager->flush();
     }
