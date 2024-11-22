@@ -21,17 +21,13 @@ final class GetInvitationCollectionProviderTest extends ApiTestCase
                 [
                     '@type' => 'Invitation',
                     '@id' => '/api/invitations/abed2f69-9aae-4d92-a91c-edfa7c985674',
-                    'subject' => [
-                        '@id' => '/api/tastings/2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
-                        'bottleName' => 'Domaine Leflaive Montrachet Grand Cru 2016',
-                        'owner' => [
-                            '@id' => '/api/owner_tastings/9964e539-05ff-4611-b39c-ffd6d108b8b7',
-                            'fullName' => 'Hugues Gobet',
-                        ],
-                    ],
-                    'target' => [
-                        'fullName' => 'Root',
-                    ],
+                    'id' => 'abed2f69-9aae-4d92-a91c-edfa7c985674',
+                    'tastingId' => '2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
+                    'fromId' => 'hugues.gobet@gmail.com',
+                    'fromName' => 'Pedor',
+                    'targetId' => 'root@gmail.com',
+                    'targetName' => 'Pedor',
+                    'link' => 'https://apps.apple.com/app/6468406309',
                 ],
             ],
             'totalItems' => 1,

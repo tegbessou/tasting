@@ -9,6 +9,7 @@ use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 final readonly class InvitationAccepted implements DomainEventInterface
 {
     public function __construct(
+        public string $tastingId,
         public string $invitationId,
     ) {
     }

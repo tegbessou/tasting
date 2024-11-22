@@ -101,19 +101,21 @@ final class TastingTest extends TestCase
         $this->assertEmpty($tasting::getRecordedEvent()[0]);
     }
 
-    public function testSend(): void
+    public function testSendInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -138,17 +140,19 @@ final class TastingTest extends TestCase
 
     public function testSendAlreadySent(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -175,17 +179,19 @@ final class TastingTest extends TestCase
 
     public function testSendSuccessEventDispatch(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -210,17 +216,19 @@ final class TastingTest extends TestCase
 
     public function testSendFailedNoEventDispatch(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -249,17 +257,19 @@ final class TastingTest extends TestCase
 
     public function testAcceptInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -293,17 +303,19 @@ final class TastingTest extends TestCase
 
     public function testAcceptInvitationNotAlreadySent(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -328,17 +340,19 @@ final class TastingTest extends TestCase
 
     public function testAcceptInvitationEventDispatch(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -366,17 +380,19 @@ final class TastingTest extends TestCase
 
     public function testRemoveInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $newParticipant = 'root@gmail.com';
@@ -402,17 +418,19 @@ final class TastingTest extends TestCase
 
     public function testRemoveInvitationNotAlreadySend(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $newParticipant = 'root@gmail.com';
@@ -437,17 +455,19 @@ final class TastingTest extends TestCase
 
     public function testRejectInvitation(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $newParticipant = 'root@gmail.com';
@@ -479,17 +499,19 @@ final class TastingTest extends TestCase
 
     public function testRejectInvitationFailedBecauseInvitationNotSent(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -514,17 +536,19 @@ final class TastingTest extends TestCase
 
     public function testRejectInvitationEventDispatch(): void
     {
-        $invitationWriteRepository = $this->createMock(InvitationRepositoryInterface::class);
-        $invitationWriteRepository->method('nextIdentity')
+        $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
+        $invitationRepository->method('nextIdentity')
             ->willReturn(InvitationId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'))
         ;
-
-        $invitationService = new InviteParticipant($invitationWriteRepository);
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             BottleName::fromString('Château Margaux 2015'),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $invitationService = new InviteParticipant(
+            $invitationRepository,
         );
 
         $tasting::eraseRecordedEvents();
@@ -575,10 +599,11 @@ final class TastingTest extends TestCase
         $this->assertEquals('root@gmail.com', $invitation->target()->value());
 
         $this->assertInstanceOf(TastingParticipantInvited::class, $tasting::getRecordedEvent()[0]);
+        $this->assertEquals('ee4fd98c-4427-42c1-bb70-08f6d92377c9', $tasting::getRecordedEvent()[0]->tastingId);
         $this->assertEquals('aaa29ab4-e46f-4243-8b7c-20988f2fa25b', $tasting::getRecordedEvent()[0]->invitationId);
-        $this->assertEquals('root@gmail.com', $tasting::getRecordedEvent()[0]->targetEmail);
+        $this->assertEquals('root@gmail.com', $tasting::getRecordedEvent()[0]->targetId);
         $this->assertNotNull($tasting::getRecordedEvent()[0]->link);
-        $this->assertEquals('hugues.gobet@gmail.com', $tasting::getRecordedEvent()[0]->ownerEmail);
+        $this->assertEquals('hugues.gobet@gmail.com', $tasting::getRecordedEvent()[0]->fromId);
         $this->assertEquals('Château Margaux 2015', $tasting::getRecordedEvent()[0]->bottleName);
 
         $tasting::eraseRecordedEvents();

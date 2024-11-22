@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Security\Http\Repository;
 
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
+use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
 use App\Tasting\Infrastructure\Security\Adapter\UserAdapter;
@@ -31,7 +31,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
                 true,
             ),
             $this->httpUserRepository->ofEmail(
-                ParticipantEmail::fromString('hugues.gobet@gmail.com'),
+                ParticipantId::fromString('hugues.gobet@gmail.com'),
             ),
         );
     }
@@ -44,7 +44,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
                 false,
             ),
             $this->httpUserRepository->ofEmail(
-                ParticipantEmail::fromString('root@gmail.com'),
+                ParticipantId::fromString('root@gmail.com'),
             ),
         );
     }
@@ -55,7 +55,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
 
         $this->assertNull(
             $this->httpUserRepository->ofEmail(
-                ParticipantEmail::fromString('pedro@gmail.com'),
+                ParticipantId::fromString('pedro@gmail.com'),
             ),
         );
     }

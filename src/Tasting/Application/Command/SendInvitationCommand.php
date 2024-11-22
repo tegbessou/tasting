@@ -12,10 +12,8 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandInterface;
 final readonly class SendInvitationCommand implements CommandInterface
 {
     public function __construct(
+        public string $tastingId,
         public string $invitationId,
-        public string $targetEmail,
-        public string $ownerEmail,
-        public string $bottleName,
     ) {
     }
 }

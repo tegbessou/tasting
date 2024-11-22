@@ -21,8 +21,30 @@ class Tasting
         public array $participants,
         #[ORM\Column(name: 'owner_id', type: 'string')]
         public string $ownerId,
-        #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'subject', cascade: ['persist'])]
+        /** @var Collection<int|string, Invitation> $invitations */
+        #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'subject', cascade: ['persist', 'remove'], orphanRemoval: true)]
         public Collection $invitations = new ArrayCollection(),
     ) {
+    }
+
+    public function addInvitation(Invitation $invitation): self
+    {
+        if (!$this->invitations->contains($invitation)) {
+            $this->invitations[] = $invitation;
+            $invitation->subject = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeInvitation(Invitation $invitation): self
+    {
+        if ($this->invitations->removeElement($invitation)) {
+            if ($invitation->subject === $this) {
+                $invitation->subject = null;
+            }
+        }
+
+        return $this;
     }
 }

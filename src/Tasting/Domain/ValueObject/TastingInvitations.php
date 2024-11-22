@@ -44,7 +44,27 @@ final readonly class TastingInvitations
             $index = $key;
         }
 
+        if (is_string($index)) {
+            throw new \LogicException('TastingInvitations index must be integer.');
+        }
+
         return $index;
+    }
+
+    public function find(InvitationId $id): ?Invitation
+    {
+        $invitationFind = null;
+
+        /** @var Invitation $invitation */
+        foreach ($this->invitations as $invitation) {
+            if ($invitation->id()->value() !== $id->value()) {
+                continue;
+            }
+
+            $invitationFind = $invitation;
+        }
+
+        return $invitationFind;
     }
 
     public function isAlreadyInvited(ParticipantId $participantId): bool

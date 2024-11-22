@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tasting\Infrastructure\Security\Adapter;
 
 use App\Tasting\Domain\Adapter\UserAdapterInterface;
-use App\Tasting\Domain\ValueObject\ParticipantEmail;
+use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface;
 use App\Tasting\Infrastructure\Security\Translator\UserTranslator;
@@ -18,10 +18,10 @@ final readonly class UserAdapter implements UserAdapterInterface
     }
 
     #[\Override]
-    public function ofEmail(ParticipantEmail $email): ?User
+    public function ofEmail(ParticipantId $id): ?User
     {
         return UserTranslator::toUser(
-            $this->userHttpClient->ofEmail($email->value()),
+            $this->userHttpClient->ofEmail($id->value()),
         );
     }
 }

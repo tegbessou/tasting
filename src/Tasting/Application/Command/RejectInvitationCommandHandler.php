@@ -6,7 +6,6 @@ namespace App\Tasting\Application\Command;
 
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
-use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -17,7 +16,6 @@ use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 final readonly class RejectInvitationCommandHandler
 {
     public function __construct(
-        private InvitationRepositoryInterface $invitationRepository,
         private TastingRepositoryInterface $tastingRepository,
         private DomainEventDispatcherInterface $dispatcher,
     ) {
@@ -33,7 +31,7 @@ final readonly class RejectInvitationCommandHandler
             throw new TastingDoesntExistException($command->tastingId);
         }
 
-        $invitation = $this->invitationRepository->ofId(
+        $invitation = $tasting->invitations()->find(
             InvitationId::fromString($command->invitationId),
         );
 
@@ -43,8 +41,8 @@ final readonly class RejectInvitationCommandHandler
 
         $tasting->rejectInvitation($invitation);
 
-        $this->invitationRepository->update();
+        $this->tastingRepository->update($tasting);
 
-        $this->dispatcher->dispatch($invitation);
+        $this->dispatcher->dispatch($tasting);
     }
 }

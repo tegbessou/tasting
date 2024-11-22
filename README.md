@@ -173,7 +173,9 @@ Enforce rules that domains must be independent of each other
 
 All value object should be recreated in the entity and not in their own code
 
-Reflect to put spefication for Invitation Status
+Reflect to put specification for Invitation Status
+
+Normaliser delete instead of remove
 
 ### Refactoring tasting
 
@@ -187,6 +189,8 @@ User context is responsible to send notification when invitation is sent
 
 Extract it in a microservice and a new project
 
+Add a fullname to user
+
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
@@ -197,6 +201,8 @@ Reflect to add test on command handler and query handler => Va être nécessaire
 Renommer les tests d'adapter en test d'intégration
 
 Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode.
+
+Dans les tests revoir la façon de clear les datas existantes pour les tests AdapterTest (tous les tests)
 
 ## TODO
 All entity should be handled by aggregate root
@@ -212,12 +218,15 @@ If I create data in another domain, i don't have to check if data exist in the m
 
 Create an api resource for each representation
 
-- [ ] Remove Participant entity
-  - [ ] Store only id (email) of participant in tasting, same for owner
+- [X] Remove Participant entity
+  - [X] Store only id (email) of participant in tasting, same for owner
   - [ ] When user is created dispatch an event then we need to update information in tasting if it's email is present
 
-- [ ] When a participant is invited to taste:
-  - [ ] we should create a read model invitation with all needed information
-  - [ ] we should create add information of participant in read model tasting
+- [X] When a participant is invited to taste:
+  - [X] we should create a read model invitation with all needed information
+  - [X] we should create add information of participant in read model tasting
 
-Domain is okay verify all type and methods, and value object
+- [X] Handle invitation when user doesn't exist just don't save targetName
+
+- [X] See all event in tasting and verify if they need to update read model
+- [X] Finish to separate resource and clean existing code

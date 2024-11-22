@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\Service;
 
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Event\TastingParticipantsInvited;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
@@ -38,12 +37,6 @@ final readonly class InviteParticipant
                 InvitationTarget::fromString($participant),
             );
         }
-
-        $tasting::recordEvent(
-            new TastingParticipantsInvited(
-                $tasting->id()->value(),
-            )
-        );
     }
 
     private function canInviteParticipants(

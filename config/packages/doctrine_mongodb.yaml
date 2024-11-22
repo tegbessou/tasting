@@ -19,6 +19,9 @@ doctrine_mongodb:
                 security:
                     dir: '%kernel.project_dir%/src/Security/Application/'
                     prefix: 'App\Security\Application\'
+                tasting:
+                    dir: '%kernel.project_dir%/src/Tasting/Application/'
+                    prefix: 'App\Tasting\Application\'
 
 when@prod:
     doctrine_mongodb:

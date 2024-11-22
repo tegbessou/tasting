@@ -16,13 +16,13 @@ final class Invitation
         public string $id,
         #[ORM\ManyToOne(targetEntity: Tasting::class, inversedBy: 'invitations')]
         #[ORM\JoinColumn(name: 'tasting_id', referencedColumnName: 'id')]
-        public Tasting $subject,
+        public ?Tasting $subject,
         #[ORM\Column(name: 'target', type: 'string')]
         public string $target,
         #[ORM\Column(name: 'link', type: 'text', nullable: false)]
         public string $link,
         #[ORM\Column(name: 'status', type: 'string', length: 10, nullable: false, enumType: TastingInvitationStatus::class)]
-        public string $status,
+        public TastingInvitationStatus $status,
         #[ORM\Column(name: 'created_at', type: 'datetime_immutable', nullable: true)]
         public ?\DateTimeImmutable $createdAt,
         #[ORM\Column(name: 'sent_at', type: 'datetime_immutable', nullable: true)]

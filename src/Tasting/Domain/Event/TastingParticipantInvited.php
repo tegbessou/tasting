@@ -10,10 +10,12 @@ final readonly class TastingParticipantInvited implements DomainEventInterface
 {
     public function __construct(
         public string $invitationId,
-        public string $targetEmail,
-        public string $link,
-        public string $ownerEmail,
+        public string $tastingId,
         public string $bottleName,
+        public string $fromId,
+        public string $targetId,
+        public string $link,
+        public \DateTimeImmutable $createdAt,
     ) {
     }
 }

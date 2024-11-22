@@ -20,22 +20,17 @@ final readonly class SendInvitationMessageHandler
 
     public function __invoke(InvitationCreatedMessage $invitationCreatedMessage): void
     {
+        Assert::uuid($invitationCreatedMessage->tastingId);
+        Assert::string($invitationCreatedMessage->tastingId);
+        Assert::lengthBetween($invitationCreatedMessage->tastingId, 36, 36);
         Assert::uuid($invitationCreatedMessage->invitationId);
         Assert::string($invitationCreatedMessage->invitationId);
         Assert::lengthBetween($invitationCreatedMessage->invitationId, 36, 36);
-        Assert::email($invitationCreatedMessage->targetEmail);
-        Assert::maxLength($invitationCreatedMessage->targetEmail, 255);
-        Assert::email($invitationCreatedMessage->ownerEmail);
-        Assert::maxLength($invitationCreatedMessage->ownerEmail, 255);
-        Assert::string($invitationCreatedMessage->bottleName);
-        Assert::maxLength($invitationCreatedMessage->bottleName, 255);
 
         $this->bus->dispatch(
             new SendInvitationCommand(
+                $invitationCreatedMessage->tastingId,
                 $invitationCreatedMessage->invitationId,
-                $invitationCreatedMessage->targetEmail,
-                $invitationCreatedMessage->ownerEmail,
-                $invitationCreatedMessage->bottleName,
             )
         );
     }

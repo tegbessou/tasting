@@ -8,6 +8,7 @@ final readonly class User
 {
     public function __construct(
         private UserEmail $email,
+        private UserFullName $fullName,
         private bool $current,
     ) {
     }
@@ -18,6 +19,7 @@ final readonly class User
     ): self {
         return new self(
             $email,
+            UserFullName::fromString('Pedro'),
             $isCurrent,
         );
     }
@@ -25,6 +27,11 @@ final readonly class User
     public function email(): UserEmail
     {
         return $this->email;
+    }
+
+    public function fullName(): UserFullName
+    {
+        return $this->fullName;
     }
 
     public function isCurrent(): bool

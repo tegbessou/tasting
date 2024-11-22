@@ -9,6 +9,7 @@ use App\Tasting\Domain\Event\InvitationAccepted;
 final readonly class InvitationAcceptedMessage implements InvitationStatusChangedInterface
 {
     public function __construct(
+        private string $tastingId,
         private string $invitationId,
     ) {
     }
@@ -16,8 +17,15 @@ final readonly class InvitationAcceptedMessage implements InvitationStatusChange
     public static function fromEvent(InvitationAccepted $event): self
     {
         return new self(
+            $event->tastingId,
             $event->invitationId,
         );
+    }
+
+    #[\Override]
+    public function getTastingId(): string
+    {
+        return $this->tastingId;
     }
 
     #[\Override]

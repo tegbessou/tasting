@@ -13,7 +13,7 @@ final readonly class InviteParticipantsCommand implements CommandInterface
 {
     public function __construct(
         public string $tastingId,
-        public array $participantsEmail,
+        public array $participants,
     ) {
     }
 }

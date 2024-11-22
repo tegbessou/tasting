@@ -7,12 +7,12 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Provider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Tasting\Application\Query\GetInvitationsQuery;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\InvitationResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\GetCollectionInvitationResource;
 use TegCorp\SharedKernelBundle\Application\Query\QueryBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\ApiPlatform\State\Pagination\Paginator;
 
 /**
- * @implements ProviderInterface<InvitationResource>
+ * @implements ProviderInterface<GetCollectionInvitationResource>
  */
 final readonly class GetInvitationCollectionProvider implements ProviderInterface
 {
@@ -22,7 +22,7 @@ final readonly class GetInvitationCollectionProvider implements ProviderInterfac
     }
 
     /**
-     * @return Paginator<InvitationResource>|list<InvitationResource>
+     * @return Paginator<GetCollectionInvitationResource>|list<GetCollectionInvitationResource>
      */
     #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Paginator|array
@@ -38,7 +38,7 @@ final readonly class GetInvitationCollectionProvider implements ProviderInterfac
         $resources = [];
 
         foreach ($models as $model) {
-            $resources[] = InvitationResource::fromModel($model, $model->subject());
+            $resources[] = GetCollectionInvitationResource::fromDomain($model);
         }
 
         if (null !== $paginator = $models->paginator()) {

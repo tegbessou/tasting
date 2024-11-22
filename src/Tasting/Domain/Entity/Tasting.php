@@ -6,6 +6,7 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Event\InvitationAccepted;
 use App\Tasting\Domain\Event\InvitationRejected;
+use App\Tasting\Domain\Event\InvitationRemoved;
 use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
@@ -57,7 +58,9 @@ final class Tasting implements EntityWithDomainEventInterface
         self::recordEvent(
             new TastingCreated(
                 $tasting->id->value(),
+                $bottleName->value(),
                 $ownerId->value(),
+                $tasting->participants()->values(),
             )
         );
 
@@ -84,10 +87,12 @@ final class Tasting implements EntityWithDomainEventInterface
         self::recordEvent(
             new TastingParticipantInvited(
                 $invitationId->value(),
+                $this->id()->value(),
+                $this->bottleName()->value(),
+                $this->ownerId()->value(),
                 $invitationTarget->value(),
                 $invitation->link()->value(),
-                $this->ownerId()->value(),
-                $this->bottleName()->value(),
+                $invitation->createdAt()->value() ?: new \DateTimeImmutable(),
             ),
         );
     }
@@ -103,7 +108,7 @@ final class Tasting implements EntityWithDomainEventInterface
         self::recordEvent(
             new InvitationSent(
                 $invitation->id()->value(),
-                $invitation->sentAt()->value() ?? throw new \InvalidArgumentException(),
+                $invitation->sentAt()?->value() ?? throw new \InvalidArgumentException(),
             ),
         );
     }
@@ -123,6 +128,7 @@ final class Tasting implements EntityWithDomainEventInterface
         self::recordEvent(
             new InvitationAccepted(
                 $this->id->value(),
+                $invitation->id()->value(),
             ),
         );
 
@@ -146,6 +152,7 @@ final class Tasting implements EntityWithDomainEventInterface
         self::recordEvent(
             new InvitationRejected(
                 $this->id->value(),
+                $invitation->id()->value(),
             ),
         );
     }
@@ -158,7 +165,7 @@ final class Tasting implements EntityWithDomainEventInterface
 
         $index = $this->invitations->indexOf($invitation);
 
-        if ($index === false || is_string($index)) {
+        if ($index === false) {
             throw new InvitationDoesntExistException($invitation->id()->value());
         }
 
@@ -167,6 +174,13 @@ final class Tasting implements EntityWithDomainEventInterface
 
         $this->invitations = TastingInvitations::fromArray(
             array_values($oldInvitations),
+        );
+
+        self::recordEvent(
+            new InvitationRemoved(
+                $this->id->value(),
+                $invitation->id()->value(),
+            ),
         );
     }
 

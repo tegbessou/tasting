@@ -9,7 +9,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Tasting\Application\Command\RejectInvitationCommand;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\TastingResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\PostTastingRejectInvitationResource;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,7 +17,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<TastingResource, void>
+ * @implements ProcessorInterface<PostTastingRejectInvitationResource, void>
  */
 #[WithMonologChannel('tasting')]
 final readonly class RejectInvitationProcessor implements ProcessorInterface
@@ -33,7 +33,7 @@ final readonly class RejectInvitationProcessor implements ProcessorInterface
     {
         Assert::uuid($uriVariables['tastingId']);
         Assert::uuid($uriVariables['id']);
-        Assert::isInstanceOf($data, TastingResource::class);
+        Assert::isInstanceOf($data, PostTastingRejectInvitationResource::class);
 
         try {
             $this->commandBus->dispatch(
