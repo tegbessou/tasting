@@ -48,6 +48,9 @@ final class AuthenticateUserTest extends KernelTestCase
 
         $authenticatedUser = $this->commandBus->dispatch($command);
 
+        $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
+        $this->transport('security_to_tasting')->reset();
+
         $this->assertEquals(UserEmail::fromString('nexistepas@gmail.com'), $authenticatedUser->email());
 
         $user = $this->userRepository->ofEmail(
@@ -58,8 +61,5 @@ final class AuthenticateUserTest extends KernelTestCase
 
         $this->entityManager->remove($user);
         $this->entityManager->flush();
-
-        $this->transport('tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
-        $this->transport('tasting')->reset();
     }
 }

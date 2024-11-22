@@ -18,6 +18,9 @@ services:
   App\BottleInventory\Application\EventListener\OnBottleTasted:
     tags: [kernel.event_listener]
 
+  App\Security\Application\EventListener\OnUserCreated:
+    tags: [kernel.event_listener]
+
   App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
     alias: App\BottleInventory\Infrastructure\Country\Repository\CountryRepository
 
