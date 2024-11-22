@@ -7,7 +7,7 @@ namespace App\Tasting\Domain\Adapter;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
 
-interface UserAdapterInterface
+interface ParticipantAdapterInterface
 {
-    public function ofEmail(ParticipantId $id): ?User;
+    public function ofId(ParticipantId $id): ?User;
 }

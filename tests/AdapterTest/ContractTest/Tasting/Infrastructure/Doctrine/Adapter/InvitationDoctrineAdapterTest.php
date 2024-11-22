@@ -63,9 +63,9 @@ final class InvitationDoctrineAdapterTest extends KernelTestCase
         );
     }
 
-    public function testWithParticipant(): void
+    public function testWithTarget(): void
     {
-        $invitations = $this->invitationAdapter->withParticipant(
+        $invitations = $this->invitationAdapter->withTarget(
             'root@gmail.com',
         )->getIterator();
 
@@ -75,9 +75,9 @@ final class InvitationDoctrineAdapterTest extends KernelTestCase
         }
     }
 
-    public function testWithParticipantAndTasting(): void
+    public function testWithTargetAndSubject(): void
     {
-        $invitations = $this->invitationAdapter->withParticipantAndTasting(
+        $invitations = $this->invitationAdapter->withTargetAndSubject(
             'root@gmail.com',
             '2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
         )->getIterator();

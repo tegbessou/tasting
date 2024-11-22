@@ -9,6 +9,6 @@ final class OwnerDoesntExistException extends \Exception
     public function __construct(
         public string $ownerId,
     ) {
-        parent::__construct(sprintf('Owner with email %s doesn\'t exist', $ownerId));
+        parent::__construct(sprintf('Owner with id %s doesn\'t exist', $ownerId));
     }
 }

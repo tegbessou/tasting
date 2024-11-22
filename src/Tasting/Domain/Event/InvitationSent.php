@@ -9,7 +9,7 @@ use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 final readonly class InvitationSent implements DomainEventInterface
 {
     public function __construct(
-        public string $id,
+        public string $invitationId,
         public \DateTimeImmutable $sentAt,
     ) {
     }

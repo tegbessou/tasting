@@ -20,7 +20,7 @@ final readonly class Mailer implements MailerInterface
     #[\Override]
     public function sendInvitationEmail(
         string $fromId,
-        string $fromName,
+        string $fromFullName,
         string $targetId,
         string $bottleName,
         string $link,
@@ -37,7 +37,7 @@ final readonly class Mailer implements MailerInterface
             )
             ->htmlTemplate('mail/degustation.html.twig')
             ->context([
-                'ownerFullName' => $fromName,
+                'ownerFullName' => $fromFullName,
                 'bottleName' => $bottleName,
                 'link' => $link,
             ])

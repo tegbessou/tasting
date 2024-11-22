@@ -6,7 +6,7 @@ namespace App\Tasting\Infrastructure\Security\Repository;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final readonly class UserRepository implements UserRepositoryInterface
+final readonly class ParticipantRepository implements ParticipantRepositoryInterface
 {
     public function __construct(
         private HttpClientInterface $userApi,
@@ -16,9 +16,9 @@ final readonly class UserRepository implements UserRepositoryInterface
     }
 
     #[\Override]
-    public function ofEmail(string $email): array
+    public function ofId(string $email): array
     {
-        return json_decode($this->userApi->request('GET', sprintf('%s/%s', UserRepositoryInterface::USER_URI, $email), [
+        return json_decode($this->userApi->request('GET', sprintf('%s/%s', ParticipantRepositoryInterface::USER_URI, $email), [
             'headers' => [
                 'Authorization' => sprintf('Bearer %s', $this->getAuthorizeToken()),
                 'RequestHeaderIdentityProvider' => $this->getAuthorityProvider(),
@@ -28,7 +28,7 @@ final readonly class UserRepository implements UserRepositoryInterface
 
     private function getAuthorizeToken(): string
     {
-        $response = json_decode($this->userApi->request('POST', UserRepositoryInterface::USER_LOGIN_URI, [
+        $response = json_decode($this->userApi->request('POST', ParticipantRepositoryInterface::USER_LOGIN_URI, [
             'json' => [
                 'email' => $this->emailTastingUserService,
                 'password' => $this->passwordTastingUserService,

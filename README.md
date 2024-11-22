@@ -161,13 +161,8 @@ to transform this data to our domain
 ![img.png](resources/v2-domain.png)
 
 ## Refactoring DDD
-All value object should be recreated in the entity and not in their own code
-
-Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
 
 Reflect to put specification for Invitation Status
-
-Normaliser delete instead of remove
 
 ### Refactoring tasting
 
@@ -188,19 +183,17 @@ Setup phparkitect pour les règles de nommages
 
 Separate each bounded context in microservice
 
-Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
-
-Renommer les tests d'adapter en test d'intégration => a vérifier selon la pyramide des tests
-
 Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
 
+## TODO
 Dans les tests revoir la façon de clear les datas existantes pour les tests AdapterTest (tous les tests) => high
 
-## TODO
-- [X] When user is created dispatch an event then we need to update information in tasting if it's email is present
-  - [X] Invite a guest which do not exist in our system and test it
-    - [X] Create the invitation and the read model should be created with an empty name for target (change read model to accept this)
-    - [X] When a user is created with this email, I should to update invitation model to this name
+Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
 
-- [ ] Normalise from/owner (id, email, name, fullName...) and target (id, email, name, fullName...)
-- [ ] Look no participant mention in tasting
+Normaliser delete instead of remove
+
+All value object should be recreated in the entity and not in their own code
+
+Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
+
+Renommer les tests d'adapter en test d'intégration => a vérifier selon la pyramide des tests

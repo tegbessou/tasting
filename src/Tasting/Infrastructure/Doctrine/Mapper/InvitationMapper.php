@@ -21,7 +21,7 @@ final readonly class InvitationMapper
     {
         return new Invitation(
             InvitationId::fromString($invitation->id),
-            InvitationTarget::fromString($invitation->target),
+            InvitationTarget::fromString($invitation->targetId),
             InvitationLink::fromString($invitation->link),
             InvitationStatus::fromString($invitation->status->value),
             $invitation->createdAt !== null
@@ -56,7 +56,7 @@ final readonly class InvitationMapper
         Invitation $invitation,
         InvitationDoctrine $invitationDoctrine,
     ): InvitationDoctrine {
-        $invitationDoctrine->target = $invitation->target()->value();
+        $invitationDoctrine->targetId = $invitation->target()->value();
         $invitationDoctrine->link = $invitation->link()->value();
         $invitationDoctrine->status = $invitation->status()->value();
         $invitationDoctrine->updatedAt = $invitation->updatedAt()?->value() ?? null;

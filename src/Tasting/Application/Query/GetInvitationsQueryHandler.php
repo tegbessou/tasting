@@ -19,14 +19,14 @@ final readonly class GetInvitationsQueryHandler
     {
         $invitationRepository = $this->invitationAdapter;
 
-        if ($query->targetEmail === null) {
+        if ($query->targetId === null) {
             return $invitationRepository->sortCreatedAt();
         }
 
         $invitationRepository = $invitationRepository->sortCreatedAt();
 
-        return $invitationRepository->withParticipant(
-            $query->targetEmail,
+        return $invitationRepository->withTarget(
+            $query->targetId,
         );
     }
 }

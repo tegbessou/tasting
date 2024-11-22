@@ -227,8 +227,8 @@ final class TastingMapperTest extends KernelTestCase
             $invitation->id,
         );
         $this->assertEquals(
-            $expectedInvitation->target,
-            $invitation->target,
+            $expectedInvitation->targetId,
+            $invitation->targetId,
         );
         $this->assertNotNull(
             $invitation->subject,
@@ -327,8 +327,8 @@ final class TastingMapperTest extends KernelTestCase
             $invitation->id,
         );
         $this->assertEquals(
-            $expectedInvitation->target,
-            $invitation->target,
+            $expectedInvitation->targetId,
+            $invitation->targetId,
         );
         $this->assertNotNull(
             $invitation->subject,

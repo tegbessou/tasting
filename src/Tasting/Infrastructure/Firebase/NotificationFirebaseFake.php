@@ -19,7 +19,7 @@ final class NotificationFirebaseFake implements NotificationInterface
 
     #[\Override]
     public function sendInvitationNotification(
-        string $fromName,
+        string $fromFullName,
         string $targetId,
         string $bottleName,
     ): void {
@@ -28,7 +28,7 @@ final class NotificationFirebaseFake implements NotificationInterface
             $this->translator->trans(
                 'tasting.invitation.body',
                 [
-                    'fullName' => $fromName,
+                    'fullName' => $fromFullName,
                     'bottleName' => $bottleName,
                 ],
                 'notifications',

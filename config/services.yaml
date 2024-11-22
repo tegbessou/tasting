@@ -73,8 +73,8 @@ services:
   App\Tasting\Application\Projection\DeleteInvitationProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Security\Repository\UserRepository
+  App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
+    alias: App\Tasting\Infrastructure\Security\Repository\ParticipantRepository
 
   App\Security\Application\Adapter\UserAdapterInterface:
     alias: App\Security\Infrastructure\Doctrine\Adapter\UserDoctrineAdapter
@@ -130,8 +130,8 @@ when@test:
     App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
       alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderFake
 
-    App\Tasting\Infrastructure\Security\Repository\UserRepositoryInterface:
-      alias: App\Tasting\Infrastructure\Security\Repository\UserFakeRepository
+    App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
+      alias: App\Tasting\Infrastructure\Security\Repository\ParticipantFakeRepository
 
     App\Tasting\Application\Service\NotificationInterface:
       alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake

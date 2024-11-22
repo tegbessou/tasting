@@ -94,247 +94,247 @@ CREATE TABLE `country` (
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
 INSERT INTO `country` VALUES
-('¡¼bG‡\ö\ÌCˆ½(¯','Afghanistan'),
-('\à’UªD\ÇIæšú‚½Š‰','Afrique du Sud'),
-('Zy\Ö§F¤»h7R\Z~ ','Albanie'),
-('\êĞ½*ÀFa¥\ñš\èÎ©»¨','AlgÃ©rie'),
-('z\àı\\¢BŠ‹\n\Ş|ˆ','Allemagne'),
-('6>ª\\\\&EÅ±oX]Œ\î…','Andorre'),
-('\Ïa1LI‡\ì\ÍHşg','Angola'),
-('`\Òj½lKù‡\÷{‰\\ \Ş','Anguilla'),
-('U\ÊoCF@i¯D[Nû´\\','Antarctique'),
-('\Å«\ë¯I†½`²\ç€ÿ\Ù','Antigua-et-Barbuda'),
-('\ÕÁ\ïÆ·\êM…Yú.\Ù×“','Antilles NÃ©erlandaises'),
-('\é5\ãsaªI(—*\ô%ª±\Ø','Arabie Saoudite'),
-('\Í\n\Ğ\ï”J}‡iC\áú\'\à\Û','Argentine'),
-('Aü»\\»¯F[€zI•\Ì9»','ArmÃ©nie'),
-('º3NM\ÛC>‚z\ÊC\n¡™','Aruba'),
-('Á–f}KÆ•§§\õüj','Australie'),
-('’¹“z“O‘øRùªq7','Autriche'),
-('LI‰€\ğ@Ê¥\Ãh\ÆĞ§','AzerbaÃ¯djan'),
-('\ç\Ï$i‡F[ C{$V\í','Bahamas'),
-('m\è\é\ëNß€C<ùK','BahreÃ¯n'),
-('{ -[\ÛB\ä±\èd)s¤k','Bangladesh'),
-('\ç\Ïşm.\ŞGcTA\äÿjœ','Barbade'),
-('zˆş\íF4€K²@{\õŸ','BÃ©larus'),
-('\"\ä\Ã*Y\ÎC,œ´\÷}\îr>','Belgique'),
-('Rµ&t@j‘P\÷Iƒ½E','Belize'),
-('¤\İ\ôJ\òEüµ\Ë\ŞM°\Ş\Ã','BÃ©nin'),
-('Êª¹úC·Ea£’¼ÿ?','Bermudes'),
-('s¶qEP@=¢	I\äu?','Bhoutan'),
-('\ÖJ¥ıˆ\ğK°«\Ø\÷ÅŠ#','Bolivie'),
-('p\óOr¯Fœ˜\ç“ @\ò#','Bosnie-HerzÃ©govine'),
-('F\ÅÀ8°~M%ºIÀ\Ú\ó\ÊG','Botswana'),
-('@^~	œ\nI<‚ƒ{ù¢\é','BrÃ©sil'),
-('-:LO5]OG³\÷\îD\åü±\Ê','BrunÃ©i Darussalam'),
-('\àD¼\ì8$G¬›v‹\Üp\èLº','Bulgarie'),
-('<\Û\ó\ìEG ¢j Ğ£ ‘#','Burkina Faso'),
-('/¥ŒQr)H\ï‹,fFw\ëq•','Burundi'),
-('\ï9¹	QM²¿€g!YQ_','Cambodge'),
-('ŸU\È\á”!FC6+ün.P˜','Cameroun'),
-('_j\Ô/†½Dµû,_­\èQ','Canada'),
-('1uU©\×?A<ŒUV¦<t\ö','Cap-vert'),
-('\Z“ VC°`²û\ìB‚','Chili'),
-('˜\Ş{±E\ÈC}ˆ\ñ¯}\ï#Ô','Chine'),
-('­‘\no;–C\ğª`$tKJ\âZ','Chypre'),
-('¤\âP?»qL\ğ¸\Ó\Ût	\n\Û','Colombie'),
-('¦e;pBE‚Ì™TX\r','Comores'),
-('!¼–DXª\öAº¹\İK','Costa Rica'),
-('\æ\ç„\à5O\õƒœ±´‰\ä‚o','CÃ´te d\'Ivoire'),
-('\çMD\0\òaNK\î\ÅC”r','Croatie'),
-('º\çÎ²\áDŸ´j\ß+e\Ôd','Cuba'),
-('XKøX.O\÷¶\ë\ÛúL\n\ô','Danemark'),
-('¡½g\ædL@¨yv‡RŞœ','Djibouti'),
-('Á©Œ#FO`¬€<\í×›ˆT','Dominique'),
-('³..\æJH\÷†¨\ë\ï* \é','Ã‰gypte'),
-('¢tq7QOE“®`=û\Ğ<','El Salvador'),
-('§vi B0¢(\Ëhˆ‚','Ã‰mirats Arabes Unis'),
-('.s7*T*CN­ï¸¿\÷\ëI\í','Ã‰quateur'),
-('¯½T\ÍB—ŒøC;\â$~','Ã‰rythrÃ©e'),
-('Œz‰M«\Ç\ñÂ–\Í5','Espagne'),
-('M\ÅS¨\'B\ó™2}X-u\×','Estonie'),
-('L“UĞ¹J­=\ÑT\ËÊ±','Ã‰tats FÃ©dÃ©rÃ©s de MicronÃ©sie'),
-('py\êœ\à~JŠ¼\Ævs?\ïŠ','Ã‰tats-Unis'),
-('6oŠ2Cº§X›ƒ[\Ó\Ä0','Ã‰thiopie'),
-('|¢Œh\\L²¹>C\ì²-™','FÃ©dÃ©ration de Russie'),
-('@‹6\äµJK	†°\\\ÑZH–\ß','Fidji'),
-('!,Â†$¦F$›\ÎSˆ:…','Finlande'),
-('¬v\Û\ÄANGŸH\ö|x','France'),
-('“\Ó[\Ô@K‰\'-°O\ÔM','Gabon'),
-('À™ûfJ¾—\Ì\á¼\Ï+','Gambie'),
-('”\ÙYL\ÖFH–‡ùP†/|','GÃ©orgie'),
-('r½U\àÆªIØ©úI*•;\÷8','GÃ©orgie du Sud et les Ãles Sandwich du Sud'),
-('W\Û\öÊB5²VO\ô<£','Ghana'),
-('H-HÁ\ÅJV™·\Î<>™R\Ë','Gibraltar'),
-('[.E˜\ñ1I(¹¿\÷\â»\É','GrÃ¨ce'),
-('½%5t—>GÓ¨1\Æ\Í=³ÿ\Ë','Grenade'),
-('GUn\ÊPVFî˜«•Y]0E','Groenland'),
-(';j…I)µ\"¶v\×i','Guadeloupe'),
-('\ï]…$q©LH€¼Ò]og\ğ','Guam'),
-('I©Î³\ÎMú.×Š9\Ã','Guatemala'),
-('DŒ%%úMûŸ#\ĞkO\à','GuinÃ©e'),
-('c\"û\ïªOYµ\Ùg¬$~','GuinÃ©e Ã‰quatoriale'),
-('Åş¨™‚Iç®ŸşÊ¡b','GuinÃ©e-Bissau'),
-('WW·MF4 \ñ°\Î!_','Guyana'),
-('\ì<øBŒJiº²³\ñ†\ó\Ä','Guyane FranÃ§aise'),
-('g\Z\ózBDı‘\Ã\È&s','HaÃ¯ti'),
-('\ğH\ë\ñÄ†DC¨â·L*','Honduras'),
-('\Ä$CÕ“\ÜOÄ¿F½mC²µ\à','Hong-Kong'),
-('³;:\öÙ¹M¤»\Ñe\à\æf9','Hongrie'),
-('ÁU@¤\ëJC<¯¨·\ãG','Ãle Bouvet'),
-('{À\ÌnH!›^,#\Ä/\Ö','Ãle Christmas'),
-('8\î”Nİ¯O—\"whÄ¤\ÏO','Ãle de Man'),
-('h‰«Tƒ•D\n•\Øq_\ê\İø\r','Ãle Norfolk'),
-('\é!©\Ğ‡EÒ…¡b«^\n\ò','Ãles (malvinas) Falkland'),
-('k\0ú\ÅA¥Ó*ì†«\ë','Ãles Ã…land'),
-('b¥%„\ì\áN:‰\ÉsXZHO','Ãles CaÃ¯manes'),
-('(30\Ó\0RCL±…Z\ÕÑ‚eO','Ãles Cocos (Keeling)'),
-('E\"2)ÁM†‘L\ÂÇ˜¢_','Ãles Cook'),
-('¹‹F6¡a`xx\ñq','Ãles FÃ©roÃ©'),
-('V\÷rn‰M¢°7b(Àz~','Ãles Heard et Mcdonald'),
-('!›x\Ü}F70E‘\ÙFL','Ãles Mariannes du Nord'),
-('O05D§J»\ëg\óı*P','Ãles Marshall'),
-('gºg\ÚyK~”;\ãi\ÌÚ´–','Ãles Mineures Ã‰loignÃ©es des Ã‰tats-Unis'),
-('\ã{\å¡\Í\İC\n…\å\ÜjJ','Ãles Salomon'),
-('è¹™ o¼C%ƒWX$t\íq','Ãles Turks et CaÃ¯ques'),
-('\ìú\êWk9Aœ»/•“;•]','Ãles Vierges Britanniques'),
-('\ÓøFnZ¦@µH\ìn¾X{','Ãles Vierges des Ã‰tats-Unis'),
-('\â˜\Û\ô\'\ßNÉ€øCG8¹Y','Inde'),
-('\İü1\õEEÈuA<\öSl','IndonÃ©sie'),
-('\ÆL\æÛ‚H>Ÿ®Y\rû','Iraq'),
-('eH™YKL\ÈH\çOR˜','Irlande'),
-('9(«B\ÔK	‹\ğRoºŸ\õ','Islande'),
-('2ú¼EÀ\Òş´\Â!\ó\à','IsraÃ«l'),
-('\ğ\ØIŸ@aŸ–\Å(_3†','Italie'),
-('$­ÒµH]F#‚ ÿ$9}\÷€','Jamahiriya Arabe Libyenne'),
-(' \îF”a”O¢#G\\n£Œ\Ú','JamaÃ¯que'),
-('ü\Ó©•F@‡¤‘ş<ÿ','Japon'),
-('/º¼#0A\ç˜¿Eÿ.6','Jordanie'),
-('®$lP\"Gµ„>¿\ÊB¿M','Kazakhstan'),
-('\É\ì\Ã1+O|§R¦ß¶»','Kenya'),
-('Š\í‹’@Ø”Zq\\›H™\Ã','Kirghizistan'),
-('“¯‡!$§E³•¶©<½ŸPú','Kiribati'),
-('e\ì2\Õx3IÅ¬•¬Wá‚ ','KoweÃ¯t'),
-('2¸xÅ ¢HÑ}c¸\÷¦','L\'ex-RÃ©publique Yougoslave de MacÃ©doine'),
-('Â¯{§€EÌ\ò›c\n]‰','Lesotho'),
-('\Êp\ÑEM¿EI¹°\ìWg=','Lettonie'),
-('Z|d@N™\ôU·b\ÙÁ','Liban'),
-('yL{[<D¸IX+¹h\0$','LibÃ©ria'),
-('¯}\\ ÕK «E\Ç\ÄxS\÷','Liechtenstein'),
-('tz¯ı\ïN€±u±£´¬–','Lituanie'),
-('¯\éı;˜pO£ƒ\êP.\õˆ!','Luxembourg'),
-('\Ó+*)\Ø~Do¥yi–´¾','Macao'),
-('do8š\Ò\\GKŠÉ¶ş€B\ì\Õ','Madagascar'),
-('\÷¡¶6H²›\òÍ«\Õi','Malaisie'),
-('~\ñ|\âÀL$¦^Á\Ö\îüd','Malawi'),
-('~C‘c\n&@\÷¹”ˆ´&]¤Z','Maldives'),
-('8L\0«Lƒ¦,q¬ü”','Mali'),
-('¤.}‘§L¹G‡Å²Yœ','Malte'),
-('‹q\óv¨JÉ–ıÊ”v»','Maroc'),
-('\Íz\Û\ï¶3HK¹<»\ÚI˜ ','Martinique'),
-('Šçºª\ĞE²iN0\ËV#\Ã','Maurice'),
-('\Z\öFoj²C¡”p@\İ\Õ$\ğ…','Mauritanie'),
-('Õ£l¬~lAµšx»\ÑW’k','Mayotte'),
-('irš`DC¬i¶´VSÕ£','Mexique'),
-('k@\n\÷\ôA¤\Üw\È\ÅV”','Monaco'),
-('\Ûr´ü˜\êGÇ¿xh*ÿË€','Mongolie'),
-('F´`\àAş©xx\Âr\Ï??','Montserrat'),
-('€»=±«I\ö·[G\ÂU›','Mozambique'),
-('\0,+•ªN×»Œù\ğ\03Av','Myanmar'),
-('«P¢¬wBÔ³r*§n“','Namibie'),
-('ÿ_€\Ò9>AÃ²n\ÑkÀ¢\Z«','Nauru'),
-('ÿúƒL…“\n :•j—','NÃ©pal'),
-('ƒ\Ğ7¾\ÑB´º\ZBø\nAI','Nicaragua'),
-('€7‚\ÔÚ‰AÈ¢|§|ºZ\ß','Niger'),
-('X¸¸\ëjA\ê¯dc‰\ãŞ¥Œ','NigÃ©ria'),
-('®\ÄzD!rF|¾Á\É;A†i','NiuÃ©'),
-('\Çü°5\Ê@EÏ†\ï\Ş\Ã\ĞU\âI','NorvÃ¨ge'),
-('\öFK¿›˜Jm£¹€×¥B\Ç','Nouvelle-CalÃ©donie'),
-('/\é\ö\æ–\ÒF•¦? Sc\ès‚','Nouvelle-ZÃ©lande'),
-('v*98G\ÂC\à¹J\Å\ÒPb\n\'','Oman'),
-('µ\Å\Ğ\×:C»\Ô\ì\è\ã\Ø/','Ouganda'),
-('·\å\Ø;w™D\ğ‘‡N\ÃS','OuzbÃ©kistan'),
-('¦\äÙŸ\ÓD{¨<W1\ÂÕ±','Pakistan'),
-('\Ä\Ş?Z@iƒ\\X\ér\Z7|','Palaos'),
-('Ò¬³\r\ŞO\÷¯f·/‘ G[','Panama'),
-('·8\Ú\ßmLÑ‰›‚0\Ó%)','Papouasie-Nouvelle-GuinÃ©e'),
-(';K~\äOOU‰}fSFrˆ','Paraguay'),
-('k_dtE£r?;£\î=ş','Pays-Bas'),
-('\ÛwÔ\ÕKC†ÁM\İ\ñ.m','PÃ©rou'),
-('\Èã´­¹™B^‘Z\ÃD«Õ ','Philippines'),
-('4¯*MCØªt\ó±D*\î\n','Pitcairn'),
-('¢²tŸ!C£¬–¼L¦A77','Pologne'),
-('” \ä8²O4­@°?\éE\Ûı','PolynÃ©sie FranÃ§aise'),
-('M\äÓU‚Mí„\æÆ2n2','Porto Rico'),
-('A—I…D“:x\\j\à\Â','Portugal'),
-('\î\ñ¥³\Æ)Jä·„ıhƒ	¢','Qatar'),
-('›9K\ïD¡†\ÒL¤\î\Â\õ§','RÃ©publique Arabe Syrienne'),
-('\öz_C.¯»\Üc\ğ†À','RÃ©publique Centrafricaine'),
-('\É.\àDF¹q\ãYK{©S','RÃ©publique de CorÃ©e'),
-('ZE¬ä–¦D9Šs-˜·Ÿd','RÃ©publique de Moldova'),
-('\å\Í?É“C¯§ŠaÅ„o?\Â','RÃ©publique DÃ©mocratique du Congo'),
-('-%ú°N€@m©T…+ q','RÃ©publique DÃ©mocratique Populaire Lao'),
-('z\Øp-g¢N\æ°P\Í\Úa-U','RÃ©publique Dominicaine'),
-('\n\ŞB\"5ÿBi±D\ÄK\Ï\Õù\ì','RÃ©publique du Congo'),
-('»3ªJb@\í¾¬\Ä]\ğI','RÃ©publique Islamique d\'Iran'),
-('—˜¿X«@KŸz\İæ°£])','RÃ©publique Populaire DÃ©mocratique de CorÃ©e'),
-('T\äZ\êªL·µk”~\é\ÕA','RÃ©publique TchÃ¨que'),
-('\ğLı,\ñC0’\Z\äi¼x','RÃ©publique-Unie de Tanzanie'),
-('¸‡Ì›øO!¢b¢¥—½','RÃ©union'),
-('”1\Ó\Æ\ò\çE´‚<\Âß„r\İV','Roumanie'),
-('\à369˜\ÂBÉ˜ \Z\ó\ær','Royaume-Uni'),
-('\â\å°L©œ•x]Ÿ','Rwanda'),
-('ÿ•‚Ä¹C	¾Â³i5Üˆ%','Sahara Occidental'),
-('6–Äl\ÖHC¶;\ê\rD¢ƒR','Saint-Kitts-et-Nevis'),
-('Õ\×!<\Ğ@û•e\'\ñN\Ë\É','Saint-Marin'),
-('untGAY­C‡x•®\Ü\Í','Saint-Pierre-et-Miquelon'),
-(' \ãJt1\ãIL•á‚·PZ·•','Saint-SiÃ¨ge (Ã©tat de la CitÃ© du Vatican)'),
-('½‘­#~FN‡4†…\ÚÂ‘4','Saint-Vincent-et-les Grenadines'),
-('9l\ñ>üBN‚X¥¯\ZD\Å','Sainte-HÃ©lÃ¨ne'),
-('¨\Âa¯­FLB¥®¨<X£','Sainte-Lucie'),
-('™y\È\Úg2A(•¾Y¼·\È	','Samoa'),
-('›\Øuw_MŠ”\é\â<hÌ','Samoa AmÃ©ricaines'),
-('™7D·\İúJyƒ\Ñ\äT\Çı','Sao TomÃ©-et-Principe'),
-('“f¾v;CA…²\ó\è˜\ã|5','SÃ©nÃ©gal'),
-('c*4\é‘J°¦è¢ºL\ïS°','Serbie-et-MontÃ©nÃ©gro'),
-('V\0D¥¸ALt†¡\Ì!ÿ\é0','Seychelles'),
-('l•9[\ÊK7ˆADx¥','Sierra Leone'),
-('…«o©\Í\öJ-\Ø%Ó—z','Singapour'),
-('&,˜G\ò´F-½[\ä€¶š','Slovaquie'),
-('GµtˆA¯À\ô•Ã»µ\n','SlovÃ©nie'),
-('SAÇœ\ÖFëŠ¤\ìI¾x\ñ','Somalie'),
-('‚\Ü-£IH¡A\ÎWš¾6¸','Soudan'),
-('\öSŠ¯Li´¢:‰We','Sri Lanka'),
-('(Â·ºEşLŠ¦ˆÒ¯(`\Êd','SuÃ¨de'),
-('z\õ¬\ËKr—\Â)$&\Z\ã%','Suisse'),
-('B=©\Èj;@›¶m½²\ó’(','Suriname'),
-('†½\\r¦L6³-S€M™\î','Svalbard etÃle Jan Mayen'),
-('\Ø~”\à\êFK=†\ëÿ\ë\'¦\Ã\ã','Swaziland'),
-(' S§Fb^FÓµş\İ#','Tadjikistan'),
-('\'\êDS\\\çO¯£o\Ø\İ#\Û\à\Ü','TaÃ¯wan'),
-('¼zŠ~QGÛ›5ÕpH(','Tchad'),
-('k¨s*\äeBG‘À\Z=º¤“\Ã','Terres Australes FranÃ§aises'),
-('‘f“×¸O³-FyˆBM','Territoire Britannique de l\'OcÃ©an Indien'),
-('\Ûû\Ì\åBE\æƒBˆ\öpt\n','Territoire Palestinien OccupÃ©'),
-('h\ê}6H„º!\Â·Ñ³','ThaÃ¯lande'),
-(';i0\Ò:A†¸\İ\ìœflJ','Timor-Leste'),
-('\ôOiÀĞ JH›\nˆé®\Ö','Togo'),
-('V\Ú;G\ö¼\ôªlİ¶•','Tokelau'),
-('|w†ù%®L¤ˆ:r/3±','Tonga'),
-('€)^;@²@\ë\Î&©\Í[!\ñ','TrinitÃ©-et-Tobago'),
-('e•\ö€B±Ÿ×‡<”f§1','Tunisie'),
-('e#\0\ÉLDª²«\Ğ\æú\ô\Ö9','TurkmÃ©nistan'),
-('\Z\æ\Ù\è™@ª\Ú0)c\ÓEº','Turquie'),
-('§\Ûí¡¥\ÊG?¥&\à&\àtl‘','Tuvalu'),
-('‰\nXv\óC\ò¦Ë®¼†£¤\Å','Ukraine'),
-('À@ygS\ÅD†¸Â¶û†¯u','Uruguay'),
-('\ğ/\ã\à\òEºù~$>§•','Vanuatu'),
-('Ê¼º€\ÃUL\ó©$¢y(‰! ','Venezuela'),
-('‚]©\â¢@`¾&³¬}p','Viet Nam'),
-('\ÙZ\Øû‚½Cj®\"+Wˆ\ö\Ò','Wallis et Futuna'),
-('\ÔW7¨•şBCµ\õŒ5\n¼Ÿ','YÃ©men'),
-('\ÆQV@#‰+‹\Òs\öC—','Zambie'),
-('\é{Ë˜^G¡‰jÊ‹\ï\É‘','Zimbabwe');
+('\ìh$\îA_ƒG\Åiú\é•x','Afghanistan'),
+('\Ü9\óA|THÎš4/X3ø\Ô\ã','Afrique du Sud'),
+('—7@\òs\ÜC‘‹‡am¨{lU','Albanie'),
+('\àùr\Ñ\ÔA¡Š•JÈ­f¿³','AlgÃ©rie'),
+('A;”’®‡J\"½.\Ì>\r0A','Allemagne'),
+('/\å0«ÁI¾°´U¸sZ`!','Andorre'),
+('¢ÿÇ‹[E%‹\Ø\Ì\Ñ\0‡\Ğ','Angola'),
+('Ÿ3G¹FvB¯¿Ä’ –\İ\ñG','Anguilla'),
+('\òo€\èZ+M\ï†{\Ş2\ñ\Û','Antarctique'),
+('r\Õ\0d2£LC½¿’\Z7>¸','Antigua-et-Barbuda'),
+('4ü‘]>(K\r‹\ÇQ¤T\Å\Æ\í','Antilles NÃ©erlandaises'),
+('qzAKÆ‰\Õg\é\r6\×','Arabie Saoudite'),
+('€tı\óCÓ†\å\Õ\ö¬','Argentine'),
+('Ï¨p¦Ÿ>K«¶\Ü×Ÿ¬U@','ArmÃ©nie'),
+('G¯dIAË…f½?	t','Aruba'),
+('dÿf\ÆGG²Fl½¡JH!','Australie'),
+('µ½\ÏlœWK¯\Ó\ì\Ş\ĞO','Autriche'),
+('\ğb:>©Oµ»\îc \Ò','AzerbaÃ¯djan'),
+('³e*ş\ÃgHE¢˜«„›ü±','Bahamas'),
+('\×\ò\í>-@n|ú\ç)\Â\á','BahreÃ¯n'),
+('ÁIN\ÍXOF\Zš\É>up{','Bangladesh'),
+('|~0L)²Hı63\Å)','Barbade'),
+('X‘¬\ê\ğD=ˆFIGÀ\\”P','BÃ©larus'),
+('Tÿ›\ÚC‡2*zÛ†‚\Ì','Belgique'),
+('OPC­\çJø©+l—†Á\ë','Belize'),
+('\È\ÔÈŸ\æ“M²s…+\ÛHÊ¥','BÃ©nin'),
+('5\ë­\Å_N\ç™\ô\ç\'3\n»ü','Bermudes'),
+('\÷t\É]LvGÂ´—.\É\×~','Bhoutan'),
+('™¢xR\ìAÕ¡¦\Ù[aL»\Ë','Bolivie'),
+('œŠÍ®NQ˜>\'\Ï\\\æe','Bosnie-HerzÃ©govine'),
+('l±\Å\nØGV‘B¦»®È¢B','Botswana'),
+('I\ëùjb£B$c\è\Ñøt\ê','BrÃ©sil'),
+('˜t©\ÑÂ¤M}€=%ú\Â?‚,','BrunÃ©i Darussalam'),
+('zm~M¯·r&X3Î˜','Bulgarie'),
+('„U\ó\ïT\ßG¿pW\ZN|?','Burkina Faso'),
+('µ…v¢W’IÓ¹G\ng\Z-','Burundi'),
+('q\İXc\ËK7‹Ÿ°#09<','Cambodge'),
+('µ|	K\r@7¸¾>\â%\ä­','Cameroun'),
+('‚\ÑµsN8†1\Ï1\Çm;','Canada'),
+('[`:^\Ø\ÏI6½\Ì@ÎŒ\é\0','Cap-vert'),
+('©ù™ƒ\ÉH\õ¯qE¡ ++„','Chili'),
+('¾¢´\ĞûCØŒ\Ä9úJú±','Chine'),
+('\îpÎ·«\'E\"ˆŸlÇ¯\ğ€1','Chypre'),
+('\ÉZ‰zV\nL‰Ÿ6¥PÕ¿S|','Colombie'),
+('u½r@¿™ƒÍ¹Ç•','Comores'),
+('\íavªb<H€¯ª\å®ú','Costa Rica'),
+('9	6\áC,½+¡Y¯\ñ\Ù','CÃ´te d\'Ivoire'),
+('\Ö?\äi,HÄ¿B\ã&û;S','Croatie'),
+('\×{\ôG …v~{1','Cuba'),
+('…½DHÔ«¤7IC¿\Ó','Danemark'),
+('^½=\è3F¹šYW¹\Üc\Æ','Djibouti'),
+('H‰\0\×\r²Ly°E0bI\r','Dominique'),
+('À\ï@¸hYAÄ¤\ó\×C—‘\Î','Ã‰gypte'),
+('À\İuùKÕ®\ÍUsT\ôAf','El Salvador'),
+('dVæ¬š\óB=\Ö\é–.Æƒ','Ã‰mirats Arabes Unis'),
+('=z \îEÔ…©¦sÄŸ\"\í','Ã‰quateur'),
+(',ÉJ¢Nsª¨­;\Í\"\áE','Ã‰rythrÃ©e'),
+('û\âSg“PLÊ¬eèœ«X\\¶','Espagne'),
+('J§u[\ÙIÅ¥™E_\õg\"','Estonie'),
+('\ó\Ş\ç\öOl°yİ‡RT\Ò','Ã‰tats FÃ©dÃ©rÃ©s de MicronÃ©sie'),
+('#r\é•\ë9Dø°‹€pk¯','Ã‰tats-Unis'),
+('%\åe$°-B0³>O_¦)','Ã‰thiopie'),
+('\ôÀ|²7I7š\ÍœT\ç)','FÃ©dÃ©ration de Russie'),
+('Î¬¬\×tBu\×tfrºH','Fidji'),
+('„µg/ûOC¡¶½\Ô-p	\Ï','Finlande'),
+('}qªùbGE’Ã®Ÿ-@²','France'),
+(']!\â\à!>EW”)E{y\ÄS','Gabon'),
+('¯1Z?‰L£¡\äª¼–š\"','Gambie'),
+('\Ç!o‚3D.£ûl\ã:\ì	\Ã','GÃ©orgie'),
+('¸œE\ÌLDTVùz=³\Ù','GÃ©orgie du Sud et les Ãles Sandwich du Sud'),
+('HHÈŠDß‚)UÂ¥6}','Ghana'),
+('\Î\ÍÁ3BË‰\Ïbµ\æ\â\ÅB','Gibraltar'),
+('†Œ\Ò+A?Š…\Ùı \ö','GrÃ¨ce'),
+('d}1\ÎbH¸ƒ*\ô\ñc?\â','Grenade'),
+('.Wi³\ÏJ&º\Ñ`¿\İ\Z \Ç','Groenland'),
+('\Ñ\í<J\'@L®b½L\İz\å	','Guadeloupe'),
+('\Ñhn-†øK—¨<¾O%ø@','Guam'),
+('k\â?\÷®¼IŞµV†\ñş\Ó','Guatemala'),
+('\î(£\îD\àƒ‡Zƒ\ò¼','GuinÃ©e'),
+('(o\0x\nBç®a$','GuinÃ©e Ã‰quatoriale'),
+('\öeµ0I/¹%‹R\Ûng‡','GuinÃ©e-Bissau'),
+('Œü@-fN\å²yz>M\å\àX','Guyana'),
+('\0ş|S3±KË€(D²\\˜­;','Guyane FranÃ§aise'),
+('\îM»GÚ•¥µµ4½','HaÃ¯ti'),
+('FLÉ–ŠJˆ®O‘ÁF|+^','Honduras'),
+('ª?\ĞH\ÉZLs¢\Ïi–n»`¸','Hong-Kong'),
+('IG¾µFC\ó¿ IJQ¼Á','Hongrie'),
+('\Zş+\Â_XEu¥\ßDY=4','Ãle Bouvet'),
+('Š	¯\Ğ\ğ\rDf¶\ÚÁ¬œ e','Ãle Christmas'),
+('´„F\Ø\ß:KÕ§^z#mK\ç½','Ãle de Man'),
+('kN€³…uLa¢H	\Å\âûiW','Ãle Norfolk'),
+('\ÕL«Di†\Éún7apœ','Ãles (malvinas) Falkland'),
+('Îš¢\ísG«¥VJ&;Á\Í','Ãles Ã…land'),
+('z{2½G‰‘^*a»2O','Ãles CaÃ¯manes'),
+('LM\î.\ÆfFr—fi\\ŸŒ9','Ãles Cocos (Keeling)'),
+('¬2\Ûk8\ÚM µŒ”ıP','Ãles Cook'),
+('k	)œeJ›S²R™7 ','Ãles FÃ©roÃ©'),
+('+~gZ¡oC‡¶bt\'}§Ö›','Ãles Heard et Mcdonald'),
+('‡X€<\÷\ÈF‘–c‹\ñ#\Ïv','Ãles Mariannes du Nord'),
+('‘\ß\"˜$@q°-37:¥(','Ãles Marshall'),
+('^\â\ğ\r\ÄCÒ˜u›E«´\ñ,','Ãles Mineures Ã‰loignÃ©es des Ã‰tats-Unis'),
+('Jfü\åm8A\á„\\\ñR\å\Æ<Y','Ãles Salomon'),
+('W^J[YIJ©¼\×q\Î~p¾\İ','Ãles Turks et CaÃ¯ques'),
+('FŒk\ö\ËB…‡œ‹l–°8','Ãles Vierges Britanniques'),
+('‚İ§\è\ãBÊ€#¼Gpü\Ä','Ãles Vierges des Ã‰tats-Unis'),
+('ş\ã\Ş\"\0C ˜…2\Ü\á\Ã\0','Inde'),
+('Ú¨\íŞ¡[N\'©ciR','IndonÃ©sie'),
+('¢^d®B}ª\õ)\r\ï0<\Ü','Iraq'),
+('d!_\à~N“‹$Œšy½','Irlande'),
+('\æR1;DØµ\Ê>C\õ¹','Islande'),
+('¬‚V M‘·$9¥vD1½','IsraÃ«l'),
+('Ã‚uKKI^’–\æ@\Ñ\Ét','Italie'),
+('\ê4ˆ¥\ßG0¾‘_\ó\Û\İ\Ô\ã','Jamahiriya Arabe Libyenne'),
+('qş\áùÁ\öBW­\÷‰\âÀ©-','JamaÃ¯que'),
+('İ¼\ß\Ö\\J¨£.|U\ìl\Ü','Japon'),
+('¡Ë³ü\Ï\îMFƒfÜ˜ú\\/','Jordanie'),
+('jH ”F³¾Ê¹cJ^}','Kazakhstan'),
+('¤b’ 0\\FX€ù\Ø~ú\ÈQ','Kenya'),
+('³3¥KD‘¬€\Äø+¼$','Kirghizistan'),
+('9?\òI›\÷G°Á•]f¯½','Kiribati'),
+('\ß\Û\÷\óUÿA„±k°3c»','KoweÃ¯t'),
+('.vV\Ü\Ö\İD¶ˆ‘¬ı;o\Ø','L\'ex-RÃ©publique Yougoslave de MacÃ©doine'),
+('dc\÷\ò\ÙMı˜“\ñ+6ıª)','Lesotho'),
+('mXiHpCŸA@XªR²','Lettonie'),
+('\ñ\'a¦ª\ĞL¿”ı*i¥\Ø ','Liban'),
+('›:\ä³H&®Å¦ü^\"i#','LibÃ©ria'),
+('¸fy[\ŞFº\ßA\'ÿ#}\â','Liechtenstein'),
+('(/6f+>H´~ı„5»E|','Lituanie'),
+('D\\†ƒ–ÁNG°!9ˆ\Ñ\ğQW','Luxembourg'),
+('\ô¥¶Í°zN¢Á>SkÀxj','Macao'),
+('uJ¦\ÒC¾±ş\×\ì\Â\Ş\ìt','Madagascar'),
+('\á\ñÄ¸G‰·7\ñ\õ=°\ô\Û','Malaisie'),
+('1·\ÏKB«H;©ºMœo','Malawi'),
+('²yC\çPfBÄ¨\ó°$\ãrƒ¨','Maldives'),
+('aœ\Ö1—\ĞGƒªu€?£€=','Mali'),
+('{¸“5˜\ÙI¢ªÊªfoe³','Malte'),
+('»MX’Në®ª;/¨\ÊP~','Maroc'),
+('tR–?›\ÛNE¿\'f²\Õs','Martinique'),
+('?\ì:^I„›	sÀ\ä\ãª\Ğ','Maurice'),
+('\Ñg\n\âV®L˜Œ‰\ÛÉª\İ\Ë','Mauritanie'),
+('LE;<GBL’ı\â\nE\Å','Mayotte'),
+('Â©\Ñ;b\âF®‰\ç?®\ö§t','Mexique'),
+('«€’5=Gª›ghV;\ÂU','Monaco'),
+('>ª¶D”HÉ—\É/\Ò\÷','Mongolie'),
+('‡°A.ÖDš‘i“\Ğ\İÿ8e','Montserrat'),
+('ş±·6\ÖA£\ôû1','Mozambique'),
+('acO\Ò\nK\á¿H½b¶¹JA','Myanmar'),
+('\n\çQ\çY¯La–\á\0\ìL*I','Namibie'),
+('Ÿ»\å³H6“pš\"<Ó¨l','Nauru'),
+(':q¥z¨\ÆO˜\î\ëÿ‚|Ä³','NÃ©pal'),
+('\Z‰š\n `Cˆ°\èc\ğ+2eI','Nicaragua'),
+('7\ñ\ÎN\Ï\ØIÖ†\ãW•Z1','Niger'),
+('Qaj\Æ{\'Eş–a\é\òi/V\ó','NigÃ©ria'),
+('¨‘+G¤N§8šø?-ú','NiuÃ©'),
+('$-–8\Í\íNš±×Œ\'g·²\Ò','NorvÃ¨ge'),
+('\åmšª\ZDĞ¢L¤\Û/\ëøY','Nouvelle-CalÃ©donie'),
+('Á\ïo\İCÎ¿ı\Í\nG²\İ','Nouvelle-ZÃ©lande'),
+('\ŞıŠ\áJÆi\õbb','Oman'),
+('\Z(\Şs\òN£ŠŸÖ\ÜÆŒ','Ouganda'),
+('€¬E^¼J­šmFa:\Õ','OuzbÃ©kistan'),
+('8 l\ãKŒ˜ªÏsY','Pakistan'),
+('\â\ã&¨A¼\ô<\â\ÚÉ”','Palaos'),
+('¨\è¿\ÙWL3¦’7u¾Jt','Panama'),
+('1½\è­4FÖ–Z/ì¹³¶','Papouasie-Nouvelle-GuinÃ©e'),
+('£_DÈ¦@K·\Üp\Ù?ØŠ','Paraguay'),
+('†\Â$LxBŒ®\àT\Â[jme','Pays-Bas'),
+('ùq\Z¼¿Dë•¿\Ô\Â\Ï','PÃ©rou'),
+('\ö8\ß\é­C´di„)\ê','Philippines'),
+('k¿j!CÌ½GnB\îbo¢','Pitcairn'),
+('ç®ŒOƒD´‚K–Í™²','Pologne'),
+('+Š-Q‚Ig°+AJ\Ã}','PolynÃ©sie FranÃ§aise'),
+('›Ò¹»	—O‚‘g¤\Õ\ÉmW£','Porto Rico'),
+('7a\Ût\ïEß K±$YOYm','Portugal'),
+('N\ó9\Ñ\ËO@[–úGû#n','Qatar'),
+('W\Zi¿\ÕA‡8pˆ¿%','RÃ©publique Arabe Syrienne'),
+('©ş\á\ä—\ÌN¨\ÜÓ¦J\0¿¤','RÃ©publique Centrafricaine'),
+('¾d\íWB.ŒMm4šs','RÃ©publique de CorÃ©e'),
+('aÔ’\×\ÅB«½A?!\Ô,Y`','RÃ©publique de Moldova'),
+('ùıj\ÈNŠDt™\á%·)†','RÃ©publique DÃ©mocratique du Congo'),
+('üŠfOB=£Û¡-‘\Ú','RÃ©publique DÃ©mocratique Populaire Lao'),
+('#	\÷\ğ@\ôº\ã,Ÿ¹R\ğ','RÃ©publique Dominicaine'),
+('99\Ø¡_@Z£2\Õ?\î','RÃ©publique du Congo'),
+('\Æü\ê\å\Ï\ÌO\è¼\ç\ä\Ú\Í\ãe2','RÃ©publique Islamique d\'Iran'),
+('‡p‰Qn¹GN˜\íš\ä\Å~•','RÃ©publique Populaire DÃ©mocratique de CorÃ©e'),
+('Í£\"w\ï)KJ²W\"±)¡«E','RÃ©publique TchÃ¨que'),
+('a©iI\'™L€˜\Åni—\ô\ë','RÃ©publique-Unie de Tanzanie'),
+('l\ÎW\ÊN|F¨–‘\Â!~','RÃ©union'),
+('eü\êAB¨©6\é#ƒ\ìˆq','Roumanie'),
+('DŒ\Ğ\à·QLY»\åo?X\á°','Royaume-Uni'),
+('˜…¹\îHK¹I€¾úÖ°u','Rwanda'),
+('\Ü\ã¼qÄœI¼È·\ÛIzkw','Sahara Occidental'),
+('¶’*İƒE}¨ˆš¨8\Ì','Saint-Kitts-et-Nevis'),
+('\"²ªÊ§¢DŞ“ûNÁ\áy','Saint-Marin'),
+('\0AŠ±D”M¯¸\ã\Ù\Ù\Â¦','Saint-Pierre-et-Miquelon'),
+('\Z2V¥¶DD”1\÷†V\"v','Saint-SiÃ¨ge (Ã©tat de la CitÃ© du Vatican)'),
+('\ï]\ğ^1\ÉC\õŸ†Ì\Ş\Ï','Saint-Vincent-et-les Grenadines'),
+(',\ì~C\ÃhB—ƒ­XVù','Sainte-HÃ©lÃ¨ne'),
+('¶\Ê¯\ÒH8¼(™şÒ·\ê','Sainte-Lucie'),
+('T€]V%•JV´Ef@ªMiˆ','Samoa'),
+('JZm\Õ\Ö>IW­QšD_<\òŒ','Samoa AmÃ©ricaines'),
+('\n§SUŠK…\0\Ûã‘°4¿','Sao TomÃ©-et-Principe'),
+('¬\ñŒC\r°³«\àK…\ô','SÃ©nÃ©gal'),
+('H¸{>pFd¬š\Ä6\å:V.','Serbie-et-MontÃ©nÃ©gro'),
+('F&\ìmgwFaœÀ®„\Ïiˆ\Ç','Seychelles'),
+('wÂ³pLÈŒĞ£m$*µ\ì','Sierra Leone'),
+(':Î­…CHK‰¿´\ny[\òO³','Singapour'),
+('Jœ¨¼\ömO¸ˆ­}\î¶@\ä','Slovaquie'),
+('>—¯D\õM¶­1j','SlovÃ©nie'),
+('…Hú\çN‹§>K…\äEºk','Somalie'),
+('\ãFüŞ©´Eb¡\Z\ô\Ñdú\Õ\÷','Soudan'),
+('@j\ï…@Ø·\÷#\Öa\ÈD','Sri Lanka'),
+('ı«1D>°]s4\0g™®','SuÃ¨de'),
+('QaÜ€Q2G:€\rœ\Ô9d','Suisse'),
+('\ÚÀ\ÈK¹Gˆ(N¨‰\ì','Suriname'),
+('\ô‡#ü3BS³?ÿÕ zb\n','Svalbard etÃle Jan Mayen'),
+('H”\õ¨\åJZªr\âÿQ\áe“','Swaziland'),
+('4\n‡\ÈhB\íƒ(o\É\Õ\Ì','Tadjikistan'),
+('\ï+ş)$ŸN¥…8\ÙN¹=','TaÃ¯wan'),
+('¯w\ê‰6¤Cw­\äşK\Õ\ò\Ú','Tchad'),
+(' ¯ÿ)¢F&¥3Ã´’\Û\Z','Terres Australes FranÃ§aises'),
+('˜m~I@²8eW\Å','Territoire Britannique de l\'OcÃ©an Indien'),
+('«\ÌÆµƒsCŒ&Ç§Ÿ\Üø','Territoire Palestinien OccupÃ©'),
+('!d“o:\îHŠ˜—i\ò>\Ê','ThaÃ¯lande'),
+('\Ó\Ì“-\ØEG…ü\ó–£\ì\ök','Timor-Leste'),
+('!¾\êZYCA£™U\0ŒS1\Õ\Ü','Togo'),
+('H±dˆûCi¦»³„=\'','Tokelau'),
+('bC	@Lş§›tV\Õ0_','Tonga'),
+('\ãXdÆ·ÀCÈ€\Ñ\"R?O','TrinitÃ©-et-Tobago'),
+(' -\æø²F †(‡ºym\Ş:','Tunisie'),
+('¶\ê JBpA—ì°™p\íh}','TurkmÃ©nistan'),
+(':f\rı­tHD•\Î-(¿t','Turquie'),
+('¹ƒ„H_\Ñf\Çø7','Tuvalu'),
+('½Y“®«O…‰\Ì\Ì8¢—\é{','Ukraine'),
+('U(iRE\ò·¼µZF}','Uruguay'),
+('€³\ìı¯KˆŒ¦y\ÄA\è\ôb','Vanuatu'),
+('ˆ¶\Â\\{H#±8\ğK\àw\ê','Venezuela'),
+('®Ë±H`!A¸\ğÆ¨A\õ¬','Viet Nam'),
+('cÂ€u,²Cl– V\Òä¼¹','Wallis et Futuna'),
+('\n) \Æ\ÙEO]–\ö\Ú	‰\Ø	','YÃ©men'),
+('¦ƒŠO¥¡‡u\É\Öi7','Zambie'),
+('80\à©g\ëL\'Š\÷yt¸\ô','Zimbabwe');
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,21 +360,21 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20240124155119','2024-11-22 16:40:45',2),
-('DoctrineMigrations\\Version20240201152951','2024-11-22 16:40:45',1),
-('DoctrineMigrations\\Version20240202084749','2024-11-22 16:40:45',3),
-('DoctrineMigrations\\Version20240202150901','2024-11-22 16:40:45',2),
-('DoctrineMigrations\\Version20240207105701','2024-11-22 16:40:45',4),
-('DoctrineMigrations\\Version20240319212437','2024-11-22 16:40:45',2),
-('DoctrineMigrations\\Version20240614133504','2024-11-22 16:40:45',10),
-('DoctrineMigrations\\Version20240617165906','2024-11-22 16:40:45',8),
-('DoctrineMigrations\\Version20240708061729','2024-11-22 16:40:45',14),
-('DoctrineMigrations\\Version20240801202153','2024-11-22 16:40:45',3),
-('DoctrineMigrations\\Version20240815153823','2024-11-22 16:40:45',2),
-('DoctrineMigrations\\Version20240916065051','2024-11-22 16:40:45',4),
-('DoctrineMigrations\\Version20240929091802','2024-11-22 16:40:45',11),
-('DoctrineMigrations\\Version20241002164506','2024-11-22 16:40:45',7),
-('DoctrineMigrations\\Version20241119144432','2024-11-22 16:40:45',11);
+('DoctrineMigrations\\Version20240124155119','2024-11-22 20:33:20',2),
+('DoctrineMigrations\\Version20240201152951','2024-11-22 20:33:20',1),
+('DoctrineMigrations\\Version20240202084749','2024-11-22 20:33:20',1),
+('DoctrineMigrations\\Version20240202150901','2024-11-22 20:33:20',1),
+('DoctrineMigrations\\Version20240207105701','2024-11-22 20:33:20',2),
+('DoctrineMigrations\\Version20240319212437','2024-11-22 20:33:20',1),
+('DoctrineMigrations\\Version20240614133504','2024-11-22 20:33:20',7),
+('DoctrineMigrations\\Version20240617165906','2024-11-22 20:33:20',6),
+('DoctrineMigrations\\Version20240708061729','2024-11-22 20:33:20',7),
+('DoctrineMigrations\\Version20240801202153','2024-11-22 20:33:20',2),
+('DoctrineMigrations\\Version20240815153823','2024-11-22 20:33:20',1),
+('DoctrineMigrations\\Version20240916065051','2024-11-22 20:33:20',3),
+('DoctrineMigrations\\Version20240929091802','2024-11-22 20:33:20',9),
+('DoctrineMigrations\\Version20241002164506','2024-11-22 20:33:20',5),
+('DoctrineMigrations\\Version20241119144432','2024-11-22 20:33:20',9);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +446,7 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','.¥l5‹¹LnšI½y\Å\ñ7',NULL,NULL,'https://apps.apple.com/app/6468406309','pending','2024-11-22 16:40:46','root@gmail.com');
+('«\í/iš®M’©\íú|˜Vt','.¥l5‹¹LnšI½y\Å\ñ7',NULL,NULL,'https://apps.apple.com/app/6468406309','pending','2024-11-22 20:33:21','root@gmail.com');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,4 +516,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-22 16:40:47
+-- Dump completed on 2024-11-22 20:33:22

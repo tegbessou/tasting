@@ -40,7 +40,7 @@ final readonly class CreateTastingMessageHandler
             $this->logger->error(
                 'Create tasting: Owner doesn\'t exist',
                 [
-                    'email' => $exception->ownerId,
+                    'id' => $exception->ownerId,
                 ],
             );
 

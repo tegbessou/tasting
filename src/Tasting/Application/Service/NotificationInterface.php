@@ -7,7 +7,7 @@ namespace App\Tasting\Application\Service;
 interface NotificationInterface
 {
     public function sendInvitationNotification(
-        string $fromName,
+        string $fromFullName,
         string $targetId,
         string $bottleName,
     ): void;

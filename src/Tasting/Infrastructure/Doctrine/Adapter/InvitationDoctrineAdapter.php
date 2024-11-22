@@ -45,7 +45,7 @@ final class InvitationDoctrineAdapter extends DoctrineRepository implements Invi
     }
 
     #[\Override]
-    public function withParticipant(string $targetId): InvitationAdapterInterface
+    public function withTarget(string $targetId): InvitationAdapterInterface
     {
         return $this->filter(static function (Builder $qb) use ($targetId): void {
             $qb->field('targetId')->equals($targetId);
@@ -53,11 +53,11 @@ final class InvitationDoctrineAdapter extends DoctrineRepository implements Invi
     }
 
     #[\Override]
-    public function withParticipantAndTasting(string $targetId, string $subjectId): InvitationAdapterInterface
+    public function withTargetAndSubject(string $targetId, string $subjectId): InvitationAdapterInterface
     {
         return $this->filter(static function (Builder $qb) use ($targetId, $subjectId): void {
             $qb->field('targetId')->equals($targetId);
-            $qb->field('tastingId')->equals($subjectId);
+            $qb->field('subjectId')->equals($subjectId);
         });
     }
 

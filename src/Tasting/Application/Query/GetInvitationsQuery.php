@@ -13,7 +13,7 @@ use TegCorp\SharedKernelBundle\Application\Query\QueryInterface;
 final readonly class GetInvitationsQuery implements QueryInterface
 {
     public function __construct(
-        public ?string $targetEmail = null,
+        public ?string $targetId = null,
     ) {
     }
 }

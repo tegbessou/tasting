@@ -7,24 +7,24 @@ namespace App\Tasting\Domain\ValueObject;
 final readonly class User
 {
     public function __construct(
-        private UserEmail $email,
+        private UserEmail $id,
         private ?UserFullName $fullName = null,
     ) {
     }
 
     public static function create(
-        UserEmail $email,
+        UserEmail $id,
         ?UserFullName $fullName = null,
     ): self {
         return new self(
-            $email,
+            $id,
             $fullName,
         );
     }
 
-    public function email(): UserEmail
+    public function id(): UserEmail
     {
-        return $this->email;
+        return $this->id;
     }
 
     public function fullName(): ?UserFullName

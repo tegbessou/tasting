@@ -27,7 +27,7 @@ final readonly class GetInvitationCollectionProvider implements ProviderInterfac
     #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): Paginator|array
     {
-        $targetEmail = $context['filters']['target.email'] ?? null;
+        $targetEmail = $context['filters']['target.id'] ?? null;
 
         $models = $this->queryBus->ask(
             new GetInvitationsQuery(

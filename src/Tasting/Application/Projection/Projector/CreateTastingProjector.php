@@ -8,7 +8,7 @@ use App\Tasting\Application\Adapter\TastingAdapterInterface;
 use App\Tasting\Application\Exception\OwnerDoesntExistException;
 use App\Tasting\Application\Exception\TastingDoesntExistException;
 use App\Tasting\Application\ReadModel\Tasting;
-use App\Tasting\Domain\Adapter\UserAdapterInterface;
+use App\Tasting\Domain\Adapter\ParticipantAdapterInterface;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -18,7 +18,7 @@ final readonly class CreateTastingProjector
     public function __construct(
         private TastingRepositoryInterface $tastingRepository,
         private TastingAdapterInterface $tastingAdapter,
-        private UserAdapterInterface $userAdapter,
+        private ParticipantAdapterInterface $userAdapter,
     ) {
     }
 
@@ -33,7 +33,7 @@ final readonly class CreateTastingProjector
             throw new TastingDoesntExistException($id);
         }
 
-        $owner = $this->userAdapter->ofEmail(ParticipantId::fromString($ownerId));
+        $owner = $this->userAdapter->ofId(ParticipantId::fromString($ownerId));
 
         if ($owner === null) {
             throw new OwnerDoesntExistException($ownerId);
@@ -43,12 +43,12 @@ final readonly class CreateTastingProjector
             $id,
             [
                 [
-                    $owner->email()->value(),
+                    $owner->id()->value(),
                     $owner->fullName()?->value() ?? throw new \LogicException(),
                 ],
             ],
             $bottleName,
-            $owner->email()->value(),
+            $owner->id()->value(),
             $owner->fullName()->value(),
         );
 

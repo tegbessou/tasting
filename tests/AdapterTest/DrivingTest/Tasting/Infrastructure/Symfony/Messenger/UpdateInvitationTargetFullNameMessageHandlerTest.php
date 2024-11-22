@@ -80,12 +80,12 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
         $this->transport('tasting_from_external')->process(1);
         $this->transport('tasting_from_external')->queue()->assertContains(UserCreatedMessage::class, 0);
 
-        $invitations = $this->invitationAdapter->withParticipant('nexistepas@gmail.com');
+        $invitations = $this->invitationAdapter->withTarget('nexistepas@gmail.com');
 
         /** @var Invitation $invitation */
         $invitation = $invitations->getIterator()->current();
 
-        $this->assertEquals('Hugues Gobet', $invitation->targetName);
+        $this->assertEquals('Hugues Gobet', $invitation->targetFullName);
 
         $invitation = $this->invitationAdapter->ofId($invitation->id);
         $this->documentManager->remove($invitation);

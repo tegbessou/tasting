@@ -27,10 +27,10 @@ final readonly class GetCollectionInvitationResource
         public ?Uuid $id,
         public string $tastingId,
         public string $fromId,
-        public string $fromName,
+        public string $fromFullName,
         public string $targetId,
         public string $link,
-        public ?string $targetName = null,
+        public ?string $targetFullName = null,
     ) {
     }
 
@@ -38,12 +38,12 @@ final readonly class GetCollectionInvitationResource
     {
         return new self(
             new Uuid($invitation->id),
-            $invitation->tastingId,
+            $invitation->subjectId,
             $invitation->fromId,
-            $invitation->fromName,
+            $invitation->fromFullName,
             $invitation->targetId,
             $invitation->link,
-            $invitation->targetName,
+            $invitation->targetFullName,
         );
     }
 }

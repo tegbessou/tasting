@@ -17,13 +17,13 @@ final readonly class OnTargetSetFullNameEventOnEachInvitationEventListener
 
     public function __invoke(TargetSetFullNameEvent $event): void
     {
-        $invitations = $this->invitationAdapter->withParticipant(
-            $event->targetEmail,
+        $invitations = $this->invitationAdapter->withTarget(
+            $event->targetId,
         );
 
         /** @var Invitation $invitation */
         foreach ($invitations->getIterator() as $invitation) {
-            $invitation->targetName = $event->targetFullName;
+            $invitation->targetFullName = $event->targetFullName;
         }
 
         $this->invitationAdapter->update();

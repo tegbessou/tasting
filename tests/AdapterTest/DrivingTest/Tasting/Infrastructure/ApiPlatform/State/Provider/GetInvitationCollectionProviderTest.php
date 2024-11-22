@@ -10,7 +10,7 @@ final class GetInvitationCollectionProviderTest extends ApiTestCase
 {
     public function testGetInvitationsByTarget(): void
     {
-        $this->get('/api/invitations?target.email=root@gmail.com');
+        $this->get('/api/invitations?target.id=root@gmail.com');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -24,9 +24,9 @@ final class GetInvitationCollectionProviderTest extends ApiTestCase
                     'id' => 'abed2f69-9aae-4d92-a91c-edfa7c985674',
                     'tastingId' => '2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
                     'fromId' => 'hugues.gobet@gmail.com',
-                    'fromName' => 'Pedor',
+                    'fromFullName' => 'Pedor',
                     'targetId' => 'root@gmail.com',
-                    'targetName' => 'Pedor',
+                    'targetFullName' => 'Pedor',
                     'link' => 'https://apps.apple.com/app/6468406309',
                 ],
             ],

@@ -8,7 +8,7 @@ interface MailerInterface
 {
     public function sendInvitationEmail(
         string $fromId,
-        string $fromName,
+        string $fromFullName,
         string $targetId,
         string $bottleName,
         string $link,

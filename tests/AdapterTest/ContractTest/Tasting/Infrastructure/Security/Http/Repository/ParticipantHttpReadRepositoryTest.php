@@ -8,12 +8,12 @@ use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
 use App\Tasting\Domain\ValueObject\UserFullName;
-use App\Tasting\Infrastructure\Security\Adapter\UserAdapter;
+use App\Tasting\Infrastructure\Security\Adapter\ParticipantAdapter;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-final class UserHttpReadRepositoryTest extends KernelTestCase
+final class ParticipantHttpReadRepositoryTest extends KernelTestCase
 {
-    private UserAdapter $httpUserRepository;
+    private ParticipantAdapter $httpUserRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -21,7 +21,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->httpUserRepository = $container->get(UserAdapter::class);
+        $this->httpUserRepository = $container->get(ParticipantAdapter::class);
     }
 
     public function testOfEmail(): void
@@ -31,7 +31,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
                 UserEmail::fromString('hugues.gobet@gmail.com'),
                 UserFullName::fromString('Pedro'),
             ),
-            $this->httpUserRepository->ofEmail(
+            $this->httpUserRepository->ofId(
                 ParticipantId::fromString('hugues.gobet@gmail.com'),
             ),
         );
@@ -40,7 +40,7 @@ final class UserHttpReadRepositoryTest extends KernelTestCase
     public function testOfEmailNull(): void
     {
         $this->assertNull(
-            $this->httpUserRepository->ofEmail(
+            $this->httpUserRepository->ofId(
                 ParticipantId::fromString('pedro@gmail.com'),
             ),
         );

@@ -7,7 +7,7 @@ namespace App\Tasting\Application\Command;
 use App\Tasting\Application\Exception\OwnerDoesntExistException;
 use App\Tasting\Application\Service\MailerInterface;
 use App\Tasting\Application\Service\NotificationInterface;
-use App\Tasting\Domain\Adapter\UserAdapterInterface;
+use App\Tasting\Domain\Adapter\ParticipantAdapterInterface;
 use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
@@ -25,7 +25,7 @@ final readonly class SendInvitationCommandHandler
         private MailerInterface $emailService,
         private NotificationInterface $notificationService,
         private DomainEventDispatcherInterface $eventDispatcher,
-        private UserAdapterInterface $userAdapter,
+        private ParticipantAdapterInterface $userAdapter,
     ) {
     }
 
@@ -47,7 +47,7 @@ final readonly class SendInvitationCommandHandler
             throw new InvitationDoesntExistException($command->invitationId);
         }
 
-        $owner = $this->userAdapter->ofEmail(
+        $owner = $this->userAdapter->ofId(
             ParticipantId::fromString($tasting->ownerId()->value()),
         );
 
@@ -58,7 +58,7 @@ final readonly class SendInvitationCommandHandler
         $tasting->sendInvitation($invitation);
 
         $this->emailService->sendInvitationEmail(
-            $owner->email()->value(),
+            $owner->id()->value(),
             $owner->fullName()?->value() ?? throw new \LogicException(),
             $invitation->target()->value(),
             $tasting->bottleName()->value(),

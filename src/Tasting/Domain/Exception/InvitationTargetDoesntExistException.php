@@ -6,8 +6,8 @@ namespace App\Tasting\Domain\Exception;
 
 final class InvitationTargetDoesntExistException extends \Exception
 {
-    public function __construct(string $ownerId)
+    public function __construct(string $targetId)
     {
-        parent::__construct(sprintf('Invitation target with email %s doesn\'t exist', $ownerId));
+        parent::__construct(sprintf('Invitation target with id %s doesn\'t exist', $targetId));
     }
 }

@@ -18,9 +18,9 @@ interface InvitationAdapterInterface extends RepositoryInterface
 
     public function sortCreatedAt(): self;
 
-    public function withParticipant(string $targetId): InvitationAdapterInterface;
+    public function withTarget(string $targetId): InvitationAdapterInterface;
 
-    public function withParticipantAndTasting(string $targetId, string $subjectId): InvitationAdapterInterface;
+    public function withTargetAndSubject(string $targetId, string $subjectId): InvitationAdapterInterface;
 
     public function delete(Invitation $invitation): void;
 

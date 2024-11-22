@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Security\Repository;
 
-final readonly class UserFakeRepository implements UserRepositoryInterface
+final readonly class ParticipantFakeRepository implements ParticipantRepositoryInterface
 {
     #[\Override]
-    public function ofEmail(string $email): array
+    public function ofId(string $email): array
     {
         if ($email === 'hugues.gobet@gmail.com') {
             return [

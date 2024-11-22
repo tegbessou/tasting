@@ -13,13 +13,13 @@ class Invitation
         #[MongoDB\Id(strategy: 'UUID')]
         public string $id,
         #[MongoDB\Field(type: 'string')]
-        public string $tastingId,
+        public string $subjectId,
         #[MongoDB\Field(type: 'string')]
         public string $bottleName,
         #[MongoDB\Field(type: 'string')]
         public string $fromId,
         #[MongoDB\Field(type: 'string')]
-        public string $fromName,
+        public string $fromFullName,
         #[MongoDB\Field(type: 'string')]
         public string $targetId,
         #[MongoDB\Field(type: 'string')]
@@ -27,6 +27,6 @@ class Invitation
         #[MongoDB\Field(type: 'date_immutable')]
         public \DateTimeImmutable $createdAt,
         #[MongoDB\Field(type: 'string', nullable: true)]
-        public ?string $targetName = null,
+        public ?string $targetFullName = null,
     ) {}
 }

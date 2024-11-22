@@ -18,7 +18,7 @@ final class Invitation
         #[ORM\JoinColumn(name: 'tasting_id', referencedColumnName: 'id')]
         public ?Tasting $subject,
         #[ORM\Column(name: 'target', type: 'string')]
-        public string $target,
+        public string $targetId,
         #[ORM\Column(name: 'link', type: 'text', nullable: false)]
         public string $link,
         #[ORM\Column(name: 'status', type: 'string', length: 10, nullable: false, enumType: TastingInvitationStatus::class)]

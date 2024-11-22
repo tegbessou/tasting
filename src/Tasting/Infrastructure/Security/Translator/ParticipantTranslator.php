@@ -7,14 +7,14 @@ namespace App\Tasting\Infrastructure\Security\Translator;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
 use App\Tasting\Domain\ValueObject\UserFullName;
-use App\Tasting\Infrastructure\Security\Exception\UserDoesntExistYetException;
+use App\Tasting\Infrastructure\Security\Exception\ParticipantDoesntExistYetException;
 
-final class UserTranslator
+final class ParticipantTranslator
 {
     public static function toUser(array $data): User
     {
         if ($data === []) {
-            throw new UserDoesntExistYetException();
+            throw new ParticipantDoesntExistYetException();
         }
 
         return User::create(
