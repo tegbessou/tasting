@@ -186,8 +186,6 @@ Separate each bounded context in microservice
 Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
 
 ## TODO
-Dans les tests revoir la façon de clear les datas existantes pour les tests AdapterTest (tous les tests) => high
-
 Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
 
 Normaliser delete instead of remove

@@ -6,14 +6,14 @@ namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Adapter;
 
 use App\Country\Application\Adapter\CountryAdapterInterface;
 use App\Country\Application\ReadModel\Country;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CountryDoctrineAdapterTest extends KernelTestCase
 {
-    private readonly CountryAdapterInterface $countryAdapter;
+    use RefreshDatabase;
 
-    private readonly DocumentManager $documentManager;
+    private readonly CountryAdapterInterface $countryAdapter;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +22,6 @@ final class CountryDoctrineAdapterTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->countryAdapter = $container->get(CountryAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testOfName(): void
@@ -50,9 +49,6 @@ final class CountryDoctrineAdapterTest extends KernelTestCase
 
         $country = $this->countryAdapter->ofName('Taboulistan');
         $this->assertNotNull($country);
-
-        $this->documentManager->remove($country);
-        $this->documentManager->flush();
     }
 
     public function testWithName(): void

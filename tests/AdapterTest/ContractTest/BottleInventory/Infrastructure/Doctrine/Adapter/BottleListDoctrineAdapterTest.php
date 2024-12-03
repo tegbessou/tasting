@@ -6,14 +6,13 @@ namespace AdapterTest\ContractTest\BottleInventory\Infrastructure\Doctrine\Adapt
 
 use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
 use App\BottleInventory\Application\ReadModel\BottleList;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class BottleListDoctrineAdapterTest extends KernelTestCase
 {
+    use RefreshDatabase;
     private readonly BottleListAdapterInterface $bottleListDoctrineAdapter;
-
-    private readonly DocumentManager $documentManager;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +21,6 @@ final class BottleListDoctrineAdapterTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->bottleListDoctrineAdapter = $container->get(BottleListAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testAdd(): void
@@ -42,9 +40,6 @@ final class BottleListDoctrineAdapterTest extends KernelTestCase
 
         $bottle = $this->bottleListDoctrineAdapter->ofId('b5880b05-073b-4224-95ed-21af2cf4e737');
         $this->assertNotNull($bottle);
-
-        $this->documentManager->remove($bottle);
-        $this->documentManager->flush();
     }
 
     public function testOfId(): void
@@ -84,9 +79,6 @@ final class BottleListDoctrineAdapterTest extends KernelTestCase
 
         $bottle = $this->bottleListDoctrineAdapter->ofId('b5880b05-073b-4224-95ed-21af2cf4e737');
         $this->assertEquals('cheateau-margaux.jpg', $bottle->picture);
-
-        $this->documentManager->remove($bottle);
-        $this->documentManager->flush();
     }
 
     public function testSortName(): void

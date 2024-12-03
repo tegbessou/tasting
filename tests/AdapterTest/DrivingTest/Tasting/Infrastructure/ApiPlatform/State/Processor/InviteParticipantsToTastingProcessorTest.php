@@ -4,36 +4,16 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Processor;
 
-use App\Tasting\Application\Adapter\InvitationAdapterInterface;
-use App\Tasting\Domain\ValueObject\TastingId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Invitation;
-use App\Tasting\Infrastructure\Doctrine\Repository\InvitationDoctrineRepository;
-use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
+use Shared\RefreshDatabase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
 {
     use InteractsWithMessenger;
-
-    private InvitationDoctrineRepository $invitationDoctrineRepository;
-    private EntityManagerInterface $entityManager;
-    private TastingDoctrineRepository $tastingDoctrineRepository;
-    private InvitationAdapterInterface $invitationAdapter;
-
-    #[\Override]
-    protected function setUp(): void
-    {
-        self::bootKernel();
-        $container = self::getContainer();
-        $this->invitationDoctrineRepository = $container->get(InvitationDoctrineRepository::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->tastingDoctrineRepository = $container->get(TastingDoctrineRepository::class);
-        $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
-    }
+    use RefreshDatabase;
 
     public function testInviteParticipantsToTasting(): void
     {
@@ -46,19 +26,6 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(204);
 
         $this->transport('tasting')->queue()->assertContains(InvitationCreatedMessage::class, 1);
-
-        $tasting = $this->tastingDoctrineRepository->ofId(
-            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722')
-        );
-
-        $invitation = $tasting->invitations()->values()[0];
-
-        $invitationReadModel = $this->invitationAdapter->ofId($invitation->id()->value());
-        $this->invitationAdapter->delete($invitationReadModel);
-
-        $invitationDoctrine = $this->entityManager->getRepository(Invitation::class)->find($invitation->id()->value());
-        $this->entityManager->remove($invitationDoctrine);
-        $this->entityManager->flush();
     }
 
     #[DataProvider('provideInvalidData')]
@@ -151,18 +118,5 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
                 ],
             ],
         ]);
-
-        $tasting = $this->tastingDoctrineRepository->ofId(
-            TastingId::fromString('964a3cb8-5fbd-4678-a5cd-e371c09ea722')
-        );
-
-        $invitation = $tasting->invitations()->values()[0];
-
-        $invitationReadModel = $this->invitationAdapter->ofId($invitation->id()->value());
-        $this->invitationAdapter->delete($invitationReadModel);
-
-        $invitationDoctrine = $this->entityManager->getRepository(Invitation::class)->find($invitation->id()->value());
-        $this->entityManager->remove($invitationDoctrine);
-        $this->entityManager->flush();
     }
 }

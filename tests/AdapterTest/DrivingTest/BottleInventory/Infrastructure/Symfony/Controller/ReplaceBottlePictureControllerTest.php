@@ -4,26 +4,14 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\Symfony\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\ResultSetMapping;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
+use Shared\RefreshDatabase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class ReplaceBottlePictureControllerTest extends ApiTestCase
 {
-    private EntityManagerInterface $entityManager;
-
-    #[\Override]
-    public function setUp(): void
-    {
-        static::bootKernel();
-
-        $container = static::getContainer();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-
-        parent::setUp();
-    }
+    use RefreshDatabase;
 
     #[\Override]
     protected function tearDown(): void
@@ -58,10 +46,6 @@ final class ReplaceBottlePictureControllerTest extends ApiTestCase
             'picturePath' => 'cote-rotie.png',
         ]);
         $this->assertFileExistsWithPartialName('cote-rotie*.png');
-
-        $query = $this->entityManager->createNativeQuery('UPDATE bottle SET picture = null WHERE id = :id', new ResultSetMapping());
-        $query->setParameter('id', '635e809c-aaaf-40df-8483-83cfbe2c5504');
-        $query->execute();
     }
 
     #[DataProvider('provideValidFiles')]
@@ -84,10 +68,6 @@ final class ReplaceBottlePictureControllerTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200);
         $this->assertFileExistsWithPartialName($partialName);
-
-        $query = $this->entityManager->createNativeQuery('UPDATE bottle SET picture = null WHERE id = :id', new ResultSetMapping());
-        $query->setParameter('id', $uuid);
-        $query->execute();
 
         $this->revertUploadFile($partialName, $name);
     }

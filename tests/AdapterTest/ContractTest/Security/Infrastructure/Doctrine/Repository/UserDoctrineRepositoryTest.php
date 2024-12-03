@@ -8,12 +8,12 @@ use App\Security\Domain\Entity\User;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserId;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UserDoctrineRepositoryTest extends KernelTestCase
 {
-    private EntityManagerInterface $entityManager;
+    use RefreshDatabase;
 
     private UserRepositoryInterface $doctrineUserRepository;
 
@@ -24,17 +24,6 @@ final class UserDoctrineRepositoryTest extends KernelTestCase
 
         $container = static::getContainer();
         $this->doctrineUserRepository = $container->get(UserRepositoryInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-
-        $this->entityManager->beginTransaction();
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        $this->entityManager->rollback();
-
-        parent::tearDown();
     }
 
     public function testOfEmail(): void

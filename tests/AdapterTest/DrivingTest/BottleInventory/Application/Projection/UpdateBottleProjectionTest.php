@@ -8,14 +8,15 @@ use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
 use App\BottleInventory\Application\Exception\BottleDoesntExistException;
 use App\BottleInventory\Application\Projection\UpdateBottleProjection;
 use App\BottleInventory\Domain\Event\BottleUpdated;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UpdateBottleProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly UpdateBottleProjection $updateBottleProjection;
     private readonly BottleAdapterInterface $bottleAdapter;
-    private readonly DocumentManager $documentManager;
 
     public function testUpdateBottleProjection(): void
     {
@@ -25,7 +26,6 @@ final class UpdateBottleProjectionTest extends KernelTestCase
         $this->updateBottleProjection = $container->get(UpdateBottleProjection::class);
         $projection = $this->updateBottleProjection;
         $this->bottleAdapter = $container->get(BottleAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
 
         $event = new BottleUpdated(
             '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
@@ -50,16 +50,6 @@ final class UpdateBottleProjectionTest extends KernelTestCase
         $this->assertEquals('++', $bottle->rate);
         $this->assertEquals('Portugal', $bottle->country);
         $this->assertEquals(10.09, $bottle->price);
-
-        $bottle->name = 'Château Margaux';
-        $bottle->estateName = 'Château Margaux';
-        $bottle->wineType = 'red';
-        $bottle->year = 2015;
-        $bottle->grapeVarieties = ['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot'];
-        $bottle->rate = '++';
-        $bottle->country = 'France';
-        $bottle->price = 1099.99;
-        $this->documentManager->flush();
     }
 
     public function testUpdateBottleProjectionFailed(): void

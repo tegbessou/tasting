@@ -6,14 +6,14 @@ namespace AdapterTest\ContractTest\Security\Infrastructure\Doctrine\Adapter;
 
 use App\Security\Application\Adapter\UserAdapterInterface;
 use App\Security\Application\ReadModel\User;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UserDoctrineAdapterTest extends KernelTestCase
 {
-    private readonly UserAdapterInterface $userDoctrineAdapter;
+    use RefreshDatabase;
 
-    private readonly DocumentManager $documentManager;
+    private readonly UserAdapterInterface $userDoctrineAdapter;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +22,6 @@ final class UserDoctrineAdapterTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->userDoctrineAdapter = $container->get(UserAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testAdd(): void
@@ -36,9 +35,6 @@ final class UserDoctrineAdapterTest extends KernelTestCase
 
         $user = $this->userDoctrineAdapter->ofId('pedro@gmail.com');
         $this->assertNotNull($user);
-
-        $this->documentManager->remove($user);
-        $this->documentManager->flush();
     }
 
     public function testOfId(): void

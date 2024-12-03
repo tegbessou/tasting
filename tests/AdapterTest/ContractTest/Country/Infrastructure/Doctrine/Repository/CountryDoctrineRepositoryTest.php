@@ -6,12 +6,10 @@ namespace AdapterTest\ContractTest\Country\Infrastructure\Doctrine\Repository;
 
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryName;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CountryDoctrineRepositoryTest extends KernelTestCase
 {
-    private EntityManagerInterface $entityManager;
     private CountryRepositoryInterface $doctrineCountryRepository;
 
     #[\Override]
@@ -21,19 +19,8 @@ final class CountryDoctrineRepositoryTest extends KernelTestCase
 
         $container = static::getContainer();
         $this->doctrineCountryRepository = $container->get(CountryRepositoryInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-
-        $this->entityManager->beginTransaction();
 
         parent::setUp();
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        $this->entityManager->rollback();
-
-        parent::tearDown();
     }
 
     public function testOfName(): void

@@ -8,14 +8,15 @@ use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
 use App\BottleInventory\Application\Exception\BottleDoesntExistException;
 use App\BottleInventory\Application\Projection\AddPictureBottleProjection;
 use App\BottleInventory\Domain\Event\BottlePictureAdded;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class AddPictureBottleProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly AddPictureBottleProjection $addPictureBottleProjection;
     private readonly BottleAdapterInterface $bottleAdapter;
-    private readonly DocumentManager $documentManager;
 
     public function testBottleProjection(): void
     {
@@ -24,7 +25,6 @@ final class AddPictureBottleProjectionTest extends KernelTestCase
         $container = static::getContainer();
         $projection = $this->addPictureBottleProjection = $container->get(AddPictureBottleProjection::class);
         $this->bottleAdapter = $container->get(BottleAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
 
         $event = new BottlePictureAdded(
             '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
@@ -37,7 +37,6 @@ final class AddPictureBottleProjectionTest extends KernelTestCase
         $this->assertEquals('chateau-margaux.jpg', $bottle->picture);
 
         $bottle->picture = null;
-        $this->documentManager->flush();
 
         $bottle = $this->bottleAdapter->ofId('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d');
         $this->assertNull($bottle->picture);

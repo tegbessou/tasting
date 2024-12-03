@@ -10,21 +10,18 @@ use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class RemoveInvitationMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
+    use RefreshDatabase;
 
     private TastingRepositoryInterface $tastingDoctrineRepository;
     private InviteParticipant $inviteParticipant;
-    private EntityManagerInterface $entityManager;
-    private DocumentManager $documentManager;
 
     #[\Override]
     protected function setUp(): void
@@ -34,8 +31,6 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
 
         $this->tastingDoctrineRepository = $container->get(TastingRepositoryInterface::class);
         $this->inviteParticipant = $container->get(InviteParticipant::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testRemoveInvitation(): void
@@ -87,9 +82,5 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
         );
 
         $this->assertCount(0, $tasting->invitations()->values());
-
-        $tastingToRemove = $this->entityManager->getRepository(TastingDoctrine::class)->find('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc');
-        $this->entityManager->remove($tastingToRemove);
-        $this->entityManager->flush();
     }
 }

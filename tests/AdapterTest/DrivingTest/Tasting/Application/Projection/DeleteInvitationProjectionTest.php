@@ -16,16 +16,16 @@ use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DeleteInvitationProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly DeleteInvitationProjection $deleteInvitationProjection;
     private readonly InvitationAdapterInterface $invitationAdapter;
     private readonly TastingRepositoryInterface $tastingRepository;
-    private readonly EntityManagerInterface $entityManager;
 
     public function testInvitationProjection(): void
     {
@@ -35,7 +35,6 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
         $projection = $this->deleteInvitationProjection = $container->get(DeleteInvitationProjection::class);
         $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
         $this->tastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
 
         $invitationReadModel = new Invitation(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
@@ -91,12 +90,5 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
 
         $invitation = $this->invitationAdapter->ofId('b9857453-1891-4fe8-80a9-1b873f15f0ec');
         $this->assertNull($invitation);
-
-        $tastingEntity = $this->entityManager->getRepository(TastingDoctrine::class)->find(
-            '4ad98deb-4295-455d-99e2-66e148c162af',
-        );
-
-        $this->entityManager->remove($tastingEntity);
-        $this->entityManager->flush();
     }
 }

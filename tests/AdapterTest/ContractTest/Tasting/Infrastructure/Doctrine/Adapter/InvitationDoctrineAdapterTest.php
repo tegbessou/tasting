@@ -7,14 +7,14 @@ namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Adapter;
 use App\Tasting\Application\Adapter\InvitationAdapterInterface;
 use App\Tasting\Application\ReadModel\Invitation;
 use App\Tasting\Domain\Service\GetInvitationLink;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class InvitationDoctrineAdapterTest extends KernelTestCase
 {
-    private readonly InvitationAdapterInterface $invitationAdapter;
+    use RefreshDatabase;
 
-    private readonly DocumentManager $documentManager;
+    private readonly InvitationAdapterInterface $invitationAdapter;
 
     #[\Override]
     protected function setUp(): void
@@ -23,7 +23,6 @@ final class InvitationDoctrineAdapterTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testAdd(): void
@@ -44,9 +43,6 @@ final class InvitationDoctrineAdapterTest extends KernelTestCase
 
         $invitation = $this->invitationAdapter->ofId('b5880b05-073b-4224-95ed-21af2cf4e737');
         $this->assertNotNull($invitation);
-
-        $this->documentManager->remove($invitation);
-        $this->documentManager->flush();
     }
 
     public function testOfId(): void

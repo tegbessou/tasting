@@ -4,31 +4,13 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
-use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
-use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
-use App\BottleInventory\Domain\Entity\Bottle;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
+use Shared\RefreshDatabase;
 
 final class CreateBottleProcessorTest extends ApiTestCase
 {
-    private EntityManagerInterface $entityManager;
-    private BottleListAdapterInterface $bottleListAdapter;
-    private BottleAdapterInterface $bottleAdapter;
-
-    #[\Override]
-    public function setUp(): void
-    {
-        static::bootKernel();
-
-        $container = static::getContainer();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->bottleListAdapter = $container->get(BottleListAdapterInterface::class);
-        $this->bottleAdapter = $container->get(BottleAdapterInterface::class);
-
-        parent::setUp();
-    }
+    use RefreshDatabase;
 
     public function testCreateBottle(): void
     {
@@ -56,20 +38,6 @@ final class CreateBottleProcessorTest extends ApiTestCase
             'ownerId' => 'hugues.gobet@gmail.com',
             'country' => 'France',
         ]);
-
-        $bottle = $this->entityManager->getRepository(Bottle::class)->findOneBy([
-            'name.value' => 'Pavillon Rouge du Château Margaux',
-        ]);
-
-        $this->bottleListAdapter->delete($this->bottleListAdapter->ofId(
-            $bottle->id()->value(),
-        ));
-        $this->bottleAdapter->delete($this->bottleAdapter->ofId(
-            $bottle->id()->value(),
-        ));
-
-        $this->entityManager->remove($bottle);
-        $this->entityManager->flush();
     }
 
     #[DataProvider('provideInvalidData')]

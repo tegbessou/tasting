@@ -12,10 +12,10 @@ RUN install-php-extensions \
  mongodb
 
 RUN docker-php-source extract \
-    && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/6.0.2.tar.gz \
+    && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/6.1.0.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
-    && mv phpredis-6.0.2 /usr/src/php/ext/redis
+    && mv phpredis-6.1.0 /usr/src/php/ext/redis
 
 RUN install-php-extensions \
  redis

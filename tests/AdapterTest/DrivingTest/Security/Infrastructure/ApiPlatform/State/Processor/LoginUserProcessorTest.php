@@ -6,9 +6,12 @@ namespace AdapterTest\DrivingTest\Security\Infrastructure\ApiPlatform\State\Proc
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
+use Shared\RefreshDatabase;
 
 final class LoginUserProcessorTest extends ApiTestCase
 {
+    use RefreshDatabase;
+
     public function testLoginUser(): void
     {
         $this->post('/api/users/login', [

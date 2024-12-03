@@ -18,10 +18,13 @@ use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
 use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class BottleDoctrineRepositoryTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private EntityManagerInterface $entityManager;
 
     private BottleRepositoryInterface $doctrineBottleRepository;
@@ -35,17 +38,7 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
         $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
         $this->entityManager = $container->get(EntityManagerInterface::class);
 
-        $this->entityManager->beginTransaction();
-
         parent::setUp();
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        $this->entityManager->rollback();
-
-        parent::tearDown();
     }
 
     public function testOfId(): void
@@ -84,11 +77,6 @@ final class BottleDoctrineRepositoryTest extends KernelTestCase
         $this->assertNotNull(
             $this->doctrineBottleRepository->ofId(BottleId::fromString('2ccee98f-f2d2-4aaa-b059-7c38bb7e57cf')),
         );
-
-        $container = static::getContainer();
-        $entityManager = $container->get(EntityManagerInterface::class);
-        $entityManager->remove($bottle);
-        $entityManager->flush();
     }
 
     public function testNextIdentity(): void
