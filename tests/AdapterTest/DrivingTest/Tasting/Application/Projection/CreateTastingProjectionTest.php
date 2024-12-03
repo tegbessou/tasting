@@ -12,18 +12,16 @@ use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CreateTastingProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly CreateTastingProjection $tastingProjection;
     private readonly TastingAdapterInterface $tastingAdapter;
     private readonly TastingRepositoryInterface $tastingRepository;
-    private readonly DocumentManager $documentManager;
-    private readonly EntityManagerInterface $entityManager;
 
     public function testTastingProjection(): void
     {
@@ -33,8 +31,6 @@ final class CreateTastingProjectionTest extends KernelTestCase
         $projection = $this->tastingProjection = $container->get(CreateTastingProjection::class);
         $this->tastingAdapter = $container->get(TastingAdapterInterface::class);
         $this->tastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
 
         $tasting = Tasting::create(
             TastingId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
@@ -58,15 +54,5 @@ final class CreateTastingProjectionTest extends KernelTestCase
 
         $tasting = $this->tastingAdapter->ofId('4ad98deb-4295-455d-99e2-66e148c162af');
         $this->assertNotNull($tasting);
-
-        $this->documentManager->remove($tasting);
-        $this->documentManager->flush();
-
-        $tastingEntity = $this->entityManager->getRepository(TastingDoctrine::class)->find(
-            '4ad98deb-4295-455d-99e2-66e148c162af',
-        );
-
-        $this->entityManager->remove($tastingEntity);
-        $this->entityManager->flush();
     }
 }

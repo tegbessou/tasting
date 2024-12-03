@@ -11,20 +11,19 @@ use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class SendInvitationMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
+    use RefreshDatabase;
 
     private InvitationRepositoryInterface $doctrineInvitationRepository;
     private TastingDoctrineRepository $doctrineTastingRepository;
-    private EntityManagerInterface $entityManager;
     private NotificationInterface $notificationService;
     private InviteParticipant $inviteParticipant;
 
@@ -36,7 +35,6 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
 
         $this->doctrineInvitationRepository = $container->get(InvitationRepositoryInterface::class);
         $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
         $this->notificationService = $container->get(NotificationInterface::class);
         $this->inviteParticipant = $container->get(InviteParticipant::class);
     }
@@ -90,9 +88,5 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
 
         $tasting = $this->doctrineTastingRepository->ofId(TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'));
         $this->assertNotNull($tasting->invitations()->values()[0]);
-
-        $tasting = $this->entityManager->getRepository(TastingDoctrine::class)->find('c7a497ed-d885-4401-930c-768dc1a85159');
-        $this->entityManager->remove($tasting);
-        $this->entityManager->flush();
     }
 }

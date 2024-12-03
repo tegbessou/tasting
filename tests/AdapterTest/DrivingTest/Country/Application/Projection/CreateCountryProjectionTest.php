@@ -11,17 +11,16 @@ use App\Country\Domain\Event\CountryCreated;
 use App\Country\Domain\Repository\CountryRepositoryInterface;
 use App\Country\Domain\ValueObject\CountryId;
 use App\Country\Domain\ValueObject\CountryName;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CreateCountryProjectionTest extends KernelTestCase
 {
-    private CreateCountryProjection $countryProjection;
-    private CountryAdapterInterface $countryAdapter;
-    private CountryRepositoryInterface $countryRepository;
-    private DocumentManager $documentManager;
-    private EntityManagerInterface $entityManager;
+    use RefreshDatabase;
+
+    private readonly CreateCountryProjection $countryProjection;
+    private readonly CountryAdapterInterface $countryAdapter;
+    private readonly CountryRepositoryInterface $countryRepository;
 
     public function testCreateCountryProjection(): void
     {
@@ -31,8 +30,6 @@ final class CreateCountryProjectionTest extends KernelTestCase
         $projection = $this->countryProjection = $container->get(CreateCountryProjection::class);
         $this->countryAdapter = $container->get(CountryAdapterInterface::class);
         $this->countryRepository = $container->get(CountryRepositoryInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
 
         $countryEntity = Country::create(
             CountryId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
@@ -51,14 +48,5 @@ final class CreateCountryProjectionTest extends KernelTestCase
 
         $bottle = $this->countryAdapter->ofName('Taboulistan');
         $this->assertNotNull($bottle);
-
-        $this->documentManager->remove($bottle);
-        $this->documentManager->flush();
-
-        $bottleEntity = $this->countryRepository->ofName(
-            CountryName::fromString('Taboulistan'),
-        );
-        $this->entityManager->remove($bottleEntity);
-        $this->entityManager->flush();
     }
 }

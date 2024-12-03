@@ -9,15 +9,14 @@ use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class TastingDoctrineRepositoryTest extends KernelTestCase
 {
-    private TastingRepositoryInterface $doctrineTastingRepository;
+    use RefreshDatabase;
 
-    private EntityManagerInterface $entityManager;
+    private TastingRepositoryInterface $doctrineTastingRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -26,19 +25,8 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->doctrineTastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-
-        $this->entityManager->beginTransaction();
 
         parent::setUp();
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        $this->entityManager->rollback();
-
-        parent::tearDown();
     }
 
     public function testOfId(): void
@@ -99,14 +87,6 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
             'hugues.gobet@gmail.com',
             $tasting->ownerId()->value(),
         );
-
-        $tastingDoctrine = $this->entityManager
-            ->getRepository(TastingDoctrine::class)
-            ->find('0d022ae1-7129-49c2-b0a4-ed8b8612715f')
-        ;
-
-        $this->entityManager->remove($tastingDoctrine);
-        $this->entityManager->flush();
     }
 
     public function testNextIdentity(): void

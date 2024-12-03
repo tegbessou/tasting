@@ -19,15 +19,16 @@ use App\BottleInventory\Domain\ValueObject\BottlePrice;
 use App\BottleInventory\Domain\ValueObject\BottleRate;
 use App\BottleInventory\Domain\ValueObject\BottleWineType;
 use App\BottleInventory\Domain\ValueObject\BottleYear;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CreateBottleProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly CreateBottleProjection $bottleProjection;
     private readonly BottleAdapterInterface $bottleAdapter;
     private readonly BottleRepositoryInterface $bottleRepository;
-    private readonly DocumentManager $documentManager;
 
     public function testBottleProjection(): void
     {
@@ -37,7 +38,6 @@ final class CreateBottleProjectionTest extends KernelTestCase
         $projection = $this->bottleProjection = $container->get(CreateBottleProjection::class);
         $this->bottleAdapter = $container->get(BottleAdapterInterface::class);
         $this->bottleRepository = $container->get(BottleRepositoryInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
 
         $bottleEntity = Bottle::create(
             BottleId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
@@ -73,9 +73,6 @@ final class CreateBottleProjectionTest extends KernelTestCase
 
         $bottle = $this->bottleAdapter->ofId('4ad98deb-4295-455d-99e2-66e148c162af');
         $this->assertNotNull($bottle);
-
-        $this->documentManager->remove($bottle);
-        $this->documentManager->flush();
 
         $bottleEntity = $this->bottleRepository->ofId(
             BottleId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),

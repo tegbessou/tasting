@@ -18,14 +18,15 @@ use App\Tasting\Infrastructure\Doctrine\Entity\Invitation as InvitationDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\TastingMapper;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 // a reflechir ou on place ces tests => dans le repository ou ici
 final class TastingMapperTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private TastingRepositoryInterface $tastingRepository;
-    private EntityManagerInterface $entityManager;
 
     #[\Override]
     protected function setUp(): void
@@ -34,7 +35,6 @@ final class TastingMapperTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->tastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
     }
 
     public function testToDomain(): void
@@ -120,10 +120,6 @@ final class TastingMapperTest extends KernelTestCase
 
         $this->tastingRepository->add($tasting);
 
-        $toRemove = $this->entityManager->getRepository(TastingDoctrine::class)->find('b9857453-1891-4fe8-80a9-1b873f15f0ec');
-        $this->entityManager->remove($toRemove);
-        $this->entityManager->flush();
-
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
@@ -174,10 +170,6 @@ final class TastingMapperTest extends KernelTestCase
         );
 
         $this->tastingRepository->update($tasting);
-
-        $toRemove = $this->entityManager->getRepository(TastingDoctrine::class)->find('b9857453-1891-4fe8-80a9-1b873f15f0ec');
-        $this->entityManager->remove($toRemove);
-        $this->entityManager->flush();
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
@@ -263,10 +255,6 @@ final class TastingMapperTest extends KernelTestCase
         $tasting->sendInvitation($tasting->invitations()->values()[0]);
 
         $this->tastingRepository->update($tasting);
-
-        $toRemove = $this->entityManager->getRepository(TastingDoctrine::class)->find('b9857453-1891-4fe8-80a9-1b873f15f0ec');
-        $this->entityManager->remove($toRemove);
-        $this->entityManager->flush();
 
         $oldTasting = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
@@ -370,10 +358,6 @@ final class TastingMapperTest extends KernelTestCase
         $tasting->removeInvitation($tasting->invitations()->values()[0]);
 
         $this->tastingRepository->update($tasting);
-
-        $toRemove = $this->entityManager->getRepository(TastingDoctrine::class)->find('b9857453-1891-4fe8-80a9-1b873f15f0ec');
-        $this->entityManager->remove($toRemove);
-        $this->entityManager->flush();
 
         $oldTasting = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',

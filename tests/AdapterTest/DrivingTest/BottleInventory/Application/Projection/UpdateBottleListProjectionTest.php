@@ -8,14 +8,14 @@ use App\BottleInventory\Application\Adapter\BottleListAdapterInterface;
 use App\BottleInventory\Application\Exception\BottleDoesntExistException;
 use App\BottleInventory\Application\Projection\UpdateBottleListProjection;
 use App\BottleInventory\Domain\Event\BottleUpdated;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class UpdateBottleListProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
     private readonly UpdateBottleListProjection $updateBottleListProjection;
     private readonly BottleListAdapterInterface $bottleListAdapter;
-    private readonly DocumentManager $documentManager;
 
     public function testUpdateBottleListProjection(): void
     {
@@ -25,7 +25,6 @@ final class UpdateBottleListProjectionTest extends KernelTestCase
         $this->updateBottleListProjection = $container->get(UpdateBottleListProjection::class);
         $projection = $this->updateBottleListProjection;
         $this->bottleListAdapter = $container->get(BottleListAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
 
         $event = new BottleUpdated(
             '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
@@ -47,13 +46,6 @@ final class UpdateBottleListProjectionTest extends KernelTestCase
         $this->assertEquals('white', $bottleList->wineType);
         $this->assertEquals(2005, $bottleList->year);
         $this->assertEquals('++', $bottleList->rate);
-
-        $bottleList->name = 'Château Margaux';
-        $bottleList->estateName = 'Château Margaux';
-        $bottleList->wineType = 'red';
-        $bottleList->year = 2015;
-        $bottleList->rate = '++';
-        $this->documentManager->flush();
     }
 
     public function testUpdateBottleListProjectionFailed(): void

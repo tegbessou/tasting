@@ -8,7 +8,7 @@ use App\Security\Application\Command\AuthenticateUserCommand;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -16,8 +16,8 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
 final class AuthenticateUserTest extends KernelTestCase
 {
     use InteractsWithMessenger;
+    use RefreshDatabase;
 
-    private EntityManagerInterface $entityManager;
     private UserRepositoryInterface $userRepository;
     private CommandBusInterface $commandBus;
 
@@ -28,7 +28,6 @@ final class AuthenticateUserTest extends KernelTestCase
 
         self::bootKernel();
         $container = self::getContainer();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
         $this->userRepository = $container->get(UserRepositoryInterface::class);
         $this->commandBus = $container->get(CommandBusInterface::class);
     }
@@ -58,8 +57,5 @@ final class AuthenticateUserTest extends KernelTestCase
         );
 
         $this->assertNotNull($user);
-
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
     }
 }

@@ -8,14 +8,15 @@ use App\BottleInventory\Application\Adapter\BottleAdapterInterface;
 use App\BottleInventory\Application\Exception\BottleDoesntExistException;
 use App\BottleInventory\Application\Projection\TasteBottleProjection;
 use App\BottleInventory\Domain\Event\BottleTasted;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class TasteBottleProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly TasteBottleProjection $tasteBottleProjection;
     private readonly BottleAdapterInterface $bottleAdapter;
-    private readonly DocumentManager $documentManager;
 
     public function testTasteBottleProjection(): void
     {
@@ -25,7 +26,6 @@ final class TasteBottleProjectionTest extends KernelTestCase
         $this->tasteBottleProjection = $container->get(TasteBottleProjection::class);
         $projection = $this->tasteBottleProjection;
         $this->bottleAdapter = $container->get(BottleAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
 
         $event = new BottleTasted(
             '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
@@ -37,12 +37,6 @@ final class TasteBottleProjectionTest extends KernelTestCase
 
         $bottle = $this->bottleAdapter->ofId('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d');
         $this->assertEquals('2021-10-10', $bottle->tastedAt);
-
-        $bottle->tastedAt = null;
-        $this->documentManager->flush();
-
-        $bottle = $this->bottleAdapter->ofId('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d');
-        $this->assertNull($bottle->tastedAt);
     }
 
     public function testTasteBottleProjectionFailed(): void

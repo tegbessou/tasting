@@ -11,17 +11,16 @@ use App\Security\Domain\Event\UserCreated;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\ValueObject\UserEmail;
 use App\Security\Domain\ValueObject\UserId;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CreateUserProjectionTest extends KernelTestCase
 {
+    use RefreshDatabase;
+
     private readonly CreateUserProjection $userProjection;
     private readonly UserAdapterInterface $userAdapter;
     private readonly UserRepositoryInterface $userRepository;
-    private readonly DocumentManager $documentManager;
-    private readonly EntityManagerInterface $entityManager;
 
     public function testUserProjection(): void
     {
@@ -29,10 +28,8 @@ final class CreateUserProjectionTest extends KernelTestCase
 
         $container = static::getContainer();
         $projection = $this->userProjection = $container->get(CreateUserProjection::class);
-        $this->documentManager = $container->get(DocumentManager::class);
         $this->userRepository = $container->get(UserRepositoryInterface::class);
         $this->userAdapter = $container->get(UserAdapterInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
 
         $user = User::create(
             UserId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
@@ -51,14 +48,5 @@ final class CreateUserProjectionTest extends KernelTestCase
 
         $user = $this->userAdapter->ofId('pedro@gmail.com');
         $this->assertNotNull($user);
-
-        $this->documentManager->remove($user);
-        $this->documentManager->flush();
-
-        $userEntity = $this->userRepository->ofEmail(
-            UserEmail::fromString('pedro@gmail.com'),
-        );
-        $this->entityManager->remove($userEntity);
-        $this->entityManager->flush();
     }
 }

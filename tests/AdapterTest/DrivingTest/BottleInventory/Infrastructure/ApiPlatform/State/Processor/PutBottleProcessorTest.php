@@ -4,33 +4,13 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\BottleInventory\Infrastructure\ApiPlatform\State\Processor;
 
-use App\BottleInventory\Domain\Repository\BottleRepositoryInterface;
-use App\BottleInventory\Domain\ValueObject\BottleCountry;
-use App\BottleInventory\Domain\ValueObject\BottleEstateName;
-use App\BottleInventory\Domain\ValueObject\BottleGrapeVarieties;
-use App\BottleInventory\Domain\ValueObject\BottleId;
-use App\BottleInventory\Domain\ValueObject\BottleName;
-use App\BottleInventory\Domain\ValueObject\BottlePrice;
-use App\BottleInventory\Domain\ValueObject\BottleRate;
-use App\BottleInventory\Domain\ValueObject\BottleWineType;
-use App\BottleInventory\Domain\ValueObject\BottleYear;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
+use Shared\RefreshDatabase;
 
 final class PutBottleProcessorTest extends ApiTestCase
 {
-    private BottleRepositoryInterface $doctrineBottleRepository;
-
-    #[\Override]
-    public function setUp(): void
-    {
-        static::bootKernel();
-
-        $container = static::getContainer();
-        $this->doctrineBottleRepository = $container->get(BottleRepositoryInterface::class);
-
-        parent::setUp();
-    }
+    use RefreshDatabase;
 
     public function testUpdateBottle(): void
     {
@@ -58,22 +38,6 @@ final class PutBottleProcessorTest extends ApiTestCase
             'country' => 'France',
             'price' => 620,
         ]);
-
-        $bottle = $this->doctrineBottleRepository->ofId(
-            BottleId::fromString('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d'),
-        );
-
-        $bottle->update(
-            BottleName::fromString('Château Margaux'),
-            BottleEstateName::fromString('Château Margaux'),
-            BottleWineType::fromString('red'),
-            BottleYear::fromInt(2015),
-            BottleGrapeVarieties::fromArray(['Cabernet Sauvignon', 'Merlot', 'Cabernet Franc', 'Petit Verdot']),
-            BottleRate::fromString('++'),
-            BottleCountry::fromString('France'),
-            BottlePrice::fromFloat(1099.99),
-        );
-        $this->doctrineBottleRepository->update($bottle);
     }
 
     #[DataProvider('provideInvalidData')]

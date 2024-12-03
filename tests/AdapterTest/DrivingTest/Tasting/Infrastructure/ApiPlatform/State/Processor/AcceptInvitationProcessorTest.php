@@ -10,19 +10,18 @@ use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
-use Doctrine\ORM\EntityManagerInterface;
 use Shared\ApiTestCase;
+use Shared\RefreshDatabase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 final class AcceptInvitationProcessorTest extends ApiTestCase
 {
     use InteractsWithMessenger;
+    use RefreshDatabase;
 
     private TastingRepositoryInterface $tastingDoctrineRepository;
     private InviteParticipant $inviteParticipant;
-    private EntityManagerInterface $entityManager;
 
     #[\Override]
     protected function setUp(): void
@@ -32,7 +31,6 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
 
         $this->tastingDoctrineRepository = $container->get(TastingRepositoryInterface::class);
         $this->inviteParticipant = $container->get(InviteParticipant::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
     }
 
     public function testAcceptInvitation(): void
@@ -88,10 +86,6 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
 
         $this->assertCount(0, $tasting->invitations()->values());
         $this->assertCount(2, $tasting->participants()->values());
-
-        $tasting = $this->entityManager->getRepository(TastingDoctrine::class)->find('c7a497ed-d885-4401-930c-768dc1a85159');
-        $this->entityManager->remove($tasting);
-        $this->entityManager->flush();
     }
 
     public function testAcceptInvitationTastingNotFound(): void

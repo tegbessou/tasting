@@ -6,14 +6,14 @@ namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Adapter;
 
 use App\Tasting\Application\Adapter\TastingAdapterInterface;
 use App\Tasting\Application\ReadModel\Tasting;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class TastingDoctrineAdapterTest extends KernelTestCase
 {
-    private readonly TastingAdapterInterface $tastingAdapter;
+    use RefreshDatabase;
 
-    private readonly DocumentManager $documentManager;
+    private readonly TastingAdapterInterface $tastingAdapter;
 
     #[\Override]
     protected function setUp(): void
@@ -22,7 +22,6 @@ final class TastingDoctrineAdapterTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->tastingAdapter = $container->get(TastingAdapterInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
     }
 
     public function testAdd(): void
@@ -41,9 +40,6 @@ final class TastingDoctrineAdapterTest extends KernelTestCase
 
         $tasting = $this->tastingAdapter->ofId('b5880b05-073b-4224-95ed-21af2cf4e737');
         $this->assertNotNull($tasting);
-
-        $this->documentManager->remove($tasting);
-        $this->documentManager->flush();
     }
 
     public function testOfId(): void

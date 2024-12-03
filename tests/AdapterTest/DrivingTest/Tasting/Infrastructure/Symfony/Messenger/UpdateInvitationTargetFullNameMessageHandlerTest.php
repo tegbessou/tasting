@@ -6,17 +6,16 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Application\Adapter\InvitationAdapterInterface;
 use App\Tasting\Application\ReadModel\Invitation;
-use App\Tasting\Application\ReadModel\Tasting as TastingReadModel;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
@@ -24,6 +23,7 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
 final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
+    use RefreshDatabase;
 
     private TastingRepositoryInterface $doctrineTastingRepository;
     private EntityManagerInterface $entityManager;
@@ -39,8 +39,6 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
         $container = self::getContainer();
 
         $this->doctrineTastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->documentManager = $container->get(DocumentManager::class);
         $this->inviteParticipant = $container->get(InviteParticipant::class);
         $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
         $this->dispatcher = $container->get(DomainEventDispatcherInterface::class);
@@ -86,17 +84,5 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
         $invitation = $invitations->getIterator()->current();
 
         $this->assertEquals('Hugues Gobet', $invitation->targetFullName);
-
-        $invitation = $this->invitationAdapter->ofId($invitation->id);
-        $this->documentManager->remove($invitation);
-        $this->documentManager->flush();
-
-        $tastingReadModel = $this->documentManager->getRepository(TastingReadModel::class)->find($tasting->id()->value());
-        $this->documentManager->remove($tastingReadModel);
-        $this->documentManager->flush();
-
-        $tasting = $this->entityManager->getRepository(TastingDoctrine::class)->find($tasting->id()->value());
-        $this->entityManager->remove($tasting);
-        $this->entityManager->flush();
     }
 }
