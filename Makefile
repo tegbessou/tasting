@@ -218,16 +218,6 @@ feature-test: env-test db-load-fixtures-test
 	@$(EXEC_PHP) bin/phpunit --testsuite feature-test --display-warnings
 	@$(MAKE) env-dev
 
-## Launch behat
-behat: vendor db-load-fixtures
-	@echo "\nLaunching read-only behat tests...\e[0m"
-	@$(EXEC_PHP) vendor/bin/behat --strict --format=progress --tags="@read-only"
-
-	@echo "\nLaunching other behat tests...\e[0m"
-	@$(EXEC_PHP) vendor/bin/behat --strict --format=progress --tags="~@read-only"
-
-.PHONY: behat
-
 #################################
 Quality assurance:
 

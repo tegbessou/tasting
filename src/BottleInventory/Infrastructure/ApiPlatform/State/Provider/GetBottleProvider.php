@@ -26,7 +26,7 @@ final readonly class GetBottleProvider implements ProviderInterface
     }
 
     #[\Override]
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?GetBottleResource
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): GetBottleResource
     {
         $bottle = $this->queryBus->ask(new GetBottleQuery($uriVariables['id']));
 

@@ -92,7 +92,7 @@ final class Tasting implements EntityWithDomainEventInterface
                 $this->ownerId()->value(),
                 $invitationTarget->value(),
                 $invitation->link()->value(),
-                $invitation->createdAt()->value() ?: new \DateTimeImmutable(),
+                $invitation->createdAt()->value(),
             ),
         );
     }

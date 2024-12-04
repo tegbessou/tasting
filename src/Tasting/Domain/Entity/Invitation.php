@@ -91,10 +91,6 @@ final class Invitation
             return false;
         }
 
-        if ($this->sentAt->isNull()) {
-            return false;
-        }
-
         return true;
     }
 }

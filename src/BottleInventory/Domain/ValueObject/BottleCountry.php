@@ -11,7 +11,7 @@ use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 final readonly class BottleCountry
 {
     #[ORM\Column(name: 'country', type: 'string', length: 255, nullable: true)]
-    private ?string $value;
+    private string $value;
 
     public function __construct(
         string $value,
@@ -27,7 +27,7 @@ final readonly class BottleCountry
         return new self($value);
     }
 
-    public function value(): ?string
+    public function value(): string
     {
         return $this->value;
     }

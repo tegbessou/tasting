@@ -11,7 +11,7 @@ use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 final readonly class BottlePicture
 {
     #[ORM\Column(name: 'picture', type: 'string', length: 255, nullable: true)]
-    private ?string $path;
+    private string $path;
 
     public function __construct(
         string $path,
@@ -31,6 +31,6 @@ final readonly class BottlePicture
 
     public function path(): ?string
     {
-        return $this->path;
+        return $this->path ?? null;
     }
 }
