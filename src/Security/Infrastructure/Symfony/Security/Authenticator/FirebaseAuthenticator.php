@@ -39,7 +39,7 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
     }
 
     #[\Override]
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return $this->tokenExtractor->extract($request) !== false
             && $request->headers->has(FirebaseAuthenticatorInterface::HEADER_IDENTITY_PROVIDER)
@@ -125,20 +125,17 @@ final class FirebaseAuthenticator extends AbstractAuthenticator
     }
 
     #[\Override]
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): null
     {
         return null;
     }
 
     #[\Override]
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
-        $errorMessage = strtr($exception->getMessageKey(), $exception->getMessageData());
-        if ($this->translator !== null) {
-            $errorMessage = $this->translator->trans($exception->getMessageKey(), $exception->getMessageData(), 'security');
-        }
-
-        return new JWTAuthenticationFailureResponse($errorMessage);
+        return new JWTAuthenticationFailureResponse(
+            $this->translator->trans($exception->getMessageKey(), $exception->getMessageData(), 'security'),
+        );
     }
 
     private function loadUser(string $email): UserModel

@@ -28,6 +28,10 @@ final class UserModel implements UserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
+        if ($this->email === '') {
+            throw new \LogicException('The email cannot be empty.');
+        }
+
         return $this->email;
     }
 }

@@ -6,3 +6,27 @@ parameters:
         -
             message: '#Variable \$userAuthenticated might not be defined.#'
             path: src/Security/Domain/Service/AuthenticateUser.php
+        -
+            message: '#Parameter \$context of method App\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\CreateBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/BottleInventory/Infrastructure/ApiPlatform/State/Processor/CreateBottleProcessor.php
+        -
+            message: '#Parameter \$context of method App\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\DeleteBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/BottleInventory/Infrastructure/ApiPlatform/State/Processor/DeleteBottleProcessor.php
+        -
+            message: '#Parameter \$context of method App\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\PutBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/BottleInventory/Infrastructure/ApiPlatform/State/Processor/PutBottleProcessor.php
+        -
+            message: '#Parameter \$context of method App\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\TasteBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/BottleInventory/Infrastructure/ApiPlatform/State/Processor/TasteBottleProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Security\\Infrastructure\\ApiPlatform\\State\\Processor\\LogInUserProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Security/Infrastructure/ApiPlatform/State/Processor/LogInUserProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\AcceptInvitationProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/AcceptInvitationProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\InviteParticipantsToTastingProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/InviteParticipantsToTastingProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\RejectInvitationProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/RejectInvitationProcessor.php

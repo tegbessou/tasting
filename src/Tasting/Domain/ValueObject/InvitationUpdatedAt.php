@@ -8,7 +8,7 @@ use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 final readonly class InvitationUpdatedAt
 {
-    private ?\DateTimeImmutable $updatedAt;
+    private \DateTimeImmutable $updatedAt;
 
     public function __construct(\DateTimeImmutable $updatedAt)
     {
@@ -22,7 +22,7 @@ final readonly class InvitationUpdatedAt
         return new self(new \DateTimeImmutable());
     }
 
-    public function value(): ?\DateTimeImmutable
+    public function value(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }

@@ -8,7 +8,7 @@ use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 final readonly class InvitationCreatedAt
 {
-    private ?\DateTimeImmutable $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     public function __construct(\DateTimeImmutable $createdAt)
     {
@@ -22,13 +22,8 @@ final readonly class InvitationCreatedAt
         return new self(new \DateTimeImmutable());
     }
 
-    public function value(): ?\DateTimeImmutable
+    public function value(): \DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function isNull(): bool
-    {
-        return $this->createdAt === null;
     }
 }
