@@ -48,7 +48,7 @@ final class TastingParticipantsTest extends TestCase
         );
     }
 
-    public function testRemove(): void
+    public function testDelete(): void
     {
         $tastingParticipants = new TastingParticipants(
             [
@@ -59,7 +59,7 @@ final class TastingParticipantsTest extends TestCase
 
         $participantToAdd = ParticipantId::fromString('root@gmail.com');
 
-        $tastingParticipants = $tastingParticipants->remove($participantToAdd);
+        $tastingParticipants = $tastingParticipants->delete($participantToAdd);
 
         $this->assertEquals(
             [

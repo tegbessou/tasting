@@ -378,7 +378,7 @@ final class TastingTest extends TestCase
         $tasting::eraseRecordedEvents();
     }
 
-    public function testRemoveInvitation(): void
+    public function testDeleteInvitation(): void
     {
         $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationRepository->method('nextIdentity')
@@ -411,12 +411,12 @@ final class TastingTest extends TestCase
 
         $this->assertCount(1, $tasting->invitations()->values());
 
-        $tasting->removeInvitation($invitation);
+        $tasting->deleteInvitation($invitation);
 
         $this->assertCount(0, $tasting->invitations()->values());
     }
 
-    public function testRemoveInvitationNotAlreadySend(): void
+    public function testDeleteInvitationNotAlreadySend(): void
     {
         $invitationRepository = $this->createMock(InvitationRepositoryInterface::class);
         $invitationRepository->method('nextIdentity')
@@ -448,7 +448,7 @@ final class TastingTest extends TestCase
         $this->assertCount(1, $tasting->invitations()->values());
 
         $this->expectException(InvitationMustNotBePendingException::class);
-        $tasting->removeInvitation($invitation);
+        $tasting->deleteInvitation($invitation);
 
         $this->assertCount(1, $tasting->invitations()->values());
     }

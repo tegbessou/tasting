@@ -40,7 +40,7 @@ final class DeleteBottleProcessorTest extends ApiTestCase
             'statusCode' => 404,
         ];
 
-        yield 'BottleInventory not owned by user which try to remove it' => [
+        yield 'BottleInventory not owned by user which try to delete it' => [
             'id' => '97102d4c-da46-4105-8c34-53f5a2e1e9fa',
             'statusCode' => 403,
         ];

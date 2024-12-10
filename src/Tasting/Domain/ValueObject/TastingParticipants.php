@@ -28,7 +28,7 @@ final readonly class TastingParticipants
         );
     }
 
-    public function remove(ParticipantId $participantId): self
+    public function delete(ParticipantId $participantId): self
     {
         return new self(
             array_diff($this->values, [$participantId->value()]),

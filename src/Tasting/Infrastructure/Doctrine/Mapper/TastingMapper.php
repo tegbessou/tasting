@@ -73,7 +73,7 @@ final readonly class TastingMapper
                 return;
             }
 
-            $tastingDoctrine->removeInvitation($invitationDoctrine);
+            $tastingDoctrine->deleteInvitation($invitationDoctrine);
         });
     }
 }

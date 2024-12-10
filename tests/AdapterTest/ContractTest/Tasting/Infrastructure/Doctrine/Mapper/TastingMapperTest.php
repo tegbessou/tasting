@@ -355,7 +355,7 @@ final class TastingMapperTest extends KernelTestCase
 
         $this->tastingRepository->update($tasting);
 
-        $tasting->removeInvitation($tasting->invitations()->values()[0]);
+        $tasting->deleteInvitation($tasting->invitations()->values()[0]);
 
         $this->tastingRepository->update($tasting);
 

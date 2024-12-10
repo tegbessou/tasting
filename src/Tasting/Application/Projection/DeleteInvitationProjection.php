@@ -6,7 +6,7 @@ namespace App\Tasting\Application\Projection;
 
 use App\Tasting\Application\Exception\InvitationDoesntExistException;
 use App\Tasting\Application\Projection\Projector\DeleteInvitationProjector;
-use App\Tasting\Domain\Event\InvitationRemoved;
+use App\Tasting\Domain\Event\InvitationDeleted;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 
@@ -19,7 +19,7 @@ final readonly class DeleteInvitationProjection
     ) {
     }
 
-    public function __invoke(InvitationRemoved $event): void
+    public function __invoke(InvitationDeleted $event): void
     {
         try {
             $this->projector->project(

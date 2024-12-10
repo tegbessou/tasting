@@ -22,14 +22,14 @@ final readonly class DeleteBottleCommandHandler
     ) {
     }
 
-    public function __invoke(DeleteBottleCommand $removeBottleCommand): void
+    public function __invoke(DeleteBottleCommand $deleteBottleCommand): void
     {
         $bottle = $this->bottleRepository->ofId(
-            new BottleId($removeBottleCommand->id)
+            new BottleId($deleteBottleCommand->id)
         );
 
         if ($bottle === null) {
-            throw new BottleDoesntExistException($removeBottleCommand->id);
+            throw new BottleDoesntExistException($deleteBottleCommand->id);
         }
 
         if (

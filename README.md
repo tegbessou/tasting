@@ -185,13 +185,12 @@ Separate each bounded context in microservice
 
 Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
 
-## TODO
 Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
 
-Normaliser delete instead of remove
+## TODO
 
-All value object should be recreated in the entity and not in their own code
+Extract User context in a microservice
+
+Create a package to handle authentification and extract it from the User context
 
 Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
-
-Renommer les tests d'adapter en test d'intégration => a vérifier selon la pyramide des tests
