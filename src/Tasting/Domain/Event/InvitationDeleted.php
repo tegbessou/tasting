@@ -6,7 +6,7 @@ namespace App\Tasting\Domain\Event;
 
 use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 
-final readonly class InvitationRemoved implements DomainEventInterface
+final readonly class InvitationDeleted implements DomainEventInterface
 {
     public function __construct(
         public string $tastingId,

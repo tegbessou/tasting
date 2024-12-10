@@ -53,6 +53,7 @@
         "symfony/web-profiler-bundle": "^7.1",
         "symfony/yaml": "^7.1",
         "tegbessou/shared-kernel": "^1.6",
+        "tegbessou/empire-des-amis-security-authenticator": "^1.0",
         "twig/extra-bundle": "^3.8",
         "twig/twig": "^3.8",
         "vich/uploader-bundle": "^2.3"
@@ -82,6 +83,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/tegbessou/shared-kernel.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/tegbessou/empire-des-amis-security-authenticator.git"
         }
     ],
     "config": {

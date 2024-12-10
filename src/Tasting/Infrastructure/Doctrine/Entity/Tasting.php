@@ -37,7 +37,7 @@ class Tasting
         return $this;
     }
 
-    public function removeInvitation(Invitation $invitation): self
+    public function deleteInvitation(Invitation $invitation): self
     {
         if ($this->invitations->removeElement($invitation)) {
             if ($invitation->subject === $this) {

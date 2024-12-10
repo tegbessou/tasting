@@ -733,6 +733,9 @@
     "symfony/yaml": {
         "version": "v5.1.5"
     },
+    "tegbessou/empire-des-amis-security-authenticator": {
+        "version": "1.0.2"
+    },
     "tegbessou/shared-kernel": {
         "version": "dev-main"
     },

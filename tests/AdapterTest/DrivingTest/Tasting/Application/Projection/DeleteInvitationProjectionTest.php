@@ -8,7 +8,7 @@ use App\Tasting\Application\Adapter\InvitationAdapterInterface;
 use App\Tasting\Application\Projection\DeleteInvitationProjection;
 use App\Tasting\Application\ReadModel\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Event\InvitationRemoved;
+use App\Tasting\Domain\Event\InvitationDeleted;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\BottleName;
@@ -81,7 +81,7 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
 
         $this->tastingRepository->update($tasting);
 
-        $event = new InvitationRemoved(
+        $event = new InvitationDeleted(
             '4ad98deb-4295-455d-99e2-66e148c162af',
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
         );

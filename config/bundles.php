@@ -23,4 +23,5 @@ return [
     Zenstruck\Messenger\Test\ZenstruckMessengerTestBundle::class => ['test' => true],
     TegCorp\SharedKernelBundle\TegCorpSharedKernelBundle::class => ['all' => true],
     Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle::class => ['all' => true],
+    EmpireDesAmis\SecurityAuthenticatorBundle\EmpireDesAmisSecurityAuthenticatorBundle::class => ['all' => true],
 ];

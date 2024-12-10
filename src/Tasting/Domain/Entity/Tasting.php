@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Event\InvitationAccepted;
+use App\Tasting\Domain\Event\InvitationDeleted;
 use App\Tasting\Domain\Event\InvitationRejected;
-use App\Tasting\Domain\Event\InvitationRemoved;
 use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
@@ -157,7 +157,7 @@ final class Tasting implements EntityWithDomainEventInterface
         );
     }
 
-    public function removeInvitation(Invitation $invitation): void
+    public function deleteInvitation(Invitation $invitation): void
     {
         if ($invitation->status()->isPending()) {
             throw new InvitationMustNotBePendingException();
@@ -177,7 +177,7 @@ final class Tasting implements EntityWithDomainEventInterface
         );
 
         self::recordEvent(
-            new InvitationRemoved(
+            new InvitationDeleted(
                 $this->id->value(),
                 $invitation->id()->value(),
             ),

@@ -126,7 +126,7 @@ final class InviteParticipantTest extends TestCase
         $invitation->send();
         $this->tasting->acceptInvitation($invitation);
 
-        $this->tasting->removeInvitation($invitation);
+        $this->tasting->deleteInvitation($invitation);
 
         $this->expectException(ParticipantsAlreadyParticipatingException::class);
         $this->expectExceptionMessage('Participants root@gmail.com are already participating');

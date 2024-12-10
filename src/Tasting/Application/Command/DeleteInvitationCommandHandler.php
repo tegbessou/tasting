@@ -39,7 +39,7 @@ final readonly class DeleteInvitationCommandHandler
             throw new InvitationDoesntExistException($command->invitationId);
         }
 
-        $tasting->removeInvitation($invitation);
+        $tasting->deleteInvitation($invitation);
 
         $this->tastingRepository->update($tasting);
 
