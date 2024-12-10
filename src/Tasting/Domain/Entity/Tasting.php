@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Event\InvitationAccepted;
-use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\InvitationDeleted;
+use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
