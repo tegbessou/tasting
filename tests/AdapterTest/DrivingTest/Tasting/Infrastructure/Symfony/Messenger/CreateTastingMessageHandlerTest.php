@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Application\Adapter\TastingAdapterInterface;
+use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage;
 use Shared\RefreshDatabase;
@@ -17,6 +18,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
     use RefreshDatabase;
 
     private TastingDoctrineRepository $doctrineTastingRepository;
+    private TastingAdapterInterface $tastingAdapter;
 
     #[\Override]
     protected function setUp(): void
@@ -25,6 +27,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
         $container = self::getContainer();
 
         $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
+        $this->tastingAdapter = $container->get(TastingAdapterInterface::class);
     }
 
     public function testCreateTasting(): void
@@ -38,11 +41,17 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
         $this->transport('tasting_from_external')->process(1);
         $this->transport('tasting_from_external')->queue()->assertContains(BottleTastedMessage::class, 0);
 
-        $tastings = $this->doctrineTastingRepository->withBottle(
-            BottleName::fromString('Château Margaux 2015'),
-        );
+        $tastings = $this->tastingAdapter->withBottleName(
+            'Château Margaux 2015',
+        )->getIterator();
 
         $this->assertNotNull($tastings->current());
-        $this->assertEquals('hugues.gobet@gmail.com', $tastings->current()->ownerId()->value());
+
+        $tasting = $this->doctrineTastingRepository->ofId(TastingId::fromString($tastings->current()->id));
+
+        $this->assertNotNull(
+            $tasting,
+        );
+        $this->assertEquals('hugues.gobet@gmail.com', $tasting->ownerId()->value());
     }
 }
