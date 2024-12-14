@@ -7,12 +7,12 @@ namespace App\Security\Infrastructure\EmpireDesAmis\Security\LogIn;
 use App\Security\Domain\Service\LogInInterface;
 use App\Security\Domain\ValueObject\UserServiceLoggedIn;
 use App\Security\Domain\ValueObject\UserServiceLoggedInToken;
-use EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\LogIn\LogInFirebase;
+use EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\LogIn\LogInFirebaseInterface;
 
 final readonly class LogInEmpireDesAmis implements LogInInterface
 {
     public function __construct(
-        private LogInFirebase $auth,
+        private LogInFirebaseInterface $auth,
     ) {
     }
 

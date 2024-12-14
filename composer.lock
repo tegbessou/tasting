@@ -10738,16 +10738,16 @@
         },
         {
             "name": "tegbessou/empire-des-amis-security-authenticator",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tegbessou/empire-des-amis-security-authenticator.git",
-                "reference": "11873181d624674dd75d62968505919376b3d389"
+                "reference": "440cfb57f38b1524b9b8149ebf44f6e50dcab6cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tegbessou/empire-des-amis-security-authenticator/zipball/11873181d624674dd75d62968505919376b3d389",
-                "reference": "11873181d624674dd75d62968505919376b3d389",
+                "url": "https://api.github.com/repos/tegbessou/empire-des-amis-security-authenticator/zipball/440cfb57f38b1524b9b8149ebf44f6e50dcab6cd",
+                "reference": "440cfb57f38b1524b9b8149ebf44f6e50dcab6cd",
                 "shasum": ""
             },
             "require": {
@@ -10794,10 +10794,10 @@
             ],
             "description": "Security Authenticator",
             "support": {
-                "source": "https://github.com/tegbessou/empire-des-amis-security-authenticator/tree/1.1.1",
+                "source": "https://github.com/tegbessou/empire-des-amis-security-authenticator/tree/1.1.2",
                 "issues": "https://github.com/tegbessou/empire-des-amis-security-authenticator/issues"
             },
-            "time": "2024-12-14T17:43:06+00:00"
+            "time": "2024-12-14T20:18:43+00:00"
         },
         {
             "name": "tegbessou/shared-kernel",
