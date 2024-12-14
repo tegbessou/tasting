@@ -2,55 +2,41 @@
 
 declare(strict_types=1);
 
-namespace FeatureTest\Security;
+namespace AdapterTest\DrivingTest\Security\Infrastructure\Symfony\Listener;
 
-use App\Security\Application\Command\AuthenticateUserCommand;
 use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\ValueObject\UserEmail;
+use App\Security\Infrastructure\Symfony\Listener\OnAuthenticatedUserListener;
 use App\Security\Infrastructure\Symfony\Messenger\Message\UserCreatedMessage;
+use EmpireDesAmis\SecurityAuthenticatorBundle\Event\UserAuthenticatedEvent;
 use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
-final class AuthenticateUserTest extends KernelTestCase
+final class OnAuthenticatedUserListenerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
     use RefreshDatabase;
 
     private UserRepositoryInterface $userRepository;
-    private CommandBusInterface $commandBus;
+    private OnAuthenticatedUserListener $eventListener;
 
-    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
-
-        self::bootKernel();
         $container = self::getContainer();
         $this->userRepository = $container->get(UserRepositoryInterface::class);
-        $this->commandBus = $container->get(CommandBusInterface::class);
+        $this->eventListener = $container->get(OnAuthenticatedUserListener::class);
     }
 
-    public function testAuthenticateUserAndUserDoesntExistThenUserIsCreated(): void
+    public function testOnAuthenticatedUser(): void
     {
-        $command = new AuthenticateUserCommand(
-            'tokenusernotexist',
-            'apple.com',
+        $eventListener = $this->eventListener;
+        $eventListener(
+            new UserAuthenticatedEvent('nexistepas@gmail.com'),
         );
-
-        $user = $this->userRepository->ofEmail(
-            UserEmail::fromString('nexistepas@gmail.com'),
-        );
-
-        $this->assertNull($user);
-
-        $authenticatedUser = $this->commandBus->dispatch($command);
 
         $this->transport('security_to_tasting')->queue()->assertContains(UserCreatedMessage::class, 1);
         $this->transport('security_to_tasting')->reset();
-
-        $this->assertEquals(UserEmail::fromString('nexistepas@gmail.com'), $authenticatedUser->email());
 
         $user = $this->userRepository->ofEmail(
             UserEmail::fromString('nexistepas@gmail.com'),

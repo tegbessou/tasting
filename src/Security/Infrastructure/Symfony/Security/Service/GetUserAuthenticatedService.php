@@ -5,31 +5,26 @@ declare(strict_types=1);
 namespace App\Security\Infrastructure\Symfony\Security\Service;
 
 use App\Security\Domain\Entity\User;
+use App\Security\Domain\Repository\UserRepositoryInterface;
 use App\Security\Domain\Service\GetUserAuthenticatedInterface;
 use App\Security\Domain\ValueObject\UserEmail;
-use App\Security\Domain\ValueObject\UserId;
-use App\Security\Infrastructure\Symfony\Security\Model\UserModel as SymfonyUser;
-use Symfony\Bundle\SecurityBundle\Security;
+use EmpireDesAmis\SecurityAuthenticatorBundle\Security\Service\GetUserAuthenticatedService as EmpireDesAmisGetUserAuthenticatedService;
 
 final readonly class GetUserAuthenticatedService implements GetUserAuthenticatedInterface
 {
     public function __construct(
-        private Security $security,
+        private EmpireDesAmisGetUserAuthenticatedService $getUserAuthenticatedService,
+        private UserRepositoryInterface $userRepository,
     ) {
     }
 
     #[\Override]
     public function getUser(): User
     {
-        /** @var SymfonyUser|null $user */
-        $user = $this->security->getUser();
-
-        if ($user === null) {
-            throw new \LogicException();
-        }
+        $user = $this->getUserAuthenticatedService->getUser();
 
         return new User(
-            UserId::fromString($user->id),
+            $this->userRepository->nextIdentity(),
             UserEmail::fromString($user->email),
         );
     }

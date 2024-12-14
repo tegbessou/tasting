@@ -4,9 +4,6 @@ parameters:
         -
             identifier: missingType.iterableValue
         -
-            message: '#Variable \$userAuthenticated might not be defined.#'
-            path: src/Security/Domain/Service/AuthenticateUser.php
-        -
             message: '#Parameter \$context of method App\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\CreateBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
             path: src/BottleInventory/Infrastructure/ApiPlatform/State/Processor/CreateBottleProcessor.php
         -

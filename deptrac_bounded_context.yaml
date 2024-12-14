@@ -80,6 +80,8 @@ deptrac:
                 value: '#^CodeBuds#'
               - type: classNameRegex
                 value: '#^WithMonologChannel#'
+              - type: classNameRegex
+                value: '#^EmpireDesAmis\\SecurityAuthenticatorBundle#'
 
     ruleset:
         Security: [ Shared, Vendors ]
