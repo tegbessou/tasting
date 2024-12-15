@@ -67,6 +67,3 @@ jobs:
 
       - name: Adapter test
         run: make adapter-test
-
-      - name: Feature test
-        run: make feature-test

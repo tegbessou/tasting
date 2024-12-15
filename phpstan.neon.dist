@@ -16,9 +16,6 @@ parameters:
             message: '#Parameter \$context of method App\\BottleInventory\\Infrastructure\\ApiPlatform\\State\\Processor\\TasteBottleProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
             path: src/BottleInventory/Infrastructure/ApiPlatform/State/Processor/TasteBottleProcessor.php
         -
-            message: '#Parameter \$context of method App\\Security\\Infrastructure\\ApiPlatform\\State\\Processor\\LogInUserProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
-            path: src/Security/Infrastructure/ApiPlatform/State/Processor/LogInUserProcessor.php
-        -
             message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\AcceptInvitationProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
             path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/AcceptInvitationProcessor.php
         -

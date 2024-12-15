@@ -18,9 +18,6 @@ services:
   App\BottleInventory\Application\EventListener\OnBottleTasted:
     tags: [kernel.event_listener]
 
-  App\Security\Application\EventListener\OnUserCreated:
-    tags: [kernel.event_listener]
-
   App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
     alias: App\BottleInventory\Infrastructure\Country\Repository\CountryRepository
 
@@ -61,9 +58,6 @@ services:
   App\BottleInventory\Application\Projection\DeleteBottleListProjection:
     tags: [kernel.event_listener]
 
-  App\Security\Application\Projection\CreateUserProjection:
-    tags: [kernel.event_listener]
-
   App\Country\Application\Projection\CreateCountryProjection:
     tags: [kernel.event_listener]
 
@@ -78,10 +72,6 @@ services:
 
   App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\ParticipantRepository
-
-  App\Security\Application\Adapter\UserAdapterInterface:
-    alias: App\Security\Infrastructure\Doctrine\Adapter\UserDoctrineAdapter
-    public: true
 
   App\Country\Application\Adapter\CountryAdapterInterface:
     alias: App\Country\Infrastructure\Doctrine\Adapter\CountryDoctrineAdapter
@@ -98,9 +88,6 @@ services:
   App\Tasting\Application\Service\NotificationInterface:
     alias: App\Tasting\Infrastructure\Firebase\NotificationFirebase
     public: true
-
-  App\Security\Domain\Service\LogInInterface:
-    alias: App\Security\Infrastructure\EmpireDesAmis\Security\LogIn\LogInEmpireDesAmis
 
   App\Tasting\Application\EventListener\OnInvitationCreated:
     tags: [kernel.event_listener]
@@ -139,6 +126,3 @@ when@test:
 
     EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
       alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
-
-    EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\LogIn\LogInFirebaseInterface:
-      alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\LogIn\LogInFakeFirebase

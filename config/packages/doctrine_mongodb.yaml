@@ -16,9 +16,6 @@ doctrine_mongodb:
                 country:
                     dir: '%kernel.project_dir%/src/Country/Application/'
                     prefix: 'App\Country\Application\'
-                security:
-                    dir: '%kernel.project_dir%/src/Security/Application/'
-                    prefix: 'App\Security\Application\'
                 tasting:
                     dir: '%kernel.project_dir%/src/Tasting/Application/'
                     prefix: 'App\Tasting\Application\'
