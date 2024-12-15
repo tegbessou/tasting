@@ -59,12 +59,12 @@ final class TastingDoctrineAdapterTest extends KernelTestCase
     public function testWithTarget(): void
     {
         $tastings = $this->tastingAdapter->withBottleName(
-            'Château Margaux',
+            'Domaine Leflaive Montrachet Grand Cru 2016',
         )->getIterator();
 
         foreach ($tastings as $tasting) {
             $this->assertNotNull($tasting);
-            $this->assertStringContainsString('Château Margaux', $tasting->bottleName);
+            $this->assertStringContainsString('Domaine Leflaive Montrachet Grand Cru 2016', $tasting->bottleName);
         }
     }
 }

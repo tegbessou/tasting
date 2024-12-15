@@ -49,7 +49,6 @@ final class Version20240929091802 extends AbstractMigration
           owner_id owner_id BINARY(16) DEFAULT NULL,
         CHANGE
           participants participants JSON NOT NULL');
-        $this->addSql('ALTER TABLE user CHANGE id id BINARY(16) NOT NULL');
     }
 
     public function down(Schema $schema): void

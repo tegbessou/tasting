@@ -212,12 +212,6 @@ adapter-test: env-test db-load-fixtures-test
 	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test --display-warnings
 	@$(MAKE) env-dev
 
-## Launch feature test
-feature-test: env-test db-load-fixtures-test
-	@echo "\nLaunching feature tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit --testsuite feature-test --display-warnings
-	@$(MAKE) env-dev
-
 #################################
 Quality assurance:
 
