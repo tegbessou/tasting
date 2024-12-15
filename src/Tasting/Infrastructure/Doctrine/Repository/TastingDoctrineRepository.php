@@ -6,7 +6,6 @@ namespace App\Tasting\Infrastructure\Doctrine\Repository;
 
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleName;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\TastingMapper;
@@ -32,22 +31,6 @@ final readonly class TastingDoctrineRepository implements TastingRepositoryInter
         }
 
         return TastingMapper::toDomain($tastingDoctrine);
-    }
-
-    #[\Override]
-    public function withBottle(BottleName $name): \Iterator
-    {
-        $bottles = $this->entityManager->getRepository(self::ENTITY_CLASS)->findBy([
-            'bottleName' => $name->value(),
-        ]);
-
-        $bottlesMapped = [];
-
-        foreach ($bottles as $bottle) {
-            $bottlesMapped[] = TastingMapper::toDomain($bottle);
-        }
-
-        yield from $bottlesMapped;
     }
 
     #[\Override]

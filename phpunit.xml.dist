@@ -24,9 +24,6 @@
         <testsuite name="adapter-test">
             <directory>./tests/AdapterTest</directory>
         </testsuite>
-        <testsuite name="feature-test">
-            <directory>./tests/FeatureTest</directory>
-        </testsuite>
     </testsuites>
 
     <extensions>

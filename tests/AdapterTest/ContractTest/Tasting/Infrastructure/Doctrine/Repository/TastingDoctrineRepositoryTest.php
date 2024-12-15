@@ -51,16 +51,6 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
         );
     }
 
-    public function testWithBottle(): void
-    {
-        $tastings = $this->doctrineTastingRepository->withBottle(
-            BottleName::fromString('Domaine Leflaive Montrachet Grand Cru 2016'),
-        );
-
-        $this->assertNotNull($tastings->current());
-        $this->assertStringContainsString('hugues.gobet@gmail.com', $tastings->current()->ownerId()->value());
-    }
-
     public function testAdd(): void
     {
         $tasting = Tasting::create(

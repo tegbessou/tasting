@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Security\Domain\ValueObject;
 
-use Doctrine\ORM\Mapping as ORM;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-#[ORM\Embeddable]
 final readonly class UserId
 {
-    #[ORM\Id]
-    #[ORM\Column(name: 'id', type: 'uuid', length: 36, unique: true)]
     private string $value;
 
     public function __construct(string $value)

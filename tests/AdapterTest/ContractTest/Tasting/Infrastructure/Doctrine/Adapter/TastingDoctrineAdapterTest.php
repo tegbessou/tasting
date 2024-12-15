@@ -55,4 +55,16 @@ final class TastingDoctrineAdapterTest extends KernelTestCase
             $this->tastingAdapter->ofId('324ad167-1805-4a61-b2d3-3832e7a4e286'),
         );
     }
+
+    public function testWithTarget(): void
+    {
+        $tastings = $this->tastingAdapter->withBottleName(
+            'Château Margaux',
+        )->getIterator();
+
+        foreach ($tastings as $tasting) {
+            $this->assertNotNull($tasting);
+            $this->assertStringContainsString('Château Margaux', $tasting->bottleName);
+        }
+    }
 }

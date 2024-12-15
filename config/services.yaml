@@ -99,11 +99,8 @@ services:
     alias: App\Tasting\Infrastructure\Firebase\NotificationFirebase
     public: true
 
-  App\Security\Domain\Service\AuthenticateUserFromProviderInterface:
-    alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebase
-
   App\Security\Domain\Service\LogInInterface:
-    alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFirebase
+    alias: App\Security\Infrastructure\EmpireDesAmis\Security\LogIn\LogInEmpireDesAmis
 
   App\Tasting\Application\EventListener\OnInvitationCreated:
     tags: [kernel.event_listener]
@@ -119,8 +116,8 @@ services:
 
 when@dev:
   services:
-    App\Security\Domain\Service\AuthenticateUserFromProviderInterface:
-      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
+    EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
+      alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
 when@test:
   services:
@@ -140,8 +137,8 @@ when@test:
       alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake
       public: true
 
-    App\Security\Domain\Service\AuthenticateUserFromProviderInterface:
-      alias: App\Security\Infrastructure\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
+    EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
+      alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
-    App\Security\Domain\Service\LogInInterface:
-      alias: App\Security\Infrastructure\Firebase\Security\LogIn\LogInFakeFirebase
+    EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\LogIn\LogInFirebaseInterface:
+      alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\LogIn\LogInFakeFirebase

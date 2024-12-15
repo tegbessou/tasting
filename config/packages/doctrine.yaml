@@ -25,8 +25,8 @@ doctrine:
             security:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Security/Domain/'
-                prefix: 'App\Security\Domain\'
+                dir: '%kernel.project_dir%/src/Security/Infrastructure/'
+                prefix: 'App\Security\Infrastructure\'
                 alias: App
             tasting:
                 type: attribute

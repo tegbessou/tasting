@@ -190,7 +190,3 @@ Reflect to add test on command handler and query handler => Va être nécessaire
 ## TODO
 
 Extract User context in a microservice
-
-Create a package to handle authentification and extract it from the User context
-
-Put doctrine entity in infrastructure and seperate domain entity from doctrine entity
