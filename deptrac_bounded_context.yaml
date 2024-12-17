@@ -3,13 +3,6 @@ deptrac:
         - ./src
 
     layers:
-        - name: BottleInventory
-          collectors:
-            - type: bool
-              must:
-                - type: directory
-                  value: src/BottleInventory/.*
-
         - name: Country
           collectors:
               - type: directory
@@ -77,7 +70,6 @@ deptrac:
                 value: '#^EmpireDesAmis\\SecurityAuthenticatorBundle#'
 
     ruleset:
-        BottleInventory: [ Shared, Vendors ]
         Country: [ Shared, Vendors ]
         Tasting: [ Shared, Vendors ]
         Shared: [ Vendors ]

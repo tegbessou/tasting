@@ -7,10 +7,6 @@ framework:
         base_uri: '%env(USER_API_URL)%'
         headers:
           Content-Type: 'application/ld+json'
-      bottle_api:
-        base_uri: '%env(BOTTLE_API_URL)%'
-        headers:
-          Content-Type: 'application/ld+json'
 
 when@dev:
   framework:

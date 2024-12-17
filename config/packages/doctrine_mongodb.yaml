@@ -10,9 +10,6 @@ doctrine_mongodb:
         default:
             auto_mapping: true
             mappings:
-                bottle_inventory:
-                    dir: '%kernel.project_dir%/src/BottleInventory/Application/'
-                    prefix: 'App\BottleInventory\Application\'
                 country:
                     dir: '%kernel.project_dir%/src/Country/Application/'
                     prefix: 'App\Country\Application\'
