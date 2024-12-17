@@ -6,57 +6,12 @@ services:
       $kernelProjectDirectory: '%kernel.project_dir%'
       $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
       $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
-      $emailBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN)%'
-      $passwordBottleInventoryUserService: '%env(SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD)%'
 
   App\:
     resource: '../src/'
 
   DataFixtures\:
     resource: '../fixtures'
-
-  App\BottleInventory\Application\EventListener\OnBottleTasted:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
-    alias: App\BottleInventory\Infrastructure\Country\Repository\CountryRepository
-
-  App\BottleInventory\Infrastructure\Security\Repository\UserRepositoryInterface:
-    alias: App\BottleInventory\Infrastructure\Security\Repository\UserRepository
-
-  App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
-    alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploader
-
-  App\BottleInventory\Application\Adapter\BottleListAdapterInterface:
-    alias: App\BottleInventory\Infrastructure\Doctrine\Adapter\BottleListDoctrineAdapter
-    public: true
-
-  App\BottleInventory\Application\Projection\CreateBottleProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\CreateBottleListProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\AddPictureBottleProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\AddPictureBottleListProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\TasteBottleProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\UpdateBottleProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\UpdateBottleListProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\DeleteBottleProjection:
-    tags: [kernel.event_listener]
-
-  App\BottleInventory\Application\Projection\DeleteBottleListProjection:
-    tags: [kernel.event_listener]
 
   App\Country\Application\Projection\CreateCountryProjection:
     tags: [kernel.event_listener]
@@ -108,15 +63,6 @@ when@dev:
 
 when@test:
   services:
-    App\BottleInventory\Infrastructure\Country\Repository\CountryRepositoryInterface:
-      alias: App\BottleInventory\Infrastructure\Country\Repository\CountryFakeRepository
-
-    App\BottleInventory\Infrastructure\Security\Repository\UserRepositoryInterface:
-      alias: App\BottleInventory\Infrastructure\Security\Repository\UserFakeRepository
-
-    App\BottleInventory\Domain\Service\UploadBottlePictureInterface:
-      alias: App\BottleInventory\Infrastructure\VichUploader\UploadBottlePictureVichUploaderFake
-
     App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
       alias: App\Tasting\Infrastructure\Security\Repository\ParticipantFakeRepository
 

@@ -1,6 +1,5 @@
 deptrac:
     paths:
-        - ./src/BottleInventory
         - ./src/Shared
         - ./src/Country
         - ./src/Tasting
