@@ -11,14 +11,6 @@ final class Version20241217142038 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE country (
-          id BINARY(16) NOT NULL,
-          name VARCHAR(255) NOT NULL,
-          UNIQUE INDEX UNIQ_5373C9665E237E06 (name),
-          PRIMARY KEY(id)
-        ) DEFAULT CHARACTER
-        SET
-          utf8mb4');
         $this->addSql('CREATE TABLE invitation (
           id BINARY(16) NOT NULL,
           target VARCHAR(255) NOT NULL,
@@ -51,7 +43,6 @@ final class Version20241217142038 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->addSql('ALTER TABLE invitation DROP FOREIGN KEY FK_F11D61A25BC0FE1E');
-        $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE invitation');
         $this->addSql('DROP TABLE tasting');
     }

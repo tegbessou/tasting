@@ -101,16 +101,6 @@ env-dev:
 	@-$(EXEC_PHP) bash -c 'grep APP_ENV= .env.local 1>/dev/null 2>&1 || echo -e "\nAPP_ENV=dev" >> .env.local'
 	@-$(EXEC_PHP) sed -i 's/APP_ENV=.*/APP_ENV=dev/g' .env.local
 
-## Create country from file
-import-country:
-	@echo "Import country from file...\e[0m"
-	@$(EXEC_SYMFONY) country:import
-
-## Create country from file test
-import-country-test: env-test
-	@echo "Import country from file...\e[0m"
-	@$(EXEC_SYMFONY) country:import
-
 ## Setup messenger transports
 setup-transports: env-test
 	@echo "Setup messenger transports...\e[0m"
@@ -179,8 +169,6 @@ db-reload-fixtures: env-dev wait-db db-reload-schema
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
 	@$(EXEC_SYMFONY) doctrine:mongodb:fixtures:load --no-interaction
 
-	@$(MAKE) import-country
-
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv > /home/app/dump/dadv.sql"
 	@$(EXEC_MONGODB) mongodump --db dadv --out /home/app/dump/documents
@@ -190,8 +178,6 @@ db-reload-fixtures-test: env-test wait-db db-reload-schema-test
 	@echo "\nLoading fixtures from fixtures files...\e[0m"
 	@$(EXEC_SYMFONY) doctrine:fixtures:load --no-interaction
 	@$(EXEC_SYMFONY) doctrine:mongodb:fixtures:load --no-interaction
-
-	@$(MAKE) import-country-test
 
 	@echo "\nCreating dump...\e[0m"
 	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv_test > /home/app/dump/dadv-test.sql"

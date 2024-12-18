@@ -3,11 +3,6 @@ deptrac:
         - ./src
 
     layers:
-        - name: Country
-          collectors:
-              - type: directory
-                value: src/Country/.*
-
         - name: Tasting
           collectors:
               - type: directory

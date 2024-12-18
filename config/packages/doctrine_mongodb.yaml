@@ -10,9 +10,6 @@ doctrine_mongodb:
         default:
             auto_mapping: true
             mappings:
-                country:
-                    dir: '%kernel.project_dir%/src/Country/Application/'
-                    prefix: 'App\Country\Application\'
                 tasting:
                     dir: '%kernel.project_dir%/src/Tasting/Application/'
                     prefix: 'App\Tasting\Application\'

@@ -1,7 +1,6 @@
 deptrac:
     paths:
         - ./src/Shared
-        - ./src/Country
         - ./src/Tasting
 
     layers:
