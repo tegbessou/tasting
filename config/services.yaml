@@ -3,7 +3,6 @@ services:
     autowire: true
     autoconfigure: true
     bind:
-      $kernelProjectDirectory: '%kernel.project_dir%'
       $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
       $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
 
@@ -12,9 +11,6 @@ services:
 
   DataFixtures\:
     resource: '../fixtures'
-
-  App\Country\Application\Projection\CreateCountryProjection:
-    tags: [kernel.event_listener]
 
   App\Tasting\Application\Projection\CreateTastingProjection:
     tags: [kernel.event_listener]
@@ -27,10 +23,6 @@ services:
 
   App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
     alias: App\Tasting\Infrastructure\Security\Repository\ParticipantRepository
-
-  App\Country\Application\Adapter\CountryAdapterInterface:
-    alias: App\Country\Infrastructure\Doctrine\Adapter\CountryDoctrineAdapter
-    public: true
 
   App\Tasting\Application\Adapter\TastingAdapterInterface:
     alias: App\Tasting\Infrastructure\Doctrine\Adapter\TastingDoctrineAdapter

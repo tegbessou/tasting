@@ -16,6 +16,5 @@ trait RefreshDatabase
         shell_exec('bin/console doctrine:migration:migrate --no-interaction --all-or-nothing');
         shell_exec('bin/console doctrine:fixtures:load --no-interaction');
         shell_exec('bin/console doctrine:mongodb:fixtures:load --no-interaction');
-        shell_exec('bin/console country:import --env=test');
     }
 }
