@@ -6,7 +6,7 @@ namespace UnitTest\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationLink;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
@@ -26,7 +26,10 @@ final class InvitationTest extends TestCase
     {
         $this->tasting = Tasting::create(
             TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
-            BottleName::fromString('Sassicaia 2012'),
+            Bottle::create(
+                'Sassicaia 2012',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 

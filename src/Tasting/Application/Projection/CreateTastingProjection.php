@@ -27,6 +27,7 @@ final readonly class CreateTastingProjection
                 $event->tastingId,
                 $event->ownerId,
                 $event->bottleName,
+                $event->bottleWineType,
             );
         } catch (TastingDoesntExistException $exception) {
             $this->logger->error(

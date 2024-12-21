@@ -8,6 +8,7 @@ final readonly class BottleTastedMessage
 {
     public function __construct(
         public string $bottleName,
+        public string $bottleWineType,
         public string $ownerEmail,
     ) {
     }

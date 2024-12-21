@@ -46,8 +46,42 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20241217142038','2024-12-18 16:32:38',9);
+('DoctrineMigrations\\Version20241217142038','2024-12-21 20:21:40',9),
+('DoctrineMigrations\\Version20241220165416','2024-12-21 20:21:40',2),
+('DoctrineMigrations\\Version20241221170800','2024-12-21 20:21:40',6);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eye`
+--
+
+DROP TABLE IF EXISTS `eye`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eye` (
+  `id` binary(16) NOT NULL,
+  `participant` varchar(255) NOT NULL,
+  `limpidite` varchar(255) NOT NULL,
+  `brillance` varchar(255) NOT NULL,
+  `intensite_couleur` varchar(255) NOT NULL,
+  `teinte` varchar(255) NOT NULL,
+  `larme` varchar(255) NOT NULL,
+  `observation` longtext NOT NULL,
+  `tasting_id` binary(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_727887B15BC0FE1E` (`tasting_id`),
+  CONSTRAINT `FK_727887B15BC0FE1E` FOREIGN KEY (`tasting_id`) REFERENCES `tasting` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eye`
+--
+
+LOCK TABLES `eye` WRITE;
+/*!40000 ALTER TABLE `eye` DISABLE KEYS */;
+/*!40000 ALTER TABLE `eye` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -79,7 +113,7 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-18 16:32:39',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
+('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-21 20:21:41',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +129,7 @@ CREATE TABLE `tasting` (
   `bottle_name` varchar(255) NOT NULL,
   `participants` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`participants`)),
   `owner_id` varchar(255) NOT NULL,
+  `bottle_wine_type` enum('red','white','rosÃ©','orange','champagne','sparkling') NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -106,8 +141,8 @@ CREATE TABLE `tasting` (
 LOCK TABLES `tasting` WRITE;
 /*!40000 ALTER TABLE `tasting` DISABLE KEYS */;
 INSERT INTO `tasting` VALUES
-('.¥l5‹¹LnšI½y\Å\ñ7','Domaine Leflaive Montrachet Grand Cru 2016','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com'),
-('–J<¸_½Fx¥\Í\ãqÀž§\"','ChÃ¢teau Latour 2010','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com');
+('.¥l5‹¹LnšI½y\Å\ñ7','Domaine Leflaive Montrachet Grand Cru 2016','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red'),
+('–J<¸_½Fx¥\Í\ãqÀž§\"','ChÃ¢teau Latour 2010','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red');
 /*!40000 ALTER TABLE `tasting` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -120,4 +155,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-18 16:32:39
+-- Dump completed on 2024-12-21 20:21:41

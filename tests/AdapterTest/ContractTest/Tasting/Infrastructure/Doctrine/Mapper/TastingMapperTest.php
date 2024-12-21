@@ -4,16 +4,31 @@ declare(strict_types=1);
 
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Mapper;
 
+use App\Tasting\Domain\Entity\Eye;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
+use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\IntensiteCouleur;
+use App\Tasting\Domain\Enum\Larme;
+use App\Tasting\Domain\Enum\Limpidite;
 use App\Tasting\Domain\Enum\TastingInvitationStatus;
+use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\Service\GetInvitationLink;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
+use App\Tasting\Domain\ValueObject\EyeBrillance;
+use App\Tasting\Domain\ValueObject\EyeId;
+use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
+use App\Tasting\Domain\ValueObject\EyeLarme;
+use App\Tasting\Domain\ValueObject\EyeLimpidite;
+use App\Tasting\Domain\ValueObject\EyeObservation;
+use App\Tasting\Domain\ValueObject\EyeParticipant;
+use App\Tasting\Domain\ValueObject\EyeTeinte;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
+use App\Tasting\Infrastructure\Doctrine\Entity\Eye as EyeDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Invitation as InvitationDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\TastingMapper;
@@ -21,7 +36,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-// a reflechir ou on place ces tests => dans le repository ou ici
 final class TastingMapperTest extends KernelTestCase
 {
     use RefreshDatabase;
@@ -42,6 +56,7 @@ final class TastingMapperTest extends KernelTestCase
         $tastingDoctrine = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
@@ -58,13 +73,29 @@ final class TastingMapperTest extends KernelTestCase
             new \DateTimeImmutable(),
         );
 
+        $eyeDoctrine = new EyeDoctrine(
+            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
+            $tastingDoctrine,
+            'hugues.gobet@gmail.com',
+            Limpidite::FLOUE,
+            Brillance::BRILLANTE,
+            IntensiteCouleur::CLAIRE,
+            'pourpre',
+            Larme::EPAISSE,
+            'Observation',
+        );
+
         $tastingDoctrine->addInvitation($invitationDoctrine);
+        $tastingDoctrine->addEye($eyeDoctrine);
 
         $tasting = TastingMapper::toDomain($tastingDoctrine);
 
         $expected = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-            BottleName::fromString('Chateaux Margaux 2015'),
+            Bottle::create(
+                'Chateaux Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -73,13 +104,26 @@ final class TastingMapperTest extends KernelTestCase
             InvitationTarget::fromString('root@gmail.com'),
         );
 
+        $expected->addEye(
+            EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
+            EyeParticipant::fromString('hugues.gobet@gmail.com'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString('pourpre'),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+        );
+
+        $expected::eraseRecordedEvents();
+
         $this->assertEquals(
             $expected->id(),
             $tasting->id(),
         );
         $this->assertEquals(
-            $expected->bottleName(),
-            $tasting->bottleName(),
+            $expected->bottle(),
+            $tasting->bottle(),
         );
         $this->assertEquals(
             $expected->participants()->values(),
@@ -108,25 +152,71 @@ final class TastingMapperTest extends KernelTestCase
             $expectedInvitation->status(),
             $invitation->status(),
         );
+
+        /** @var Eye $expectedEye */
+        $expectedEye = $expected->eyes()->values()[0];
+
+        /** @var Eye $eye */
+        $eye = $tasting->eyes()->values()[0];
+
+        $this->assertEquals(
+            $expectedEye->id(),
+            $eye->id(),
+        );
+        $this->assertEquals(
+            $expectedEye->participant(),
+            $eye->participant(),
+        );
+        $this->assertEquals(
+            $expectedEye->limpidite(),
+            $eye->limpidite(),
+        );
+        $this->assertEquals(
+            $expectedEye->brillance(),
+            $eye->brillance(),
+        );
+        $this->assertEquals(
+            $expectedEye->intensiteCouleur(),
+            $eye->intensiteCouleur(),
+        );
+        $this->assertEquals(
+            $expectedEye->teinte(),
+            $eye->teinte(),
+        );
+        $this->assertEquals(
+            $expectedEye->larme(),
+            $eye->larme(),
+        );
+        $this->assertEquals(
+            $expectedEye->observation(),
+            $eye->observation(),
+        );
     }
 
     public function testToInfrastructurePersist(): void
     {
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-            BottleName::fromString('Chateaux Margaux 2015'),
+            Bottle::create(
+                'Chateaux Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
         $this->tastingRepository->add($tasting);
 
+        $tasting::eraseRecordedEvents();
+
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
             'hugues.gobet@gmail.com',
+            new ArrayCollection(),
             new ArrayCollection(),
         );
 
@@ -152,13 +242,20 @@ final class TastingMapperTest extends KernelTestCase
             $expected->invitations,
             $tasting->invitations,
         );
+        $this->assertEquals(
+            $expected->eyes,
+            $tasting->eyes,
+        );
     }
 
-    public function testToInfrastructureUpdateNewInvitation(): void
+    public function testToInfrastructureUpdateNewRelations(): void
     {
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-            BottleName::fromString('Chateaux Margaux 2015'),
+            Bottle::create(
+                'Chateaux Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -169,15 +266,30 @@ final class TastingMapperTest extends KernelTestCase
             InvitationTarget::fromString('root@gmail.com'),
         );
 
+        $tasting->addEye(
+            EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
+            EyeParticipant::fromString('hugues.gobet@gmail.com'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString('pourpre'),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+        );
+
+        $tasting::eraseRecordedEvents();
+
         $this->tastingRepository->update($tasting);
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
             'hugues.gobet@gmail.com',
+            new ArrayCollection(),
             new ArrayCollection(),
         );
 
@@ -193,6 +305,20 @@ final class TastingMapperTest extends KernelTestCase
         );
 
         $expected->addInvitation($expectedInvitation);
+
+        $expectedEye = new EyeDoctrine(
+            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
+            $expected,
+            'hugues.gobet@gmail.com',
+            Limpidite::FLOUE,
+            Brillance::BRILLANTE,
+            IntensiteCouleur::CLAIRE,
+            'pourpre',
+            Larme::EPAISSE,
+            'Observation',
+        );
+
+        $expected->addEye($expectedEye);
 
         $this->assertEquals(
             $expected->id,
@@ -233,13 +359,52 @@ final class TastingMapperTest extends KernelTestCase
             $expectedInvitation->sentAt,
             $invitation->sentAt,
         );
+
+        /** @var EyeDoctrine $eye */
+        $eye = $tastingDoctrine->eyes->first();
+
+        $this->assertEquals(
+            $expectedEye->id,
+            $eye->id,
+        );
+        $this->assertEquals(
+            $expectedEye->participant,
+            $eye->participant,
+        );
+        $this->assertEquals(
+            $expectedEye->limpidite,
+            $eye->limpidite,
+        );
+        $this->assertEquals(
+            $expectedEye->brillance,
+            $eye->brillance,
+        );
+        $this->assertEquals(
+            $expectedEye->intensiteCouleur,
+            $eye->intensiteCouleur,
+        );
+        $this->assertEquals(
+            $expectedEye->teinte,
+            $eye->teinte,
+        );
+        $this->assertEquals(
+            $expectedEye->larme,
+            $eye->larme,
+        );
+        $this->assertEquals(
+            $expectedEye->observation,
+            $eye->observation,
+        );
     }
 
-    public function testToInfrastructureUpdateInvitationUpdated(): void
+    public function testToInfrastructureUpdateRelationsUpdated(): void
     {
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-            BottleName::fromString('Chateaux Margaux 2015'),
+            Bottle::create(
+                'Chateaux Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -250,6 +415,8 @@ final class TastingMapperTest extends KernelTestCase
             InvitationTarget::fromString('root@gmail.com'),
         );
 
+        $tasting::eraseRecordedEvents();
+
         $this->tastingRepository->update($tasting);
 
         $tasting->sendInvitation($tasting->invitations()->values()[0]);
@@ -259,20 +426,24 @@ final class TastingMapperTest extends KernelTestCase
         $oldTasting = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
             'hugues.gobet@gmail.com',
+            new ArrayCollection(),
             new ArrayCollection(),
         );
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
             'hugues.gobet@gmail.com',
+            new ArrayCollection(),
             new ArrayCollection(),
         );
 
@@ -334,11 +505,16 @@ final class TastingMapperTest extends KernelTestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-            BottleName::fromString('Chateaux Margaux 2015'),
+            Bottle::create(
+                'Chateaux Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
         $this->tastingRepository->add($tasting);
+
+        $tasting::eraseRecordedEvents();
 
         $tasting->invite(
             InvitationId::fromString('ea1341e5-f13b-4ee6-9597-383327c0fc57'),
@@ -362,6 +538,7 @@ final class TastingMapperTest extends KernelTestCase
         $oldTasting = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
@@ -372,6 +549,7 @@ final class TastingMapperTest extends KernelTestCase
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             'Chateaux Margaux 2015',
+            WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],

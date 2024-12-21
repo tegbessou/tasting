@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace UnitTest\Tasting\Domain\Entity;
 
+use App\Tasting\Domain\Entity\Eye;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
+use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\IntensiteCouleur;
+use App\Tasting\Domain\Enum\Larme;
+use App\Tasting\Domain\Enum\Limpidite;
+use App\Tasting\Domain\Enum\RedTeinte;
 use App\Tasting\Domain\Event\InvitationAccepted;
 use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\InvitationSent;
@@ -17,7 +23,15 @@ use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedExceptio
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipant;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
+use App\Tasting\Domain\ValueObject\EyeBrillance;
+use App\Tasting\Domain\ValueObject\EyeId;
+use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
+use App\Tasting\Domain\ValueObject\EyeLarme;
+use App\Tasting\Domain\ValueObject\EyeLimpidite;
+use App\Tasting\Domain\ValueObject\EyeObservation;
+use App\Tasting\Domain\ValueObject\EyeParticipant;
+use App\Tasting\Domain\ValueObject\EyeTeinte;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
@@ -32,7 +46,10 @@ final class TastingTest extends TestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
         $tasting::eraseRecordedEvents();
@@ -43,8 +60,11 @@ final class TastingTest extends TestCase
             $tasting->id(),
         );
         $this->assertEquals(
-            BottleName::fromString('Château Margaux 2015'),
-            $tasting->bottleName(),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
+            $tasting->bottle(),
         );
         $this->assertEquals(
             TastingParticipants::fromArray([
@@ -60,7 +80,10 @@ final class TastingTest extends TestCase
 
         Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
     }
@@ -71,7 +94,10 @@ final class TastingTest extends TestCase
 
         Tasting::create(
             TastingId::fromString('12'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
     }
@@ -80,11 +106,21 @@ final class TastingTest extends TestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
         $this->assertInstanceOf(TastingCreated::class, $tasting::getRecordedEvent()[0]);
+        $this->assertEquals('ee4fd98c-4427-42c1-bb70-08f6d92377c9', $tasting::getRecordedEvent()[0]->tastingId);
+        $this->assertEquals('Château Margaux 2015', $tasting::getRecordedEvent()[0]->bottleName);
+        $this->assertEquals('red', $tasting::getRecordedEvent()[0]->bottleWineType);
+        $this->assertEquals('hugues.gobet@gmail.com', $tasting::getRecordedEvent()[0]->ownerId);
+        $this->assertEquals([
+            'hugues.gobet@gmail.com',
+        ], $tasting::getRecordedEvent()[0]->participants);
         $tasting::eraseRecordedEvents();
     }
 
@@ -94,7 +130,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -110,7 +149,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -147,7 +189,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -186,7 +231,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -223,7 +271,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -264,7 +315,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -310,7 +364,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -347,7 +404,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -387,7 +447,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -425,7 +488,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -462,7 +528,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -506,7 +575,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -543,7 +615,10 @@ final class TastingTest extends TestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -579,7 +654,10 @@ final class TastingTest extends TestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -607,5 +685,47 @@ final class TastingTest extends TestCase
         $this->assertEquals('Château Margaux 2015', $tasting::getRecordedEvent()[0]->bottleName);
 
         $tasting::eraseRecordedEvents();
+    }
+
+    public function testTasteAddEye(): void
+    {
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
+            TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $tasting::eraseRecordedEvents();
+
+        $tasting->invite(
+            InvitationId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            InvitationTarget::fromString('root@gmail.com'),
+        );
+
+        $tasting->addEye(
+            EyeId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            EyeParticipant::fromString('hugues.gobet@gmail.com'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString(RedTeinte::AMBRE->value),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+        );
+
+        $this->assertCount(1, $tasting->eyes()->values());
+        /** @var Eye $eye */
+        $eye = $tasting->eyes()->values()[0];
+        $this->assertEquals('aaa29ab4-e46f-4243-8b7c-20988f2fa25b', $eye->id()->value());
+        $this->assertEquals('hugues.gobet@gmail.com', $eye->participant()->value());
+        $this->assertEquals(Limpidite::FLOUE->value, $eye->limpidite()->value());
+        $this->assertEquals(Brillance::BRILLANTE->value, $eye->brillance()->value());
+        $this->assertEquals(IntensiteCouleur::CLAIRE->value, $eye->intensiteCouleur()->value());
+        $this->assertEquals(RedTeinte::AMBRE->value, $eye->teinte()->value());
+        $this->assertEquals(Larme::EPAISSE->value, $eye->larme()->value());
+        $this->assertEquals('Observation', $eye->observation()->value());
     }
 }

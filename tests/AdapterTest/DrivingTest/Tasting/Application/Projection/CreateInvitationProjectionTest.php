@@ -9,7 +9,7 @@ use App\Tasting\Application\Projection\CreateInvitationProjection;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
@@ -36,7 +36,10 @@ final class CreateInvitationProjectionTest extends KernelTestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
-            BottleName::fromString('Château de Fonsalette'),
+            Bottle::create(
+                'Château de Fonsalette',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 

@@ -9,7 +9,7 @@ use App\Tasting\Application\ReadModel\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipant;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
@@ -52,7 +52,10 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
 
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
-            BottleName::fromString('Sassicaia 2012'),
+            Bottle::create(
+                'Sassicaia 2012',
+                'red',
+            ),
             TastingOwnerId::fromString($owner),
         );
 

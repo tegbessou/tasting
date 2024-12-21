@@ -26,6 +26,7 @@ final readonly class CreateTastingProjector
         string $id,
         string $ownerId,
         string $bottleName,
+        string $bottleWineType,
     ): void {
         $tasting = $this->tastingRepository->ofId(TastingId::fromString($id));
 
@@ -48,6 +49,7 @@ final readonly class CreateTastingProjector
                 ],
             ],
             $bottleName,
+            $bottleWineType,
             $owner->id()->value(),
             $owner->fullName()->value(),
         );

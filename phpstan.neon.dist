@@ -12,3 +12,6 @@ parameters:
         -
             message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\RejectInvitationProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
             path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/RejectInvitationProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\AddEyeProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/AddEyeProcessor.php

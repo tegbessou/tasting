@@ -8,7 +8,7 @@ use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
 use App\Tasting\Domain\ValueObject\UserFullName;
-use App\Tasting\Infrastructure\Security\Adapter\ParticipantAdapter;
+use App\Tasting\Infrastructure\User\Adapter\ParticipantAdapter;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ParticipantHttpReadRepositoryTest extends KernelTestCase
