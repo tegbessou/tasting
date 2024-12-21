@@ -11,7 +11,7 @@ use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
 use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
 use App\Tasting\Domain\Service\InviteParticipant;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
@@ -36,7 +36,10 @@ final class InviteParticipantTest extends TestCase
 
         $this->tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
-            BottleName::fromString('Sassicaia 2012'),
+            Bottle::create(
+                'Sassicaia 2012',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
     }

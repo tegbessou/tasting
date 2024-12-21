@@ -21,8 +21,8 @@ services:
   App\Tasting\Application\Projection\DeleteInvitationProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
-    alias: App\Tasting\Infrastructure\Security\Repository\ParticipantRepository
+  App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
+    alias: App\Tasting\Infrastructure\User\Repository\ParticipantRepository
 
   App\Tasting\Application\Adapter\TastingAdapterInterface:
     alias: App\Tasting\Infrastructure\Doctrine\Adapter\TastingDoctrineAdapter
@@ -55,8 +55,8 @@ when@dev:
 
 when@test:
   services:
-    App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface:
-      alias: App\Tasting\Infrastructure\Security\Repository\ParticipantFakeRepository
+    App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
+      alias: App\Tasting\Infrastructure\User\Repository\ParticipantFakeRepository
 
     App\Tasting\Application\Service\NotificationInterface:
       alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake

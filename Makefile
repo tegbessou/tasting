@@ -195,7 +195,7 @@ unit-test: env-test
 ## Launch adapter test
 adapter-test: env-test db-load-fixtures-test
 	@echo "\nLaunching adapter tests\e[0m"
-	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test --display-warnings
+	@$(EXEC_PHP) bin/phpunit --testsuite adapter-test --display-warnings --group tasting
 	@$(MAKE) env-dev
 
 #################################
@@ -204,7 +204,7 @@ Quality assurance:
 ## Launch all quality assurance step
 code-quality: security-checker yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
 
-## Security check on dependencies
+## User check on dependencies
 security-checker:
 	@echo "\nRunning security checker...\e[0m"
 	@$(EXEC_PHP) sh -c "local-php-security-checker"

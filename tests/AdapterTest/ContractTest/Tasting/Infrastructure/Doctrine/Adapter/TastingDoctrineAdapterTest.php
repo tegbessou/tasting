@@ -32,6 +32,7 @@ final class TastingDoctrineAdapterTest extends KernelTestCase
                 'hugues.gobet@gmail.com',
             ],
             'Château Margaux',
+            'red',
             'hugues.gobet@gmail.com',
             'Pedro',
         );

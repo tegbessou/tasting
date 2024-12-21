@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Tasting\Infrastructure\Security\Adapter;
+namespace App\Tasting\Infrastructure\User\Adapter;
 
 use App\Tasting\Domain\Adapter\ParticipantAdapterInterface;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 use App\Tasting\Domain\ValueObject\User;
-use App\Tasting\Infrastructure\Security\Exception\ParticipantDoesntExistYetException;
-use App\Tasting\Infrastructure\Security\Repository\ParticipantRepositoryInterface;
-use App\Tasting\Infrastructure\Security\Translator\ParticipantTranslator;
+use App\Tasting\Infrastructure\User\Exception\ParticipantDoesntExistYetException;
+use App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface;
+use App\Tasting\Infrastructure\User\Translator\ParticipantTranslator;
 
 final readonly class ParticipantAdapter implements ParticipantAdapterInterface
 {

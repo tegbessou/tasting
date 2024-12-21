@@ -26,6 +26,18 @@
                 <source>tasting.participants.already_invited</source>
                 <target>Participants {participants} are already invited.</target>
             </trans-unit>
+            <trans-unit id="tasting.add_eye.pariticipant.not_invited">
+                <source>tasting.add_eye.pariticipant.not_invited</source>
+                <target>Participant {participant} is not invited.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_eye.teinte.not_valid_for_wine_type">
+                <source>tasting.add_eye.teinte.not_valid_for_wine_type</source>
+                <target>The teinte {teinte} is not valid for {wineType} wine.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_eye.participant.pariticpant_already_add_eye">
+                <source>tasting.add_eye.participant.pariticpant_already_add_eye</source>
+                <target>Participant {participant} already add eye to tasting {tastingId}.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

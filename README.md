@@ -166,27 +166,20 @@ Reflect to put specification for Invitation Status
 
 ### Refactoring tasting
 
-When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to degust
-
-### Refactoring user
-
-Add friend system + invitation....
-
-User context is responsible to send notification when invitation is sent
-
-Extract it in a microservice and a new project
-
-Add a fullname to user
+When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to tasting
 
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
-Separate each bounded context in microservice
+## Todo
 
-Refactorer le AuthenticateUserCommandHandler pour utiliser le pattern Stratégie au lieu d'appeler chaque méthode. => minor
+- [ ] Refactorer l'initialisation des UUID pour le sortir du repository, parce qu'on préfère que ce soit le domaine qui gère ça
+Il faut donc créer un factory qui s'appellera IdFactory qui utilisera une interface pour générer les UUID avec une implémentation dans l'infrastructure
 
-Reflect to add test on command handler and query handler => Va être nécessaire use kernel test case
+- [ ] Refactorer le InvitationService pour déplacer la logique de vérification dans une spéicification
+Utiliser la logique de spécification dans l'agrégat et rappatrier la méthodes invites dans l'agrégat
 
-## TODO
+- [ ] Refactorer les value object pour déplacer la logique d'ajout dans les values object
+Simplifier l'aggrégat en déplaçant la logique d'ajout dans les value object
 
-Extract User context in a microservice
+- [ ] Update eye

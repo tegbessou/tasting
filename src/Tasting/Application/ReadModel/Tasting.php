@@ -17,6 +17,8 @@ class Tasting
         #[MongoDB\Field(type: 'string')]
         public string $bottleName,
         #[MongoDB\Field(type: 'string')]
+        public string $bottleWineType,
+        #[MongoDB\Field(type: 'string')]
         public string $ownerId,
         #[MongoDB\Field(type: 'string')]
         public string $ownerName,

@@ -6,7 +6,7 @@ namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Repository;
 
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use Shared\RefreshDatabase;
@@ -55,7 +55,10 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
     {
         $tasting = Tasting::create(
             TastingId::fromString('0d022ae1-7129-49c2-b0a4-ed8b8612715f'),
-            BottleName::fromString('Château Margaux 2015'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
 
@@ -71,7 +74,12 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
 
         $this->assertEquals(
             'Château Margaux 2015',
-            $tasting->bottleName()->value(),
+            $tasting->bottle()->name(),
+        );
+
+        $this->assertEquals(
+            'red',
+            $tasting->bottle()->wineType()->value,
         );
         $this->assertEquals(
             'hugues.gobet@gmail.com',

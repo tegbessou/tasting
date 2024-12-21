@@ -6,7 +6,7 @@ namespace App\Tasting\Application\Command;
 
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
@@ -24,7 +24,10 @@ final readonly class CreateTastingCommandHandler
     {
         $tasting = Tasting::create(
             $this->tastingRepository->nextIdentity(),
-            BottleName::fromString($command->bottleName),
+            Bottle::create(
+                $command->bottleName,
+                $command->bottleWineType,
+            ),
             TastingOwnerId::fromString($command->ownerEmail),
         );
 

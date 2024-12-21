@@ -9,7 +9,7 @@ use App\Tasting\Application\Projection\CreateTastingProjection;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\ValueObject\BottleName;
+use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use Shared\RefreshDatabase;
@@ -34,7 +34,10 @@ final class CreateTastingProjectionTest extends KernelTestCase
 
         $tasting = Tasting::create(
             TastingId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
-            BottleName::fromString('Château de Fonsalette'),
+            Bottle::create(
+                'Château de Fonsalette',
+                'red',
+            ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),
         );
         $tasting::eraseRecordedEvents();
@@ -44,6 +47,7 @@ final class CreateTastingProjectionTest extends KernelTestCase
         $event = new TastingCreated(
             '4ad98deb-4295-455d-99e2-66e148c162af',
             'Château de Fonsalette',
+            'red',
             'hugues.gobet@gmail.com',
             [
                 'hugues.gobet@gmail.com',

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tasting\Infrastructure\Security\Translator;
+namespace App\Tasting\Infrastructure\User\Translator;
 
 use App\Tasting\Domain\ValueObject\User;
 use App\Tasting\Domain\ValueObject\UserEmail;
 use App\Tasting\Domain\ValueObject\UserFullName;
-use App\Tasting\Infrastructure\Security\Exception\ParticipantDoesntExistYetException;
+use App\Tasting\Infrastructure\User\Exception\ParticipantDoesntExistYetException;
 
 final class ParticipantTranslator
 {

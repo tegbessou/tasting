@@ -13,6 +13,7 @@ final readonly class CreateTastingCommand implements CommandInterface
 {
     public function __construct(
         public string $bottleName,
+        public string $bottleWineType,
         public string $ownerEmail,
     ) {
     }

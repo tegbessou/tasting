@@ -11,6 +11,7 @@ final readonly class TastingCreated implements DomainEventInterface
     public function __construct(
         public string $tastingId,
         public string $bottleName,
+        public string $bottleWineType,
         public string $ownerId,
         /** @var string[] $participants */
         public array $participants,

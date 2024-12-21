@@ -61,14 +61,14 @@ final readonly class SendInvitationCommandHandler
             $owner->id()->value(),
             $owner->fullName()?->value() ?? throw new \LogicException(),
             $invitation->target()->value(),
-            $tasting->bottleName()->value(),
+            $tasting->bottle()->name(),
             $invitation->link()->value(),
         );
 
         $this->notificationService->sendInvitationNotification(
             $owner->fullName()->value(),
             $invitation->target()->value(),
-            $tasting->bottleName()->value(),
+            $tasting->bottle()->name(),
         );
 
         $this->tastingRepository->update($tasting);

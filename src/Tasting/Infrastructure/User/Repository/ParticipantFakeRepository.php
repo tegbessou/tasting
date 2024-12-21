@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tasting\Infrastructure\Security\Repository;
+namespace App\Tasting\Infrastructure\User\Repository;
 
 final readonly class ParticipantFakeRepository implements ParticipantRepositoryInterface
 {

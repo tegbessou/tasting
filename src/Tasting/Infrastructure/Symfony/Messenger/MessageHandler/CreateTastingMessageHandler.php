@@ -28,12 +28,15 @@ final readonly class CreateTastingMessageHandler
     {
         Assert::string($bottleTastedMessage->bottleName);
         Assert::maxLength($bottleTastedMessage->bottleName, 255);
+        Assert::string($bottleTastedMessage->bottleWineType);
+        Assert::maxLength($bottleTastedMessage->bottleWineType, 255);
         Assert::email($bottleTastedMessage->ownerEmail);
         Assert::maxLength($bottleTastedMessage->ownerEmail, 255);
 
         try {
             $this->bus->dispatch(new CreateTastingCommand(
                 $bottleTastedMessage->bottleName,
+                $bottleTastedMessage->bottleWineType,
                 $bottleTastedMessage->ownerEmail,
             ));
         } catch (OwnerDoesntExistException $exception) {

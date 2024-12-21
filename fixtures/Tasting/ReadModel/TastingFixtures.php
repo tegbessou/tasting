@@ -24,6 +24,7 @@ final class TastingFixtures extends Fixture
                 ],
             ],
             'Domaine Leflaive Montrachet Grand Cru 2016',
+            'red',
             'Pedor',
             'hugues.gobet@gmail.com',
         );
@@ -37,6 +38,7 @@ final class TastingFixtures extends Fixture
                 ],
             ],
             'Château Latour 2010',
+            'red',
             'Pedor',
             'hugues.gobet@gmail.com',
         );
