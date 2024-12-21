@@ -183,3 +183,5 @@ Utiliser la logique de spécification dans l'agrégat et rappatrier la méthodes
 Simplifier l'aggrégat en déplaçant la logique d'ajout dans les value object
 
 - [ ] Update eye
+
+- [ ] Expose endpoint to get all value for enum (limpidite, brillance, intensite, couleur, larmes)

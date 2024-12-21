@@ -204,7 +204,7 @@ Quality assurance:
 ## Launch all quality assurance step
 code-quality: security-checker yaml-linter xliff-linter twig-linter container-linter phpstan deptrac rector cs db-validate
 
-## User check on dependencies
+## Security check on dependencies
 security-checker:
 	@echo "\nRunning security checker...\e[0m"
 	@$(EXEC_PHP) sh -c "local-php-security-checker"
