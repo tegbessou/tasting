@@ -17,7 +17,8 @@ use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedExceptio
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Service\GetInvitationLink;
-use App\Tasting\Domain\Specification\EyeCanBeAddSpecification;
+use App\Tasting\Domain\Specification\EyeCanBeAdd;
+use App\Tasting\Domain\Specification\ParticipantCanBeInvite;
 use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
@@ -89,6 +90,9 @@ final class Tasting implements EntityWithDomainEventInterface
             $invitationTarget,
             GetInvitationLink::getLink(),
         );
+
+        $specification = new ParticipantCanBeInvite($this);
+        $specification->satisfiedBy($invitation);
 
         $this->invitations = TastingInvitations::fromArray(
             array_merge(
@@ -218,7 +222,7 @@ final class Tasting implements EntityWithDomainEventInterface
             $observation,
         );
 
-        $specification = new EyeCanBeAddSpecification($this);
+        $specification = new EyeCanBeAdd($this);
         $specification->satisfiedBy($eye);
 
         $this->eyes = $this->eyes->add($eye);

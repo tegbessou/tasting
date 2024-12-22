@@ -11,7 +11,7 @@ use App\Tasting\Domain\Exception\EyeParticipantNotInvitedException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
 use App\Tasting\Domain\ValueObject\ParticipantId;
 
-final readonly class EyeCanBeAddSpecification
+final readonly class EyeCanBeAdd
 {
     public function __construct(
         private Tasting $tasting,

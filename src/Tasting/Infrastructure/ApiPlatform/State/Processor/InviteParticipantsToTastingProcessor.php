@@ -9,7 +9,7 @@ use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\InviteParticipantsCommand;
 use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
-use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
+use App\Tasting\Domain\Exception\ParticipantAlreadyInvitedException;
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\PostTastingInviteResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildOwnerCannotBeInvitedConstraintViolation;
@@ -59,15 +59,15 @@ final readonly class InviteParticipantsToTastingProcessor implements ProcessorIn
             throw new NotFoundHttpException();
         } catch (OwnerCannotBeInvitedToTastingException) {
             $this->logger->error(
-                'Invite participants: Owner cannot be invited to tasting',
+                'Invite participant: Owner cannot be invited to tasting',
             );
 
             throw new ValidationException($this->buildOwnerCannotBeInvitedConstraintViolation->build());
-        } catch (ParticipantsAlreadyInvitedException $exception) {
+        } catch (ParticipantAlreadyInvitedException $exception) {
             $this->logger->error(
-                'Invite participants: Participants already invited',
+                'Invite participant: Participant already invited',
                 [
-                    'participants' => $exception->participants,
+                    'participant' => $exception->participant,
                 ],
             );
 

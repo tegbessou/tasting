@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation;
 
-use App\Tasting\Domain\Exception\ParticipantsAlreadyInvitedException;
+use App\Tasting\Domain\Exception\ParticipantAlreadyInvitedException;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -16,24 +16,22 @@ final readonly class BuildParticipantsAlreadyInvitedConstraintViolation
     ) {
     }
 
-    public function build(ParticipantsAlreadyInvitedException $exception): ConstraintViolationList
+    public function build(ParticipantAlreadyInvitedException $exception): ConstraintViolationList
     {
-        $participantsString = implode(',', $exception->participants);
-
         $violations = new ConstraintViolationList();
         $violations->add(new ConstraintViolation(
             $this->translator->trans(
-                'tasting.participants.already_invited',
+                'tasting.participant.already_invited',
                 [
-                    'participants' => $participantsString,
+                    'participant' => $exception->participant,
                 ],
                 'validators'
             ),
             null,
             [],
-            $participantsString,
+            $exception->participant,
             'participants',
-            $participantsString,
+            $exception->participant,
         ));
 
         return $violations;

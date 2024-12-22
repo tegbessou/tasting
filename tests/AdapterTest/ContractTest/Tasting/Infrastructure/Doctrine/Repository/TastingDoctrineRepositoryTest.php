@@ -86,11 +86,4 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
             $tasting->ownerId()->value(),
         );
     }
-
-    public function testNextIdentity(): void
-    {
-        $this->assertIsString(
-            $this->doctrineTastingRepository->nextIdentity()->value(),
-        );
-    }
 }

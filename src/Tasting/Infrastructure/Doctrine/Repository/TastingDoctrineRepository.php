@@ -10,7 +10,6 @@ use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\TastingMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Uid\Uuid;
 
 final readonly class TastingDoctrineRepository implements TastingRepositoryInterface
 {
@@ -40,14 +39,6 @@ final readonly class TastingDoctrineRepository implements TastingRepositoryInter
 
         $this->entityManager->persist($tastingDoctrine);
         $this->entityManager->flush();
-    }
-
-    #[\Override]
-    public function nextIdentity(): TastingId
-    {
-        return TastingId::fromString(
-            Uuid::v4()->toRfc4122(),
-        );
     }
 
     #[\Override]

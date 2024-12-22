@@ -6,9 +6,9 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\Symfony\Messenger;
 
 use App\Tasting\Application\Service\NotificationInterface;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Repository\InvitationRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\Bottle;
+use App\Tasting\Domain\ValueObject\InvitationId;
+use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Infrastructure\Doctrine\Repository\TastingDoctrineRepository;
@@ -22,10 +22,8 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
     use InteractsWithMessenger;
     use RefreshDatabase;
 
-    private InvitationRepositoryInterface $doctrineInvitationRepository;
     private TastingDoctrineRepository $doctrineTastingRepository;
     private NotificationInterface $notificationService;
-    private InviteParticipant $inviteParticipant;
 
     #[\Override]
     protected function setUp(): void
@@ -33,10 +31,8 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->doctrineInvitationRepository = $container->get(InvitationRepositoryInterface::class);
         $this->doctrineTastingRepository = $container->get(TastingDoctrineRepository::class);
         $this->notificationService = $container->get(NotificationInterface::class);
-        $this->inviteParticipant = $container->get(InviteParticipant::class);
     }
 
     public function testSendInvitation(): void
@@ -60,11 +56,9 @@ final class SendInvitationMessageHandlerTest extends KernelTestCase
 
         $this->assertCount(0, $tasting->invitations()->values());
 
-        $this->inviteParticipant->inviteParticipants(
-            $tasting,
-            [
-                $participant,
-            ],
+        $tasting->invite(
+            InvitationId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            InvitationTarget::fromString($participant),
         );
 
         $tasting::eraseRecordedEvents();

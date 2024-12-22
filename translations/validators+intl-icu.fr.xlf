@@ -22,9 +22,9 @@
                 <source>tasting.participants.owner_cannot_be_invited</source>
                 <target>Le propriétaire ne peut pas être invité.</target>
             </trans-unit>
-            <trans-unit id="tasting.participants.already_invited">
-                <source>tasting.participants.already_invited</source>
-                <target>Les participants {participants} sont déjà invités.</target>
+            <trans-unit id="tasting.participant.already_invited">
+                <source>tasting.participant.already_invited</source>
+                <target>Le participant {participant} est déjà invité.</target>
             </trans-unit>
             <trans-unit id="tasting.add_eye.pariticipant.not_invited">
                 <source>tasting.add_eye.pariticipant.not_invited</source>
