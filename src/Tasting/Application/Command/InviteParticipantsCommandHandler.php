@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tasting\Application\Command;
 
 use App\Tasting\Domain\Exception\TastingDoesntExistException;
+use App\Tasting\Domain\Factory\IdFactory;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipant;
+use App\Tasting\Domain\ValueObject\InvitationId;
+use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
@@ -16,8 +18,8 @@ final readonly class InviteParticipantsCommandHandler
 {
     public function __construct(
         private TastingRepositoryInterface $tastingRepository,
-        private InviteParticipant $inviteParticipantService,
         private DomainEventDispatcherInterface $eventDispatcher,
+        private IdFactory $idFactory,
     ) {
     }
 
@@ -31,10 +33,14 @@ final readonly class InviteParticipantsCommandHandler
             throw new TastingDoesntExistException($command->tastingId);
         }
 
-        $this->inviteParticipantService->inviteParticipants(
-            $tasting,
-            $command->participants,
-        );
+        foreach ($command->participants as $participant) {
+            $tasting->invite(
+                InvitationId::fromString(
+                    $this->idFactory->create(),
+                ),
+                InvitationTarget::fromString($participant),
+            );
+        }
 
         $this->tastingRepository->update($tasting);
 

@@ -89,7 +89,6 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
         ];
     }
 
-    // Rajouter un cas pour un invité qui a déjà accepté l'invitation
     public function testInviteParticipantToTastingWithParticipantAlreadyInvited(): void
     {
         $this->post('/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/invite', [
@@ -114,7 +113,7 @@ final class InviteParticipantsToTastingProcessorTest extends ApiTestCase
             'violations' => [
                 [
                     'propertyPath' => 'participants',
-                    'message' => 'Les participants root@gmail.com sont déjà invités.',
+                    'message' => 'Le participant root@gmail.com est déjà invité.',
                 ],
             ],
         ]);

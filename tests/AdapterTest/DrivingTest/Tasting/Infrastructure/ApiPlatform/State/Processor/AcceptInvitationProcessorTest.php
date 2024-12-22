@@ -6,8 +6,9 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Proce
 
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\Bottle;
+use App\Tasting\Domain\ValueObject\InvitationId;
+use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
@@ -21,7 +22,6 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
     use RefreshDatabase;
 
     private TastingRepositoryInterface $tastingDoctrineRepository;
-    private InviteParticipant $inviteParticipant;
 
     #[\Override]
     protected function setUp(): void
@@ -30,7 +30,6 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
         $container = self::getContainer();
 
         $this->tastingDoctrineRepository = $container->get(TastingRepositoryInterface::class);
-        $this->inviteParticipant = $container->get(InviteParticipant::class);
     }
 
     public function testAcceptInvitation(): void
@@ -52,11 +51,9 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
 
         $this->tastingDoctrineRepository->add($tasting);
 
-        $this->inviteParticipant->inviteParticipants(
-            $tasting,
-            [
-                $participant,
-            ],
+        $tasting->invite(
+            InvitationId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            InvitationTarget::fromString($participant),
         );
 
         $this->tastingDoctrineRepository->update($tasting);

@@ -11,13 +11,13 @@ use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
-use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use App\Tasting\Domain\Exception\InvitationMustBePendingException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Service\GetInvitationLink;
-use App\Tasting\Domain\Specification\EyeCanBeAddSpecification;
+use App\Tasting\Domain\Specification\EyeCanBeAdd;
+use App\Tasting\Domain\Specification\ParticipantCanBeInvite;
 use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
@@ -90,12 +90,10 @@ final class Tasting implements EntityWithDomainEventInterface
             GetInvitationLink::getLink(),
         );
 
-        $this->invitations = TastingInvitations::fromArray(
-            array_merge(
-                $this->invitations->values(),
-                [$invitation],
-            )
-        );
+        $specification = new ParticipantCanBeInvite($this);
+        $specification->satisfiedBy($invitation);
+
+        $this->invitations = $this->invitations->add($invitation);
 
         self::recordEvent(
             new TastingParticipantInvited(
@@ -176,18 +174,7 @@ final class Tasting implements EntityWithDomainEventInterface
             throw new InvitationMustNotBePendingException();
         }
 
-        $index = $this->invitations->indexOf($invitation);
-
-        if ($index === false) {
-            throw new InvitationDoesntExistException($invitation->id()->value());
-        }
-
-        $oldInvitations = $this->invitations->values();
-        unset($oldInvitations[$index]);
-
-        $this->invitations = TastingInvitations::fromArray(
-            array_values($oldInvitations),
-        );
+        $this->invitations = $this->invitations->delete($invitation);
 
         self::recordEvent(
             new InvitationDeleted(
@@ -218,7 +205,7 @@ final class Tasting implements EntityWithDomainEventInterface
             $observation,
         );
 
-        $specification = new EyeCanBeAddSpecification($this);
+        $specification = new EyeCanBeAdd($this);
         $specification->satisfiedBy($eye);
 
         $this->eyes = $this->eyes->add($eye);

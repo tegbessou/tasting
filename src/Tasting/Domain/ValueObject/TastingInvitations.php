@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tasting\Domain\ValueObject;
 
 use App\Tasting\Domain\Entity\Invitation;
+use App\Tasting\Domain\Exception\InvitationDoesntExistException;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 final readonly class TastingInvitations
@@ -18,6 +19,29 @@ final readonly class TastingInvitations
         Assert::allIsInstanceOf($invitations, Invitation::class);
 
         $this->invitations = $invitations;
+    }
+
+    public function add(Invitation $invitation): self
+    {
+        return new self(
+            array_merge($this->invitations, [$invitation]),
+        );
+    }
+
+    public function delete(Invitation $invitation): self
+    {
+        $index = $this->indexOf($invitation);
+
+        if ($index === false) {
+            throw new InvitationDoesntExistException($invitation->id()->value());
+        }
+
+        $oldInvitations = $this->values();
+        unset($oldInvitations[$index]);
+
+        return TastingInvitations::fromArray(
+            array_values($oldInvitations),
+        );
     }
 
     public static function empty(): self

@@ -7,8 +7,8 @@ namespace App\Tasting\Domain\Exception;
 final class ParticipantsAlreadyParticipatingException extends \Exception
 {
     public function __construct(
-        public array $participants,
+        public string $participant,
     ) {
-        parent::__construct(sprintf('Participants %s are already participating', implode(',', $participants)));
+        parent::__construct(sprintf('Participant %s is already participating', $participant));
     }
 }

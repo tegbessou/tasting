@@ -8,8 +8,9 @@ use App\Tasting\Application\Adapter\InvitationAdapterInterface;
 use App\Tasting\Application\ReadModel\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\Service\InviteParticipant;
 use App\Tasting\Domain\ValueObject\Bottle;
+use App\Tasting\Domain\ValueObject\InvitationId;
+use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
 use App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage;
@@ -28,7 +29,6 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
     private TastingRepositoryInterface $doctrineTastingRepository;
     private EntityManagerInterface $entityManager;
     private DocumentManager $documentManager;
-    private InviteParticipant $inviteParticipant;
     private InvitationAdapterInterface $invitationAdapter;
     private DomainEventDispatcherInterface $dispatcher;
 
@@ -39,7 +39,6 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
         $container = self::getContainer();
 
         $this->doctrineTastingRepository = $container->get(TastingRepositoryInterface::class);
-        $this->inviteParticipant = $container->get(InviteParticipant::class);
         $this->invitationAdapter = $container->get(InvitationAdapterInterface::class);
         $this->dispatcher = $container->get(DomainEventDispatcherInterface::class);
     }
@@ -61,11 +60,9 @@ final class UpdateInvitationTargetFullNameMessageHandlerTest extends KernelTestC
 
         $this->doctrineTastingRepository->add($tasting);
 
-        $this->inviteParticipant->inviteParticipants(
-            $tasting,
-            [
-                $participant,
-            ],
+        $tasting->invite(
+            InvitationId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            InvitationTarget::fromString($participant),
         );
 
         $this->doctrineTastingRepository->update($tasting);
