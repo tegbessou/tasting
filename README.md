@@ -174,15 +174,8 @@ Setup phparkitect pour les règles de nommages
 ## Todo
 - [ ] Separate participation from dégustation to have a better separation of concern
 
+- [ ] Imagine read model for participation
+
 - [ ] Update eye
 
 - [ ] Expose endpoint to get all value for enum (limpidite, brillance, intensite, couleur, larmes)
-
-- [X] Refactorer l'initialisation des UUID pour le sortir du repository, parce qu'on préfère que ce soit le domaine qui gère ça
-  Il faut donc créer un factory qui s'appellera IdFactory qui utilisera une interface pour générer les UUID avec une implémentation dans l'infrastructure
-
-- [X] Refactorer le InvitationService pour déplacer la logique de vérification dans une spéicification
-  Utiliser la logique de spécification dans l'agrégat et rappatrier la méthodes invites dans l'agrégat
-
-- [ ] Refactorer les value object pour déplacer la logique d'ajout dans les values object
-  Simplifier l'aggrégat en déplaçant la logique d'ajout dans les value object
