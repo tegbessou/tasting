@@ -208,6 +208,7 @@ final class Tasting implements EntityWithDomainEventInterface
         $specification = new EyeCanBeAdd($this);
         $specification->satisfiedBy($eye);
 
+        $this->eyes = $this->eyes->add($eye);
     }
 
     public function participantAlreadyInvited(string $participantId): bool
