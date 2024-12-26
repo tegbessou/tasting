@@ -6,25 +6,26 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Provider;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\Tasting\Domain\Enum\IntensiteCouleur;
+use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\GetCollectionIntensiteCouleurResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\GetCollectionLarmeResource;
 
 /**
  * @implements ProviderInterface<GetCollectionIntensiteCouleurResource>
  */
-final readonly class GetIntensiteCouleurCollectionProvider implements ProviderInterface
+final readonly class GetLarmeCollectionProvider implements ProviderInterface
 {
     #[\Override]
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
-        $intensiteCouleurs = [];
+        $larmes = [];
 
-        foreach (IntensiteCouleur::values() as $intensiteCouleur) {
-            $intensiteCouleurs[] = new GetCollectionIntensiteCouleurResource(
-                $intensiteCouleur,
+        foreach (Larme::values() as $larme) {
+            $larmes[] = new GetCollectionLarmeResource(
+                $larme,
             );
         }
 
-        return $intensiteCouleurs;
+        return $larmes;
     }
 }

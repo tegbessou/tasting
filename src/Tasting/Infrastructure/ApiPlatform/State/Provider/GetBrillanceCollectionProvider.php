@@ -9,6 +9,9 @@ use ApiPlatform\State\ProviderInterface;
 use App\Tasting\Domain\Enum\Brillance;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\GetCollectionBrillanceResource;
 
+/**
+ * @implements ProviderInterface<GetCollectionBrillanceResource>
+ */
 final readonly class GetBrillanceCollectionProvider implements ProviderInterface
 {
     #[\Override]

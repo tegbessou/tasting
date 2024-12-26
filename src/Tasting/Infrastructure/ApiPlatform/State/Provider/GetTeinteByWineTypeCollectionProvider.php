@@ -10,6 +10,9 @@ use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\GetCollectionTeinteByWineTypeResource;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @implements ProviderInterface<GetCollectionTeinteByWineTypeResource>
+ */
 final readonly class GetTeinteByWineTypeCollectionProvider implements ProviderInterface
 {
     #[\Override]

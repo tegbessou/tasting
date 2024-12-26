@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Provider;
 
-use PHPUnit\Framework\Attributes\Group;
 use Shared\ApiTestCase;
 
-#[Group('tasting')]
 final class GetBrillanceCollectionProviderTest extends ApiTestCase
 {
     public function testGetBrillances(): void

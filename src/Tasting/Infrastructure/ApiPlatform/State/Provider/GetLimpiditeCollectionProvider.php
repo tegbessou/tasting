@@ -9,6 +9,9 @@ use ApiPlatform\State\ProviderInterface;
 use App\Tasting\Domain\Enum\Limpidite;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\GetCollectionLimpiditeResource;
 
+/**
+ * @implements ProviderInterface<GetCollectionLimpiditeResource>
+ */
 final readonly class GetLimpiditeCollectionProvider implements ProviderInterface
 {
     #[\Override]
