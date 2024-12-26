@@ -6,9 +6,9 @@ namespace App\Tasting\Domain\Enum;
 
 enum SparklingTeinte: string
 {
-    case PALE_YELLOW = 'Jaune pâle';
-    case GOLDEN = 'Doré';
-    case BRILLANT_WHITE = 'Blanc brillant';
-    case ROSE = 'Rosé';
-    case DEEP_YELLOW = 'Jaune soutenu';
+    case PALE_YELLOW = 'jaune pâle';
+    case GOLDEN = 'doré';
+    case BRILLANT_WHITE = 'blanc brillant';
+    case ROSE = 'rosé';
+    case DEEP_YELLOW = 'jaune soutenu';
 }

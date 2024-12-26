@@ -171,10 +171,7 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
-## Todog
-- [ ] Expose endpoint to get all value for enum (limpidite, brillance, intensite, couleur, larmes)
-  - [ ] All data should be translated
-
+## Todo
 - [ ] Update eye
 
 - [ ] Imagine read model for participation

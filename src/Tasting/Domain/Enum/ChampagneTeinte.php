@@ -6,8 +6,8 @@ namespace App\Tasting\Domain\Enum;
 
 enum ChampagneTeinte: string
 {
-    case PALE_YELLOW = 'Jaune pâle';
-    case GOLDEN = 'Doré';
-    case ROSE_GOLD = 'Or rose';
-    case INTENSE_YELLOW = 'Jaune intense';
+    case PALE_YELLOW = 'jaune pâle';
+    case GOLDEN = 'doré';
+    case ROSE_GOLD = 'or rose';
+    case INTENSE_YELLOW = 'jaune intense';
 }
