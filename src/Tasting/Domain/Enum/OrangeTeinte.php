@@ -6,8 +6,8 @@ namespace App\Tasting\Domain\Enum;
 
 enum OrangeTeinte: string
 {
-    case JAUNE_DORE = 'Jaune doré';
-    case AMBRE = 'Ambre';
-    case CUIVRE = 'Cuivré';
-    case INTENSE_ORANGE = 'Orange intense';
+    case JAUNE_DORE = 'jaune doré';
+    case AMBRE = 'ambre';
+    case CUIVRE = 'cuivré';
+    case INTENSE_ORANGE = 'orange intense';
 }
