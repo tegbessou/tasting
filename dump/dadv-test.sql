@@ -46,9 +46,12 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20241217142038','2024-12-21 17:26:48',11),
-('DoctrineMigrations\\Version20241220165416','2024-12-21 17:26:48',2),
-('DoctrineMigrations\\Version20241221170800','2024-12-21 17:26:48',7);
+('DoctrineMigrations\\Version20241217142038','2024-12-24 21:31:23',6),
+('DoctrineMigrations\\Version20241220165416','2024-12-24 21:31:23',1),
+('DoctrineMigrations\\Version20241221170800','2024-12-24 21:31:23',4),
+('DoctrineMigrations\\Version20241224111359','2024-12-24 21:31:23',8),
+('DoctrineMigrations\\Version20241224145300','2024-12-24 21:31:23',2),
+('DoctrineMigrations\\Version20241224213050','2024-12-24 21:31:23',2);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,17 +64,16 @@ DROP TABLE IF EXISTS `eye`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eye` (
   `id` binary(16) NOT NULL,
-  `participant` varchar(255) NOT NULL,
   `limpidite` varchar(255) NOT NULL,
   `brillance` varchar(255) NOT NULL,
   `intensite_couleur` varchar(255) NOT NULL,
   `teinte` varchar(255) NOT NULL,
   `larme` varchar(255) NOT NULL,
   `observation` longtext NOT NULL,
-  `tasting_id` binary(16) DEFAULT NULL,
+  `sheet_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_727887B15BC0FE1E` (`tasting_id`),
-  CONSTRAINT `FK_727887B15BC0FE1E` FOREIGN KEY (`tasting_id`) REFERENCES `tasting` (`id`)
+  UNIQUE KEY `UNIQ_727887B18B1206A5` (`sheet_id`),
+  CONSTRAINT `FK_727887B18B1206A5` FOREIGN KEY (`sheet_id`) REFERENCES `sheet` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -113,8 +115,35 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-21 17:26:49',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
+('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-24 21:31:23',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sheet`
+--
+
+DROP TABLE IF EXISTS `sheet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sheet` (
+  `id` binary(16) NOT NULL,
+  `tasting_id` binary(16) NOT NULL,
+  `participant` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sheet`
+--
+
+LOCK TABLES `sheet` WRITE;
+/*!40000 ALTER TABLE `sheet` DISABLE KEYS */;
+INSERT INTO `sheet` VALUES
+('\Zž¢Þ»A«j‹W\Ò\æS”','.¥l5‹¹LnšI½y\Å\ñ7','hugues.gobet@gmail.com'),
+('Sý¹Ÿ³yM(¡\ÈT\ðz|4','–J<¸_½Fx¥\Í\ãqÀž§\"','hugues.gobet@gmail.com');
+/*!40000 ALTER TABLE `sheet` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -155,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-21 17:26:49
+-- Dump completed on 2024-12-24 21:31:24

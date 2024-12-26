@@ -11,6 +11,7 @@ use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
+use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
 use Shared\ApiTestCase;
 use Shared\RefreshDatabase;
@@ -77,8 +78,10 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(204);
 
         $this->transport('tasting')->queue()->assertContains(InvitationAcceptedMessage::class, 1);
+        $this->transport('tasting')->queue()->assertContains(CreateSheetWhenInvitationIsAcceptedMessage::class, 1);
         $this->transport('tasting')->process();
         $this->transport('tasting')->queue()->assertContains(InvitationAcceptedMessage::class, 0);
+        $this->transport('tasting')->queue()->assertContains(CreateSheetWhenInvitationIsAcceptedMessage::class, 0);
 
         $tasting = $this->tastingDoctrineRepository->ofId(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),

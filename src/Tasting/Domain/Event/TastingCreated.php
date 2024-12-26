@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tasting\Domain\Event;
 
+use TegCorp\SharedKernelBundle\Domain\Event\DomainEvent;
 use TegCorp\SharedKernelBundle\Domain\Event\DomainEventInterface;
 
-final readonly class TastingCreated implements DomainEventInterface
+final class TastingCreated extends DomainEvent implements DomainEventInterface
 {
     public function __construct(
         public string $tastingId,
@@ -16,5 +17,6 @@ final readonly class TastingCreated implements DomainEventInterface
         /** @var string[] $participants */
         public array $participants,
     ) {
+        parent::__construct();
     }
 }

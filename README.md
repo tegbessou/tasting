@@ -171,11 +171,11 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
-## Todo
-- [ ] Separate participation from dégustation to have a better separation of concern
-
-- [ ] Imagine read model for participation
+## Todog
+- [ ] Expose endpoint to get all value for enum (limpidite, brillance, intensite, couleur, larmes)
+  - [ ] All data should be translated
 
 - [ ] Update eye
 
-- [ ] Expose endpoint to get all value for enum (limpidite, brillance, intensite, couleur, larmes)
+- [ ] Imagine read model for participation
+  - [ ] It's necessary to get a participation by tasting and show all information about the participation

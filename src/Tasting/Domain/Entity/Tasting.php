@@ -16,22 +16,12 @@ use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedExceptio
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
 use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Service\GetInvitationLink;
-use App\Tasting\Domain\Specification\EyeCanBeAdd;
 use App\Tasting\Domain\Specification\ParticipantCanBeInvite;
 use App\Tasting\Domain\ValueObject\Bottle;
-use App\Tasting\Domain\ValueObject\EyeBrillance;
-use App\Tasting\Domain\ValueObject\EyeId;
-use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
-use App\Tasting\Domain\ValueObject\EyeLarme;
-use App\Tasting\Domain\ValueObject\EyeLimpidite;
-use App\Tasting\Domain\ValueObject\EyeObservation;
-use App\Tasting\Domain\ValueObject\EyeParticipant;
-use App\Tasting\Domain\ValueObject\EyeTeinte;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\ParticipantId;
-use App\Tasting\Domain\ValueObject\TastingEyes;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingInvitations;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
@@ -49,7 +39,6 @@ final class Tasting implements EntityWithDomainEventInterface
         private TastingParticipants $participants,
         private readonly TastingOwnerId $ownerId,
         private TastingInvitations $invitations,
-        private TastingEyes $eyes,
     ) {
     }
 
@@ -64,7 +53,6 @@ final class Tasting implements EntityWithDomainEventInterface
             TastingParticipants::fromOwner($ownerId),
             $ownerId,
             TastingInvitations::empty(),
-            TastingEyes::empty(),
         );
 
         self::recordEvent(
@@ -140,6 +128,7 @@ final class Tasting implements EntityWithDomainEventInterface
             new InvitationAccepted(
                 $this->id->value(),
                 $invitation->id()->value(),
+                $invitation->target()->value(),
             ),
         );
 
@@ -184,33 +173,6 @@ final class Tasting implements EntityWithDomainEventInterface
         );
     }
 
-    public function addEye(
-        EyeId $id,
-        EyeParticipant $participant,
-        EyeLimpidite $limpidite,
-        EyeBrillance $brillance,
-        EyeIntensiteCouleur $intensiteCouleur,
-        EyeTeinte $teinte,
-        EyeLarme $larme,
-        EyeObservation $observation,
-    ): void {
-        $eye = new Eye(
-            $id,
-            $participant,
-            $limpidite,
-            $brillance,
-            $intensiteCouleur,
-            $teinte,
-            $larme,
-            $observation,
-        );
-
-        $specification = new EyeCanBeAdd($this);
-        $specification->satisfiedBy($eye);
-
-        $this->eyes = $this->eyes->add($eye);
-    }
-
     public function participantAlreadyInvited(string $participantId): bool
     {
         return $this->invitations->isAlreadyInvited(
@@ -241,10 +203,5 @@ final class Tasting implements EntityWithDomainEventInterface
     public function invitations(): TastingInvitations
     {
         return $this->invitations;
-    }
-
-    public function eyes(): TastingEyes
-    {
-        return $this->eyes;
     }
 }

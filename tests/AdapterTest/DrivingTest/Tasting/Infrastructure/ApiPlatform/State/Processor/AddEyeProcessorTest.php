@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Processor;
 
-use App\Tasting\Domain\Repository\TastingRepositoryInterface;
-use App\Tasting\Domain\ValueObject\TastingId;
+use App\Tasting\Domain\Repository\SheetRepositoryInterface;
+use App\Tasting\Domain\ValueObject\SheetId;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Shared\ApiTestCase;
 use Shared\RefreshDatabase;
@@ -14,19 +14,19 @@ final class AddEyeProcessorTest extends ApiTestCase
 {
     use RefreshDatabase;
 
-    private TastingRepositoryInterface $tastingDoctrineRepository;
+    private SheetRepositoryInterface $sheetDoctrineRepository;
 
     protected function setUp(): void
     {
         self::bootKernel();
 
         $container = self::getContainer();
-        $this->tastingDoctrineRepository = $container->get(TastingRepositoryInterface::class);
+        $this->sheetDoctrineRepository = $container->get(SheetRepositoryInterface::class);
     }
 
     public function testAddEye(): void
     {
-        $this->post('/api/tastings/2ea56c35-8bb9-4c6e-9a49-bd79c5f11537/eyes', [
+        $this->post('/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes', [
             'participant' => 'hugues.gobet@gmail.com',
             'limpidite' => 'floue',
             'brillance' => 'étincelante',
@@ -38,11 +38,11 @@ final class AddEyeProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(204);
 
-        $tasting = $this->tastingDoctrineRepository->ofId(
-            TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+        $sheet = $this->sheetDoctrineRepository->ofId(
+            SheetId::fromString('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394'),
         );
 
-        $this->assertCount(1, $tasting->eyes()->values());
+        $this->assertNotNull($sheet->eye());
     }
 
     #[DataProvider('provideInvalidData')]
@@ -66,7 +66,7 @@ final class AddEyeProcessorTest extends ApiTestCase
 
     public static function provideInvalidData(): \Generator
     {
-        yield 'Not found tasting' => [
+        yield 'Not found sheet' => [
             'uri' => '/api/tastings/14403f0a-f593-4122-8786-80153f130039/eyes',
             'payload' => [
                 'participant' => 'hugues.gobet@gmail.com',
@@ -82,7 +82,7 @@ final class AddEyeProcessorTest extends ApiTestCase
         ];
 
         yield 'Empty data' => [
-            'uri' => '/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/eyes',
+            'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes',
             'payload' => [],
             'statusCode' => 422,
             'violations' => [
@@ -118,7 +118,7 @@ final class AddEyeProcessorTest extends ApiTestCase
         ];
 
         yield 'Bad data from participant, limpidite, brillance, intensiteCouleur, larme' => [
-            'uri' => '/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/eyes',
+            'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes',
             'payload' => [
                 'participant' => 'not_valid',
                 'limpidite' => 'pedro',
@@ -153,28 +153,8 @@ final class AddEyeProcessorTest extends ApiTestCase
             ],
         ];
 
-        yield 'Bad data participant not invited' => [
-            'uri' => '/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/eyes',
-            'payload' => [
-                'participant' => 'not_invited@gmail.com',
-                'limpidite' => 'floue',
-                'brillance' => 'étincelante',
-                'intensiteCouleur' => 'soutenue',
-                'teinte' => 'pourpre',
-                'larme' => 'épaisse',
-                'observation' => 'Observation',
-            ],
-            'statusCode' => 422,
-            'violations' => [
-                [
-                    'propertyPath' => 'participant',
-                    'message' => 'Le participant not_invited@gmail.com n\'est pas invité.',
-                ],
-            ],
-        ];
-
         yield 'Bad data for teinte, linked to bad wine type' => [
-            'uri' => '/api/tastings/964a3cb8-5fbd-4678-a5cd-e371c09ea722/eyes',
+            'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes',
             'payload' => [
                 'participant' => 'hugues.gobet@gmail.com',
                 'limpidite' => 'floue',
@@ -192,44 +172,5 @@ final class AddEyeProcessorTest extends ApiTestCase
                 ],
             ],
         ];
-    }
-
-    // tester en dehors le déjà ajouté
-    public function testAddEyeAlreadyInvited(): void
-    {
-        $this->post('/api/tastings/2ea56c35-8bb9-4c6e-9a49-bd79c5f11537/eyes', [
-            'participant' => 'hugues.gobet@gmail.com',
-            'limpidite' => 'floue',
-            'brillance' => 'étincelante',
-            'intensiteCouleur' => 'soutenue',
-            'teinte' => 'pourpre',
-            'larme' => 'épaisse',
-            'observation' => 'Observation',
-        ]);
-
-        $this->assertResponseStatusCodeSame(204);
-
-        $this->post('/api/tastings/2ea56c35-8bb9-4c6e-9a49-bd79c5f11537/eyes', [
-            'participant' => 'hugues.gobet@gmail.com',
-            'limpidite' => 'floue',
-            'brillance' => 'étincelante',
-            'intensiteCouleur' => 'soutenue',
-            'teinte' => 'pourpre',
-            'larme' => 'épaisse',
-            'observation' => 'Observation',
-        ]);
-
-        $this->assertResponseStatusCodeSame(422);
-
-        $this->assertJsonContains([
-            '@type' => 'ConstraintViolationList',
-            'title' => 'An error occurred',
-            'violations' => [
-                [
-                    'propertyPath' => 'participant',
-                    'message' => 'Le participant hugues.gobet@gmail.com a déjà ajouté son oeil à la dégustation 2ea56c35-8bb9-4c6e-9a49-bd79c5f11537.',
-                ],
-            ],
-        ]);
     }
 }

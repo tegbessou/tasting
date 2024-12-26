@@ -8,10 +8,10 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\AddEyeCommand;
+use App\Tasting\Application\Exception\SheetDoesntExistException;
 use App\Tasting\Domain\Exception\EyeParticipantAlreadyAddEyeException;
 use App\Tasting\Domain\Exception\EyeParticipantNotInvitedException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
-use App\Tasting\Domain\Exception\TastingDoesntExistException;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\PostTastingEyeResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeParticipantAlreadyAddEyeConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeParticipantNotInvitedConstraintViolation;
@@ -60,11 +60,11 @@ final readonly class AddEyeProcessor implements ProcessorInterface
                     $data->observation,
                 ),
             );
-        } catch (TastingDoesntExistException $exception) {
+        } catch (SheetDoesntExistException $exception) {
             $this->logger->error(
-                'Add eye: Tasting doesn\'t exist',
+                'Add eye: Sheet doesn\'t exist',
                 [
-                    'tastingId' => $exception->tastingId,
+                    'sheetId' => $exception->sheetId,
                 ],
             );
 

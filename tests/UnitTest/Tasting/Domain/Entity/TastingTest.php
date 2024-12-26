@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace UnitTest\Tasting\Domain\Entity;
 
-use App\Tasting\Domain\Entity\Eye;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Enum\Brillance;
-use App\Tasting\Domain\Enum\IntensiteCouleur;
-use App\Tasting\Domain\Enum\Larme;
-use App\Tasting\Domain\Enum\Limpidite;
-use App\Tasting\Domain\Enum\RedTeinte;
 use App\Tasting\Domain\Event\InvitationAccepted;
 use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\InvitationSent;
@@ -25,14 +19,6 @@ use App\Tasting\Domain\Exception\OwnerCannotBeInvitedToTastingException;
 use App\Tasting\Domain\Exception\ParticipantAlreadyInvitedException;
 use App\Tasting\Domain\Exception\ParticipantsAlreadyParticipatingException;
 use App\Tasting\Domain\ValueObject\Bottle;
-use App\Tasting\Domain\ValueObject\EyeBrillance;
-use App\Tasting\Domain\ValueObject\EyeId;
-use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
-use App\Tasting\Domain\ValueObject\EyeLarme;
-use App\Tasting\Domain\ValueObject\EyeLimpidite;
-use App\Tasting\Domain\ValueObject\EyeObservation;
-use App\Tasting\Domain\ValueObject\EyeParticipant;
-use App\Tasting\Domain\ValueObject\EyeTeinte;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationStatus;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
@@ -348,6 +334,9 @@ final class TastingTest extends TestCase
         $tasting->acceptInvitation($invitation);
 
         $this->assertInstanceOf(InvitationAccepted::class, $tasting::getRecordedEvent()[0]);
+        $this->assertEquals('ee4fd98c-4427-42c1-bb70-08f6d92377c9', $tasting::getRecordedEvent()[0]->tastingId);
+        $this->assertEquals('aaa29ab4-e46f-4243-8b7c-20988f2fa25b', $tasting::getRecordedEvent()[0]->invitationId);
+        $this->assertEquals('root@gmail.com', $tasting::getRecordedEvent()[0]->participant);
         $tasting::eraseRecordedEvents();
     }
 
@@ -627,47 +616,5 @@ final class TastingTest extends TestCase
         );
 
         $tasting::eraseRecordedEvents();
-    }
-
-    public function testTasteAddEye(): void
-    {
-        $tasting = Tasting::create(
-            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
-            Bottle::create(
-                'Château Margaux 2015',
-                'red',
-            ),
-            TastingOwnerId::fromString('hugues.gobet@gmail.com'),
-        );
-
-        $tasting::eraseRecordedEvents();
-
-        $tasting->invite(
-            InvitationId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
-            InvitationTarget::fromString('root@gmail.com'),
-        );
-
-        $tasting->addEye(
-            EyeId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
-            EyeParticipant::fromString('hugues.gobet@gmail.com'),
-            EyeLimpidite::fromString(Limpidite::FLOUE->value),
-            EyeBrillance::fromString(Brillance::BRILLANTE->value),
-            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
-            EyeTeinte::fromString(RedTeinte::AMBRE->value),
-            EyeLarme::fromString(Larme::EPAISSE->value),
-            EyeObservation::fromString('Observation'),
-        );
-
-        $this->assertCount(1, $tasting->eyes()->values());
-        /** @var Eye $eye */
-        $eye = $tasting->eyes()->values()[0];
-        $this->assertEquals('aaa29ab4-e46f-4243-8b7c-20988f2fa25b', $eye->id()->value());
-        $this->assertEquals('hugues.gobet@gmail.com', $eye->participant()->value());
-        $this->assertEquals(Limpidite::FLOUE->value, $eye->limpidite()->value());
-        $this->assertEquals(Brillance::BRILLANTE->value, $eye->brillance()->value());
-        $this->assertEquals(IntensiteCouleur::CLAIRE->value, $eye->intensiteCouleur()->value());
-        $this->assertEquals(RedTeinte::AMBRE->value, $eye->teinte()->value());
-        $this->assertEquals(Larme::EPAISSE->value, $eye->larme()->value());
-        $this->assertEquals('Observation', $eye->observation()->value());
     }
 }

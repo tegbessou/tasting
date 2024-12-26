@@ -17,11 +17,9 @@ class Eye
         #[ORM\Id]
         #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
         public string $id,
-        #[ORM\ManyToOne(targetEntity: Tasting::class, inversedBy: 'eyes')]
-        #[ORM\JoinColumn(name: 'tasting_id', referencedColumnName: 'id')]
-        public ?Tasting $tasting,
-        #[ORM\Column(name: 'participant', type: 'string')]
-        public string $participant,
+        #[ORM\OneToOne(targetEntity: Sheet::class, inversedBy: 'eye')]
+        #[ORM\JoinColumn(name: 'sheet_id', referencedColumnName: 'id')]
+        public ?Sheet $sheet,
         #[ORM\Column(name: 'limpidite', type: 'string', enumType: Limpidite::class)]
         public Limpidite $limpidite,
         #[ORM\Column(name: 'brillance', type: 'string', enumType: Brillance::class)]
