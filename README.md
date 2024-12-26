@@ -171,22 +171,11 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
 
-## Todo
-- [X] Separate sheet from tasting to have a better separation of concern
-  - [X] Sheet should be created when the owner create a tasting
-  - [X] Sheet should be created when a user accept invitation to tasting
-  - [X] Dispatch event when sheet is created
-  - [X] When we add an eye, we should provide wine type to specification to validate it
-  - [X] Do the mapper for sheet, and move all test for eye from tasting to sheet
-  - [X] Dispatch event when eye is added
-
-- [ ] Do schéma of flux of all microservices
-  - Example I have a request like POST /bottles/{bottleId}/taste and I want to know what is the output for other microservices
-
-- [ ] Imagine read model for participation
-  - [ ] It's necessary to get a participation by tasting and show all information about the participation
-
+## Todog
 - [ ] Expose endpoint to get all value for enum (limpidite, brillance, intensite, couleur, larmes)
   - [ ] All data should be translated
 
 - [ ] Update eye
+
+- [ ] Imagine read model for participation
+  - [ ] It's necessary to get a participation by tasting and show all information about the participation

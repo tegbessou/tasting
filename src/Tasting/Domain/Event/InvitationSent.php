@@ -13,5 +13,6 @@ final class InvitationSent extends DomainEvent implements DomainEventInterface
         public string $invitationId,
         public \DateTimeImmutable $sentAt,
     ) {
+        parent::__construct();
     }
 }
