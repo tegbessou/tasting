@@ -10,14 +10,12 @@ use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
 use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
-use App\Tasting\Domain\ValueObject\EyeParticipant;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
 
 final readonly class Eye
 {
     public function __construct(
         private EyeId $id,
-        private EyeParticipant $participant,
         private EyeLimpidite $limpidite,
         private EyeBrillance $brillance,
         private EyeIntensiteCouleur $intensiteCouleur,
@@ -29,7 +27,6 @@ final readonly class Eye
 
     public static function create(
         EyeId $id,
-        EyeParticipant $participant,
         EyeLimpidite $limpidite,
         EyeBrillance $brillance,
         EyeIntensiteCouleur $intensiteCouleur,
@@ -39,7 +36,6 @@ final readonly class Eye
     ): self {
         return new self(
             $id,
-            $participant,
             $limpidite,
             $brillance,
             $intensiteCouleur,
@@ -52,11 +48,6 @@ final readonly class Eye
     public function id(): EyeId
     {
         return $this->id;
-    }
-
-    public function participant(): EyeParticipant
-    {
-        return $this->participant;
     }
 
     public function limpidite(): EyeLimpidite

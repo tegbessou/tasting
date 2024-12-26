@@ -48,6 +48,12 @@ services:
   App\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\EventListener\CreateSheetWhenInvitationIsAccepted:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\EventListener\CreateSheetWhenTastingIsCreated:
+    tags: [kernel.event_listener]
+
 when@dev:
   services:
     EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:

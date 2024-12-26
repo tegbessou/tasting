@@ -15,10 +15,10 @@ use App\Tasting\Infrastructure\ApiPlatform\State\Processor\AddEyeProcessor;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
-    shortName: 'Tasting',
+    shortName: 'Sheet',
 )]
 #[Post(
-    uriTemplate: '/tastings/{id}/eyes',
+    uriTemplate: '/sheets/{id}/eyes',
     output: false,
     processor: AddEyeProcessor::class,
 )]

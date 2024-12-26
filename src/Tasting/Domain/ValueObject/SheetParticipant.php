@@ -6,7 +6,7 @@ namespace App\Tasting\Domain\ValueObject;
 
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
-final readonly class EyeParticipant
+final readonly class SheetParticipant
 {
     public string $participant;
 

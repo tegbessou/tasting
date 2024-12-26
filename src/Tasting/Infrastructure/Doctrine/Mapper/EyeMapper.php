@@ -15,10 +15,9 @@ use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
 use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
-use App\Tasting\Domain\ValueObject\EyeParticipant;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
 use App\Tasting\Infrastructure\Doctrine\Entity\Eye as EyeDoctrine;
-use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
+use App\Tasting\Infrastructure\Doctrine\Entity\Sheet as SheetDoctrine;
 
 final readonly class EyeMapper
 {
@@ -26,7 +25,6 @@ final readonly class EyeMapper
     {
         return new Eye(
             EyeId::fromString($eye->id),
-            EyeParticipant::fromString($eye->participant),
             EyeLimpidite::fromString($eye->limpidite->value),
             EyeBrillance::fromString($eye->brillance->value),
             EyeIntensiteCouleur::fromString($eye->intensiteCouleur->value),
@@ -38,12 +36,11 @@ final readonly class EyeMapper
 
     public static function toInfrastructurePersist(
         Eye $eye,
-        TastingDoctrine $tastingDoctrine,
+        SheetDoctrine $sheetDoctrine,
     ): EyeDoctrine {
         return new EyeDoctrine(
             $eye->id()->value(),
-            $tastingDoctrine,
-            $eye->participant()->value(),
+            $sheetDoctrine,
             Limpidite::from($eye->limpidite()->value()),
             Brillance::from($eye->brillance()->value()),
             IntensiteCouleur::from($eye->intensiteCouleur()->value()),

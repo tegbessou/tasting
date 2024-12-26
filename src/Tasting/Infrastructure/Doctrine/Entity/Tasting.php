@@ -27,9 +27,6 @@ class Tasting
         /** @var Collection<int|string, Invitation> $invitations */
         #[ORM\OneToMany(targetEntity: Invitation::class, mappedBy: 'subject', cascade: ['persist', 'remove'], orphanRemoval: true)]
         public Collection $invitations = new ArrayCollection(),
-        /** @var Collection<int|string, Eye> $eyes */
-        #[ORM\OneToMany(targetEntity: Eye::class, mappedBy: 'tasting', cascade: ['persist', 'remove'], orphanRemoval: true)]
-        public Collection $eyes = new ArrayCollection(),
     ) {
     }
 
@@ -48,27 +45,6 @@ class Tasting
         if ($this->invitations->removeElement($invitation)) {
             if ($invitation->subject === $this) {
                 $invitation->subject = null;
-            }
-        }
-
-        return $this;
-    }
-
-    public function addEye(Eye $eye): self
-    {
-        if (!$this->eyes->contains($eye)) {
-            $this->eyes[] = $eye;
-            $eye->tasting = $this;
-        }
-
-        return $this;
-    }
-
-    public function deleteEye(Eye $eye): self
-    {
-        if ($this->eyes->removeElement($eye)) {
-            if ($eye->tasting === $this) {
-                $eye->tasting = null;
             }
         }
 

@@ -4,31 +4,17 @@ declare(strict_types=1);
 
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Mapper;
 
-use App\Tasting\Domain\Entity\Eye;
 use App\Tasting\Domain\Entity\Invitation;
 use App\Tasting\Domain\Entity\Tasting;
-use App\Tasting\Domain\Enum\Brillance;
-use App\Tasting\Domain\Enum\IntensiteCouleur;
-use App\Tasting\Domain\Enum\Larme;
-use App\Tasting\Domain\Enum\Limpidite;
 use App\Tasting\Domain\Enum\TastingInvitationStatus;
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\Service\GetInvitationLink;
 use App\Tasting\Domain\ValueObject\Bottle;
-use App\Tasting\Domain\ValueObject\EyeBrillance;
-use App\Tasting\Domain\ValueObject\EyeId;
-use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
-use App\Tasting\Domain\ValueObject\EyeLarme;
-use App\Tasting\Domain\ValueObject\EyeLimpidite;
-use App\Tasting\Domain\ValueObject\EyeObservation;
-use App\Tasting\Domain\ValueObject\EyeParticipant;
-use App\Tasting\Domain\ValueObject\EyeTeinte;
 use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
-use App\Tasting\Infrastructure\Doctrine\Entity\Eye as EyeDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Invitation as InvitationDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Tasting as TastingDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\TastingMapper;
@@ -73,20 +59,7 @@ final class TastingMapperTest extends KernelTestCase
             new \DateTimeImmutable(),
         );
 
-        $eyeDoctrine = new EyeDoctrine(
-            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
-            $tastingDoctrine,
-            'hugues.gobet@gmail.com',
-            Limpidite::FLOUE,
-            Brillance::BRILLANTE,
-            IntensiteCouleur::CLAIRE,
-            'pourpre',
-            Larme::EPAISSE,
-            'Observation',
-        );
-
         $tastingDoctrine->addInvitation($invitationDoctrine);
-        $tastingDoctrine->addEye($eyeDoctrine);
 
         $tasting = TastingMapper::toDomain($tastingDoctrine);
 
@@ -102,17 +75,6 @@ final class TastingMapperTest extends KernelTestCase
         $expected->invite(
             InvitationId::fromString('ea1341e5-f13b-4ee6-9597-383327c0fc57'),
             InvitationTarget::fromString('root@gmail.com'),
-        );
-
-        $expected->addEye(
-            EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
-            EyeParticipant::fromString('hugues.gobet@gmail.com'),
-            EyeLimpidite::fromString(Limpidite::FLOUE->value),
-            EyeBrillance::fromString(Brillance::BRILLANTE->value),
-            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
-            EyeTeinte::fromString('pourpre'),
-            EyeLarme::fromString(Larme::EPAISSE->value),
-            EyeObservation::fromString('Observation'),
         );
 
         $expected::eraseRecordedEvents();
@@ -151,45 +113,6 @@ final class TastingMapperTest extends KernelTestCase
         $this->assertEquals(
             $expectedInvitation->status(),
             $invitation->status(),
-        );
-
-        /** @var Eye $expectedEye */
-        $expectedEye = $expected->eyes()->values()[0];
-
-        /** @var Eye $eye */
-        $eye = $tasting->eyes()->values()[0];
-
-        $this->assertEquals(
-            $expectedEye->id(),
-            $eye->id(),
-        );
-        $this->assertEquals(
-            $expectedEye->participant(),
-            $eye->participant(),
-        );
-        $this->assertEquals(
-            $expectedEye->limpidite(),
-            $eye->limpidite(),
-        );
-        $this->assertEquals(
-            $expectedEye->brillance(),
-            $eye->brillance(),
-        );
-        $this->assertEquals(
-            $expectedEye->intensiteCouleur(),
-            $eye->intensiteCouleur(),
-        );
-        $this->assertEquals(
-            $expectedEye->teinte(),
-            $eye->teinte(),
-        );
-        $this->assertEquals(
-            $expectedEye->larme(),
-            $eye->larme(),
-        );
-        $this->assertEquals(
-            $expectedEye->observation(),
-            $eye->observation(),
         );
     }
 
@@ -242,10 +165,6 @@ final class TastingMapperTest extends KernelTestCase
             $expected->invitations,
             $tasting->invitations,
         );
-        $this->assertEquals(
-            $expected->eyes,
-            $tasting->eyes,
-        );
     }
 
     public function testToInfrastructureUpdateNewRelations(): void
@@ -264,17 +183,6 @@ final class TastingMapperTest extends KernelTestCase
         $tasting->invite(
             InvitationId::fromString('ea1341e5-f13b-4ee6-9597-383327c0fc57'),
             InvitationTarget::fromString('root@gmail.com'),
-        );
-
-        $tasting->addEye(
-            EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
-            EyeParticipant::fromString('hugues.gobet@gmail.com'),
-            EyeLimpidite::fromString(Limpidite::FLOUE->value),
-            EyeBrillance::fromString(Brillance::BRILLANTE->value),
-            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
-            EyeTeinte::fromString('pourpre'),
-            EyeLarme::fromString(Larme::EPAISSE->value),
-            EyeObservation::fromString('Observation'),
         );
 
         $tasting::eraseRecordedEvents();
@@ -305,20 +213,6 @@ final class TastingMapperTest extends KernelTestCase
         );
 
         $expected->addInvitation($expectedInvitation);
-
-        $expectedEye = new EyeDoctrine(
-            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
-            $expected,
-            'hugues.gobet@gmail.com',
-            Limpidite::FLOUE,
-            Brillance::BRILLANTE,
-            IntensiteCouleur::CLAIRE,
-            'pourpre',
-            Larme::EPAISSE,
-            'Observation',
-        );
-
-        $expected->addEye($expectedEye);
 
         $this->assertEquals(
             $expected->id,
@@ -358,42 +252,6 @@ final class TastingMapperTest extends KernelTestCase
         $this->assertEquals(
             $expectedInvitation->sentAt,
             $invitation->sentAt,
-        );
-
-        /** @var EyeDoctrine $eye */
-        $eye = $tastingDoctrine->eyes->first();
-
-        $this->assertEquals(
-            $expectedEye->id,
-            $eye->id,
-        );
-        $this->assertEquals(
-            $expectedEye->participant,
-            $eye->participant,
-        );
-        $this->assertEquals(
-            $expectedEye->limpidite,
-            $eye->limpidite,
-        );
-        $this->assertEquals(
-            $expectedEye->brillance,
-            $eye->brillance,
-        );
-        $this->assertEquals(
-            $expectedEye->intensiteCouleur,
-            $eye->intensiteCouleur,
-        );
-        $this->assertEquals(
-            $expectedEye->teinte,
-            $eye->teinte,
-        );
-        $this->assertEquals(
-            $expectedEye->larme,
-            $eye->larme,
-        );
-        $this->assertEquals(
-            $expectedEye->observation,
-            $eye->observation,
         );
     }
 

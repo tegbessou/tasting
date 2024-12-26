@@ -26,6 +26,8 @@ framework:
         routing:
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage': tasting
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface': tasting
+            'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage': tasting
+            'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenTastingIsCreatedMessage': tasting
 
 when@test:
     framework:

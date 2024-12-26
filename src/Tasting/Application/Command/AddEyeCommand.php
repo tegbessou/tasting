@@ -12,7 +12,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandInterface;
 final readonly class AddEyeCommand implements CommandInterface
 {
     public function __construct(
-        public string $tastingId,
+        public string $sheetId,
         public string $participant,
         public string $limpidite,
         public string $brillance,
