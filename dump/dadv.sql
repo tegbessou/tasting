@@ -46,12 +46,12 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20241217142038','2024-12-24 21:31:17',6),
-('DoctrineMigrations\\Version20241220165416','2024-12-24 21:31:17',1),
-('DoctrineMigrations\\Version20241221170800','2024-12-24 21:31:17',3),
-('DoctrineMigrations\\Version20241224111359','2024-12-24 21:31:17',9),
-('DoctrineMigrations\\Version20241224145300','2024-12-24 21:31:17',2),
-('DoctrineMigrations\\Version20241224213050','2024-12-24 21:31:17',2);
+('DoctrineMigrations\\Version20241217142038','2024-12-27 15:30:03',6),
+('DoctrineMigrations\\Version20241220165416','2024-12-27 15:30:03',1),
+('DoctrineMigrations\\Version20241221170800','2024-12-27 15:30:03',3),
+('DoctrineMigrations\\Version20241224111359','2024-12-27 15:30:03',10),
+('DoctrineMigrations\\Version20241224145300','2024-12-27 15:30:03',2),
+('DoctrineMigrations\\Version20241224213050','2024-12-27 15:30:03',2);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-24 21:31:18',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
+('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-27 15:30:04',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-24 21:31:18
+-- Dump completed on 2024-12-27 15:30:04
