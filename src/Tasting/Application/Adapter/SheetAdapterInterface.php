@@ -19,4 +19,6 @@ interface SheetAdapterInterface extends RepositoryInterface
     public function withTasting(string $tastingId): SheetAdapterInterface;
 
     public function withParticipant(string $participantId): SheetAdapterInterface;
+
+    public function update(Sheet $sheet): void;
 }

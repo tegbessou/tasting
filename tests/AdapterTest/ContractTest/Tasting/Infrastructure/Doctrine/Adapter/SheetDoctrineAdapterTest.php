@@ -76,4 +76,19 @@ final class SheetDoctrineAdapterTest extends KernelTestCase
             $this->assertStringContainsString('hugues.gobet@gmail.com', $sheet->participantId);
         }
     }
+
+    public function testUpdate(): void
+    {
+        $sheet = $this->sheetAdapter->ofId('53fdb99f-b379-4d28-a1c8-541df07a7c34');
+
+        $this->assertNull($sheet->eyeObservation);
+
+        $sheet->eyeObservation = 'Observation';
+
+        $this->sheetAdapter->update($sheet);
+
+        $sheet = $this->sheetAdapter->ofId('53fdb99f-b379-4d28-a1c8-541df07a7c34');
+
+        $this->assertNotNull($sheet->eyeObservation);
+    }
 }

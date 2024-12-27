@@ -51,4 +51,10 @@ final class SheetDoctrineAdapter extends DoctrineRepository implements SheetAdap
             $qb->field('participantId')->equals($participantId);
         });
     }
+
+    #[\Override]
+    public function update(Sheet $sheet): void
+    {
+        $this->documentManager->flush();
+    }
 }

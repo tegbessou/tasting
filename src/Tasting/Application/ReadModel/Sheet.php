@@ -18,5 +18,17 @@ class Sheet
         public string $participantId,
         #[MongoDB\Field(type: 'string')]
         public string $participantFullName,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $eyeLimpidite = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $eyeBrillance = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $eyeIntensiteCouleur = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $eyeTeinte = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $eyeLarme = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $eyeObservation = null,
     ) {}
 }

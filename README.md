@@ -173,7 +173,3 @@ Setup phparkitect pour les règles de nommages
 
 ## Todo
 - [ ] Update eye
-
-- [ ] Imagine read model for sheet
-  - [ ] It's necessary to get a sheet by tasting and show all information about the sheet
-  - [ ] Expose an endpoint to get sheet collection with filter tasting and participantId
