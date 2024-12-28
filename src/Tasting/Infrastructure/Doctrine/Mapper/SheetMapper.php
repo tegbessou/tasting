@@ -36,9 +36,7 @@ final readonly class SheetMapper
         $sheetDoctrine->tastingId = $sheet->tastingId()->value();
         $sheetDoctrine->participant = $sheet->participant()->value();
 
-        if ($sheetDoctrine->eye === null) {
-            self::synchronizeEye($sheet, $sheetDoctrine);
-        }
+        self::synchronizeEye($sheet, $sheetDoctrine);
 
         return $sheetDoctrine;
     }

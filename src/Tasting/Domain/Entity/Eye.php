@@ -12,10 +12,10 @@ use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
 
-final readonly class Eye
+final class Eye
 {
     public function __construct(
-        private EyeId $id,
+        private readonly EyeId $id,
         private EyeLimpidite $limpidite,
         private EyeBrillance $brillance,
         private EyeIntensiteCouleur $intensiteCouleur,
@@ -43,6 +43,22 @@ final readonly class Eye
             $larme,
             $observation,
         );
+    }
+
+    public function update(
+        EyeLimpidite $limpidite,
+        EyeBrillance $brillance,
+        EyeIntensiteCouleur $intensiteCouleur,
+        EyeTeinte $teinte,
+        EyeLarme $larme,
+        EyeObservation $observation,
+    ): void {
+        $this->limpidite = $limpidite;
+        $this->brillance = $brillance;
+        $this->intensiteCouleur = $intensiteCouleur;
+        $this->teinte = $teinte;
+        $this->larme = $larme;
+        $this->observation = $observation;
     }
 
     public function id(): EyeId

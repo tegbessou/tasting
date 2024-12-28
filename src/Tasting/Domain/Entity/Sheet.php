@@ -6,8 +6,10 @@ namespace App\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Event\EyeAdded;
+use App\Tasting\Domain\Event\EyeUpdated;
 use App\Tasting\Domain\Event\SheetCreated;
 use App\Tasting\Domain\Specification\EyeCanBeAdd;
+use App\Tasting\Domain\Specification\EyeCanBeUpdate;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
 use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
@@ -82,6 +84,40 @@ final class Sheet implements EntityWithDomainEventInterface
 
         self::recordEvent(
             new EyeAdded(
+                $this->id->value(),
+                $limpidite->value(),
+                $brillance->value(),
+                $intensiteCouleur->value(),
+                $teinte->value(),
+                $larme->value(),
+                $observation->value(),
+            ),
+        );
+    }
+
+    public function updateEye(
+        EyeLimpidite $limpidite,
+        EyeBrillance $brillance,
+        EyeIntensiteCouleur $intensiteCouleur,
+        EyeTeinte $teinte,
+        EyeLarme $larme,
+        EyeObservation $observation,
+        WineType $wineType,
+    ): void {
+        $specification = new EyeCanBeUpdate();
+        $specification->satisfiedBy($teinte, $wineType);
+
+        $this->eye()->update(
+            $limpidite,
+            $brillance,
+            $intensiteCouleur,
+            $teinte,
+            $larme,
+            $observation,
+        );
+
+        self::recordEvent(
+            new EyeUpdated(
                 $this->id->value(),
                 $limpidite->value(),
                 $brillance->value(),

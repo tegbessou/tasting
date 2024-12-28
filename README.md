@@ -173,3 +173,4 @@ Setup phparkitect pour les règles de nommages
 
 ## Todo
 - [ ] Update eye
+  - [ ] Update read model
