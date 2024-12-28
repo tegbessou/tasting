@@ -27,6 +27,12 @@ final class SheetFixtures extends Fixture
             '964a3cb8-5fbd-4678-a5cd-e371c09ea722',
             'hugues.gobet@gmail.com',
             'Pedor',
+            'opalescente',
+            'lumineuse',
+            'intense',
+            'ambre',
+            'fluide',
+            'Observation',
         );
 
         foreach ($sheets as $sheet) {

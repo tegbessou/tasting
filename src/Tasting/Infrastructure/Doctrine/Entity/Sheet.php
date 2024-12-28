@@ -17,7 +17,7 @@ class Sheet
         public string $tastingId,
         #[ORM\Column(name: 'participant', type: 'string')]
         public string $participant,
-        #[ORM\OneToOne(targetEntity: Eye::class, mappedBy: 'sheet', cascade: ['persist', 'remove'])]
+        #[ORM\OneToOne(targetEntity: Eye::class, mappedBy: 'sheet', cascade: ['persist', 'remove'], fetch: 'EAGER')]
         public ?Eye $eye = null,
     ) {
     }

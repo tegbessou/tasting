@@ -7,10 +7,10 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Processor;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
-use App\Tasting\Application\Command\AddEyeCommand;
+use App\Tasting\Application\Command\UpdateEyeCommand;
 use App\Tasting\Application\Exception\SheetDoesntExistException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\PostTastingEyeResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\PutTastingEyeResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeTeinteIsNotForThisWineTypeConstraintViolation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,9 +18,9 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<PostTastingEyeResource, void>
+ * @implements ProcessorInterface<PutTastingEyeResource, void>
  */
-final readonly class AddEyeProcessor implements ProcessorInterface
+final readonly class UpdateEyeProcessor implements ProcessorInterface
 {
     public function __construct(
         private CommandBusInterface $commandBus,
@@ -32,8 +32,7 @@ final readonly class AddEyeProcessor implements ProcessorInterface
     #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        Assert::string($uriVariables['id']);
-        Assert::string($data->participant);
+        Assert::uuid($uriVariables['id']);
         Assert::string($data->limpidite);
         Assert::string($data->brillance);
         Assert::string($data->intensiteCouleur);
@@ -43,9 +42,8 @@ final readonly class AddEyeProcessor implements ProcessorInterface
 
         try {
             $this->commandBus->dispatch(
-                new AddEyeCommand(
+                new UpdateEyeCommand(
                     $uriVariables['id'],
-                    $data->participant,
                     $data->limpidite,
                     $data->brillance,
                     $data->intensiteCouleur,
@@ -65,7 +63,7 @@ final readonly class AddEyeProcessor implements ProcessorInterface
             throw new NotFoundHttpException();
         } catch (EyeTeinteIsNotForThisWineTypeException $exception) {
             $this->logger->error(
-                'Add eye: Teinte is bad for wine type',
+                'Update eye: Teinte is bad for wine type',
                 [
                     'teinte' => $exception->teinte,
                     'wineType' => $exception->wineType,

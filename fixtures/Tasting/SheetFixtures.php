@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace DataFixtures\Tasting;
 
+use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\IntensiteCouleur;
+use App\Tasting\Domain\Enum\Larme;
+use App\Tasting\Domain\Enum\Limpidite;
+use App\Tasting\Infrastructure\Doctrine\Entity\Eye;
 use App\Tasting\Infrastructure\Doctrine\Entity\Sheet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -25,6 +30,19 @@ final class SheetFixtures extends Fixture
             '964a3cb8-5fbd-4678-a5cd-e371c09ea722',
             'hugues.gobet@gmail.com',
         );
+
+        $eye = new Eye(
+            'b8f325e0-e4b5-41e8-9a88-6f7f175046d8',
+            $sheets[1],
+            Limpidite::OPALESCENTE,
+            Brillance::LUMINEUSE,
+            IntensiteCouleur::PALE,
+            'ambre',
+            Larme::FLUIDE,
+            'Observation',
+        );
+
+        $sheets[1]->eye = $eye;
 
         foreach ($sheets as $sheet) {
             $manager->persist($sheet);

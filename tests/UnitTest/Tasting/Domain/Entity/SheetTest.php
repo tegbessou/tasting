@@ -10,6 +10,7 @@ use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
 use App\Tasting\Domain\Enum\RedTeinte;
+use App\Tasting\Domain\Enum\WhiteTeinte;
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Event\EyeAdded;
 use App\Tasting\Domain\Event\SheetCreated;
@@ -191,6 +192,91 @@ final class SheetTest extends TestCase
             EyeTeinte::fromString('moche'),
             EyeLarme::fromString(Larme::EPAISSE->value),
             EyeObservation::fromString('Observation'),
+            WineType::RedWine,
+        );
+    }
+
+    public function testUpdateEye(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addEye(
+            EyeId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString(RedTeinte::AMBRE->value),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+            WineType::RedWine,
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->assertEquals('aaa29ab4-e46f-4243-8b7c-20988f2fa25b', $sheet->eye()->id()->value());
+        $this->assertEquals(Limpidite::FLOUE->value, $sheet->eye()->limpidite()->value());
+        $this->assertEquals(Brillance::BRILLANTE->value, $sheet->eye()->brillance()->value());
+        $this->assertEquals(IntensiteCouleur::CLAIRE->value, $sheet->eye()->intensiteCouleur()->value());
+        $this->assertEquals(RedTeinte::AMBRE->value, $sheet->eye()->teinte()->value());
+        $this->assertEquals(Larme::EPAISSE->value, $sheet->eye()->larme()->value());
+        $this->assertEquals('Observation', $sheet->eye()->observation()->value());
+
+        $sheet->updateEye(
+            EyeLimpidite::fromString(Limpidite::LIMPIDE->value),
+            EyeBrillance::fromString(Brillance::TERNE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::INTENSE->value),
+            EyeTeinte::fromString(RedTeinte::GRENAT->value),
+            EyeLarme::fromString(Larme::FLUIDE->value),
+            EyeObservation::fromString('Observation (modifié)'),
+            WineType::RedWine,
+        );
+
+        $this->assertEquals(Limpidite::LIMPIDE->value, $sheet->eye()->limpidite()->value());
+        $this->assertEquals(Brillance::TERNE->value, $sheet->eye()->brillance()->value());
+        $this->assertEquals(IntensiteCouleur::INTENSE->value, $sheet->eye()->intensiteCouleur()->value());
+        $this->assertEquals(RedTeinte::GRENAT->value, $sheet->eye()->teinte()->value());
+        $this->assertEquals(Larme::FLUIDE->value, $sheet->eye()->larme()->value());
+        $this->assertEquals('Observation (modifié)', $sheet->eye()->observation()->value());
+    }
+
+    public function testUpdateEyeSuccessEventDispatch(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addEye(
+            EyeId::fromString('aaa29ab4-e46f-4243-8b7c-20988f2fa25b'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString(RedTeinte::AMBRE->value),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+            WineType::RedWine,
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(EyeTeinteIsNotForThisWineTypeException::class);
+
+        $sheet->updateEye(
+            EyeLimpidite::fromString(Limpidite::LIMPIDE->value),
+            EyeBrillance::fromString(Brillance::TERNE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::INTENSE->value),
+            EyeTeinte::fromString(WhiteTeinte::ROUX->value),
+            EyeLarme::fromString(Larme::FLUIDE->value),
+            EyeObservation::fromString('Observation (modifié)'),
             WineType::RedWine,
         );
     }

@@ -79,7 +79,7 @@ final class SheetDoctrineAdapterTest extends KernelTestCase
 
     public function testUpdate(): void
     {
-        $sheet = $this->sheetAdapter->ofId('53fdb99f-b379-4d28-a1c8-541df07a7c34');
+        $sheet = $this->sheetAdapter->ofId('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394');
 
         $this->assertNull($sheet->eyeObservation);
 
@@ -87,7 +87,7 @@ final class SheetDoctrineAdapterTest extends KernelTestCase
 
         $this->sheetAdapter->update($sheet);
 
-        $sheet = $this->sheetAdapter->ofId('53fdb99f-b379-4d28-a1c8-541df07a7c34');
+        $sheet = $this->sheetAdapter->ofId('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394');
 
         $this->assertNotNull($sheet->eyeObservation);
     }
