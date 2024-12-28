@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace App\Tasting\Application\Projection;
 
 use App\Tasting\Application\Exception\SheetDoesntExistException;
-use App\Tasting\Application\Projection\Projector\AddEyeToSheetProjector;
-use App\Tasting\Domain\Event\EyeAdded;
+use App\Tasting\Application\Projection\Projector\UpdateEyeToSheetProjector;
+use App\Tasting\Domain\Event\EyeUpdated;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 
 #[WithMonologChannel('tasting')]
-final readonly class AddEyeToSheetProjection
+final readonly class UpdateEyeToSheetProjection
 {
     public function __construct(
-        private AddEyeToSheetProjector $addEyeToSheetProjector,
+        private UpdateEyeToSheetProjector $updateEyeToSheetProjector,
         private LoggerInterface $logger,
     ) {
     }
 
-    public function __invoke(EyeAdded $event): void
+    public function __invoke(EyeUpdated $event): void
     {
         try {
-            $this->addEyeToSheetProjector->project(
+            $this->updateEyeToSheetProjector->project(
                 $event->sheetId,
                 $event->limpidite,
                 $event->brillance,
@@ -33,7 +33,7 @@ final readonly class AddEyeToSheetProjection
             );
         } catch (SheetDoesntExistException $exception) {
             $this->logger->error(
-                'Add eye to sheet projection: Sheet doesn\'t exist',
+                'Update eye to sheet projection: Sheet doesn\'t exist',
                 [
                     'exception' => $exception->getMessage(),
                 ],

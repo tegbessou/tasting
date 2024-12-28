@@ -7,7 +7,6 @@ namespace AdapterTest\DrivingTest\Tasting\Infrastructure\ApiPlatform\State\Proce
 use App\Tasting\Domain\Repository\SheetRepositoryInterface;
 use App\Tasting\Domain\ValueObject\SheetId;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use Shared\ApiTestCase;
 use Shared\RefreshDatabase;
 
@@ -56,7 +55,6 @@ final class UpdateEyeProcessorTest extends ApiTestCase
         $sheet = $this->sheetDoctrineRepository->ofId(
             SheetId::fromString('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394'),
         );
-
 
         $this->assertNotNull($sheet->eye());
         $sheet = $this->sheetDoctrineRepository->ofId(

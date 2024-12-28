@@ -27,6 +27,9 @@ services:
   App\Tasting\Application\Projection\AddEyeToSheetProjection:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\Projection\UpdateEyeToSheetProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
     alias: App\Tasting\Infrastructure\User\Repository\ParticipantRepository
 

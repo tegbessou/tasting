@@ -28,6 +28,12 @@ final readonly class GetCollectionSheetResource
         public string $tastingId,
         public string $participantId,
         public string $participantFullName,
+        public ?string $eyeLimpidite = null,
+        public ?string $eyeBrillance = null,
+        public ?string $eyeIntensiteCouleur = null,
+        public ?string $eyeTeinte = null,
+        public ?string $eyeLarme = null,
+        public ?string $eyeObservation = null,
     ) {
     }
 
@@ -38,6 +44,12 @@ final readonly class GetCollectionSheetResource
             $sheet->tastingId,
             $sheet->participantId,
             $sheet->participantFullName,
+            $sheet->eyeLimpidite,
+            $sheet->eyeBrillance,
+            $sheet->eyeIntensiteCouleur,
+            $sheet->eyeTeinte,
+            $sheet->eyeLarme,
+            $sheet->eyeObservation,
         );
     }
 }

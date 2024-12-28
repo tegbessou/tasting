@@ -172,5 +172,3 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 Setup phparkitect pour les règles de nommages
 
 ## Todo
-- [ ] Update eye
-  - [ ] Update read model
