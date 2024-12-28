@@ -21,6 +21,12 @@ services:
   App\Tasting\Application\Projection\DeleteInvitationProjection:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\Projection\CreateSheetProjection:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\Projection\AddEyeToSheetProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
     alias: App\Tasting\Infrastructure\User\Repository\ParticipantRepository
 
@@ -30,6 +36,10 @@ services:
 
   App\Tasting\Application\Adapter\InvitationAdapterInterface:
     alias: App\Tasting\Infrastructure\Doctrine\Adapter\InvitationDoctrineAdapter
+    public: true
+
+  App\Tasting\Application\Adapter\SheetAdapterInterface:
+    alias: App\Tasting\Infrastructure\Doctrine\Adapter\SheetDoctrineAdapter
     public: true
 
   App\Tasting\Application\Service\NotificationInterface:

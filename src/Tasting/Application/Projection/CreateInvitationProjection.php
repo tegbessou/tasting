@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 final readonly class CreateInvitationProjection
 {
     public function __construct(
-        private CreateInvitationProjector $createTastingProjector,
+        private CreateInvitationProjector $createInvitationProjector,
         private LoggerInterface $logger,
     ) {
     }
@@ -22,7 +22,7 @@ final readonly class CreateInvitationProjection
     public function __invoke(TastingParticipantInvited $event): void
     {
         try {
-            $this->createTastingProjector->project(
+            $this->createInvitationProjector->project(
                 $event->invitationId,
                 $event->tastingId,
                 $event->bottleName,

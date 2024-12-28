@@ -7,14 +7,19 @@ namespace App\Tasting\Infrastructure\ApiPlatform\OpenApi;
 use ApiPlatform\Metadata\FilterInterface;
 use Symfony\Component\PropertyInfo\Type;
 
-final readonly class InvitationFilter implements FilterInterface
+final readonly class SheetFilter implements FilterInterface
 {
     #[\Override]
     public function getDescription(string $resourceClass): array
     {
         return [
-            'target.id' => [
-                'property' => 'target.id',
+            'tastingId' => [
+                'property' => 'tastingId',
+                'type' => Type::BUILTIN_TYPE_STRING,
+                'required' => false,
+            ],
+            'participant' => [
+                'property' => 'participant',
                 'type' => Type::BUILTIN_TYPE_STRING,
                 'required' => false,
             ],

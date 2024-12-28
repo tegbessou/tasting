@@ -173,6 +173,3 @@ Setup phparkitect pour les règles de nommages
 
 ## Todo
 - [ ] Update eye
-
-- [ ] Imagine read model for participation
-  - [ ] It's necessary to get a participation by tasting and show all information about the participation
