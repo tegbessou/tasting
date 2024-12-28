@@ -172,3 +172,6 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 Setup phparkitect pour les règles de nommages
 
 ## Todo
+- [ ] Add nose and update nose
+- [ ] Add mouth and update mouth
+- [ ] Remove a tasting, with sheet and all information in read model
