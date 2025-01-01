@@ -58,4 +58,12 @@ enum WineType: string
             ],
         };
     }
+
+    public function isSweetWine(): bool
+    {
+        return $this === WineType::WhiteWine
+            || $this === WineType::RoseWine
+            || $this === WineType::SparklingWine
+        ;
+    }
 }
