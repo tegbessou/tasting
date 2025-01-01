@@ -24,10 +24,9 @@ final class UpdateEyeProcessorTest extends ApiTestCase
         $this->sheetDoctrineRepository = $container->get(SheetRepositoryInterface::class);
     }
 
-    public function testAddEye(): void
+    public function testUpdateEye(): void
     {
         $this->post('/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes', [
-            'participant' => 'hugues.gobet@gmail.com',
             'limpidite' => 'floue',
             'brillance' => 'étincelante',
             'intensiteCouleur' => 'soutenue',
@@ -70,14 +69,13 @@ final class UpdateEyeProcessorTest extends ApiTestCase
     }
 
     #[DataProvider('provideInvalidData')]
-    public function testAddEyeToTastingWithInvalidData(
+    public function testUpdateEyeToTastingWithInvalidData(
         string $uri,
         array $payload,
         int $statusCode,
         array $violations,
     ): void {
         $this->post('/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes', [
-            'participant' => 'hugues.gobet@gmail.com',
             'limpidite' => 'floue',
             'brillance' => 'étincelante',
             'intensiteCouleur' => 'soutenue',
@@ -88,7 +86,7 @@ final class UpdateEyeProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(204);
 
-        $sheet = $this->sheetDoctrineRepository->ofId(
+        $this->sheetDoctrineRepository->ofId(
             SheetId::fromString('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394'),
         );
 

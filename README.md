@@ -163,6 +163,8 @@ to transform this data to our domain
 ## Refactoring DDD
 
 Reflect to put specification for Invitation Status
+Change in infrastructure api platform resource method fromDomain to fromModel
+Add in addEye and addNose a check to verify if the eye and nose property is null before to add
 
 ### Refactoring tasting
 
@@ -172,6 +174,5 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 Setup phparkitect pour les règles de nommages
 
 ## Todo
-- [ ] Add nose and update nose
 - [ ] Add mouth and update mouth
 - [ ] Remove a tasting, with sheet and all information in read model

@@ -18,3 +18,9 @@ parameters:
         -
             message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\UpdateEyeProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
             path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/UpdateEyeProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\AddNoseProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/AddNoseProcessor.php
+        -
+            message: '#Parameter \$context of method App\\Tasting\\Infrastructure\\ApiPlatform\\State\\Processor\\UpdateNoseProcessor\:\:process\(\) has invalid type Illuminate\\Http\\Request.#'
+            path: src/Tasting/Infrastructure/ApiPlatform/State/Processor/UpdateNoseProcessor.php

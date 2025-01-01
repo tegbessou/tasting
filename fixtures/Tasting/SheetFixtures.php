@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace DataFixtures\Tasting;
 
+use App\Tasting\Domain\Enum\Arome;
 use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\Impression;
+use App\Tasting\Domain\Enum\Intensite;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
 use App\Tasting\Infrastructure\Doctrine\Entity\Eye;
+use App\Tasting\Infrastructure\Doctrine\Entity\Nose;
 use App\Tasting\Infrastructure\Doctrine\Entity\Sheet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -42,7 +46,17 @@ final class SheetFixtures extends Fixture
             'Observation',
         );
 
+        $nose = new Nose(
+            'd3c1bf6a-42a9-4a2a-b49a-07b8ee18066e',
+            $sheets[1],
+            Impression::SIMPLE,
+            Intensite::OUVERT,
+            Arome::BOISEE,
+            'Observation',
+        );
+
         $sheets[1]->eye = $eye;
+        $sheets[1]->nose = $nose;
 
         foreach ($sheets as $sheet) {
             $manager->persist($sheet);

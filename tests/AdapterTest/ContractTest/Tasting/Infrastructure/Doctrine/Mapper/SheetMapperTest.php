@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Mapper;
 
 use App\Tasting\Domain\Entity\Sheet;
+use App\Tasting\Domain\Enum\Arome;
 use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\Impression;
+use App\Tasting\Domain\Enum\Intensite;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
 use App\Tasting\Domain\Enum\RedTeinte;
 use App\Tasting\Domain\Enum\WineType;
-use App\Tasting\Domain\Repository\TastingRepositoryInterface;
+use App\Tasting\Domain\Repository\SheetRepositoryInterface;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
 use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
@@ -19,10 +22,16 @@ use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
+use App\Tasting\Domain\ValueObject\NoseArome;
+use App\Tasting\Domain\ValueObject\NoseId;
+use App\Tasting\Domain\ValueObject\NoseImpression;
+use App\Tasting\Domain\ValueObject\NoseIntensite;
+use App\Tasting\Domain\ValueObject\NoseObservation;
 use App\Tasting\Domain\ValueObject\SheetId;
 use App\Tasting\Domain\ValueObject\SheetParticipant;
 use App\Tasting\Domain\ValueObject\SheetTastingId;
 use App\Tasting\Infrastructure\Doctrine\Entity\Eye as EyeDoctrine;
+use App\Tasting\Infrastructure\Doctrine\Entity\Nose as NoseDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Sheet as SheetDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\SheetMapper;
 use Shared\RefreshDatabase;
@@ -32,7 +41,7 @@ final class SheetMapperTest extends KernelTestCase
 {
     use RefreshDatabase;
 
-    private TastingRepositoryInterface $tastingRepository;
+    private SheetRepositoryInterface $sheetRepository;
 
     #[\Override]
     protected function setUp(): void
@@ -40,7 +49,7 @@ final class SheetMapperTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
-        $this->tastingRepository = $container->get(TastingRepositoryInterface::class);
+        $this->sheetRepository = $container->get(SheetRepositoryInterface::class);
     }
 
     public function testToDomain(): void
@@ -62,7 +71,17 @@ final class SheetMapperTest extends KernelTestCase
             'Observation',
         );
 
+        $nose = new NoseDoctrine(
+            'bf79ca01-b07e-4804-a958-4f4d6e4a6649',
+            $sheetDoctrine,
+            Impression::FRANC,
+            Intensite::AROMATIQUE,
+            Arome::BALSAMIQUE,
+            'Observation',
+        );
+
         $sheetDoctrine->eye = $eye;
+        $sheetDoctrine->nose = $nose;
 
         $sheet = SheetMapper::toDomain($sheetDoctrine);
 
@@ -81,6 +100,14 @@ final class SheetMapperTest extends KernelTestCase
             EyeLarme::fromString(Larme::EPAISSE->value),
             EyeObservation::fromString('Observation'),
             WineType::RedWine,
+        );
+
+        $expectedSheet->addNose(
+            NoseId::fromString('bf79ca01-b07e-4804-a958-4f4d6e4a6649'),
+            NoseImpression::fromString(Impression::FRANC->value),
+            NoseIntensite::fromString(Intensite::AROMATIQUE->value),
+            NoseArome::fromString(Arome::BALSAMIQUE->value),
+            NoseObservation::fromString('Observation'),
         );
 
         $this->assertEquals(
@@ -123,390 +150,358 @@ final class SheetMapperTest extends KernelTestCase
             $expectedSheet->eye()->observation(),
             $sheet->eye()->observation(),
         );
+        $this->assertEquals(
+            $expectedSheet->nose()->id(),
+            $sheet->nose()->id(),
+        );
+        $this->assertEquals(
+            $expectedSheet->nose()->impression(),
+            $sheet->nose()->impression(),
+        );
+        $this->assertEquals(
+            $expectedSheet->nose()->intensite(),
+            $sheet->nose()->intensite(),
+        );
+        $this->assertEquals(
+            $expectedSheet->nose()->arome(),
+            $sheet->nose()->arome(),
+        );
+        $this->assertEquals(
+            $expectedSheet->nose()->observation(),
+            $sheet->nose()->observation(),
+        );
     }
 
-    /*public function testToInfrastructurePersist(): void
+    public function testToInfrastructurePersist(): void
     {
-        $tasting = Tasting::create(
-            TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-            Bottle::create(
-                'Chateaux Margaux 2015',
-                'red',
-            ),
-            TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        $sheet = Sheet::create(
+            SheetId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('root@gmail.com'),
         );
 
-        $this->tastingRepository->add($tasting);
+        $this->sheetRepository->add($sheet);
 
-        $tasting::eraseRecordedEvents();
+        $sheet::eraseRecordedEvents();
 
-        $expected = new TastingDoctrine(
+        $expected = new SheetDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
-            'Chateaux Margaux 2015',
-            WineType::RedWine,
-            [
-                'hugues.gobet@gmail.com',
-            ],
-            'hugues.gobet@gmail.com',
-            new ArrayCollection(),
-            new ArrayCollection(),
+            '2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
+            'root@gmail.com',
         );
 
-        $tasting = TastingMapper::toInfrastructurePersist($tasting);
+        $sheet = SheetMapper::toInfrastructurePersist($sheet);
 
         $this->assertEquals(
             $expected->id,
-            $tasting->id,
+            $sheet->id,
         );
         $this->assertEquals(
-            $expected->bottleName,
-            $tasting->bottleName,
+            $expected->tastingId,
+            $sheet->tastingId,
         );
         $this->assertEquals(
-            $expected->participants,
-            $tasting->participants,
+            $expected->participant,
+            $sheet->participant,
         );
-        $this->assertEquals(
-            $expected->ownerId,
-            $tasting->ownerId,
-        );
-        $this->assertEquals(
-            $expected->invitations,
-            $tasting->invitations,
-        );
-        $this->assertEquals(
-            $expected->eyes,
-            $tasting->eyes,
-        );
-    }*/
+    }
 
-    // public function testToInfrastructureUpdateNewRelations(): void
-    // {
-    //    $tasting = Tasting::create(
-    //        TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-    //        Bottle::create(
-    //            'Chateaux Margaux 2015',
-    //            'red',
-    //        ),
-    //        TastingOwnerId::fromString('hugues.gobet@gmail.com'),
-    //    );
-    //
-    //    $this->tastingRepository->add($tasting);
-    //
-    //    $tasting->invite(
-    //        InvitationId::fromString('ea1341e5-f13b-4ee6-9597-383327c0fc57'),
-    //        InvitationTarget::fromString('root@gmail.com'),
-    //    );
-    //
-    //    $tasting->addEye(
-    //        EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
-    //        EyeParticipant::fromString('hugues.gobet@gmail.com'),
-    //        EyeLimpidite::fromString(Limpidite::FLOUE->value),
-    //        EyeBrillance::fromString(Brillance::BRILLANTE->value),
-    //        EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
-    //        EyeTeinte::fromString('pourpre'),
-    //        EyeLarme::fromString(Larme::EPAISSE->value),
-    //        EyeObservation::fromString('Observation'),
-    //    );
-    //
-    //    $tasting::eraseRecordedEvents();
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $expected = new TastingDoctrine(
-    //        'b9857453-1891-4fe8-80a9-1b873f15f0ec',
-    //        'Chateaux Margaux 2015',
-    //        WineType::RedWine,
-    //        [
-    //            'hugues.gobet@gmail.com',
-    //        ],
-    //        'hugues.gobet@gmail.com',
-    //        new ArrayCollection(),
-    //        new ArrayCollection(),
-    //    );
-    //
-    //    $tastingDoctrine = TastingMapper::toInfrastructureUpdate($tasting, $expected);
-    //
-    //    $expectedInvitation = new InvitationDoctrine(
-    //        'ea1341e5-f13b-4ee6-9597-383327c0fc57',
-    //        $expected,
-    //        'root@gmail.com',
-    //        GetInvitationLink::getLink()->value(),
-    //        TastingInvitationStatus::PENDING,
-    //        new \DateTimeImmutable(),
-    //    );
-    //
-    //    $expected->addInvitation($expectedInvitation);
-    //
-    //    $expectedEye = new EyeDoctrine(
-    //        '20eb3259-1697-4a39-bc34-238d7cf0b57b',
-    //        $expected,
-    //        'hugues.gobet@gmail.com',
-    //        Limpidite::FLOUE,
-    //        Brillance::BRILLANTE,
-    //        IntensiteCouleur::CLAIRE,
-    //        'pourpre',
-    //        Larme::EPAISSE,
-    //        'Observation',
-    //    );
-    //
-    //    $expected->addEye($expectedEye);
-    //
-    //    $this->assertEquals(
-    //        $expected->id,
-    //        $tastingDoctrine->id,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->bottleName,
-    //        $tastingDoctrine->bottleName,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->participants,
-    //        $tastingDoctrine->participants,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->ownerId,
-    //        $tastingDoctrine->ownerId,
-    //    );
-    //
-    //    /** @var InvitationDoctrine $invitation */
-    //    $invitation = $tastingDoctrine->invitations->first();
-    //
-    //    $this->assertEquals(
-    //        $expectedInvitation->id,
-    //        $invitation->id,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedInvitation->targetId,
-    //        $invitation->targetId,
-    //    );
-    //    $this->assertNotNull(
-    //        $invitation->subject,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedInvitation->status,
-    //        $invitation->status,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedInvitation->sentAt,
-    //        $invitation->sentAt,
-    //    );
-    //
-    //    /** @var EyeDoctrine $eye */
-    //    $eye = $tastingDoctrine->eyes->first();
-    //
-    //    $this->assertEquals(
-    //        $expectedEye->id,
-    //        $eye->id,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->participant,
-    //        $eye->participant,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->limpidite,
-    //        $eye->limpidite,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->brillance,
-    //        $eye->brillance,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->intensiteCouleur,
-    //        $eye->intensiteCouleur,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->teinte,
-    //        $eye->teinte,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->larme,
-    //        $eye->larme,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedEye->observation,
-    //        $eye->observation,
-    //    );
-    // }
-    //
-    // public function testToInfrastructureUpdateRelationsUpdated(): void
-    // {
-    //    $tasting = Tasting::create(
-    //        TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-    //        Bottle::create(
-    //            'Chateaux Margaux 2015',
-    //            'red',
-    //        ),
-    //        TastingOwnerId::fromString('hugues.gobet@gmail.com'),
-    //    );
-    //
-    //    $this->tastingRepository->add($tasting);
-    //
-    //    $tasting->invite(
-    //        InvitationId::fromString('ea1341e5-f13b-4ee6-9597-383327c0fc57'),
-    //        InvitationTarget::fromString('root@gmail.com'),
-    //    );
-    //
-    //    $tasting::eraseRecordedEvents();
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $tasting->sendInvitation($tasting->invitations()->values()[0]);
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $oldTasting = new TastingDoctrine(
-    //        'b9857453-1891-4fe8-80a9-1b873f15f0ec',
-    //        'Chateaux Margaux 2015',
-    //        WineType::RedWine,
-    //        [
-    //            'hugues.gobet@gmail.com',
-    //        ],
-    //        'hugues.gobet@gmail.com',
-    //        new ArrayCollection(),
-    //        new ArrayCollection(),
-    //    );
-    //
-    //    $expected = new TastingDoctrine(
-    //        'b9857453-1891-4fe8-80a9-1b873f15f0ec',
-    //        'Chateaux Margaux 2015',
-    //        WineType::RedWine,
-    //        [
-    //            'hugues.gobet@gmail.com',
-    //        ],
-    //        'hugues.gobet@gmail.com',
-    //        new ArrayCollection(),
-    //        new ArrayCollection(),
-    //    );
-    //
-    //    $tastingDoctrine = TastingMapper::toInfrastructureUpdate($tasting, $oldTasting);
-    //
-    //    $expectedInvitation = new InvitationDoctrine(
-    //        'ea1341e5-f13b-4ee6-9597-383327c0fc57',
-    //        $expected,
-    //        'root@gmail.com',
-    //        GetInvitationLink::getLink()->value(),
-    //        TastingInvitationStatus::PENDING,
-    //        new \DateTimeImmutable(),
-    //        new \DateTimeImmutable(),
-    //    );
-    //
-    //    $expected->addInvitation($expectedInvitation);
-    //
-    //    $this->assertEquals(
-    //        $expected->id,
-    //        $tastingDoctrine->id,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->bottleName,
-    //        $tastingDoctrine->bottleName,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->participants,
-    //        $tastingDoctrine->participants,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->ownerId,
-    //        $tastingDoctrine->ownerId,
-    //    );
-    //
-    //    /** @var InvitationDoctrine $invitation */
-    //    $invitation = $tastingDoctrine->invitations->first();
-    //
-    //    $this->assertEquals(
-    //        $expectedInvitation->id,
-    //        $invitation->id,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedInvitation->targetId,
-    //        $invitation->targetId,
-    //    );
-    //    $this->assertNotNull(
-    //        $invitation->subject,
-    //    );
-    //    $this->assertEquals(
-    //        $expectedInvitation->status,
-    //        $invitation->status,
-    //    );
-    //    $this->assertNotNull(
-    //        $invitation->sentAt,
-    //    );
-    // }
-    //
-    // public function testToInfrastructureUpdateInvitationRemoved(): void
-    // {
-    //    $tasting = Tasting::create(
-    //        TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
-    //        Bottle::create(
-    //            'Chateaux Margaux 2015',
-    //            'red',
-    //        ),
-    //        TastingOwnerId::fromString('hugues.gobet@gmail.com'),
-    //    );
-    //
-    //    $this->tastingRepository->add($tasting);
-    //
-    //    $tasting::eraseRecordedEvents();
-    //
-    //    $tasting->invite(
-    //        InvitationId::fromString('ea1341e5-f13b-4ee6-9597-383327c0fc57'),
-    //        InvitationTarget::fromString('root@gmail.com'),
-    //    );
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $tasting->sendInvitation($tasting->invitations()->values()[0]);
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $tasting->rejectInvitation($tasting->invitations()->values()[0]);
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $tasting->deleteInvitation($tasting->invitations()->values()[0]);
-    //
-    //    $this->tastingRepository->update($tasting);
-    //
-    //    $oldTasting = new TastingDoctrine(
-    //        'b9857453-1891-4fe8-80a9-1b873f15f0ec',
-    //        'Chateaux Margaux 2015',
-    //        WineType::RedWine,
-    //        [
-    //            'hugues.gobet@gmail.com',
-    //        ],
-    //        'hugues.gobet@gmail.com',
-    //        new ArrayCollection(),
-    //    );
-    //
-    //    $expected = new TastingDoctrine(
-    //        'b9857453-1891-4fe8-80a9-1b873f15f0ec',
-    //        'Chateaux Margaux 2015',
-    //        WineType::RedWine,
-    //        [
-    //            'hugues.gobet@gmail.com',
-    //        ],
-    //        'hugues.gobet@gmail.com',
-    //        new ArrayCollection(),
-    //    );
-    //
-    //    $tastingDoctrine = TastingMapper::toInfrastructureUpdate($tasting, $oldTasting);
-    //
-    //    $this->assertEquals(
-    //        $expected->id,
-    //        $tastingDoctrine->id,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->bottleName,
-    //        $tastingDoctrine->bottleName,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->participants,
-    //        $tastingDoctrine->participants,
-    //    );
-    //    $this->assertEquals(
-    //        $expected->ownerId,
-    //        $tastingDoctrine->ownerId,
-    //    );
-    //    $this->assertCount(0, $tastingDoctrine->invitations);
-    // }
+    public function testToInfrastructureUpdateNewRelations(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('root@gmail.com'),
+        );
+
+        $this->sheetRepository->add($sheet);
+
+        $sheet->addEye(
+            EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString('pourpre'),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+            WineType::RedWine,
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addNose(
+            NoseId::fromString('2fc41d55-b6a5-43e1-8afa-75bc512f4c78'),
+            NoseImpression::fromString(Impression::SIMPLE->value),
+            NoseIntensite::fromString(Intensite::AROMATIQUE->value),
+            NoseArome::fromString(Arome::ANIMALE->value),
+            NoseObservation::fromString('Observation'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->sheetRepository->update($sheet);
+
+        $expected = new SheetDoctrine(
+            'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
+            'root@gmail.com',
+        );
+
+        $sheetDoctrine = SheetMapper::toInfrastructureUpdate($sheet, $expected);
+
+        $expectedEye = new EyeDoctrine(
+            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
+            $expected,
+            Limpidite::FLOUE,
+            Brillance::BRILLANTE,
+            IntensiteCouleur::CLAIRE,
+            'pourpre',
+            Larme::EPAISSE,
+            'Observation',
+        );
+
+        $expectedNose = new NoseDoctrine(
+            '2fc41d55-b6a5-43e1-8afa-75bc512f4c78',
+            $expected,
+            Impression::SIMPLE,
+            Intensite::AROMATIQUE,
+            Arome::ANIMALE,
+            'Observation',
+        );
+
+        $this->assertEquals(
+            $expected->id,
+            $sheetDoctrine->id,
+        );
+        $this->assertEquals(
+            $expected->tastingId,
+            $sheetDoctrine->tastingId,
+        );
+        $this->assertEquals(
+            $expected->participant,
+            $sheetDoctrine->participant,
+        );
+
+        /** @var EyeDoctrine $eye */
+        $eye = $sheetDoctrine->eye;
+
+        $this->assertEquals(
+            $expectedEye->id,
+            $eye->id,
+        );
+        $this->assertEquals(
+            $expectedEye->limpidite,
+            $eye->limpidite,
+        );
+        $this->assertEquals(
+            $expectedEye->brillance,
+            $eye->brillance,
+        );
+        $this->assertEquals(
+            $expectedEye->intensiteCouleur,
+            $eye->intensiteCouleur,
+        );
+        $this->assertEquals(
+            $expectedEye->teinte,
+            $eye->teinte,
+        );
+        $this->assertEquals(
+            $expectedEye->larme,
+            $eye->larme,
+        );
+        $this->assertEquals(
+            $expectedEye->observation,
+            $eye->observation,
+        );
+
+        /** @var NoseDoctrine $nose */
+        $nose = $sheetDoctrine->nose;
+
+        $this->assertEquals(
+            $expectedNose->id,
+            $nose->id,
+        );
+        $this->assertEquals(
+            $expectedNose->impression,
+            $nose->impression,
+        );
+        $this->assertEquals(
+            $expectedNose->intensite,
+            $nose->intensite,
+        );
+        $this->assertEquals(
+            $expectedNose->arome,
+            $nose->arome,
+        );
+        $this->assertEquals(
+            $expectedNose->observation,
+            $nose->observation,
+        );
+    }
+
+    public function testToInfrastructureUpdateRelationsUpdated(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('root@gmail.com'),
+        );
+
+        $this->sheetRepository->add($sheet);
+
+        $sheet->addEye(
+            EyeId::fromString('20eb3259-1697-4a39-bc34-238d7cf0b57b'),
+            EyeLimpidite::fromString(Limpidite::FLOUE->value),
+            EyeBrillance::fromString(Brillance::BRILLANTE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::CLAIRE->value),
+            EyeTeinte::fromString('pourpre'),
+            EyeLarme::fromString(Larme::EPAISSE->value),
+            EyeObservation::fromString('Observation'),
+            WineType::RedWine,
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addNose(
+            NoseId::fromString('2fc41d55-b6a5-43e1-8afa-75bc512f4c78'),
+            NoseImpression::fromString(Impression::SIMPLE->value),
+            NoseIntensite::fromString(Intensite::AROMATIQUE->value),
+            NoseArome::fromString(Arome::ANIMALE->value),
+            NoseObservation::fromString('Observation'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->sheetRepository->update($sheet);
+
+        $sheet->updateEye(
+            EyeLimpidite::fromString(Limpidite::OPALESCENTE->value),
+            EyeBrillance::fromString(Brillance::TERNE->value),
+            EyeIntensiteCouleur::fromString(IntensiteCouleur::SATANE->value),
+            EyeTeinte::fromString('ambre'),
+            EyeLarme::fromString(Larme::FLUIDE->value),
+            EyeObservation::fromString('Observation (modifié)'),
+            WineType::RedWine,
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->updateNose(
+            NoseImpression::fromString(Impression::FRANC->value),
+            NoseIntensite::fromString(Intensite::DISCRET_FERME->value),
+            NoseArome::fromString(Arome::FRUITE->value),
+            NoseObservation::fromString('Observation (modifié)'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->sheetRepository->update($sheet);
+
+        $oldSheet = new SheetDoctrine(
+            'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '2ea56c35-8bb9-4c6e-9a49-bd79c5f11537',
+            'root@gmail.com',
+        );
+
+        $oldEye = new EyeDoctrine(
+            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
+            $oldSheet,
+            Limpidite::FLOUE,
+            Brillance::BRILLANTE,
+            IntensiteCouleur::CLAIRE,
+            'pourpre',
+            Larme::EPAISSE,
+            'Observation',
+        );
+
+        $oldNose = new NoseDoctrine(
+            '2fc41d55-b6a5-43e1-8afa-75bc512f4c78',
+            $oldSheet,
+            Impression::SIMPLE,
+            Intensite::AROMATIQUE,
+            Arome::ANIMALE,
+            'Observation',
+        );
+
+        $oldSheet->eye = $oldEye;
+        $oldSheet->nose = $oldNose;
+
+        $sheetDoctrine = SheetMapper::toInfrastructureUpdate($sheet, $oldSheet);
+
+        $eyeExpected = new EyeDoctrine(
+            '20eb3259-1697-4a39-bc34-238d7cf0b57b',
+            $oldSheet,
+            Limpidite::OPALESCENTE,
+            Brillance::TERNE,
+            IntensiteCouleur::SATANE,
+            'ambre',
+            Larme::FLUIDE,
+            'Observation (modifié)',
+        );
+
+        $expectedNose = new NoseDoctrine(
+            '2fc41d55-b6a5-43e1-8afa-75bc512f4c78',
+            $oldSheet,
+            Impression::FRANC,
+            Intensite::DISCRET_FERME,
+            Arome::FRUITE,
+            'Observation (modifié)',
+        );
+
+        /** @var EyeDoctrine $eye */
+        $eye = $sheetDoctrine->eye;
+
+        $this->assertEquals(
+            $eyeExpected->id,
+            $eye->id,
+        );
+        $this->assertEquals(
+            $eye->limpidite,
+            $eyeExpected->limpidite,
+        );
+        $this->assertEquals(
+            $eye->brillance,
+            $eyeExpected->brillance,
+        );
+        $this->assertEquals(
+            $eye->intensiteCouleur,
+            $eyeExpected->intensiteCouleur,
+        );
+        $this->assertEquals(
+            $eye->teinte,
+            $eyeExpected->teinte,
+        );
+        $this->assertEquals(
+            $eye->larme,
+            $eyeExpected->larme,
+        );
+        $this->assertEquals(
+            $eye->observation,
+            $eyeExpected->observation,
+        );
+
+        /** @var NoseDoctrine $nose */
+        $nose = $sheetDoctrine->nose;
+
+        $this->assertEquals(
+            $expectedNose->id,
+            $nose->id,
+        );
+        $this->assertEquals(
+            $expectedNose->impression,
+            $nose->impression,
+        );
+        $this->assertEquals(
+            $expectedNose->intensite,
+            $nose->intensite,
+        );
+        $this->assertEquals(
+            $expectedNose->arome,
+            $nose->arome,
+        );
+        $this->assertEquals(
+            $expectedNose->observation,
+            $nose->observation,
+        );
+    }
 }

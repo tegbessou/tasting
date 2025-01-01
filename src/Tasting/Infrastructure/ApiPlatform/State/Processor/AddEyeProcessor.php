@@ -10,7 +10,7 @@ use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\AddEyeCommand;
 use App\Tasting\Application\Exception\SheetDoesntExistException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\PostTastingEyeResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\PostSheetEyeResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeTeinteIsNotForThisWineTypeConstraintViolation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,7 +18,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<PostTastingEyeResource, void>
+ * @implements ProcessorInterface<PostSheetEyeResource, void>
  */
 final readonly class AddEyeProcessor implements ProcessorInterface
 {
@@ -33,7 +33,6 @@ final readonly class AddEyeProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
         Assert::string($uriVariables['id']);
-        Assert::string($data->participant);
         Assert::string($data->limpidite);
         Assert::string($data->brillance);
         Assert::string($data->intensiteCouleur);
@@ -45,7 +44,6 @@ final readonly class AddEyeProcessor implements ProcessorInterface
             $this->commandBus->dispatch(
                 new AddEyeCommand(
                     $uriVariables['id'],
-                    $data->participant,
                     $data->limpidite,
                     $data->brillance,
                     $data->intensiteCouleur,

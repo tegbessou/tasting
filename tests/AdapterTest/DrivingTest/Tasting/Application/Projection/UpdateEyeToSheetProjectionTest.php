@@ -33,7 +33,7 @@ final class UpdateEyeToSheetProjectionTest extends KernelTestCase
     private readonly SheetAdapterInterface $sheetAdapter;
     private readonly SheetRepositoryInterface $sheetRepository;
 
-    public function testSheetProjection(): void
+    public function testUpdateNoseSheetProjection(): void
     {
         self::bootKernel();
 

@@ -10,7 +10,7 @@ use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\UpdateEyeCommand;
 use App\Tasting\Application\Exception\SheetDoesntExistException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
-use App\Tasting\Infrastructure\ApiPlatform\Resource\PutTastingEyeResource;
+use App\Tasting\Infrastructure\ApiPlatform\Resource\PutSheetEyeResource;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeTeinteIsNotForThisWineTypeConstraintViolation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,7 +18,7 @@ use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
 use TegCorp\SharedKernelBundle\Infrastructure\Webmozart\Assert;
 
 /**
- * @implements ProcessorInterface<PutTastingEyeResource, void>
+ * @implements ProcessorInterface<PutSheetEyeResource, void>
  */
 final readonly class UpdateEyeProcessor implements ProcessorInterface
 {
@@ -54,7 +54,7 @@ final readonly class UpdateEyeProcessor implements ProcessorInterface
             );
         } catch (SheetDoesntExistException $exception) {
             $this->logger->error(
-                'Add eye: Sheet doesn\'t exist',
+                'Update eye: Sheet doesn\'t exist',
                 [
                     'sheetId' => $exception->sheetId,
                 ],

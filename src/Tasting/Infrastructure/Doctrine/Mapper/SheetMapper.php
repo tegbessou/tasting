@@ -19,6 +19,7 @@ final readonly class SheetMapper
             SheetTastingId::fromString($sheet->tastingId),
             SheetParticipant::fromString($sheet->participant),
             $sheet->eye === null ? null : EyeMapper::toDomain($sheet->eye),
+            $sheet->nose === null ? null : NoseMapper::toDomain($sheet->nose),
         );
     }
 
@@ -33,16 +34,23 @@ final readonly class SheetMapper
 
     public static function toInfrastructureUpdate(Sheet $sheet, SheetDoctrine $sheetDoctrine): SheetDoctrine
     {
-        $sheetDoctrine->tastingId = $sheet->tastingId()->value();
-        $sheetDoctrine->participant = $sheet->participant()->value();
+        if ($sheet->eye() !== null) {
+            self::synchronizeEye($sheet, $sheetDoctrine);
+        }
 
-        self::synchronizeEye($sheet, $sheetDoctrine);
+        if ($sheet->nose() !== null) {
+            self::synchronizeNose($sheet, $sheetDoctrine);
+        }
 
         return $sheetDoctrine;
     }
 
     public static function synchronizeEye(Sheet $sheet, SheetDoctrine $sheetDoctrine): void
     {
+        if ($sheet->eye() === null) {
+            throw new \LogicException('Eye shouln\'t be null');
+        }
+
         if ($sheetDoctrine->eye === null) {
             $sheetDoctrine->eye = EyeMapper::toInfrastructurePersist($sheet->eye(), $sheetDoctrine);
 
@@ -50,5 +58,20 @@ final readonly class SheetMapper
         }
 
         $sheetDoctrine->eye = EyeMapper::toInfrastructureUpdate($sheet->eye(), $sheetDoctrine->eye);
+    }
+
+    public static function synchronizeNose(Sheet $sheet, SheetDoctrine $sheetDoctrine): void
+    {
+        if ($sheet->nose() === null) {
+            throw new \LogicException('Nose shouln\'t be null');
+        }
+
+        if ($sheetDoctrine->nose === null) {
+            $sheetDoctrine->nose = NoseMapper::toInfrastructurePersist($sheet->nose(), $sheetDoctrine);
+
+            return;
+        }
+
+        $sheetDoctrine->nose = NoseMapper::toInfrastructureUpdate($sheet->nose(), $sheetDoctrine->nose);
     }
 }
