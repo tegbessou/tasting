@@ -15,7 +15,5 @@ final readonly class EyeCanBeAdd
         if (!in_array($eye->teinte()->value(), $wineType->getTeintes())) {
             throw new EyeTeinteIsNotForThisWineTypeException($eye->teinte()->value(), $wineType->value);
         }
-
-        // ajouter le fait de ne pas pouvoir re rajouter un eye déjà ajouter
     }
 }
