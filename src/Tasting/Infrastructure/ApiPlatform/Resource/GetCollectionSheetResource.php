@@ -34,6 +34,10 @@ final readonly class GetCollectionSheetResource
         public ?string $eyeTeinte = null,
         public ?string $eyeLarme = null,
         public ?string $eyeObservation = null,
+        public ?string $noseImpression = null,
+        public ?string $noseIntensite = null,
+        public ?string $noseArome = null,
+        public ?string $noseObservation = null,
     ) {
     }
 
@@ -50,6 +54,10 @@ final readonly class GetCollectionSheetResource
             $sheet->eyeTeinte,
             $sheet->eyeLarme,
             $sheet->eyeObservation,
+            $sheet->noseImpression,
+            $sheet->noseIntensite,
+            $sheet->noseArome,
+            $sheet->noseObservation,
         );
     }
 }

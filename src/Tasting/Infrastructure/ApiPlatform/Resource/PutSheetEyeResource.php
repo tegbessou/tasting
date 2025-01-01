@@ -6,29 +6,26 @@ namespace App\Tasting\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Tasting\Domain\Enum\Brillance;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
-use App\Tasting\Infrastructure\ApiPlatform\State\Processor\AddEyeProcessor;
+use App\Tasting\Infrastructure\ApiPlatform\State\Processor\UpdateEyeProcessor;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Sheet',
 )]
-#[Post(
+#[Put(
     uriTemplate: '/sheets/{id}/eyes',
     output: false,
-    processor: AddEyeProcessor::class,
+    read: false,
+    processor: UpdateEyeProcessor::class,
 )]
-final readonly class PostTastingEyeResource
+final readonly class PutSheetEyeResource
 {
     public function __construct(
-        #[ApiProperty]
-        #[Assert\NotBlank]
-        #[Assert\Email]
-        public ?string $participant = null,
         #[ApiProperty]
         #[Assert\NotBlank]
         #[Assert\Choice(callback: [Limpidite::class, 'values'])]

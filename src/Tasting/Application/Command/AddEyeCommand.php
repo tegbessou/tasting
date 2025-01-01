@@ -13,7 +13,6 @@ final readonly class AddEyeCommand implements CommandInterface
 {
     public function __construct(
         public string $sheetId,
-        public string $participant,
         public string $limpidite,
         public string $brillance,
         public string $intensiteCouleur,

@@ -30,5 +30,13 @@ class Sheet
         public ?string $eyeLarme = null,
         #[MongoDB\Field(type: 'string', nullable: true)]
         public ?string $eyeObservation = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $noseImpression = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $noseIntensite = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $noseArome = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $noseObservation = null,
     ) {}
 }

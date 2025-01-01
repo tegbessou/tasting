@@ -7,6 +7,8 @@ namespace App\Tasting\Domain\Entity;
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Event\EyeAdded;
 use App\Tasting\Domain\Event\EyeUpdated;
+use App\Tasting\Domain\Event\NoseAdded;
+use App\Tasting\Domain\Event\NoseUpdated;
 use App\Tasting\Domain\Event\SheetCreated;
 use App\Tasting\Domain\Specification\EyeCanBeAdd;
 use App\Tasting\Domain\Specification\EyeCanBeUpdate;
@@ -17,6 +19,11 @@ use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
+use App\Tasting\Domain\ValueObject\NoseArome;
+use App\Tasting\Domain\ValueObject\NoseId;
+use App\Tasting\Domain\ValueObject\NoseImpression;
+use App\Tasting\Domain\ValueObject\NoseIntensite;
+use App\Tasting\Domain\ValueObject\NoseObservation;
 use App\Tasting\Domain\ValueObject\SheetId;
 use App\Tasting\Domain\ValueObject\SheetParticipant;
 use App\Tasting\Domain\ValueObject\SheetTastingId;
@@ -32,6 +39,7 @@ final class Sheet implements EntityWithDomainEventInterface
         private readonly SheetTastingId $tastingId,
         private readonly SheetParticipant $participantId,
         private ?Eye $eye = null,
+        private ?Nose $nose = null,
     ) {
     }
 
@@ -107,6 +115,10 @@ final class Sheet implements EntityWithDomainEventInterface
         $specification = new EyeCanBeUpdate();
         $specification->satisfiedBy($teinte, $wineType);
 
+        if ($this->eye() === null) {
+            throw new \LogicException('Eye shouldn\'t be null');
+        }
+
         $this->eye()->update(
             $limpidite,
             $brillance,
@@ -129,6 +141,62 @@ final class Sheet implements EntityWithDomainEventInterface
         );
     }
 
+    public function addNose(
+        NoseId $id,
+        NoseImpression $impression,
+        NoseIntensite $intensite,
+        NoseArome $arome,
+        NoseObservation $observation,
+    ): void {
+        $nose = new Nose(
+            $id,
+            $impression,
+            $intensite,
+            $arome,
+            $observation,
+        );
+
+        $this->nose = $nose;
+
+        self::recordEvent(
+            new NoseAdded(
+                $this->id->value(),
+                $impression->value(),
+                $intensite->value(),
+                $arome->value(),
+                $observation->value(),
+            ),
+        );
+    }
+
+    public function updateNose(
+        NoseImpression $impression,
+        NoseIntensite $intensite,
+        NoseArome $arome,
+        NoseObservation $observation,
+    ): void {
+        if ($this->nose() === null) {
+            throw new \LogicException('Nose shouldn\'t be null');
+        }
+
+        $this->nose()->update(
+            $impression,
+            $intensite,
+            $arome,
+            $observation,
+        );
+
+        self::recordEvent(
+            new NoseUpdated(
+                $this->id->value(),
+                $impression->value(),
+                $intensite->value(),
+                $arome->value(),
+                $observation->value(),
+            ),
+        );
+    }
+
     public function id(): SheetId
     {
         return $this->id;
@@ -144,12 +212,13 @@ final class Sheet implements EntityWithDomainEventInterface
         return $this->participantId;
     }
 
-    public function eye(): Eye
+    public function eye(): ?Eye
     {
-        if ($this->eye === null) {
-            throw new \RuntimeException('Eye not found');
-        }
-
         return $this->eye;
+    }
+
+    public function nose(): ?Nose
+    {
+        return $this->nose;
     }
 }

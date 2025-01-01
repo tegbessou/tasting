@@ -46,12 +46,13 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20241217142038','2024-12-28 18:33:19',6),
-('DoctrineMigrations\\Version20241220165416','2024-12-28 18:33:19',2),
-('DoctrineMigrations\\Version20241221170800','2024-12-28 18:33:19',5),
-('DoctrineMigrations\\Version20241224111359','2024-12-28 18:33:19',10),
-('DoctrineMigrations\\Version20241224145300','2024-12-28 18:33:19',2),
-('DoctrineMigrations\\Version20241224213050','2024-12-28 18:33:19',2);
+('DoctrineMigrations\\Version20241217142038','2025-01-01 12:23:54',6),
+('DoctrineMigrations\\Version20241220165416','2025-01-01 12:23:54',1),
+('DoctrineMigrations\\Version20241221170800','2025-01-01 12:23:54',4),
+('DoctrineMigrations\\Version20241224111359','2025-01-01 12:23:54',10),
+('DoctrineMigrations\\Version20241224145300','2025-01-01 12:23:54',2),
+('DoctrineMigrations\\Version20241224213050','2025-01-01 12:23:54',2),
+('DoctrineMigrations\\Version20241231153606','2025-01-01 12:23:54',4);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,8 +118,39 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2024-12-28 18:33:19',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
+('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2025-01-01 12:23:54',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nose`
+--
+
+DROP TABLE IF EXISTS `nose`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nose` (
+  `id` binary(16) NOT NULL,
+  `impression` varchar(255) NOT NULL,
+  `intensite` varchar(255) NOT NULL,
+  `arome` varchar(255) NOT NULL,
+  `observation` longtext NOT NULL,
+  `sheet_id` binary(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_80FC6CD38B1206A5` (`sheet_id`),
+  CONSTRAINT `FK_80FC6CD38B1206A5` FOREIGN KEY (`sheet_id`) REFERENCES `sheet` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nose`
+--
+
+LOCK TABLES `nose` WRITE;
+/*!40000 ALTER TABLE `nose` DISABLE KEYS */;
+INSERT INTO `nose` VALUES
+('\ÓÁ¿jB©J*´š¸\în','simple','ouvert','boisÃ©e','Observation','Sý¹Ÿ³yM(¡\ÈT\ðz|4');
+/*!40000 ALTER TABLE `nose` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -186,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-28 18:33:20
+-- Dump completed on 2025-01-01 12:23:55

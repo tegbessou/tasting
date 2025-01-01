@@ -33,6 +33,10 @@ final class SheetFixtures extends Fixture
             'ambre',
             'fluide',
             'Observation',
+            'simple',
+            'ouvert',
+            'boisée',
+            'Observation',
         );
 
         foreach ($sheets as $sheet) {

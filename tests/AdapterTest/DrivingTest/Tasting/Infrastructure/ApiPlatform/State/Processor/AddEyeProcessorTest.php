@@ -27,7 +27,6 @@ final class AddEyeProcessorTest extends ApiTestCase
     public function testAddEye(): void
     {
         $this->post('/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes', [
-            'participant' => 'hugues.gobet@gmail.com',
             'limpidite' => 'floue',
             'brillance' => 'étincelante',
             'intensiteCouleur' => 'soutenue',
@@ -69,7 +68,6 @@ final class AddEyeProcessorTest extends ApiTestCase
         yield 'Not found sheet' => [
             'uri' => '/api/tastings/14403f0a-f593-4122-8786-80153f130039/eyes',
             'payload' => [
-                'participant' => 'hugues.gobet@gmail.com',
                 'limpidite' => 'floue',
                 'brillance' => 'étincelante',
                 'intensiteCouleur' => 'soutenue',
@@ -86,10 +84,6 @@ final class AddEyeProcessorTest extends ApiTestCase
             'payload' => [],
             'statusCode' => 422,
             'violations' => [
-                [
-                    'propertyPath' => 'participant',
-                    'message' => 'Cette valeur ne doit pas être vide.',
-                ],
                 [
                     'propertyPath' => 'limpidite',
                     'message' => 'Cette valeur ne doit pas être vide.',
@@ -117,10 +111,9 @@ final class AddEyeProcessorTest extends ApiTestCase
             ],
         ];
 
-        yield 'Bad data from participant, limpidite, brillance, intensiteCouleur, larme' => [
+        yield 'Bad data for limpidite, brillance, intensiteCouleur, larme' => [
             'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes',
             'payload' => [
-                'participant' => 'not_valid',
                 'limpidite' => 'pedro',
                 'brillance' => 'pedro',
                 'intensiteCouleur' => 'pedro',
@@ -130,10 +123,6 @@ final class AddEyeProcessorTest extends ApiTestCase
             ],
             'statusCode' => 422,
             'violations' => [
-                [
-                    'propertyPath' => 'participant',
-                    'message' => 'Cette valeur n\'est pas une adresse email valide.',
-                ],
                 [
                     'propertyPath' => 'limpidite',
                     'message' => 'Cette valeur doit être l\'un des choix proposés.',
@@ -156,7 +145,6 @@ final class AddEyeProcessorTest extends ApiTestCase
         yield 'Bad data for teinte, linked to bad wine type' => [
             'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes',
             'payload' => [
-                'participant' => 'hugues.gobet@gmail.com',
                 'limpidite' => 'floue',
                 'brillance' => 'étincelante',
                 'intensiteCouleur' => 'soutenue',

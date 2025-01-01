@@ -6,24 +6,23 @@ namespace App\Tasting\Infrastructure\ApiPlatform\Resource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
 use App\Tasting\Domain\Enum\Brillance;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
-use App\Tasting\Infrastructure\ApiPlatform\State\Processor\UpdateEyeProcessor;
+use App\Tasting\Infrastructure\ApiPlatform\State\Processor\AddEyeProcessor;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'Sheet',
 )]
-#[Put(
+#[Post(
     uriTemplate: '/sheets/{id}/eyes',
     output: false,
-    read: false,
-    processor: UpdateEyeProcessor::class,
+    processor: AddEyeProcessor::class,
 )]
-final readonly class PutTastingEyeResource
+final readonly class PostSheetEyeResource
 {
     public function __construct(
         #[ApiProperty]
