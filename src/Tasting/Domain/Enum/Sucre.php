@@ -11,4 +11,15 @@ enum Sucre: string
     case MOELLEUX = 'moelleux';
     case DOUX = 'doux';
     case SEC = 'sec';
+
+    public static function values(): array
+    {
+        return [
+            self::SIRUPEUX->value,
+            self::LIQOREUX->value,
+            self::MOELLEUX->value,
+            self::DOUX->value,
+            self::SEC->value,
+        ];
+    }
 }

@@ -37,6 +37,19 @@ final class SheetFixtures extends Fixture
             'ouvert',
             'boisée',
             'Observation',
+            'alcooleux',
+            'molle',
+            'étoffée',
+            'rémanente',
+            'Observation',
+            'chargé',
+        );
+
+        $sheets[] = new Sheet(
+            '7d4adf54-7ab5-4385-a4c6-c2c82b669a9f',
+            'ba57be61-1be9-4cbf-a804-d9e54d76af99',
+            'hugues.gobet@gmail.com',
+            'Pedor',
         );
 
         foreach ($sheets as $sheet) {

@@ -69,7 +69,7 @@ final class UpdateEyeProcessorTest extends ApiTestCase
     }
 
     #[DataProvider('provideInvalidData')]
-    public function testUpdateEyeToTastingWithInvalidData(
+    public function testUpdateEyeToSheetWithInvalidData(
         string $uri,
         array $payload,
         int $statusCode,

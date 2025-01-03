@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace AdapterTest\ContractTest\Tasting\Infrastructure\Doctrine\Mapper;
 
 use App\Tasting\Domain\Entity\Sheet;
+use App\Tasting\Domain\Enum\Acide;
+use App\Tasting\Domain\Enum\Alcool;
 use App\Tasting\Domain\Enum\Arome;
 use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\Finale;
 use App\Tasting\Domain\Enum\Impression;
 use App\Tasting\Domain\Enum\Intensite;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
+use App\Tasting\Domain\Enum\Matiere;
 use App\Tasting\Domain\Enum\RedTeinte;
+use App\Tasting\Domain\Enum\Tanin;
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Repository\SheetRepositoryInterface;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
@@ -22,6 +27,13 @@ use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
+use App\Tasting\Domain\ValueObject\MouthAcide;
+use App\Tasting\Domain\ValueObject\MouthAlcool;
+use App\Tasting\Domain\ValueObject\MouthFinale;
+use App\Tasting\Domain\ValueObject\MouthId;
+use App\Tasting\Domain\ValueObject\MouthMatiere;
+use App\Tasting\Domain\ValueObject\MouthObservation;
+use App\Tasting\Domain\ValueObject\MouthTanin;
 use App\Tasting\Domain\ValueObject\NoseArome;
 use App\Tasting\Domain\ValueObject\NoseId;
 use App\Tasting\Domain\ValueObject\NoseImpression;
@@ -31,6 +43,7 @@ use App\Tasting\Domain\ValueObject\SheetId;
 use App\Tasting\Domain\ValueObject\SheetParticipant;
 use App\Tasting\Domain\ValueObject\SheetTastingId;
 use App\Tasting\Infrastructure\Doctrine\Entity\Eye as EyeDoctrine;
+use App\Tasting\Infrastructure\Doctrine\Entity\Mouth as MouthDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Nose as NoseDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Entity\Sheet as SheetDoctrine;
 use App\Tasting\Infrastructure\Doctrine\Mapper\SheetMapper;
@@ -80,8 +93,20 @@ final class SheetMapperTest extends KernelTestCase
             'Observation',
         );
 
+        $mouth = new MouthDoctrine(
+            'd49fd204-c621-4d07-aa75-27ae45bf92c4',
+            $sheetDoctrine,
+            Alcool::GENEREUX,
+            Acide::VITE,
+            Matiere::MASSIVE,
+            Finale::DEVELOPPEE,
+            'Observation',
+            Tanin::APRE,
+        );
+
         $sheetDoctrine->eye = $eye;
         $sheetDoctrine->nose = $nose;
+        $sheetDoctrine->mouth = $mouth;
 
         $sheet = SheetMapper::toDomain($sheetDoctrine);
 
@@ -108,6 +133,17 @@ final class SheetMapperTest extends KernelTestCase
             NoseIntensite::fromString(Intensite::AROMATIQUE->value),
             NoseArome::fromString(Arome::BALSAMIQUE->value),
             NoseObservation::fromString('Observation'),
+        );
+
+        $expectedSheet->addMouth(
+            MouthId::fromString('d49fd204-c621-4d07-aa75-27ae45bf92c4'),
+            MouthAlcool::fromString(Alcool::GENEREUX->value),
+            MouthAcide::fromString(Acide::VITE->value),
+            MouthMatiere::fromString(Matiere::MASSIVE->value),
+            MouthFinale::fromString(Finale::DEVELOPPEE->value),
+            MouthObservation::fromString('Observation'),
+            WineType::RedWine,
+            MouthTanin::fromString(Tanin::APRE->value),
         );
 
         $this->assertEquals(
@@ -169,6 +205,38 @@ final class SheetMapperTest extends KernelTestCase
         $this->assertEquals(
             $expectedSheet->nose()->observation(),
             $sheet->nose()->observation(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->id(),
+            $sheet->mouth()->id(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->alcool(),
+            $sheet->mouth()->alcool(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->acide(),
+            $sheet->mouth()->acide(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->matiere(),
+            $sheet->mouth()->matiere(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->finale(),
+            $sheet->mouth()->finale(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->observation(),
+            $sheet->mouth()->observation(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->tanin(),
+            $sheet->mouth()->tanin(),
+        );
+        $this->assertEquals(
+            $expectedSheet->mouth()->matiere(),
+            $sheet->mouth()->matiere(),
         );
     }
 
@@ -239,6 +307,19 @@ final class SheetMapperTest extends KernelTestCase
 
         $sheet::eraseRecordedEvents();
 
+        $sheet->addMouth(
+            MouthId::fromString('4b757551-504e-4684-90ef-9cae9835ca58'),
+            MouthAlcool::fromString(Alcool::GENEREUX->value),
+            MouthAcide::fromString(Acide::VITE->value),
+            MouthMatiere::fromString(Matiere::MASSIVE->value),
+            MouthFinale::fromString(Finale::PERSISTANTE->value),
+            MouthObservation::fromString('Observation'),
+            WineType::RedWine,
+            MouthTanin::fromString(Tanin::CHARGE->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
         $this->sheetRepository->update($sheet);
 
         $expected = new SheetDoctrine(
@@ -267,6 +348,17 @@ final class SheetMapperTest extends KernelTestCase
             Intensite::AROMATIQUE,
             Arome::ANIMALE,
             'Observation',
+        );
+
+        $expectedMouth = new MouthDoctrine(
+            '4b757551-504e-4684-90ef-9cae9835ca58',
+            $expected,
+            Alcool::GENEREUX,
+            Acide::VITE,
+            Matiere::MASSIVE,
+            Finale::PERSISTANTE,
+            'Observation',
+            Tanin::CHARGE,
         );
 
         $this->assertEquals(
@@ -337,6 +429,42 @@ final class SheetMapperTest extends KernelTestCase
             $expectedNose->observation,
             $nose->observation,
         );
+
+        /** @var MouthDoctrine $mouth */
+        $mouth = $sheetDoctrine->mouth;
+
+        $this->assertEquals(
+            $expectedMouth->id,
+            $mouth->id,
+        );
+        $this->assertEquals(
+            $expectedMouth->alcool,
+            $mouth->alcool,
+        );
+        $this->assertEquals(
+            $expectedMouth->acide,
+            $mouth->acide,
+        );
+        $this->assertEquals(
+            $expectedMouth->matiere,
+            $mouth->matiere,
+        );
+        $this->assertEquals(
+            $expectedMouth->finale,
+            $mouth->finale,
+        );
+        $this->assertEquals(
+            $expectedMouth->observation,
+            $mouth->observation,
+        );
+        $this->assertEquals(
+            $expectedMouth->tanin,
+            $mouth->tanin,
+        );
+        $this->assertEquals(
+            $expectedMouth->sucre,
+            $mouth->sucre,
+        );
     }
 
     public function testToInfrastructureUpdateRelationsUpdated(): void
@@ -372,6 +500,19 @@ final class SheetMapperTest extends KernelTestCase
 
         $sheet::eraseRecordedEvents();
 
+        $sheet->addMouth(
+            MouthId::fromString('4b757551-504e-4684-90ef-9cae9835ca58'),
+            MouthAlcool::fromString(Alcool::GENEREUX->value),
+            MouthAcide::fromString(Acide::VITE->value),
+            MouthMatiere::fromString(Matiere::MASSIVE->value),
+            MouthFinale::fromString(Finale::PERSISTANTE->value),
+            MouthObservation::fromString('Observation'),
+            WineType::RedWine,
+            MouthTanin::fromString(Tanin::CHARGE->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
         $this->sheetRepository->update($sheet);
 
         $sheet->updateEye(
@@ -391,6 +532,18 @@ final class SheetMapperTest extends KernelTestCase
             NoseIntensite::fromString(Intensite::DISCRET_FERME->value),
             NoseArome::fromString(Arome::FRUITE->value),
             NoseObservation::fromString('Observation (modifié)'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->updateMouth(
+            MouthAlcool::fromString(Alcool::FAIBLE->value),
+            MouthAcide::fromString(Acide::FRAICHE->value),
+            MouthMatiere::fromString(Matiere::ETOFFEE->value),
+            MouthFinale::fromString(Finale::REMANENTE->value),
+            MouthObservation::fromString('Observation (modifié)'),
+            WineType::RedWine,
+            MouthTanin::fromString(Tanin::FADE->value),
         );
 
         $sheet::eraseRecordedEvents();
@@ -423,8 +576,20 @@ final class SheetMapperTest extends KernelTestCase
             'Observation',
         );
 
+        $oldMouth = new MouthDoctrine(
+            '4b757551-504e-4684-90ef-9cae9835ca58',
+            $oldSheet,
+            Alcool::GENEREUX,
+            Acide::VITE,
+            Matiere::MASSIVE,
+            Finale::PERSISTANTE,
+            'Observation',
+            Tanin::CHARGE,
+        );
+
         $oldSheet->eye = $oldEye;
         $oldSheet->nose = $oldNose;
+        $oldSheet->mouth = $oldMouth;
 
         $sheetDoctrine = SheetMapper::toInfrastructureUpdate($sheet, $oldSheet);
 
@@ -446,6 +611,17 @@ final class SheetMapperTest extends KernelTestCase
             Intensite::DISCRET_FERME,
             Arome::FRUITE,
             'Observation (modifié)',
+        );
+
+        $expectedMouth = new MouthDoctrine(
+            '4b757551-504e-4684-90ef-9cae9835ca58',
+            $sheetDoctrine,
+            Alcool::FAIBLE,
+            Acide::FRAICHE,
+            Matiere::ETOFFEE,
+            Finale::REMANENTE,
+            'Observation (modifié)',
+            Tanin::FADE,
         );
 
         /** @var EyeDoctrine $eye */
@@ -502,6 +678,42 @@ final class SheetMapperTest extends KernelTestCase
         $this->assertEquals(
             $expectedNose->observation,
             $nose->observation,
+        );
+
+        /** @var MouthDoctrine $mouth */
+        $mouth = $sheetDoctrine->mouth;
+
+        $this->assertEquals(
+            $expectedMouth->id,
+            $mouth->id,
+        );
+        $this->assertEquals(
+            $expectedMouth->alcool,
+            $mouth->alcool,
+        );
+        $this->assertEquals(
+            $expectedMouth->acide,
+            $mouth->acide,
+        );
+        $this->assertEquals(
+            $expectedMouth->matiere,
+            $mouth->matiere,
+        );
+        $this->assertEquals(
+            $expectedMouth->finale,
+            $mouth->finale,
+        );
+        $this->assertEquals(
+            $expectedMouth->observation,
+            $mouth->observation,
+        );
+        $this->assertEquals(
+            $expectedMouth->tanin,
+            $mouth->tanin,
+        );
+        $this->assertEquals(
+            $expectedMouth->sucre,
+            $mouth->sucre,
         );
     }
 }

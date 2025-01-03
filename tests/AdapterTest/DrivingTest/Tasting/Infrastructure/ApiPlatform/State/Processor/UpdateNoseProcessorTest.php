@@ -63,7 +63,7 @@ final class UpdateNoseProcessorTest extends ApiTestCase
     }
 
     #[DataProvider('provideInvalidData')]
-    public function testUpdateNoseToTastingWithInvalidData(
+    public function testUpdateNoseToSheetWithInvalidData(
         string $uri,
         array $payload,
         int $statusCode,

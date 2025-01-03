@@ -46,13 +46,15 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20241217142038','2025-01-01 12:24:06',7),
-('DoctrineMigrations\\Version20241220165416','2025-01-01 12:24:06',1),
-('DoctrineMigrations\\Version20241221170800','2025-01-01 12:24:06',4),
-('DoctrineMigrations\\Version20241224111359','2025-01-01 12:24:06',10),
-('DoctrineMigrations\\Version20241224145300','2025-01-01 12:24:06',2),
-('DoctrineMigrations\\Version20241224213050','2025-01-01 12:24:06',2),
-('DoctrineMigrations\\Version20241231153606','2025-01-01 12:24:06',4);
+('DoctrineMigrations\\Version20241217142038','2025-01-03 11:10:35',6),
+('DoctrineMigrations\\Version20241220165416','2025-01-03 11:10:35',1),
+('DoctrineMigrations\\Version20241221170800','2025-01-03 11:10:35',3),
+('DoctrineMigrations\\Version20241224111359','2025-01-03 11:10:35',9),
+('DoctrineMigrations\\Version20241224145300','2025-01-03 11:10:35',2),
+('DoctrineMigrations\\Version20241224213050','2025-01-03 11:10:35',2),
+('DoctrineMigrations\\Version20241231153606','2025-01-03 11:10:35',3),
+('DoctrineMigrations\\Version20250102173445','2025-01-03 11:10:35',3),
+('DoctrineMigrations\\Version20250102173652','2025-01-03 11:10:35',6);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +73,7 @@ CREATE TABLE `eye` (
   `teinte` varchar(255) NOT NULL,
   `larme` varchar(255) NOT NULL,
   `observation` longtext NOT NULL,
-  `sheet_id` binary(16) DEFAULT NULL,
+  `sheet_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_727887B18B1206A5` (`sheet_id`),
   CONSTRAINT `FK_727887B18B1206A5` FOREIGN KEY (`sheet_id`) REFERENCES `sheet` (`id`)
@@ -104,7 +106,7 @@ CREATE TABLE `invitation` (
   `created_at` datetime DEFAULT NULL,
   `sent_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `tasting_id` binary(16) DEFAULT NULL,
+  `tasting_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F11D61A25BC0FE1E` (`tasting_id`),
   CONSTRAINT `FK_F11D61A25BC0FE1E` FOREIGN KEY (`tasting_id`) REFERENCES `tasting` (`id`)
@@ -118,8 +120,42 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2025-01-01 12:24:07',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
+('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2025-01-03 11:10:35',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mouth`
+--
+
+DROP TABLE IF EXISTS `mouth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mouth` (
+  `id` binary(16) NOT NULL,
+  `alcool` varchar(255) NOT NULL,
+  `acide` varchar(255) NOT NULL,
+  `matiere` varchar(255) NOT NULL,
+  `finale` varchar(255) NOT NULL,
+  `observation` longtext NOT NULL,
+  `tanin` varchar(255) DEFAULT NULL,
+  `sucre` varchar(255) DEFAULT NULL,
+  `sheet_id` binary(16) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_9EC55C978B1206A5` (`sheet_id`),
+  CONSTRAINT `FK_9EC55C978B1206A5` FOREIGN KEY (`sheet_id`) REFERENCES `sheet` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mouth`
+--
+
+LOCK TABLES `mouth` WRITE;
+/*!40000 ALTER TABLE `mouth` DISABLE KEYS */;
+INSERT INTO `mouth` VALUES
+('\Ìø\îÿþG‘¤“Ò…Y\åT\Ã','alcooleux','molle','Ã©toffÃ©e','rÃ©manente','Observation','chargÃ©',NULL,'Sý¹Ÿ³yM(¡\ÈT\ðz|4');
+/*!40000 ALTER TABLE `mouth` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -135,7 +171,7 @@ CREATE TABLE `nose` (
   `intensite` varchar(255) NOT NULL,
   `arome` varchar(255) NOT NULL,
   `observation` longtext NOT NULL,
-  `sheet_id` binary(16) DEFAULT NULL,
+  `sheet_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_80FC6CD38B1206A5` (`sheet_id`),
   CONSTRAINT `FK_80FC6CD38B1206A5` FOREIGN KEY (`sheet_id`) REFERENCES `sheet` (`id`)
@@ -176,7 +212,8 @@ LOCK TABLES `sheet` WRITE;
 /*!40000 ALTER TABLE `sheet` DISABLE KEYS */;
 INSERT INTO `sheet` VALUES
 ('\Zž¢Þ»A«j‹W\Ò\æS”','.¥l5‹¹LnšI½y\Å\ñ7','hugues.gobet@gmail.com'),
-('Sý¹Ÿ³yM(¡\ÈT\ðz|4','–J<¸_½Fx¥\Í\ãqÀž§\"','hugues.gobet@gmail.com');
+('Sý¹Ÿ³yM(¡\ÈT\ðz|4','–J<¸_½Fx¥\Í\ãqÀž§\"','hugues.gobet@gmail.com'),
+('}J\ßTzµC…¤\Æ\Â\È+fšŸ','ºW¾a\éL¿¨\Ù\åMv¯™','hugues.gobet@gmail.com');
 /*!40000 ALTER TABLE `sheet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,7 +242,8 @@ LOCK TABLES `tasting` WRITE;
 /*!40000 ALTER TABLE `tasting` DISABLE KEYS */;
 INSERT INTO `tasting` VALUES
 ('.¥l5‹¹LnšI½y\Å\ñ7','Domaine Leflaive Montrachet Grand Cru 2016','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red'),
-('–J<¸_½Fx¥\Í\ãqÀž§\"','ChÃ¢teau Latour 2010','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red');
+('–J<¸_½Fx¥\Í\ãqÀž§\"','ChÃ¢teau Latour 2010','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red'),
+('ºW¾a\éL¿¨\Ù\åMv¯™','Domaine Leflaive Montrachet Grand Cru','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','white');
 /*!40000 ALTER TABLE `tasting` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -218,4 +256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-01 12:24:07
+-- Dump completed on 2025-01-03 11:10:36

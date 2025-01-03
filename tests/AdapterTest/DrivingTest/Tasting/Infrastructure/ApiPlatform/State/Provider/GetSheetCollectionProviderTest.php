@@ -58,7 +58,7 @@ final class GetSheetCollectionProviderTest extends ApiTestCase
                     'participantFullName' => 'Pedor',
                 ],
             ],
-            'totalItems' => 2,
+            'totalItems' => 3,
         ]);
     }
 
@@ -89,6 +89,12 @@ final class GetSheetCollectionProviderTest extends ApiTestCase
                     'noseIntensite' => 'ouvert',
                     'noseArome' => 'boisée',
                     'noseObservation' => 'Observation',
+                    'mouthAlcool' => 'alcooleux',
+                    'mouthAcide' => 'molle',
+                    'mouthMatiere' => 'étoffée',
+                    'mouthFinale' => 'rémanente',
+                    'mouthObservation' => 'Observation',
+                    'mouthTanin' => 'chargé',
                 ],
             ],
             'totalItems' => 1,

@@ -21,6 +21,8 @@ class Sheet
         public ?Eye $eye = null,
         #[ORM\OneToOne(targetEntity: Nose::class, mappedBy: 'sheet', cascade: ['persist', 'remove'], fetch: 'EAGER')]
         public ?Nose $nose = null,
+        #[ORM\OneToOne(targetEntity: Mouth::class, mappedBy: 'sheet', cascade: ['persist', 'remove'], fetch: 'EAGER')]
+        public ?Mouth $mouth = null,
     ) {
     }
 }

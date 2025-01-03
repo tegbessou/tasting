@@ -38,6 +38,13 @@ final readonly class GetCollectionSheetResource
         public ?string $noseIntensite = null,
         public ?string $noseArome = null,
         public ?string $noseObservation = null,
+        public ?string $mouthAlcool = null,
+        public ?string $mouthAcide = null,
+        public ?string $mouthMatiere = null,
+        public ?string $mouthFinale = null,
+        public ?string $mouthObservation = null,
+        public ?string $mouthTanin = null,
+        public ?string $mouthSucre = null,
     ) {
     }
 
@@ -58,6 +65,13 @@ final readonly class GetCollectionSheetResource
             $sheet->noseIntensite,
             $sheet->noseArome,
             $sheet->noseObservation,
+            $sheet->mouthAlcool,
+            $sheet->mouthAcide,
+            $sheet->mouthMatiere,
+            $sheet->mouthFinale,
+            $sheet->mouthObservation,
+            $sheet->mouthTanin,
+            $sheet->mouthSucre,
         );
     }
 }

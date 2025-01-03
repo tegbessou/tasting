@@ -17,8 +17,8 @@ class Nose
         #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
         public string $id,
         #[ORM\OneToOne(targetEntity: Sheet::class, inversedBy: 'nose')]
-        #[ORM\JoinColumn(name: 'sheet_id', referencedColumnName: 'id')]
-        public ?Sheet $sheet,
+        #[ORM\JoinColumn(name: 'sheet_id', referencedColumnName: 'id', nullable: false)]
+        public Sheet $sheet,
         #[ORM\Column(name: 'impression', type: 'string', enumType: Impression::class)]
         public Impression $impression,
         #[ORM\Column(name: 'intensite', type: 'string', enumType: Intensite::class)]

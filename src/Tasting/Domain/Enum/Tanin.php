@@ -11,4 +11,15 @@ enum Tanin: string
     case CHARPENTE = 'charpenté';
     case FADE = 'fade';
     case LISSE = 'lisse';
+
+    public static function values(): array
+    {
+        return [
+            self::APRE->value,
+            self::CHARGE->value,
+            self::CHARPENTE->value,
+            self::FADE->value,
+            self::LISSE->value,
+        ];
+    }
 }

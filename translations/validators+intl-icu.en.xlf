@@ -38,6 +38,22 @@
                 <source>tasting.add_eye.participant.pariticpant_already_add_eye</source>
                 <target>Participant {participant} already add eye to tasting {tastingId}.</target>
             </trans-unit>
+            <trans-unit id="tasting.add_mouth.tanin.empty_for_red_wine">
+                <source>tasting.add_mouth.tanin.empty_for_red_wine</source>
+                <target>Tanin must be specified for a red wine.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_mouth.tanin.not_empty_for_not_red_wine">
+                <source>tasting.add_mouth.tanin.not_empty_for_not_red_wine</source>
+                <target>Tannin should not be specified for a wine that is not red.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_mouth.sucre.empty_for_sweet_wine">
+                <source>tasting.add_mouth.sucre.empty_for_sweet_wine</source>
+                <target>Sugar must be specified for a sweet wine.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_mouth.sucre.empty_for_not_sweet_wine">
+                <source>tasting.add_mouth.sucre.empty_for_not_sweet_wine</source>
+                <target>Sugar should not be specified for a wine that is not sweet.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
