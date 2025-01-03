@@ -20,6 +20,7 @@ final readonly class SheetMapper
             SheetParticipant::fromString($sheet->participant),
             $sheet->eye === null ? null : EyeMapper::toDomain($sheet->eye),
             $sheet->nose === null ? null : NoseMapper::toDomain($sheet->nose),
+            $sheet->mouth === null ? null : MouthMapper::toDomain($sheet->mouth),
         );
     }
 
@@ -40,6 +41,10 @@ final readonly class SheetMapper
 
         if ($sheet->nose() !== null) {
             self::synchronizeNose($sheet, $sheetDoctrine);
+        }
+
+        if ($sheet->mouth() !== null) {
+            self::synchronizeMouth($sheet, $sheetDoctrine);
         }
 
         return $sheetDoctrine;
@@ -73,5 +78,20 @@ final readonly class SheetMapper
         }
 
         $sheetDoctrine->nose = NoseMapper::toInfrastructureUpdate($sheet->nose(), $sheetDoctrine->nose);
+    }
+
+    public static function synchronizeMouth(Sheet $sheet, SheetDoctrine $sheetDoctrine): void
+    {
+        if ($sheet->mouth() === null) {
+            throw new \LogicException('Mouth shouln\'t be null');
+        }
+
+        if ($sheetDoctrine->mouth === null) {
+            $sheetDoctrine->mouth = MouthMapper::toInfrastructurePersist($sheet->mouth(), $sheetDoctrine);
+
+            return;
+        }
+
+        $sheetDoctrine->mouth = MouthMapper::toInfrastructureUpdate($sheet->mouth(), $sheetDoctrine->mouth);
     }
 }

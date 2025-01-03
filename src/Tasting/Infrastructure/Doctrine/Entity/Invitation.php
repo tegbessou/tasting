@@ -15,7 +15,7 @@ final class Invitation
         #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
         public string $id,
         #[ORM\ManyToOne(targetEntity: Tasting::class, inversedBy: 'invitations')]
-        #[ORM\JoinColumn(name: 'tasting_id', referencedColumnName: 'id')]
+        #[ORM\JoinColumn(name: 'tasting_id', referencedColumnName: 'id', nullable: false)]
         public ?Tasting $subject,
         #[ORM\Column(name: 'target', type: 'string')]
         public string $targetId,

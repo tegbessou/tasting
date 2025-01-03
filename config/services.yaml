@@ -36,6 +36,12 @@ services:
   App\Tasting\Application\Projection\UpdateNoseToSheetProjection:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\Projection\AddMouthToSheetProjection:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\Projection\UpdateMouthToSheetProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
     alias: App\Tasting\Infrastructure\User\Repository\ParticipantRepository
 

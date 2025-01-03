@@ -38,5 +38,19 @@ class Sheet
         public ?string $noseArome = null,
         #[MongoDB\Field(type: 'string', nullable: true)]
         public ?string $noseObservation = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthAlcool = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthAcide = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthMatiere = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthFinale = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthObservation = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthTanin = null,
+        #[MongoDB\Field(type: 'string', nullable: true)]
+        public ?string $mouthSucre = null,
     ) {}
 }

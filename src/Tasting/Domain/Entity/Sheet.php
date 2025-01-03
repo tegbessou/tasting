@@ -7,11 +7,15 @@ namespace App\Tasting\Domain\Entity;
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Event\EyeAdded;
 use App\Tasting\Domain\Event\EyeUpdated;
+use App\Tasting\Domain\Event\MouthAdded;
+use App\Tasting\Domain\Event\MouthUpdated;
 use App\Tasting\Domain\Event\NoseAdded;
 use App\Tasting\Domain\Event\NoseUpdated;
 use App\Tasting\Domain\Event\SheetCreated;
 use App\Tasting\Domain\Specification\EyeCanBeAdd;
 use App\Tasting\Domain\Specification\EyeCanBeUpdate;
+use App\Tasting\Domain\Specification\MouthCanBeAdd;
+use App\Tasting\Domain\Specification\MouthCanBeUpdate;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
 use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
@@ -19,6 +23,14 @@ use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
+use App\Tasting\Domain\ValueObject\MouthAcide;
+use App\Tasting\Domain\ValueObject\MouthAlcool;
+use App\Tasting\Domain\ValueObject\MouthFinale;
+use App\Tasting\Domain\ValueObject\MouthId;
+use App\Tasting\Domain\ValueObject\MouthMatiere;
+use App\Tasting\Domain\ValueObject\MouthObservation;
+use App\Tasting\Domain\ValueObject\MouthSucre;
+use App\Tasting\Domain\ValueObject\MouthTanin;
 use App\Tasting\Domain\ValueObject\NoseArome;
 use App\Tasting\Domain\ValueObject\NoseId;
 use App\Tasting\Domain\ValueObject\NoseImpression;
@@ -40,6 +52,7 @@ final class Sheet implements EntityWithDomainEventInterface
         private readonly SheetParticipant $participantId,
         private ?Eye $eye = null,
         private ?Nose $nose = null,
+        private ?Mouth $mouth = null,
     ) {
     }
 
@@ -75,7 +88,7 @@ final class Sheet implements EntityWithDomainEventInterface
         EyeObservation $observation,
         WineType $wineType,
     ): void {
-        $eye = new Eye(
+        $eye = Eye::create(
             $id,
             $limpidite,
             $brillance,
@@ -148,7 +161,7 @@ final class Sheet implements EntityWithDomainEventInterface
         NoseArome $arome,
         NoseObservation $observation,
     ): void {
-        $nose = new Nose(
+        $nose = Nose::create(
             $id,
             $impression,
             $intensite,
@@ -197,6 +210,92 @@ final class Sheet implements EntityWithDomainEventInterface
         );
     }
 
+    public function addMouth(
+        MouthId $id,
+        MouthAlcool $alcool,
+        MouthAcide $acide,
+        MouthMatiere $matiere,
+        MouthFinale $finale,
+        MouthObservation $observation,
+        WineType $wineType,
+        ?MouthTanin $tanin = null,
+        ?MouthSucre $sucre = null,
+    ): void {
+        $mouth = Mouth::create(
+            $id,
+            $alcool,
+            $acide,
+            $matiere,
+            $finale,
+            $observation,
+            $tanin,
+            $sucre,
+        );
+
+        $specification = new MouthCanBeAdd();
+        $specification->satisfiedBy($mouth, $wineType);
+
+        $this->mouth = $mouth;
+
+        self::recordEvent(
+            new MouthAdded(
+                $this->id->value(),
+                $alcool->value(),
+                $acide->value(),
+                $matiere->value(),
+                $finale->value(),
+                $observation->value(),
+                $tanin?->value() ?? null,
+                $sucre?->value() ?? null,
+            ),
+        );
+    }
+
+    public function updateMouth(
+        MouthAlcool $alcool,
+        MouthAcide $acide,
+        MouthMatiere $matiere,
+        MouthFinale $finale,
+        MouthObservation $observation,
+        WineType $wineType,
+        ?MouthTanin $tanin = null,
+        ?MouthSucre $sucre = null,
+    ): void {
+        $specification = new MouthCanBeUpdate();
+        $specification->satisfiedBy(
+            $wineType,
+            $tanin,
+            $sucre,
+        );
+
+        if ($this->mouth() === null) {
+            throw new \LogicException('Mouth shouldn\'t be null');
+        }
+
+        $this->mouth()->update(
+            $alcool,
+            $acide,
+            $matiere,
+            $finale,
+            $observation,
+            $tanin ?? null,
+            $sucre ?? null,
+        );
+
+        self::recordEvent(
+            new MouthUpdated(
+                $this->id->value(),
+                $alcool->value(),
+                $acide->value(),
+                $matiere->value(),
+                $finale->value(),
+                $observation->value(),
+                $tanin?->value() ?? null,
+                $sucre?->value() ?? null,
+            ),
+        );
+    }
+
     public function id(): SheetId
     {
         return $this->id;
@@ -220,5 +319,10 @@ final class Sheet implements EntityWithDomainEventInterface
     public function nose(): ?Nose
     {
         return $this->nose;
+    }
+
+    public function mouth(): ?Mouth
+    {
+        return $this->mouth;
     }
 }

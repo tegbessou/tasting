@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace DataFixtures\Tasting;
 
+use App\Tasting\Domain\Enum\Acide;
+use App\Tasting\Domain\Enum\Alcool;
 use App\Tasting\Domain\Enum\Arome;
 use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\Finale;
 use App\Tasting\Domain\Enum\Impression;
 use App\Tasting\Domain\Enum\Intensite;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
+use App\Tasting\Domain\Enum\Matiere;
+use App\Tasting\Domain\Enum\Tanin;
 use App\Tasting\Infrastructure\Doctrine\Entity\Eye;
+use App\Tasting\Infrastructure\Doctrine\Entity\Mouth;
 use App\Tasting\Infrastructure\Doctrine\Entity\Nose;
 use App\Tasting\Infrastructure\Doctrine\Entity\Sheet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -55,8 +61,26 @@ final class SheetFixtures extends Fixture
             'Observation',
         );
 
+        $mouth = new Mouth(
+            'ccf8eeff-fe1b-4791-a493-d28559e554c3',
+            $sheets[1],
+            Alcool::ALCOOLEUX,
+            Acide::MOLLE,
+            Matiere::ETOFFEE,
+            Finale::REMANENTE,
+            'Observation',
+            Tanin::CHARGE,
+        );
+
         $sheets[1]->eye = $eye;
         $sheets[1]->nose = $nose;
+        $sheets[1]->mouth = $mouth;
+
+        $sheets[] = new Sheet(
+            '7d4adf54-7ab5-4385-a4c6-c2c82b669a9f',
+            'ba57be61-1be9-4cbf-a804-d9e54d76af99',
+            'hugues.gobet@gmail.com',
+        );
 
         foreach ($sheets as $sheet) {
             $manager->persist($sheet);

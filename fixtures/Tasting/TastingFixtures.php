@@ -36,6 +36,16 @@ final class TastingFixtures extends Fixture
             'hugues.gobet@gmail.com',
         );
 
+        $tastings[] = new Tasting(
+            'ba57be61-1be9-4cbf-a804-d9e54d76af99',
+            'Domaine Leflaive Montrachet Grand Cru',
+            WineType::WhiteWine,
+            [
+                'hugues.gobet@gmail.com',
+            ],
+            'hugues.gobet@gmail.com',
+        );
+
         foreach ($tastings as $tasting) {
             $manager->persist($tasting);
         }

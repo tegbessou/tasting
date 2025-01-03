@@ -30,7 +30,6 @@ final class AddNoseToSheetProjectionTest extends KernelTestCase
 
     public function testNoseSheetProjection(): void
     {
-        // faire les projections pour le nez
         self::bootKernel();
 
         $container = static::getContainer();

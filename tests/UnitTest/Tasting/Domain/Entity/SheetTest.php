@@ -5,22 +5,34 @@ declare(strict_types=1);
 namespace UnitTest\Tasting\Domain\Entity;
 
 use App\Tasting\Domain\Entity\Sheet;
+use App\Tasting\Domain\Enum\Acide;
+use App\Tasting\Domain\Enum\Alcool;
 use App\Tasting\Domain\Enum\Arome;
 use App\Tasting\Domain\Enum\Brillance;
+use App\Tasting\Domain\Enum\Finale;
 use App\Tasting\Domain\Enum\Impression;
 use App\Tasting\Domain\Enum\Intensite;
 use App\Tasting\Domain\Enum\IntensiteCouleur;
 use App\Tasting\Domain\Enum\Larme;
 use App\Tasting\Domain\Enum\Limpidite;
+use App\Tasting\Domain\Enum\Matiere;
 use App\Tasting\Domain\Enum\RedTeinte;
+use App\Tasting\Domain\Enum\Sucre;
+use App\Tasting\Domain\Enum\Tanin;
 use App\Tasting\Domain\Enum\WhiteTeinte;
 use App\Tasting\Domain\Enum\WineType;
 use App\Tasting\Domain\Event\EyeAdded;
 use App\Tasting\Domain\Event\EyeUpdated;
+use App\Tasting\Domain\Event\MouthAdded;
+use App\Tasting\Domain\Event\MouthUpdated;
 use App\Tasting\Domain\Event\NoseAdded;
 use App\Tasting\Domain\Event\NoseUpdated;
 use App\Tasting\Domain\Event\SheetCreated;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
+use App\Tasting\Domain\Exception\MouthSucreShouldBeIfWineIsSweetException;
+use App\Tasting\Domain\Exception\MouthSucreShouldntBeIfWineIsNotSweetException;
+use App\Tasting\Domain\Exception\MouthTaninShouldBeIfWineTypeIsRedException;
+use App\Tasting\Domain\Exception\MouthTaninShouldntBeIfWineTypeIsNotRedException;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
 use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
@@ -28,6 +40,14 @@ use App\Tasting\Domain\ValueObject\EyeLarme;
 use App\Tasting\Domain\ValueObject\EyeLimpidite;
 use App\Tasting\Domain\ValueObject\EyeObservation;
 use App\Tasting\Domain\ValueObject\EyeTeinte;
+use App\Tasting\Domain\ValueObject\MouthAcide;
+use App\Tasting\Domain\ValueObject\MouthAlcool;
+use App\Tasting\Domain\ValueObject\MouthFinale;
+use App\Tasting\Domain\ValueObject\MouthId;
+use App\Tasting\Domain\ValueObject\MouthMatiere;
+use App\Tasting\Domain\ValueObject\MouthObservation;
+use App\Tasting\Domain\ValueObject\MouthSucre;
+use App\Tasting\Domain\ValueObject\MouthTanin;
 use App\Tasting\Domain\ValueObject\NoseArome;
 use App\Tasting\Domain\ValueObject\NoseId;
 use App\Tasting\Domain\ValueObject\NoseImpression;
@@ -466,5 +486,470 @@ final class SheetTest extends TestCase
         $this->assertEquals('balsamique', $sheet::getRecordedEvent()[0]->arome);
         $this->assertEquals('Observation (modifié)', $sheet::getRecordedEvent()[0]->observation);
         $sheet::eraseRecordedEvents();
+    }
+
+    public function testAddMouth(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+
+        $this->assertEquals('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0', $sheet->mouth()->id()->value());
+        $this->assertEquals(Alcool::ALCOOLEUX->value, $sheet->mouth()->alcool()->value());
+        $this->assertEquals(Acide::NERVEUSE->value, $sheet->mouth()->acide()->value());
+        $this->assertEquals(Matiere::MASSIVE->value, $sheet->mouth()->matiere()->value());
+        $this->assertEquals(Finale::COURTE->value, $sheet->mouth()->finale()->value());
+        $this->assertEquals(Tanin::FADE->value, $sheet->mouth()->tanin()->value());
+        $this->assertEquals('Observation', $sheet->mouth()->observation()->value());
+    }
+
+    public function testAddMouthSuccessDispatchEvent(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+
+        $this->assertInstanceOf(MouthAdded::class, $sheet::getRecordedEvent()[0]);
+        $this->assertEquals('c3827445-9578-43ef-b437-234feba48ec8', $sheet::getRecordedEvent()[0]->sheetId);
+        $this->assertEquals('alcooleux', $sheet::getRecordedEvent()[0]->alcool);
+        $this->assertEquals('nerveuse', $sheet::getRecordedEvent()[0]->acide);
+        $this->assertEquals('massive', $sheet::getRecordedEvent()[0]->matiere);
+        $this->assertEquals('courte', $sheet::getRecordedEvent()[0]->finale);
+        $this->assertEquals('Observation', $sheet::getRecordedEvent()[0]->observation);
+        $this->assertEquals('fade', $sheet::getRecordedEvent()[0]->tanin);
+        $sheet::eraseRecordedEvents();
+    }
+
+    public function testAddMouthWithTaninButItsNotARedWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthTaninShouldntBeIfWineTypeIsNotRedException::class);
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+    }
+
+    public function testAddMouthWithRedWinenButWithoutTanin(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthTaninShouldBeIfWineTypeIsRedException::class);
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+        );
+    }
+
+    public function testAddMouthWithSugarOnSweetWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            sucre: MouthSucre::fromString(Sucre::SEC->value),
+        );
+
+        $this->assertEquals('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0', $sheet->mouth()->id()->value());
+        $this->assertEquals(Sucre::SEC->value, $sheet->mouth()->sucre()->value());
+    }
+
+    public function testAddMouthWithSugarOnANoneSweetWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthSucreShouldntBeIfWineIsNotSweetException::class);
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::APRE->value),
+            sucre: MouthSucre::fromString(Sucre::SEC->value),
+        );
+    }
+
+    public function testAddMouthWithoutSugarOnASweetWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthSucreShouldBeIfWineIsSweetException::class);
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+        );
+    }
+
+    public function testUpdateMouth(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->assertEquals('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0', $sheet->mouth()->id()->value());
+        $this->assertEquals(Alcool::ALCOOLEUX->value, $sheet->mouth()->alcool()->value());
+        $this->assertEquals(Acide::NERVEUSE->value, $sheet->mouth()->acide()->value());
+        $this->assertEquals(Matiere::MASSIVE->value, $sheet->mouth()->matiere()->value());
+        $this->assertEquals(Finale::COURTE->value, $sheet->mouth()->finale()->value());
+        $this->assertEquals(Tanin::FADE->value, $sheet->mouth()->tanin()->value());
+        $this->assertEquals('Observation', $sheet->mouth()->observation()->value());
+
+        $sheet->updateMouth(
+            alcool: MouthAlcool::fromString(Alcool::CAPITEUX->value),
+            acide: MouthAcide::fromString(Acide::FRAICHE->value),
+            matiere: MouthMatiere::fromString(Matiere::ETOFFEE->value),
+            finale: MouthFinale::fromString(Finale::DEVELOPPEE->value),
+            observation: MouthObservation::fromString('Observation (modifié)'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::CHARPENTE->value),
+        );
+
+        $this->assertEquals('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0', $sheet->mouth()->id()->value());
+        $this->assertEquals(Alcool::CAPITEUX->value, $sheet->mouth()->alcool()->value());
+        $this->assertEquals(Acide::FRAICHE->value, $sheet->mouth()->acide()->value());
+        $this->assertEquals(Matiere::ETOFFEE->value, $sheet->mouth()->matiere()->value());
+        $this->assertEquals(Finale::DEVELOPPEE->value, $sheet->mouth()->finale()->value());
+        $this->assertEquals(Tanin::CHARPENTE->value, $sheet->mouth()->tanin()->value());
+        $this->assertEquals('Observation (modifié)', $sheet->mouth()->observation()->value());
+    }
+
+    public function testUpdateMouthSuccessDispatchEvent(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->assertEquals('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0', $sheet->mouth()->id()->value());
+        $this->assertEquals(Alcool::ALCOOLEUX->value, $sheet->mouth()->alcool()->value());
+        $this->assertEquals(Acide::NERVEUSE->value, $sheet->mouth()->acide()->value());
+        $this->assertEquals(Matiere::MASSIVE->value, $sheet->mouth()->matiere()->value());
+        $this->assertEquals(Finale::COURTE->value, $sheet->mouth()->finale()->value());
+        $this->assertEquals(Tanin::FADE->value, $sheet->mouth()->tanin()->value());
+        $this->assertEquals('Observation', $sheet->mouth()->observation()->value());
+
+        $sheet->updateMouth(
+            alcool: MouthAlcool::fromString(Alcool::CAPITEUX->value),
+            acide: MouthAcide::fromString(Acide::FRAICHE->value),
+            matiere: MouthMatiere::fromString(Matiere::ETOFFEE->value),
+            finale: MouthFinale::fromString(Finale::DEVELOPPEE->value),
+            observation: MouthObservation::fromString('Observation (modifié)'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::CHARPENTE->value),
+        );
+
+        $this->assertInstanceOf(MouthUpdated::class, $sheet::getRecordedEvent()[0]);
+        $this->assertEquals('c3827445-9578-43ef-b437-234feba48ec8', $sheet::getRecordedEvent()[0]->sheetId);
+        $this->assertEquals('capiteux', $sheet::getRecordedEvent()[0]->alcool);
+        $this->assertEquals('fraîche', $sheet::getRecordedEvent()[0]->acide);
+        $this->assertEquals('étoffée', $sheet::getRecordedEvent()[0]->matiere);
+        $this->assertEquals('développée', $sheet::getRecordedEvent()[0]->finale);
+        $this->assertEquals('Observation (modifié)', $sheet::getRecordedEvent()[0]->observation);
+        $this->assertEquals('charpenté', $sheet::getRecordedEvent()[0]->tanin);
+        $sheet::eraseRecordedEvents();
+    }
+
+    public function testUpdateMouthWithTaninButItsNotARedWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            sucre: MouthSucre::fromString(Sucre::SEC->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthTaninShouldntBeIfWineTypeIsNotRedException::class);
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+    }
+
+    public function testUpdateMouthWithRedWinenButWithoutTanin(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthTaninShouldBeIfWineTypeIsRedException::class);
+
+        $sheet->updateMouth(
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+        );
+    }
+
+    public function testUpdateMouthWithSugarOnSweetWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            sucre: MouthSucre::fromString(Sucre::SEC->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->updateMouth(
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            sucre: MouthSucre::fromString(Sucre::LIQOREUX->value),
+        );
+
+        $this->assertEquals('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0', $sheet->mouth()->id()->value());
+        $this->assertEquals(Sucre::LIQOREUX->value, $sheet->mouth()->sucre()->value());
+    }
+
+    public function testUpdateMouthWithSugarOnANoneSweetWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::FADE->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthSucreShouldntBeIfWineIsNotSweetException::class);
+
+        $sheet->updateMouth(
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::RedWine,
+            tanin: MouthTanin::fromString(Tanin::APRE->value),
+            sucre: MouthSucre::fromString(Sucre::SEC->value),
+        );
+    }
+
+    public function testUpdateMouthWithoutSugarOnASweetWine(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->addMouth(
+            id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+            sucre: MouthSucre::fromString(Sucre::SEC->value),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $this->expectException(MouthSucreShouldBeIfWineIsSweetException::class);
+
+        $sheet->updateMouth(
+            alcool: MouthAlcool::fromString(Alcool::ALCOOLEUX->value),
+            acide: MouthAcide::fromString(Acide::NERVEUSE->value),
+            matiere: MouthMatiere::fromString(Matiere::MASSIVE->value),
+            finale: MouthFinale::fromString(Finale::COURTE->value),
+            observation: MouthObservation::fromString('Observation'),
+            wineType: WineType::WhiteWine,
+        );
     }
 }
