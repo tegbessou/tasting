@@ -6,9 +6,12 @@ namespace App\Tasting\Infrastructure\ApiPlatform\State\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\UpdateNoseCommand;
 use App\Tasting\Application\Exception\SheetDoesntExistException;
+use App\Tasting\Domain\Exception\NoseShouldBeAddedException;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\PutSheetNoseResource;
+use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildNoseNotAlreadyAddedConstraintViolation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TegCorp\SharedKernelBundle\Application\Command\CommandBusInterface;
@@ -22,6 +25,7 @@ final readonly class UpdateNoseProcessor implements ProcessorInterface
     public function __construct(
         private CommandBusInterface $commandBus,
         private LoggerInterface $logger,
+        private BuildNoseNotAlreadyAddedConstraintViolation $buildNoseNotAlreadyAddedConstraintViolation,
     ) {
     }
 
@@ -53,6 +57,12 @@ final readonly class UpdateNoseProcessor implements ProcessorInterface
             );
 
             throw new NotFoundHttpException();
+        } catch (NoseShouldBeAddedException) {
+            $this->logger->error(
+                'Update nose: Nose not already added',
+            );
+
+            throw new ValidationException($this->buildNoseNotAlreadyAddedConstraintViolation->build());
         }
     }
 }

@@ -40,7 +40,7 @@ final readonly class GetSheetCollectionProvider implements ProviderInterface
         $resources = [];
 
         foreach ($models as $model) {
-            $resources[] = GetCollectionSheetResource::fromDomain($model);
+            $resources[] = GetCollectionSheetResource::fromModel($model);
         }
 
         if (null !== $paginator = $models->paginator()) {

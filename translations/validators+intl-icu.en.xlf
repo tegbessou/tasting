@@ -38,6 +38,14 @@
                 <source>tasting.add_eye.participant.pariticpant_already_add_eye</source>
                 <target>Participant {participant} already add eye to tasting {tastingId}.</target>
             </trans-unit>
+            <trans-unit id="tasting.add_eye.eye_already_added">
+                <source>tasting.add_eye.eye_already_added</source>
+                <target>An eye has already been added for this tasting sheet.</target>
+            </trans-unit>
+            <trans-unit id="tasting.update_eye.eye_not_already_added">
+                <source>tasting.update_eye.eye_not_already_added</source>
+                <target>An eye has not yet been added for this tasting sheet.</target>
+            </trans-unit>
             <trans-unit id="tasting.add_mouth.tanin.empty_for_red_wine">
                 <source>tasting.add_mouth.tanin.empty_for_red_wine</source>
                 <target>Tanin must be specified for a red wine.</target>
@@ -53,6 +61,22 @@
             <trans-unit id="tasting.add_mouth.sucre.empty_for_not_sweet_wine">
                 <source>tasting.add_mouth.sucre.empty_for_not_sweet_wine</source>
                 <target>Sugar should not be specified for a wine that is not sweet.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_mouth.mouth_already_added">
+                <source>tasting.add_mouth.mouth_already_added</source>
+                <target>A mouth has already been added for this tasting sheet.</target>
+            </trans-unit>
+            <trans-unit id="tasting.update_mouth.mouth_not_already_added">
+                <source>tasting.update_mouth.mouth_not_already_added</source>
+                <target>A mouth has not yet been added for this tasting sheet.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_nose.nose_already_added">
+                <source>tasting.add_nose.nose_already_added</source>
+                <target>A nose has already been added for this tasting sheet.</target>
+            </trans-unit>
+            <trans-unit id="tasting.update_nose.nose_not_already_added">
+                <source>tasting.update_nose.nose_not_already_added</source>
+                <target>A nose has not yet been added for this tasting sheet.</target>
             </trans-unit>
         </body>
     </file>

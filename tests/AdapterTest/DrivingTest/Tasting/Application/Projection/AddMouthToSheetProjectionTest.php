@@ -42,7 +42,7 @@ final class AddMouthToSheetProjectionTest extends KernelTestCase
         $this->sheetAdapter = $container->get(SheetAdapterInterface::class);
         $this->sheetRepository = $container->get(SheetRepositoryInterface::class);
 
-        $sheet = $this->sheetRepository->ofId(SheetId::fromString('53fdb99f-b379-4d28-a1c8-541df07a7c34'));
+        $sheet = $this->sheetRepository->ofId(SheetId::fromString('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394'));
 
         $sheet->addMouth(
             id: MouthId::fromString('4dd4ae6c-5ecd-4a19-be7c-ed6e3c9eddb0'),
@@ -60,7 +60,7 @@ final class AddMouthToSheetProjectionTest extends KernelTestCase
         $this->sheetRepository->update($sheet);
 
         $event = new MouthAdded(
-            '53fdb99f-b379-4d28-a1c8-541df07a7c34',
+            '1a9ea2de-bb0b-4104-ab6a-8b57d2e65394',
             'alcooleux',
             'nerveuse',
             'massive',
@@ -71,7 +71,7 @@ final class AddMouthToSheetProjectionTest extends KernelTestCase
 
         $projection($event);
 
-        $sheet = $this->sheetAdapter->ofId('53fdb99f-b379-4d28-a1c8-541df07a7c34');
+        $sheet = $this->sheetAdapter->ofId('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394');
 
         $this->assertEquals(
             Alcool::ALCOOLEUX->value,

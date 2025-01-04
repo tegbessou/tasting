@@ -42,7 +42,7 @@ final class UpdateEyeToSheetProjectionTest extends KernelTestCase
         $this->sheetAdapter = $container->get(SheetAdapterInterface::class);
         $this->sheetRepository = $container->get(SheetRepositoryInterface::class);
 
-        $sheet = $this->sheetRepository->ofId(SheetId::fromString('53fdb99f-b379-4d28-a1c8-541df07a7c34'));
+        $sheet = $this->sheetRepository->ofId(SheetId::fromString('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394'));
 
         $sheet->addEye(
             EyeId::fromString('691b560c-d2ab-4e21-859b-f6a246ffc9d6'),
@@ -72,7 +72,7 @@ final class UpdateEyeToSheetProjectionTest extends KernelTestCase
         $this->sheetRepository->update($sheet);
 
         $event = new EyeUpdated(
-            '53fdb99f-b379-4d28-a1c8-541df07a7c34',
+            '1a9ea2de-bb0b-4104-ab6a-8b57d2e65394',
             Limpidite::OPALESCENTE->value,
             Brillance::TERNE->value,
             IntensiteCouleur::CLAIRE->value,
@@ -83,7 +83,7 @@ final class UpdateEyeToSheetProjectionTest extends KernelTestCase
 
         $projection($event);
 
-        $sheet = $this->sheetAdapter->ofId('53fdb99f-b379-4d28-a1c8-541df07a7c34');
+        $sheet = $this->sheetAdapter->ofId('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394');
 
         $this->assertEquals(
             Limpidite::OPALESCENTE->value,

@@ -9,11 +9,13 @@ use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\UpdateMouthCommand;
 use App\Tasting\Application\Exception\SheetDoesntExistException;
+use App\Tasting\Domain\Exception\MouthShouldBeAddedException;
 use App\Tasting\Domain\Exception\MouthSucreShouldBeIfWineIsSweetException;
 use App\Tasting\Domain\Exception\MouthSucreShouldntBeIfWineIsNotSweetException;
 use App\Tasting\Domain\Exception\MouthTaninShouldBeIfWineTypeIsRedException;
 use App\Tasting\Domain\Exception\MouthTaninShouldntBeIfWineTypeIsNotRedException;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\PutSheetMouthResource;
+use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildMouthNotAlreadyAddedConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildMouthSucreShouldBeNullIfWineIsNotSweetConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildMouthSucreShouldntBeNullIfWineIsSweetConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildMouthTaninShouldBeNullIfWineIsNotRedConstraintViolation;
@@ -35,6 +37,7 @@ final readonly class UpdateMouthProcessor implements ProcessorInterface
         private BuildMouthTaninShouldBeNullIfWineIsNotRedConstraintViolation $buildMouthTaninShouldBeNullIfWineIsNotRedConstraintViolation,
         private BuildMouthSucreShouldntBeNullIfWineIsSweetConstraintViolation $buildMouthSucreShouldntBeNullIfWineIsSweetConstraintViolation,
         private BuildMouthSucreShouldBeNullIfWineIsNotSweetConstraintViolation $buildMouthSucreShouldBeNullIfWineIsNotSweetConstraintViolation,
+        private BuildMouthNotAlreadyAddedConstraintViolation $buildMouthNotAlreadyAddedConstraintViolation,
     ) {
     }
 
@@ -94,6 +97,12 @@ final readonly class UpdateMouthProcessor implements ProcessorInterface
             );
 
             throw new ValidationException($this->buildMouthSucreShouldBeNullIfWineIsNotSweetConstraintViolation->build());
+        } catch (MouthShouldBeAddedException) {
+            $this->logger->error(
+                'Update mouth: Mouth should be added',
+            );
+
+            throw new ValidationException($this->buildMouthNotAlreadyAddedConstraintViolation->build());
         }
     }
 }

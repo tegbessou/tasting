@@ -160,4 +160,28 @@ final class UpdateNoseProcessorTest extends ApiTestCase
             ],
         ];
     }
+
+    public function testUpdateNoseOnSheetWithoutAMouth(): void
+    {
+        $this->put(
+            '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/noses',
+            [
+                'impression' => 'complexe',
+                'intensite' => 'intime',
+                'arome' => 'végétal',
+                'observation' => 'Observation (modifié)',
+            ],
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            '@type' => 'ConstraintViolationList',
+            'title' => 'An error occurred',
+            'violations' => [
+                [
+                    'message' => 'Un nez n\'a pas encore été ajouté pour cette fiche de dégustation.',
+                ],
+            ],
+        ]);
+    }
 }

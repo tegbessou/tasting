@@ -48,7 +48,7 @@ final readonly class GetCollectionSheetResource
     ) {
     }
 
-    public static function fromDomain(Sheet $sheet): self
+    public static function fromModel(Sheet $sheet): self
     {
         return new self(
             new Uuid($sheet->id),

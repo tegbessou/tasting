@@ -38,7 +38,7 @@ final readonly class GetInvitationCollectionProvider implements ProviderInterfac
         $resources = [];
 
         foreach ($models as $model) {
-            $resources[] = GetCollectionInvitationResource::fromDomain($model);
+            $resources[] = GetCollectionInvitationResource::fromModel($model);
         }
 
         if (null !== $paginator = $models->paginator()) {

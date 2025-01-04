@@ -203,4 +203,30 @@ final class UpdateEyeProcessorTest extends ApiTestCase
             ],
         ];
     }
+
+    public function testUpdateEyeOnSheetWithoutAnEye(): void
+    {
+        $this->put(
+            '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/eyes',
+            [
+                'limpidite' => 'opalescente',
+                'brillance' => 'brillante',
+                'intensiteCouleur' => 'intense',
+                'teinte' => 'tuile',
+                'larme' => 'grasse',
+                'observation' => 'Observation (modifié)',
+            ],
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            '@type' => 'ConstraintViolationList',
+            'title' => 'An error occurred',
+            'violations' => [
+                [
+                    'message' => 'Un oeil n\'a pas encore été ajouté pour cette fiche de dégustation.',
+                ],
+            ],
+        ]);
+    }
 }

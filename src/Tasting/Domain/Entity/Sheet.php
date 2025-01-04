@@ -16,6 +16,8 @@ use App\Tasting\Domain\Specification\EyeCanBeAdd;
 use App\Tasting\Domain\Specification\EyeCanBeUpdate;
 use App\Tasting\Domain\Specification\MouthCanBeAdd;
 use App\Tasting\Domain\Specification\MouthCanBeUpdate;
+use App\Tasting\Domain\Specification\NoseCanBeAdd;
+use App\Tasting\Domain\Specification\NoseCanBeUpdate;
 use App\Tasting\Domain\ValueObject\EyeBrillance;
 use App\Tasting\Domain\ValueObject\EyeId;
 use App\Tasting\Domain\ValueObject\EyeIntensiteCouleur;
@@ -98,7 +100,7 @@ final class Sheet implements EntityWithDomainEventInterface
             $observation,
         );
 
-        $specification = new EyeCanBeAdd();
+        $specification = new EyeCanBeAdd($this);
         $specification->satisfiedBy($eye, $wineType);
 
         $this->eye = $eye;
@@ -125,14 +127,10 @@ final class Sheet implements EntityWithDomainEventInterface
         EyeObservation $observation,
         WineType $wineType,
     ): void {
-        $specification = new EyeCanBeUpdate();
+        $specification = new EyeCanBeUpdate($this);
         $specification->satisfiedBy($teinte, $wineType);
 
-        if ($this->eye() === null) {
-            throw new \LogicException('Eye shouldn\'t be null');
-        }
-
-        $this->eye()->update(
+        $this->eye()?->update(
             $limpidite,
             $brillance,
             $intensiteCouleur,
@@ -169,6 +167,9 @@ final class Sheet implements EntityWithDomainEventInterface
             $observation,
         );
 
+        $specification = new NoseCanBeAdd($this);
+        $specification->satisfiedBy();
+
         $this->nose = $nose;
 
         self::recordEvent(
@@ -188,11 +189,10 @@ final class Sheet implements EntityWithDomainEventInterface
         NoseArome $arome,
         NoseObservation $observation,
     ): void {
-        if ($this->nose() === null) {
-            throw new \LogicException('Nose shouldn\'t be null');
-        }
+        $specification = new NoseCanBeUpdate($this);
+        $specification->satisfiedBy();
 
-        $this->nose()->update(
+        $this->nose()?->update(
             $impression,
             $intensite,
             $arome,
@@ -232,7 +232,7 @@ final class Sheet implements EntityWithDomainEventInterface
             $sucre,
         );
 
-        $specification = new MouthCanBeAdd();
+        $specification = new MouthCanBeAdd($this);
         $specification->satisfiedBy($mouth, $wineType);
 
         $this->mouth = $mouth;
@@ -261,18 +261,14 @@ final class Sheet implements EntityWithDomainEventInterface
         ?MouthTanin $tanin = null,
         ?MouthSucre $sucre = null,
     ): void {
-        $specification = new MouthCanBeUpdate();
+        $specification = new MouthCanBeUpdate($this);
         $specification->satisfiedBy(
             $wineType,
             $tanin,
             $sucre,
         );
 
-        if ($this->mouth() === null) {
-            throw new \LogicException('Mouth shouldn\'t be null');
-        }
-
-        $this->mouth()->update(
+        $this->mouth()?->update(
             $alcool,
             $acide,
             $matiere,
