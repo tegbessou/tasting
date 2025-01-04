@@ -14,4 +14,6 @@ interface TastingRepositoryInterface
     public function add(Tasting $tasting): void;
 
     public function update(Tasting $tasting): void;
+
+    public function delete(Tasting $tasting): void;
 }

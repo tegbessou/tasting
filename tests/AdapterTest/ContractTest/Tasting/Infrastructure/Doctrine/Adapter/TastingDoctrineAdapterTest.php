@@ -68,4 +68,14 @@ final class TastingDoctrineAdapterTest extends KernelTestCase
             $this->assertStringContainsString('Domaine Leflaive Montrachet Grand Cru 2016', $tasting->bottleName);
         }
     }
+
+    public function testDelete(): void
+    {
+        $tasting = $this->tastingAdapter->ofId('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537');
+
+        $this->tastingAdapter->delete($tasting);
+
+        $tasting = $this->tastingAdapter->ofId('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537');
+        $this->assertNull($tasting);
+    }
 }

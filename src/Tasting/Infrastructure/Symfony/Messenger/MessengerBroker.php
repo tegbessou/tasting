@@ -8,12 +8,14 @@ use App\Tasting\Application\Service\MessageBrokerInterface;
 use App\Tasting\Domain\Event\InvitationAccepted;
 use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\TastingCreated;
+use App\Tasting\Domain\Event\TastingDeleted;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenTastingIsCreatedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationRejectedMessage;
+use App\Tasting\Infrastructure\Symfony\Messenger\Message\TastingDeletedMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class MessengerBroker implements MessageBrokerInterface
@@ -60,6 +62,14 @@ final readonly class MessengerBroker implements MessageBrokerInterface
     {
         $this->eventBus->dispatch(
             CreateSheetWhenTastingIsCreatedMessage::fromEvent($event),
+        );
+    }
+
+    #[\Override]
+    public function dispatchTastingDeleted(TastingDeleted $event): void
+    {
+        $this->eventBus->dispatch(
+            TastingDeletedMessage::fromEvent($event),
         );
     }
 }

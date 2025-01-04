@@ -168,8 +168,3 @@ When you accept to taste a bottle this bottle should be duplicate in your bottle
 
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages
-
-## Todo
-- [ ] Remove a tasting, with sheet and all information in read model
-
-

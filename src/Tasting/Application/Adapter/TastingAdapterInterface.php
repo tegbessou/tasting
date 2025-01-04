@@ -17,4 +17,6 @@ interface TastingAdapterInterface extends RepositoryInterface
     public function add(Tasting $tasting): void;
 
     public function withBottleName(string $bottleName): TastingAdapterInterface;
+
+    public function delete(Tasting $tasting): void;
 }

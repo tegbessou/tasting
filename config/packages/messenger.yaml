@@ -28,6 +28,7 @@ framework:
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface': tasting
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage': tasting
             'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenTastingIsCreatedMessage': tasting
+            'App\Tasting\Infrastructure\Symfony\Messenger\Message\TastingDeletedMessage': tasting
 
 when@test:
     framework:

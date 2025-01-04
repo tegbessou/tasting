@@ -28,6 +28,7 @@ use App\Tasting\Domain\Event\MouthUpdated;
 use App\Tasting\Domain\Event\NoseAdded;
 use App\Tasting\Domain\Event\NoseUpdated;
 use App\Tasting\Domain\Event\SheetCreated;
+use App\Tasting\Domain\Event\SheetDeleted;
 use App\Tasting\Domain\Exception\EyeAlreadyAddedException;
 use App\Tasting\Domain\Exception\EyeShouldBeAddedException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
@@ -1124,5 +1125,22 @@ final class SheetTest extends TestCase
             observation: MouthObservation::fromString('Observation'),
             wineType: WineType::WhiteWine,
         );
+    }
+
+    public function testDeleteSuccessEventDispatch(): void
+    {
+        $sheet = Sheet::create(
+            SheetId::fromString('c3827445-9578-43ef-b437-234feba48ec8'),
+            SheetTastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+            SheetParticipant::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $sheet::eraseRecordedEvents();
+
+        $sheet->delete();
+
+        $this->assertInstanceOf(SheetDeleted::class, $sheet::getRecordedEvent()[0]);
+        $this->assertEquals('c3827445-9578-43ef-b437-234feba48ec8', $sheet::getRecordedEvent()[0]->sheetId);
+        $sheet::eraseRecordedEvents();
     }
 }

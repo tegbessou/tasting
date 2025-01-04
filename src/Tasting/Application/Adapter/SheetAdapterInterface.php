@@ -21,4 +21,6 @@ interface SheetAdapterInterface extends RepositoryInterface
     public function withParticipant(string $participantId): SheetAdapterInterface;
 
     public function update(Sheet $sheet): void;
+
+    public function delete(Sheet $sheet): void;
 }

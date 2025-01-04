@@ -43,4 +43,11 @@ final class TastingDoctrineAdapter extends DoctrineRepository implements Tasting
             $qb->field('bottleName')->equals($bottleName);
         });
     }
+
+    #[\Override]
+    public function delete(Tasting $tasting): void
+    {
+        $this->documentManager->remove($tasting);
+        $this->documentManager->flush();
+    }
 }
