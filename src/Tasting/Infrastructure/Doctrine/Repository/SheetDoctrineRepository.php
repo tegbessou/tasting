@@ -57,6 +57,23 @@ final readonly class SheetDoctrineRepository implements SheetRepositoryInterface
         return array_map(fn (SheetDoctrine $sheet) => SheetMapper::toDomain($sheet), $sheets);
     }
 
+    public function withTasting(SheetTastingId $tasting): array
+    {
+        $sheets = $this->entityManager->createQueryBuilder()
+            ->select('sheet')
+            ->from(self::ENTITY_CLASS, 'sheet')
+            ->where('sheet.tastingId = :tastingId')
+            ->setParameter(
+                'tastingId',
+                $tasting->value(),
+                UuidType::NAME,
+            )
+            ->getQuery()->getResult()
+        ;
+
+        return array_map(fn (SheetDoctrine $sheet) => SheetMapper::toDomain($sheet), $sheets);
+    }
+
     #[\Override]
     public function add(Sheet $sheet): void
     {
@@ -77,6 +94,19 @@ final readonly class SheetDoctrineRepository implements SheetRepositoryInterface
 
         SheetMapper::toInfrastructureUpdate($sheet, $sheetDoctrine);
 
+        $this->entityManager->flush();
+    }
+
+    #[\Override]
+    public function delete(Sheet $sheet): void
+    {
+        $sheetDoctrine = $this->entityManager->getRepository(self::ENTITY_CLASS)->find($sheet->id()->value());
+
+        if ($sheetDoctrine === null) {
+            throw new \LogicException('SheetDoctrineRepository Sheet must exist in doctrine.');
+        }
+
+        $this->entityManager->remove($sheetDoctrine);
         $this->entityManager->flush();
     }
 }

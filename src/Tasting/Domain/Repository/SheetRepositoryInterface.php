@@ -15,7 +15,11 @@ interface SheetRepositoryInterface
 
     public function withTastingAndParticipant(SheetTastingId $tasting, SheetParticipant $participant): array;
 
+    public function withTasting(SheetTastingId $tasting): array;
+
     public function add(Sheet $sheet): void;
 
     public function update(Sheet $sheet): void;
+
+    public function delete(Sheet $sheet): void;
 }

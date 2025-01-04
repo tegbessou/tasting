@@ -91,4 +91,15 @@ final class SheetDoctrineAdapterTest extends KernelTestCase
 
         $this->assertNotNull($sheet->eyeObservation);
     }
+
+    public function testDelete(): void
+    {
+        $sheet = $this->sheetAdapter->ofId('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394');
+
+        $this->sheetAdapter->delete($sheet);
+
+        $sheet = $this->sheetAdapter->ofId('1a9ea2de-bb0b-4104-ab6a-8b57d2e65394');
+
+        $this->assertNull($sheet);
+    }
 }

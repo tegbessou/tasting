@@ -12,6 +12,7 @@ use App\Tasting\Domain\Event\MouthUpdated;
 use App\Tasting\Domain\Event\NoseAdded;
 use App\Tasting\Domain\Event\NoseUpdated;
 use App\Tasting\Domain\Event\SheetCreated;
+use App\Tasting\Domain\Event\SheetDeleted;
 use App\Tasting\Domain\Specification\EyeCanBeAdd;
 use App\Tasting\Domain\Specification\EyeCanBeUpdate;
 use App\Tasting\Domain\Specification\MouthCanBeAdd;
@@ -288,6 +289,15 @@ final class Sheet implements EntityWithDomainEventInterface
                 $observation->value(),
                 $tanin?->value() ?? null,
                 $sucre?->value() ?? null,
+            ),
+        );
+    }
+
+    public function delete(): void
+    {
+        self::recordEvent(
+            new SheetDeleted(
+                $this->id()->value(),
             ),
         );
     }

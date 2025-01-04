@@ -10,6 +10,7 @@ use App\Tasting\Domain\Event\InvitationAccepted;
 use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
+use App\Tasting\Domain\Event\TastingDeleted;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
 use App\Tasting\Domain\Exception\InvitationAlreadySentException;
 use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
@@ -616,5 +617,24 @@ final class TastingTest extends TestCase
         );
 
         $tasting::eraseRecordedEvents();
+    }
+
+    public function testDeleteSuccessDispatch(): void
+    {
+        $tasting = Tasting::create(
+            TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
+            Bottle::create(
+                'Château Margaux 2015',
+                'red',
+            ),
+            TastingOwnerId::fromString('hugues.gobet@gmail.com'),
+        );
+
+        $tasting::eraseRecordedEvents();
+
+        $tasting->delete();
+
+        $this->assertInstanceOf(TastingDeleted::class, $tasting::getRecordedEvent()[0]);
+        $this->assertEquals('ee4fd98c-4427-42c1-bb70-08f6d92377c9', $tasting::getRecordedEvent()[0]->tastingId);
     }
 }

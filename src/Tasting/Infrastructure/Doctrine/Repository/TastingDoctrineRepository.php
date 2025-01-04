@@ -54,4 +54,17 @@ final readonly class TastingDoctrineRepository implements TastingRepositoryInter
 
         $this->entityManager->flush();
     }
+
+    #[\Override]
+    public function delete(Tasting $tasting): void
+    {
+        $tastingOrm = $this->entityManager->getRepository(self::ENTITY_CLASS)->find($tasting->id()->value());
+
+        if ($tastingOrm === null) {
+            throw new \LogicException('TastingDoctrineRepository Tasting must exist in doctrine.');
+        }
+
+        $this->entityManager->remove($tastingOrm);
+        $this->entityManager->flush();
+    }
 }

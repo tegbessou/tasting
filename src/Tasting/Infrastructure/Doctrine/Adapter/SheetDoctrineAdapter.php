@@ -57,4 +57,11 @@ final class SheetDoctrineAdapter extends DoctrineRepository implements SheetAdap
     {
         $this->documentManager->flush();
     }
+
+    #[\Override]
+    public function delete(Sheet $sheet): void
+    {
+        $this->documentManager->remove($sheet);
+        $this->documentManager->flush();
+    }
 }

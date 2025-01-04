@@ -15,6 +15,9 @@ services:
   App\Tasting\Application\Projection\CreateTastingProjection:
     tags: [kernel.event_listener]
 
+  App\Tasting\Application\Projection\DeleteTastingProjection:
+    tags: [kernel.event_listener]
+
   App\Tasting\Application\Projection\CreateInvitationProjection:
     tags: [kernel.event_listener]
 
@@ -40,6 +43,9 @@ services:
     tags: [kernel.event_listener]
 
   App\Tasting\Application\Projection\UpdateMouthToSheetProjection:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\Projection\DeleteSheetProjection:
     tags: [kernel.event_listener]
 
   App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
@@ -77,6 +83,9 @@ services:
     tags: [kernel.event_listener]
 
   App\Tasting\Application\EventListener\CreateSheetWhenTastingIsCreated:
+    tags: [kernel.event_listener]
+
+  App\Tasting\Application\EventListener\OnTastingDeleted:
     tags: [kernel.event_listener]
 
 when@dev:

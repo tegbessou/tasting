@@ -16,7 +16,7 @@ use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
-final class RemoveInvitationMessageHandlerTest extends KernelTestCase
+final class DeleteInvitationMessageHandlerTest extends KernelTestCase
 {
     use InteractsWithMessenger;
     use RefreshDatabase;
@@ -32,7 +32,7 @@ final class RemoveInvitationMessageHandlerTest extends KernelTestCase
         $this->tastingDoctrineRepository = $container->get(TastingRepositoryInterface::class);
     }
 
-    public function testRemoveInvitation(): void
+    public function testDeleteInvitation(): void
     {
         $owner = 'hugues.gobet@gmail.com';
 

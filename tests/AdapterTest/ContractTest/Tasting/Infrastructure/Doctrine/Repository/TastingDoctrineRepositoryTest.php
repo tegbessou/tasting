@@ -9,6 +9,8 @@ use App\Tasting\Domain\Repository\TastingRepositoryInterface;
 use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
+use App\Tasting\Infrastructure\Doctrine\Entity\Invitation;
+use Doctrine\ORM\EntityManagerInterface;
 use Shared\RefreshDatabase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -17,6 +19,7 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
     use RefreshDatabase;
 
     private TastingRepositoryInterface $doctrineTastingRepository;
+    private EntityManagerInterface $entityManager;
 
     #[\Override]
     protected function setUp(): void
@@ -25,6 +28,7 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
 
         $container = self::getContainer();
         $this->doctrineTastingRepository = $container->get(TastingRepositoryInterface::class);
+        $this->entityManager = $container->get(EntityManagerInterface::class);
 
         parent::setUp();
     }
@@ -85,5 +89,26 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
             'hugues.gobet@gmail.com',
             $tasting->ownerId()->value(),
         );
+    }
+
+    public function testDelete(): void
+    {
+        $tasting = $this->doctrineTastingRepository->ofId(
+            TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+        );
+
+        $this->doctrineTastingRepository->delete($tasting);
+
+        $tasting = $this->doctrineTastingRepository->ofId(
+            TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
+        );
+
+        $this->assertNull($tasting);
+
+        $invitation = $this->entityManager->getRepository(Invitation::class)
+            ->find('abed2f69-9aae-4d92-a91c-edfa7c985674')
+        ;
+
+        $this->assertNull($invitation);
     }
 }
