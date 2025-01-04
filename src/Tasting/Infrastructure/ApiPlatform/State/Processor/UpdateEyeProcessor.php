@@ -9,8 +9,10 @@ use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Tasting\Application\Command\UpdateEyeCommand;
 use App\Tasting\Application\Exception\SheetDoesntExistException;
+use App\Tasting\Domain\Exception\EyeShouldBeAddedException;
 use App\Tasting\Domain\Exception\EyeTeinteIsNotForThisWineTypeException;
 use App\Tasting\Infrastructure\ApiPlatform\Resource\PutSheetEyeResource;
+use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeNotAlreadyAddedConstraintViolation;
 use App\Tasting\Infrastructure\Symfony\Validator\ConstraintViolation\BuildEyeTeinteIsNotForThisWineTypeConstraintViolation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,6 +28,7 @@ final readonly class UpdateEyeProcessor implements ProcessorInterface
         private CommandBusInterface $commandBus,
         private LoggerInterface $logger,
         private BuildEyeTeinteIsNotForThisWineTypeConstraintViolation $buildEyeTeinteIsNotForThisWineTypeConstraintViolation,
+        private BuildEyeNotAlreadyAddedConstraintViolation $buildEyeNotAlreadyAddedConstraintViolation,
     ) {
     }
 
@@ -71,6 +74,12 @@ final readonly class UpdateEyeProcessor implements ProcessorInterface
             );
 
             throw new ValidationException($this->buildEyeTeinteIsNotForThisWineTypeConstraintViolation->build($exception));
+        } catch (EyeShouldBeAddedException) {
+            $this->logger->error(
+                'Update eye: Eye not already added',
+            );
+
+            throw new ValidationException($this->buildEyeNotAlreadyAddedConstraintViolation->build());
         }
     }
 }

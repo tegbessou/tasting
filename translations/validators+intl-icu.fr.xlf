@@ -38,6 +38,14 @@
                 <source>tasting.add_eye.participant.pariticpant_already_add_eye</source>
                 <target>Le participant {participant} a déjà ajouté son oeil à la dégustation {tastingId}.</target>
             </trans-unit>
+            <trans-unit id="tasting.add_eye.eye_already_added">
+                <source>tasting.add_eye.eye_already_added</source>
+                <target>Un oeil a déja été ajouté pour cette fiche de dégustation.</target>
+            </trans-unit>
+            <trans-unit id="tasting.update_eye.eye_not_already_added">
+                <source>tasting.update_eye.eye_not_already_added</source>
+                <target>Un oeil n'a pas encore été ajouté pour cette fiche de dégustation.</target>
+            </trans-unit>
             <trans-unit id="tasting.add_mouth.tanin.empty_for_red_wine">
                 <source>tasting.add_mouth.tanin.empty_for_red_wine</source>
                 <target>Le tanin doit être spécifié pour un vin rouge.</target>
@@ -53,6 +61,22 @@
             <trans-unit id="tasting.add_mouth.sucre.empty_for_not_sweet_wine">
                 <source>tasting.add_mouth.sucre.empty_for_not_sweet_wine</source>
                 <target>Le sucre ne doit pas être spécifié pour un vin qui n'est pas moelleux.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_mouth.mouth_already_added">
+                <source>tasting.add_mouth.mouth_already_added</source>
+                <target>Une bouche a déja été ajouté pour cette fiche de dégustation.</target>
+            </trans-unit>
+            <trans-unit id="tasting.update_mouth.mouth_not_already_added">
+                <source>tasting.update_mouth.mouth_not_already_added</source>
+                <target>Une bouche n'a pas encore été ajouté pour cette fiche de dégustation.</target>
+            </trans-unit>
+            <trans-unit id="tasting.add_nose.nose_already_added">
+                <source>tasting.add_nose.nose_already_added</source>
+                <target>Un nez a déja été ajouté pour cette fiche de dégustation.</target>
+            </trans-unit>
+            <trans-unit id="tasting.update_nose.nose_not_already_added">
+                <source>tasting.update_nose.nose_not_already_added</source>
+                <target>Un nez n'a pas encore été ajouté pour cette fiche de dégustation.</target>
             </trans-unit>
         </body>
     </file>

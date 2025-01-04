@@ -34,7 +34,7 @@ final readonly class GetCollectionInvitationResource
     ) {
     }
 
-    public static function fromDomain(Invitation $invitation): self
+    public static function fromModel(Invitation $invitation): self
     {
         return new self(
             new Uuid($invitation->id),

@@ -68,8 +68,8 @@ final class UpdateMouthProcessorTest extends ApiTestCase
         $this->assertEquals('Observation (modifié)', $sheet->mouth()->observation()->value());
     }
 
-    #[DataProvider('provideInvalidData')]
-    public function testUpdateMouthToSheetWithInvalidData(
+    #[DataProvider('provideInvalidDataOnRedWine')]
+    public function testUpdateMouthToSheetWithInvalidDataOnRedWine(
         string $uri,
         array $payload,
         int $statusCode,
@@ -105,7 +105,7 @@ final class UpdateMouthProcessorTest extends ApiTestCase
         }
     }
 
-    public static function provideInvalidData(): \Generator
+    public static function provideInvalidDataOnRedWine(): \Generator
     {
         yield 'Not found sheet' => [
             'uri' => '/api/sheets/14403f0a-f593-4122-8786-80153f130039/mouths',
@@ -198,6 +198,66 @@ final class UpdateMouthProcessorTest extends ApiTestCase
             ],
         ];
 
+        yield 'Bad data not sweet wine with sucre' => [
+            'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/mouths',
+            'payload' => [
+                'alcool' => 'alcooleux',
+                'acide' => 'nerveuse',
+                'matiere' => 'massive',
+                'finale' => 'courte',
+                'observation' => 'Observation',
+                'sucre' => 'liquoreux',
+                'tanin' => 'fade',
+            ],
+            'statusCode' => 422,
+            'violations' => [
+                [
+                    'propertyPath' => 'sucre',
+                    'message' => 'Le sucre ne doit pas être spécifié pour un vin qui n\'est pas moelleux.',
+                ],
+            ],
+        ];
+    }
+
+    #[DataProvider('provideInvalidDataOnSweetWine')]
+    public function testUpdateMouthToSheetWithInvalidDataOnSweetWine(
+        string $uri,
+        array $payload,
+        int $statusCode,
+        array $violations,
+    ): void {
+        $this->post('/api/sheets/7d4adf54-7ab5-4385-a4c6-c2c82b669a9f/mouths', [
+            'alcool' => 'alcooleux',
+            'acide' => 'nerveuse',
+            'matiere' => 'massive',
+            'finale' => 'courte',
+            'sucre' => 'sirupeux',
+            'observation' => 'Observation',
+        ]);
+
+        $this->assertResponseStatusCodeSame(204);
+
+        $this->sheetDoctrineRepository->ofId(
+            SheetId::fromString('7d4adf54-7ab5-4385-a4c6-c2c82b669a9f'),
+        );
+
+        $this->put(
+            $uri,
+            $payload,
+        );
+        $this->assertResponseStatusCodeSame($statusCode);
+
+        if ($statusCode === 422) {
+            $this->assertJsonContains([
+                '@type' => 'ConstraintViolationList',
+                'title' => 'An error occurred',
+                'violations' => $violations,
+            ]);
+        }
+    }
+
+    public static function provideInvalidDataOnSweetWine(): \Generator
+    {
         yield 'Bad data not red wine with tanin' => [
             'uri' => '/api/sheets/7d4adf54-7ab5-4385-a4c6-c2c82b669a9f/mouths',
             'payload' => [
@@ -235,25 +295,31 @@ final class UpdateMouthProcessorTest extends ApiTestCase
                 ],
             ],
         ];
+    }
 
-        yield 'Bad data not sweet wine with sucre' => [
-            'uri' => '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/mouths',
-            'payload' => [
-                'alcool' => 'alcooleux',
-                'acide' => 'nerveuse',
-                'matiere' => 'massive',
-                'finale' => 'courte',
-                'observation' => 'Observation',
-                'sucre' => 'liquoreux',
-                'tanin' => 'fade',
+    public function testUpdateMouthOnSheetWithoutAMouth(): void
+    {
+        $this->put(
+            '/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/mouths',
+            [
+                'alcool' => 'capiteux',
+                'acide' => 'molle',
+                'matiere' => 'fluette',
+                'finale' => 'rémanente',
+                'tanin' => 'chargé',
+                'observation' => 'Observation (modifié)',
             ],
-            'statusCode' => 422,
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            '@type' => 'ConstraintViolationList',
+            'title' => 'An error occurred',
             'violations' => [
                 [
-                    'propertyPath' => 'sucre',
-                    'message' => 'Le sucre ne doit pas être spécifié pour un vin qui n\'est pas moelleux.',
+                    'message' => 'Une bouche n\'a pas encore été ajouté pour cette fiche de dégustation.',
                 ],
             ],
-        ];
+        ]);
     }
 }

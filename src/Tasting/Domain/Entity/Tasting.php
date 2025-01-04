@@ -10,12 +10,11 @@ use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\InvitationSent;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
-use App\Tasting\Domain\Exception\InvitationAlreadySentException;
-use App\Tasting\Domain\Exception\InvitationMustBePendingException;
-use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingAcceptedException;
-use App\Tasting\Domain\Exception\InvitationMustBeSentBeforeBeingRejectedException;
-use App\Tasting\Domain\Exception\InvitationMustNotBePendingException;
 use App\Tasting\Domain\Service\GetInvitationLink;
+use App\Tasting\Domain\Specification\InvitationCanBeAccept;
+use App\Tasting\Domain\Specification\InvitationCanBeDelete;
+use App\Tasting\Domain\Specification\InvitationCanBeReject;
+use App\Tasting\Domain\Specification\InvitationCanBeSend;
 use App\Tasting\Domain\Specification\ParticipantCanBeInvite;
 use App\Tasting\Domain\ValueObject\Bottle;
 use App\Tasting\Domain\ValueObject\InvitationId;
@@ -98,9 +97,8 @@ final class Tasting implements EntityWithDomainEventInterface
 
     public function sendInvitation(Invitation $invitation): void
     {
-        if ($invitation->isAlreadySent()) {
-            throw new InvitationAlreadySentException();
-        }
+        $specification = new InvitationCanBeSend();
+        $specification->satisfiedBy($invitation);
 
         $invitation->send();
 
@@ -114,13 +112,8 @@ final class Tasting implements EntityWithDomainEventInterface
 
     public function acceptInvitation(Invitation $invitation): void
     {
-        if (!$invitation->status()->isPending()) {
-            throw new InvitationMustBePendingException();
-        }
-
-        if (!$invitation->isAlreadySent()) {
-            throw new InvitationMustBeSentBeforeBeingAcceptedException();
-        }
+        $specification = new InvitationCanBeAccept();
+        $specification->satisfiedBy($invitation);
 
         $invitation->changeStatus(InvitationStatus::fromString('accepted'));
 
@@ -139,13 +132,8 @@ final class Tasting implements EntityWithDomainEventInterface
 
     public function rejectInvitation(Invitation $invitation): void
     {
-        if (!$invitation->status()->isPending()) {
-            throw new InvitationMustBePendingException();
-        }
-
-        if (!$invitation->isAlreadySent()) {
-            throw new InvitationMustBeSentBeforeBeingRejectedException();
-        }
+        $specification = new InvitationCanBeReject();
+        $specification->satisfiedBy($invitation);
 
         $invitation->changeStatus(InvitationStatus::fromString('rejected'));
 
@@ -159,9 +147,8 @@ final class Tasting implements EntityWithDomainEventInterface
 
     public function deleteInvitation(Invitation $invitation): void
     {
-        if ($invitation->status()->isPending()) {
-            throw new InvitationMustNotBePendingException();
-        }
+        $specification = new InvitationCanBeDelete();
+        $specification->satisfiedBy($invitation);
 
         $this->invitations = $this->invitations->delete($invitation);
 

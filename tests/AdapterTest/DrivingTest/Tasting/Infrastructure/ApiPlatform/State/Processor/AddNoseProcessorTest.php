@@ -124,4 +124,34 @@ final class AddNoseProcessorTest extends ApiTestCase
             ],
         ];
     }
+
+    public function testAddNoseOnSheetWithAlreadyAnMouth(): void
+    {
+        $this->post('/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/noses', [
+            'impression' => 'douteux',
+            'intensite' => 'ouvert',
+            'arome' => 'minérales',
+            'observation' => 'Observation',
+        ]);
+
+        $this->assertResponseStatusCodeSame(204);
+
+        $this->post('/api/sheets/1a9ea2de-bb0b-4104-ab6a-8b57d2e65394/noses', [
+            'impression' => 'douteux',
+            'intensite' => 'ouvert',
+            'arome' => 'minérales',
+            'observation' => 'Observation',
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            '@type' => 'ConstraintViolationList',
+            'title' => 'An error occurred',
+            'violations' => [
+                [
+                    'message' => 'Un nez a déja été ajouté pour cette fiche de dégustation.',
+                ],
+            ],
+        ]);
+    }
 }
