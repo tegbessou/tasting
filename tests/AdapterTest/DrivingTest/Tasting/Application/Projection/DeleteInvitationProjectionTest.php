@@ -39,7 +39,7 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
         $invitationReadModel = new Invitation(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
             '4ad98deb-4295-455d-99e2-66e148c162af',
-            'Château de Fonsalette',
+            'Château Margaux 2015',
             'hugues.gobet@gmail.com',
             'Pedro',
             'root@gmail.com',
@@ -53,7 +53,8 @@ final class DeleteInvitationProjectionTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('4ad98deb-4295-455d-99e2-66e148c162af'),
             Bottle::create(
-                'Château de Fonsalette',
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
+                'Château Margaux 2015',
                 'red',
             ),
             TastingOwnerId::fromString('hugues.gobet@gmail.com'),

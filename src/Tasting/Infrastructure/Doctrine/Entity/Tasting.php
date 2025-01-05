@@ -16,6 +16,8 @@ class Tasting
         #[ORM\Id]
         #[ORM\Column(name: 'id', type: 'uuid', unique: true)]
         public string $id,
+        #[ORM\Column(name: 'bottle_id', type: 'uuid')]
+        public string $bottleId,
         #[ORM\Column(name: 'bottle_name')]
         public string $bottleName,
         #[ORM\Column(name: 'bottle_wine_type', type: 'enum', enumType: WineType::class)]

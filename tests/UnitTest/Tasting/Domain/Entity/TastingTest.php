@@ -35,6 +35,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -49,6 +50,7 @@ final class TastingTest extends TestCase
         );
         $this->assertEquals(
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -69,6 +71,7 @@ final class TastingTest extends TestCase
         Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -83,6 +86,7 @@ final class TastingTest extends TestCase
         Tasting::create(
             TastingId::fromString('12'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -95,6 +99,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -119,6 +124,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('af785dbb-4ac1-4786-a5aa-1fed08f6ec26-1fed08f6ec26'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -133,6 +139,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -160,6 +167,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -189,6 +197,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -217,6 +226,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -248,6 +258,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -286,6 +297,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -313,6 +325,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -336,6 +349,7 @@ final class TastingTest extends TestCase
 
         $this->assertInstanceOf(InvitationAccepted::class, $tasting::getRecordedEvent()[0]);
         $this->assertEquals('ee4fd98c-4427-42c1-bb70-08f6d92377c9', $tasting::getRecordedEvent()[0]->tastingId);
+        $this->assertEquals('7bd55df3-e53c-410b-83a4-8e5ed9bcd50d', $tasting::getRecordedEvent()[0]->bottleId);
         $this->assertEquals('aaa29ab4-e46f-4243-8b7c-20988f2fa25b', $tasting::getRecordedEvent()[0]->invitationId);
         $this->assertEquals('root@gmail.com', $tasting::getRecordedEvent()[0]->participant);
         $tasting::eraseRecordedEvents();
@@ -346,6 +360,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -374,6 +389,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -402,6 +418,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -438,6 +455,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -465,6 +483,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -496,6 +515,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -533,6 +553,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -556,6 +577,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -587,6 +609,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),
@@ -624,6 +647,7 @@ final class TastingTest extends TestCase
         $tasting = Tasting::create(
             TastingId::fromString('ee4fd98c-4427-42c1-bb70-08f6d92377c9'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),

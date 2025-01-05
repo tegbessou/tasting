@@ -24,6 +24,7 @@ final readonly class TastingMapper
         return new Tasting(
             TastingId::fromString($tasting->id),
             Bottle::create(
+                $tasting->bottleId,
                 $tasting->bottleName,
                 $tasting->bottleWineType->value,
             ),
@@ -37,6 +38,7 @@ final readonly class TastingMapper
     {
         return new TastingDoctrine(
             $tasting->id()->value(),
+            $tasting->bottle()->id(),
             $tasting->bottle()->name(),
             $tasting->bottle()->wineType(),
             $tasting->participants()->values(),
@@ -46,8 +48,6 @@ final readonly class TastingMapper
 
     public static function toInfrastructureUpdate(Tasting $tasting, TastingDoctrine $tastingDoctrine): TastingDoctrine
     {
-        $tastingDoctrine->bottleName = $tasting->bottle()->name();
-        $tastingDoctrine->bottleWineType = $tasting->bottle()->wineType();
         $tastingDoctrine->participants = $tasting->participants()->values();
         self::synchronizeInvitations($tasting, $tastingDoctrine);
 
@@ -81,32 +81,4 @@ final readonly class TastingMapper
             $tastingDoctrine->deleteInvitation($invitationDoctrine);
         });
     }
-
-    // public static function synchronizeEyes(Tasting $tasting, TastingDoctrine $tastingDoctrine): void
-    // {
-    //    /** @var Eye $eye */
-    //    foreach ($tasting->eyes()->values() as $eye) {
-    //        $eyeDoctrineFound = $tastingDoctrine->eyes->findFirst(static fn (int|string $key, EyeDoctrine $eyeDoctrine) => $eye->id()->value() === $eyeDoctrine->id);
-    //
-    //        if ($eyeDoctrineFound === null) {
-    //            $tastingDoctrine->addEye(
-    //                EyeMapper::toInfrastructurePersist($eye, $tastingDoctrine),
-    //            );
-    //
-    //            continue;
-    //        }
-    //
-    //        $tastingDoctrine->addEye(
-    //            EyeMapper::toInfrastructureUpdate($eye, $eyeDoctrineFound),
-    //        );
-    //    }
-    //
-    //    $tastingDoctrine->eyes->map(static function (EyeDoctrine $eyeDoctrine) use ($tasting, $tastingDoctrine) {
-    //        if ($tasting->eyes()->find(EyeId::fromString($eyeDoctrine->id)) !== null) {
-    //            return;
-    //        }
-    //
-    //        $tastingDoctrine->deleteEye($eyeDoctrine);
-    //    });
-    // }
 }

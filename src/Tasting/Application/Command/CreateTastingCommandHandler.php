@@ -30,6 +30,7 @@ final readonly class CreateTastingCommandHandler
                 $this->idFactory->create(),
             ),
             Bottle::create(
+                $command->bottleId,
                 $command->bottleName,
                 $command->bottleWineType,
             ),

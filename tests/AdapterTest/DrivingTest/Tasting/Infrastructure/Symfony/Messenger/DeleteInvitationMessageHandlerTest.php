@@ -41,6 +41,7 @@ final class DeleteInvitationMessageHandlerTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('9ca4cb8c-74b5-4602-a06d-d5b1fb0c58cc'),
             Bottle::create(
+                '4eb449d9-7d23-4984-a68d-77aa19fccc60',
                 'Sassicaia 2012',
                 'red',
             ),

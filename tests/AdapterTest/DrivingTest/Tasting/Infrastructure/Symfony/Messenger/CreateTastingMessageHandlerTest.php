@@ -34,6 +34,7 @@ final class CreateTastingMessageHandlerTest extends KernelTestCase
     public function testCreateTasting(): void
     {
         $this->bus('event.bus')->dispatch(new BottleTastedMessage(
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Château Margaux 2015',
             'red',
             'hugues.gobet@gmail.com',

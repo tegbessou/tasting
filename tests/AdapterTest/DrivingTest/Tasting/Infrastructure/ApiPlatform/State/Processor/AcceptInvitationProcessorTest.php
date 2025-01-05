@@ -11,6 +11,7 @@ use App\Tasting\Domain\ValueObject\InvitationId;
 use App\Tasting\Domain\ValueObject\InvitationTarget;
 use App\Tasting\Domain\ValueObject\TastingId;
 use App\Tasting\Domain\ValueObject\TastingOwnerId;
+use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateBottleForParticipantWhenInvitationIsAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
 use Shared\ApiTestCase;
@@ -42,6 +43,7 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             Bottle::create(
+                '4eb449d9-7d23-4984-a68d-77aa19fccc60',
                 'Sassicaia 2012',
                 'red',
             ),
@@ -82,6 +84,8 @@ final class AcceptInvitationProcessorTest extends ApiTestCase
         $this->transport('tasting')->process();
         $this->transport('tasting')->queue()->assertContains(InvitationAcceptedMessage::class, 0);
         $this->transport('tasting')->queue()->assertContains(CreateSheetWhenInvitationIsAcceptedMessage::class, 0);
+
+        $this->transport('tasting_to_bottle_inventory')->queue()->assertContains(CreateBottleForParticipantWhenInvitationIsAcceptedMessage::class, 1);
 
         $tasting = $this->tastingDoctrineRepository->ofId(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),

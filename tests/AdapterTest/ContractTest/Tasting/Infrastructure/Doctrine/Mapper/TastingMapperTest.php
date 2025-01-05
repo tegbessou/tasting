@@ -41,6 +41,7 @@ final class TastingMapperTest extends KernelTestCase
     {
         $tastingDoctrine = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [
@@ -66,6 +67,7 @@ final class TastingMapperTest extends KernelTestCase
         $expected = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Chateaux Margaux 2015',
                 'red',
             ),
@@ -121,6 +123,7 @@ final class TastingMapperTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Chateaux Margaux 2015',
                 'red',
             ),
@@ -133,13 +136,13 @@ final class TastingMapperTest extends KernelTestCase
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
             'hugues.gobet@gmail.com',
-            new ArrayCollection(),
             new ArrayCollection(),
         );
 
@@ -172,6 +175,7 @@ final class TastingMapperTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Chateaux Margaux 2015',
                 'red',
             ),
@@ -191,13 +195,13 @@ final class TastingMapperTest extends KernelTestCase
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [
                 'hugues.gobet@gmail.com',
             ],
             'hugues.gobet@gmail.com',
-            new ArrayCollection(),
             new ArrayCollection(),
         );
 
@@ -260,6 +264,7 @@ final class TastingMapperTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Chateaux Margaux 2015',
                 'red',
             ),
@@ -283,6 +288,7 @@ final class TastingMapperTest extends KernelTestCase
 
         $oldTasting = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [
@@ -290,11 +296,11 @@ final class TastingMapperTest extends KernelTestCase
             ],
             'hugues.gobet@gmail.com',
             new ArrayCollection(),
-            new ArrayCollection(),
         );
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [
@@ -364,6 +370,7 @@ final class TastingMapperTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('b9857453-1891-4fe8-80a9-1b873f15f0ec'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Chateaux Margaux 2015',
                 'red',
             ),
@@ -395,6 +402,7 @@ final class TastingMapperTest extends KernelTestCase
 
         $oldTasting = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [
@@ -406,6 +414,7 @@ final class TastingMapperTest extends KernelTestCase
 
         $expected = new TastingDoctrine(
             'b9857453-1891-4fe8-80a9-1b873f15f0ec',
+            '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
             'Chateaux Margaux 2015',
             WineType::RedWine,
             [

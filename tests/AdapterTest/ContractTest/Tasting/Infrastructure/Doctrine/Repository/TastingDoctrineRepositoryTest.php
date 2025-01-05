@@ -60,6 +60,7 @@ final class TastingDoctrineRepositoryTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('0d022ae1-7129-49c2-b0a4-ed8b8612715f'),
             Bottle::create(
+                '7bd55df3-e53c-410b-83a4-8e5ed9bcd50d',
                 'Château Margaux 2015',
                 'red',
             ),

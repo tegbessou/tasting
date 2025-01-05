@@ -44,6 +44,7 @@ final class CreateSheetFromTastingMessageHandlerTest extends KernelTestCase
         $tasting = Tasting::create(
             TastingId::fromString('c7a497ed-d885-4401-930c-768dc1a85159'),
             Bottle::create(
+                '4eb449d9-7d23-4984-a68d-77aa19fccc60',
                 'Sassicaia 2012',
                 'red',
             ),

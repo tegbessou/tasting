@@ -121,6 +121,7 @@ final class Tasting implements EntityWithDomainEventInterface
         self::recordEvent(
             new InvitationAccepted(
                 $this->id->value(),
+                $this->bottle->id(),
                 $invitation->id()->value(),
                 $invitation->target()->value(),
             ),

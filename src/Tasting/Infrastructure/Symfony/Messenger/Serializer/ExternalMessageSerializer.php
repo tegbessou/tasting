@@ -30,6 +30,7 @@ final class ExternalMessageSerializer implements SerializerInterface
 
         if (str_contains((string) $headers['type'], self::BOTTLE_TASTED_MESSAGE)) {
             return new Envelope(new BottleTastedMessage(
+                $data['bottleId'],
                 $data['bottleName'],
                 $data['bottleWineType'],
                 $data['ownerEmail'],
