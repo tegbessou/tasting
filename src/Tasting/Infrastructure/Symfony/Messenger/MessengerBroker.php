@@ -10,6 +10,7 @@ use App\Tasting\Domain\Event\InvitationRejected;
 use App\Tasting\Domain\Event\TastingCreated;
 use App\Tasting\Domain\Event\TastingDeleted;
 use App\Tasting\Domain\Event\TastingParticipantInvited;
+use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateBottleForParticipantWhenInvitationIsAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenTastingIsCreatedMessage;
 use App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationAcceptedMessage;
@@ -70,6 +71,14 @@ final readonly class MessengerBroker implements MessageBrokerInterface
     {
         $this->eventBus->dispatch(
             TastingDeletedMessage::fromEvent($event),
+        );
+    }
+
+    #[\Override]
+    public function dispatchDuplicateBottleWhenInvitationIsAcceptedTastingDeleted(InvitationAccepted $event): void
+    {
+        $this->eventBus->dispatch(
+            CreateBottleForParticipantWhenInvitationIsAcceptedMessage::fromEvent($event),
         );
     }
 }

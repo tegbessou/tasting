@@ -11,6 +11,7 @@ final class InvitationAccepted extends DomainEvent implements DomainEventInterfa
 {
     public function __construct(
         public string $tastingId,
+        public string $bottleId,
         public string $invitationId,
         public string $participant,
     ) {

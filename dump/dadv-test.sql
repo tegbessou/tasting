@@ -46,15 +46,16 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20241217142038','2025-01-03 11:10:35',6),
-('DoctrineMigrations\\Version20241220165416','2025-01-03 11:10:35',1),
-('DoctrineMigrations\\Version20241221170800','2025-01-03 11:10:35',3),
-('DoctrineMigrations\\Version20241224111359','2025-01-03 11:10:35',9),
-('DoctrineMigrations\\Version20241224145300','2025-01-03 11:10:35',2),
-('DoctrineMigrations\\Version20241224213050','2025-01-03 11:10:35',2),
-('DoctrineMigrations\\Version20241231153606','2025-01-03 11:10:35',3),
-('DoctrineMigrations\\Version20250102173445','2025-01-03 11:10:35',3),
-('DoctrineMigrations\\Version20250102173652','2025-01-03 11:10:35',6);
+('DoctrineMigrations\\Version20241217142038','2025-01-05 10:37:40',7),
+('DoctrineMigrations\\Version20241220165416','2025-01-05 10:37:40',1),
+('DoctrineMigrations\\Version20241221170800','2025-01-05 10:37:40',3),
+('DoctrineMigrations\\Version20241224111359','2025-01-05 10:37:40',9),
+('DoctrineMigrations\\Version20241224145300','2025-01-05 10:37:40',2),
+('DoctrineMigrations\\Version20241224213050','2025-01-05 10:37:40',2),
+('DoctrineMigrations\\Version20241231153606','2025-01-05 10:37:40',3),
+('DoctrineMigrations\\Version20250102173445','2025-01-05 10:37:40',3),
+('DoctrineMigrations\\Version20250102173652','2025-01-05 10:37:40',7),
+('DoctrineMigrations\\Version20250105103521','2025-01-05 10:37:40',1);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +121,7 @@ CREATE TABLE `invitation` (
 LOCK TABLES `invitation` WRITE;
 /*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
 INSERT INTO `invitation` VALUES
-('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2025-01-03 11:10:35',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
+('«\í/iš®M’©\íú|˜Vt','root@gmail.com','https://apps.apple.com/app/6468406309','pending','2025-01-05 10:37:41',NULL,NULL,'.¥l5‹¹LnšI½y\Å\ñ7');
 /*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,6 +231,7 @@ CREATE TABLE `tasting` (
   `participants` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`participants`)),
   `owner_id` varchar(255) NOT NULL,
   `bottle_wine_type` enum('red','white','rosÃ©','orange','champagne','sparkling') NOT NULL,
+  `bottle_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -241,9 +243,9 @@ CREATE TABLE `tasting` (
 LOCK TABLES `tasting` WRITE;
 /*!40000 ALTER TABLE `tasting` DISABLE KEYS */;
 INSERT INTO `tasting` VALUES
-('.¥l5‹¹LnšI½y\Å\ñ7','Domaine Leflaive Montrachet Grand Cru 2016','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red'),
-('–J<¸_½Fx¥\Í\ãqÀž§\"','ChÃ¢teau Latour 2010','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red'),
-('ºW¾a\éL¿¨\Ù\åMv¯™','Domaine Leflaive Montrachet Grand Cru','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','white');
+('.¥l5‹¹LnšI½y\Å\ñ7','Domaine Leflaive Montrachet Grand Cru 2016','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red','^À‘{ŸF\ä‡\Ö\Ûvû\Ý\ô_'),
+('–J<¸_½Fx¥\Í\ãqÀž§\"','ChÃ¢teau Latour 2010','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','red',')R1„ú\ÎN…‚7\ÍP\î'),
+('ºW¾a\éL¿¨\Ù\åMv¯™','Domaine Leflaive Montrachet Grand Cru','[\"hugues.gobet@gmail.com\"]','hugues.gobet@gmail.com','white','^À‘{ŸF\ä‡\Ö\Ûvû\Ý\ô_');
 /*!40000 ALTER TABLE `tasting` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -256,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-03 11:10:36
+-- Dump completed on 2025-01-05 10:37:41

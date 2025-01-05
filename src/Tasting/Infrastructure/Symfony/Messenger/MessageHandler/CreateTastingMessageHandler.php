@@ -26,6 +26,7 @@ final readonly class CreateTastingMessageHandler
 
     public function __invoke(BottleTastedMessage $bottleTastedMessage): void
     {
+        Assert::uuid($bottleTastedMessage->bottleId);
         Assert::string($bottleTastedMessage->bottleName);
         Assert::maxLength($bottleTastedMessage->bottleName, 255);
         Assert::string($bottleTastedMessage->bottleWineType);
@@ -35,6 +36,7 @@ final readonly class CreateTastingMessageHandler
 
         try {
             $this->bus->dispatch(new CreateTastingCommand(
+                $bottleTastedMessage->bottleId,
                 $bottleTastedMessage->bottleName,
                 $bottleTastedMessage->bottleWineType,
                 $bottleTastedMessage->ownerEmail,

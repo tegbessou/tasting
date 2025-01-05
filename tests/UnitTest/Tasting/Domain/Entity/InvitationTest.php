@@ -27,6 +27,7 @@ final class InvitationTest extends TestCase
         $this->tasting = Tasting::create(
             TastingId::fromString('2ea56c35-8bb9-4c6e-9a49-bd79c5f11537'),
             Bottle::create(
+                '4eb449d9-7d23-4984-a68d-77aa19fccc60',
                 'Sassicaia 2012',
                 'red',
             ),

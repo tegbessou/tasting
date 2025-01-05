@@ -162,9 +162,5 @@ to transform this data to our domain
 
 ## Refactoring DDD
 
-### Refactoring tasting
-
-When you accept to taste a bottle this bottle should be duplicate in your bottle list flaggued has invited to tasting
-
 ## Refactoring tech
 Setup phparkitect pour les règles de nommages

@@ -23,4 +23,6 @@ interface MessageBrokerInterface
     public function dispatchCreateSheetWhenTastingIsCreated(TastingCreated $event): void;
 
     public function dispatchTastingDeleted(TastingDeleted $event): void;
+
+    public function dispatchDuplicateBottleWhenInvitationIsAcceptedTastingDeleted(InvitationAccepted $event): void;
 }
