@@ -6,12 +6,12 @@ namespace App\Tasting\Application\Command;
 
 use App\Tasting\Application\Exception\SheetAlreadyExistException;
 use App\Tasting\Domain\Entity\Sheet;
-use App\Tasting\Domain\Factory\IdFactory;
 use App\Tasting\Domain\Repository\SheetRepositoryInterface;
 use App\Tasting\Domain\ValueObject\SheetId;
 use App\Tasting\Domain\ValueObject\SheetParticipant;
 use App\Tasting\Domain\ValueObject\SheetTastingId;
 use TegCorp\SharedKernelBundle\Application\Command\AsCommandHandler;
+use TegCorp\SharedKernelBundle\Domain\Factory\IdFactory;
 use TegCorp\SharedKernelBundle\Domain\Service\DomainEventDispatcherInterface;
 
 #[AsCommandHandler]
