@@ -1,7 +1,7 @@
 PROMPT_COMMAND=prompter
 
 function prompter() {
-    export PS1="\[\e[32m\]Des amis, du vin\[\e[m\] 🔥 \u$(_env)>"
+    export PS1="\[\e[32m\]Tasting - Des amis, du vin\[\e[m\] 🔥 \u$(_env)>"
 }
 
 function _env() {

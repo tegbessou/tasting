@@ -6,89 +6,89 @@ services:
       $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
       $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
 
-  App\:
+  EmpireDesAmis\Tasting\:
     resource: '../src/'
 
-  DataFixtures\:
+  EmpireDesAmis\Tasting\DataFixtures\:
     resource: '../fixtures'
 
-  App\Tasting\Application\Projection\CreateTastingProjection:
+  EmpireDesAmis\Tasting\Application\Projection\CreateTastingProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\DeleteTastingProjection:
+  EmpireDesAmis\Tasting\Application\Projection\DeleteTastingProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\CreateInvitationProjection:
+  EmpireDesAmis\Tasting\Application\Projection\CreateInvitationProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\DeleteInvitationProjection:
+  EmpireDesAmis\Tasting\Application\Projection\DeleteInvitationProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\CreateSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\CreateSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\AddEyeToSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\AddEyeToSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\UpdateEyeToSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\UpdateEyeToSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\AddNoseToSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\AddNoseToSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\UpdateNoseToSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\UpdateNoseToSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\AddMouthToSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\AddMouthToSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\UpdateMouthToSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\UpdateMouthToSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\Projection\DeleteSheetProjection:
+  EmpireDesAmis\Tasting\Application\Projection\DeleteSheetProjection:
     tags: [kernel.event_listener]
 
-  App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
-    alias: App\Tasting\Infrastructure\User\Repository\ParticipantRepository
+  EmpireDesAmis\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
+    alias: EmpireDesAmis\Tasting\Infrastructure\User\Repository\ParticipantRepository
 
-  App\Tasting\Application\Adapter\TastingAdapterInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Adapter\TastingDoctrineAdapter
+  EmpireDesAmis\Tasting\Application\Adapter\TastingAdapterInterface:
+    alias: EmpireDesAmis\Tasting\Infrastructure\Doctrine\Adapter\TastingDoctrineAdapter
     public: true
 
-  App\Tasting\Application\Adapter\InvitationAdapterInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Adapter\InvitationDoctrineAdapter
+  EmpireDesAmis\Tasting\Application\Adapter\InvitationAdapterInterface:
+    alias: EmpireDesAmis\Tasting\Infrastructure\Doctrine\Adapter\InvitationDoctrineAdapter
     public: true
 
-  App\Tasting\Application\Adapter\SheetAdapterInterface:
-    alias: App\Tasting\Infrastructure\Doctrine\Adapter\SheetDoctrineAdapter
+  EmpireDesAmis\Tasting\Application\Adapter\SheetAdapterInterface:
+    alias: EmpireDesAmis\Tasting\Infrastructure\Doctrine\Adapter\SheetDoctrineAdapter
     public: true
 
-  App\Tasting\Application\Service\NotificationInterface:
-    alias: App\Tasting\Infrastructure\Firebase\NotificationFirebase
+  EmpireDesAmis\Tasting\Application\Service\NotificationInterface:
+    alias: EmpireDesAmis\Tasting\Infrastructure\Firebase\NotificationFirebase
     public: true
 
-  App\Tasting\Application\EventListener\OnInvitationCreated:
+  EmpireDesAmis\Tasting\Application\EventListener\OnInvitationCreated:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnInvitationAccepted:
+  EmpireDesAmis\Tasting\Application\EventListener\OnInvitationAccepted:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnInvitationRejected:
+  EmpireDesAmis\Tasting\Application\EventListener\OnInvitationRejected:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
+  EmpireDesAmis\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\CreateSheetWhenInvitationIsAccepted:
+  EmpireDesAmis\Tasting\Application\EventListener\CreateSheetWhenInvitationIsAccepted:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\CreateSheetWhenTastingIsCreated:
+  EmpireDesAmis\Tasting\Application\EventListener\CreateSheetWhenTastingIsCreated:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\OnTastingDeleted:
+  EmpireDesAmis\Tasting\Application\EventListener\OnTastingDeleted:
     tags: [kernel.event_listener]
 
-  App\Tasting\Application\EventListener\DuplicationBottleWhenInvitationIsAccepted:
+  EmpireDesAmis\Tasting\Application\EventListener\DuplicationBottleWhenInvitationIsAccepted:
     tags: [kernel.event_listener]
 
 when@dev:
@@ -98,11 +98,11 @@ when@dev:
 
 when@test:
   services:
-    App\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
-      alias: App\Tasting\Infrastructure\User\Repository\ParticipantFakeRepository
+    EmpireDesAmis\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
+      alias: EmpireDesAmis\Tasting\Infrastructure\User\Repository\ParticipantFakeRepository
 
-    App\Tasting\Application\Service\NotificationInterface:
-      alias: App\Tasting\Infrastructure\Firebase\NotificationFirebaseFake
+    EmpireDesAmis\Tasting\Application\Service\NotificationInterface:
+      alias: EmpireDesAmis\Tasting\Infrastructure\Firebase\NotificationFirebaseFake
       public: true
 
     EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:

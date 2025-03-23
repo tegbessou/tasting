@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shared;
+namespace EmpireDesAmis\Tasting\Tests\Shared;
 
 use PHPUnit\Framework\Attributes\Before;
 

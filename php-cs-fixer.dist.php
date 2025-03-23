@@ -6,7 +6,7 @@ $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
     ->exclude('var')
     ->exclude('tests/Shared')
-    ->exclude('src/Tasting/Application/ReadModel')
+    ->exclude('src/Application/ReadModel')
 ;
 
 return (new PhpCsFixer\Config())

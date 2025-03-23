@@ -11,8 +11,8 @@ doctrine_mongodb:
             auto_mapping: true
             mappings:
                 tasting:
-                    dir: '%kernel.project_dir%/src/Tasting/Application/'
-                    prefix: 'App\Tasting\Application\'
+                    dir: '%kernel.project_dir%/src/Application/'
+                    prefix: 'EmpireDesAmis\Tasting\Application\'
 
 when@prod:
     doctrine_mongodb:

@@ -9,7 +9,7 @@ COMPOSER = $(EXEC_PHP) composer
 .DEFAULT_GOAL := help
 
 help: ## This help dialog.
-	@echo "${GREEN}Des amis, du vin${RESET}"
+	@echo "${GREEN}Tasting - Des amis, du vin${RESET}"
 	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
 		helpMessage = match(lastLine, /^## (.*)/); \
 		if (helpMessage) { \
@@ -114,14 +114,14 @@ Database:
 ## Load database from dump
 db-load-fixtures: wait-db db-drop db-create
 	@echo "\nLoading fixtures from dump...\e[0m"
-	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv.sql"
-	@$(EXEC_MONGODB) mongorestore --drop --db dadv /home/app/dump/documents/dadv
+	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/eda_tasting.sql"
+	@$(EXEC_MONGODB) mongorestore --drop --db eda_tasting /home/app/dump/documents/eda_tasting
 
 ## Load database from dump test
 db-load-fixtures-test: wait-db db-drop-test db-create-test
 	@echo "\nLoading fixtures from dump...\e[0m"
-	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/dadv-test.sql"
-	@$(EXEC_MONGODB) mongorestore --drop --db dadv_test /home/app/dump/documents/dadv_test
+	@$(EXEC_DB) "mysql --user=root --password=root < /home/app/dump/eda_tasting-test.sql"
+	@$(EXEC_MONGODB) mongorestore --drop --db eda_tasting_test /home/app/dump/documents/eda_tasting_test
 
 ## Recreate database structure
 db-reload-schema: wait-db db-drop db-create db-migrate
@@ -170,8 +170,8 @@ db-reload-fixtures: env-dev wait-db db-reload-schema
 	@$(EXEC_SYMFONY) doctrine:mongodb:fixtures:load --no-interaction
 
 	@echo "\nCreating dump...\e[0m"
-	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv > /home/app/dump/dadv.sql"
-	@$(EXEC_MONGODB) mongodump --db dadv --out /home/app/dump/documents
+	@$(EXEC_DB) "mysqldump --user=root --password=root --databases eda_tasting > /home/app/dump/eda_tasting.sql"
+	@$(EXEC_MONGODB) mongodump --db eda_tasting --out /home/app/dump/documents
 
 ## Reload fixtures
 db-reload-fixtures-test: env-test wait-db db-reload-schema-test
@@ -180,8 +180,8 @@ db-reload-fixtures-test: env-test wait-db db-reload-schema-test
 	@$(EXEC_SYMFONY) doctrine:mongodb:fixtures:load --no-interaction
 
 	@echo "\nCreating dump...\e[0m"
-	@$(EXEC_DB) "mysqldump --user=root --password=root --databases dadv_test > /home/app/dump/dadv-test.sql"
-	@$(EXEC_MONGODB) mongodump --db dadv_test --out /home/app/dump/documents
+	@$(EXEC_DB) "mysqldump --user=root --password=root --databases eda_tasting_test > /home/app/dump/eda_tasting-test.sql"
+	@$(EXEC_MONGODB) mongodump --db eda_tasting_test --out /home/app/dump/documents
 
 #################################
 Test:
@@ -241,9 +241,6 @@ phpstan:
 
 ## Deptrac
 deptrac:
-	@echo "\nRunning deptrac for bounded context...\e[0m"
-	@$(EXEC_PHP) vendor/bin/deptrac analyze --cache-file .deptrac_bounded_context.cache --config-file deptrac_bounded_context.yaml --fail-on-uncovered --report-uncovered --no-progress
-
 	@echo "\nRunning deptrac for hexagonal architecture...\e[0m"
 	@$(EXEC_PHP) vendor/bin/deptrac analyze --cache-file .deptrac_hexagonal_architecture.cache --config-file deptrac_hexagonal_architecture.yaml --fail-on-uncovered --report-uncovered --no-progress
 

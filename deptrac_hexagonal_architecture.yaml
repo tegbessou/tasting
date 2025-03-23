@@ -1,7 +1,6 @@
 deptrac:
     paths:
-        - ./src/Shared
-        - ./src/Tasting
+        - ./src
 
     layers:
         - name: Domain

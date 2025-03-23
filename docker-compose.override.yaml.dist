@@ -1,12 +1,12 @@
 services:
   nginx-proxy:
     ports:
-      - "80:80"
-      - "443:443"
+      - "84:80"
+      - "447:443"
 
   php:
     environment:
-      VIRTUAL_HOST: des-amis-du-vin.docker
+      VIRTUAL_HOST: tasting-des-amis-du-vin.docker
       VIRTUAL_PORT: 8080
       CERT_NAME: default
     expose:
@@ -14,12 +14,12 @@ services:
 
   rabbitmq:
     environment:
-      VIRTUAL_HOST: rabbitmq.des-amis-du-vin.docker
+      VIRTUAL_HOST: rabbitmq.tasting-des-amis-du-vin.docker
       VIRTUAL_PORT: 15672
       CERT_NAME: default
 
   mailcatcher:
     environment:
-      VIRTUAL_HOST: mailcatcher.des-amis-du-vin.docker
+      VIRTUAL_HOST: mailcatcher.tasting-des-amis-du-vin.docker
       VIRTUAL_PORT: 1080
       CERT_NAME: default

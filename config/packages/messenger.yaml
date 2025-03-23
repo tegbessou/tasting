@@ -14,7 +14,7 @@ framework:
                             binding_keys: [tasting]
             tasting_from_external:
                 dsn: '%env(MESSENGER_TRANSPORT_TASTING_DSN)%'
-                serializer: App\Tasting\Infrastructure\Symfony\Messenger\Serializer\ExternalMessageSerializer
+                serializer: EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Serializer\ExternalMessageSerializer
                 options:
                     exchange:
                         name: tasting_from_external
@@ -35,13 +35,13 @@ framework:
                         tasting:
                             binding_keys: [bottle_inventory_from_external]
         routing:
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage': tasting
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface': tasting
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage': tasting
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenTastingIsCreatedMessage': tasting
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\TastingDeletedMessage': tasting
+            'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationCreatedMessage': tasting
+            'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Message\InvitationStatusChangedInterface': tasting
+            'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenInvitationIsAcceptedMessage': tasting
+            'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Message\CreateSheetWhenTastingIsCreatedMessage': tasting
+            'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Message\TastingDeletedMessage': tasting
 
-            'App\Tasting\Infrastructure\Symfony\Messenger\Message\CreateBottleForParticipantWhenInvitationIsAcceptedMessage': tasting_to_bottle_inventory
+            'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\Message\CreateBottleForParticipantWhenInvitationIsAcceptedMessage': tasting_to_bottle_inventory
 
 when@test:
     framework:
@@ -56,5 +56,5 @@ when@test:
                     serializer: messenger.transport.native_php_serializer
 
             routing:
-                'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': tasting_from_external
-                'App\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage': tasting_from_external
+                'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\UserCreatedMessage': tasting_from_external
+                'EmpireDesAmis\Tasting\Infrastructure\Symfony\Messenger\ExternalMessage\BottleTastedMessage': tasting_from_external

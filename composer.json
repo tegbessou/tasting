@@ -1,6 +1,4 @@
 {
-    "name": "tegbessou/des-amis-du-vin",
-    "version": "1.0.0",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -102,15 +100,13 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "EmpireDesAmis\\Tasting\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AdapterTest\\": "tests/AdapterTest",
-            "UnitTest\\": "tests/UnitTest",
-            "Shared\\": "tests/Shared",
-            "DataFixtures\\": "fixtures/"
+            "EmpireDesAmis\\Tasting\\Tests\\": "tests/",
+            "EmpireDesAmis\\Tasting\\DataFixtures\\": "fixtures/"
         }
     },
     "replace": {
