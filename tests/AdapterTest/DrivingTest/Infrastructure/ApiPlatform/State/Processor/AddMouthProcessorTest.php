@@ -76,7 +76,7 @@ final class AddMouthProcessorTest extends ApiTestCase
 
         if ($statusCode === 422) {
             $this->assertJsonContains([
-                '@type' => 'ConstraintViolationList',
+                '@type' => 'ConstraintViolation',
                 'title' => 'An error occurred',
                 'violations' => $violations,
             ]);
@@ -259,7 +259,7 @@ final class AddMouthProcessorTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            '@type' => 'ConstraintViolationList',
+            '@type' => 'ConstraintViolation',
             'title' => 'An error occurred',
             'violations' => [
                 [

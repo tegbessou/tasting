@@ -11,7 +11,7 @@ security:
                 - EmpireDesAmis\SecurityAuthenticatorBundle\Security\Authenticator\FirebaseAuthenticator
 
     access_control:
-        - { path: ^/api/users, roles: PUBLIC_ACCESS }
+        - { path: ^/api/up, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/doc, roles: PUBLIC_ACCESS }
 

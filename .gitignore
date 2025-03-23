@@ -48,3 +48,7 @@ phpstan.neon
 /.deptrac*.cache
 ###< qossmic/deptrac ###
 
+###> secret ###
+/config/firebase/*.json
+###> secret ###
+

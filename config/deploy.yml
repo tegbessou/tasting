@@ -1,0 +1,70 @@
+  <% require "dotenv"; Dotenv.load(".env") %>
+
+  service: empire-des-amis-tasting
+
+  image: tegbessou/empire-des-amis-tasting
+
+  servers:
+    web:
+      hosts:
+        - 5.189.149.68
+
+  retain_containers: 2
+
+  proxy:
+    ssl: false
+    host: tasting.empire-des-amis.com
+    app_port: 8084
+    healthcheck:
+      path: /api/up
+
+  registry:
+    username: tegbessou
+    password:
+      - KAMAL_REGISTRY_PASSWORD
+
+  builder:
+    arch: amd64
+    context: .
+    dockerfile: ./docker/prod/Dockerfile
+    remote: ssh://root@5.189.149.68
+
+  ssh:
+    user: root
+    keys_only: false
+    keys: [ "~/.ssh/id_rsa" ]
+
+  volumes:
+    - /home/root/volumes/tasting:/app/var/log:rw
+
+  env:
+    clear:
+      APP_ENV: prod
+      APP_SECRET: 8d0451fe0062d77cef08eeba1de40b1f
+      CORS_ALLOW_ORIGIN: '^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'
+      JWT_SECRET_KEY: '%kernel.project_dir%/config/jwt/private.pem'
+      JWT_PUBLIC_KEY: '%kernel.project_dir%/config/jwt/public.pem'
+      MONGODB_DB: 'eda_tasting'
+    secret:
+      - DATABASE_URL
+      - JWT_PASSPHRASE
+      - MAILER_DSN
+      - MONGODB_URL
+      - KAMAL_REGISTRY_PASSWORD
+      - SERVICE_ACCOUNT_BOTTLE_INVENTORY_LOGIN
+      - SERVICE_ACCOUNT_BOTTLE_INVENTORY_PASSWORD
+      - SERVICE_ACCOUNT_TASTING_LOGIN
+      - SERVICE_ACCOUNT_TASTING_PASSWORD
+      - MESSENGER_TRANSPORT_TASTING_TO_BOTTLE_INVENTORY_DSN
+      - MESSENGER_TRANSPORT_SECURITY_DSN
+      - MESSENGER_TRANSPORT_TASTING_DSN
+      - COUNTRY_API_URL
+      - USER_API_URL
+
+  labels:
+    traefik.enable: "true"
+    traefik.http.routers.empire-des-amis-tasting.rule: "PathPrefix(`/tasting/api`)"
+    traefik.http.routers.empire-des-amis-tasting.entrypoints: "web"
+    traefik.http.services.empire-des-amis-tasting.loadbalancer.server.port: "8084"
+    traefik.http.routers.empire-des-amis-tasting.middlewares: "strip-prefix-tasting"
+    traefik.http.middlewares.strip-prefix-tasting.stripPrefix.prefixes: "/tasting"
