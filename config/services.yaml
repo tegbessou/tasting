@@ -9,9 +9,6 @@ services:
   EmpireDesAmis\Tasting\:
     resource: '../src/'
 
-  EmpireDesAmis\Tasting\DataFixtures\:
-    resource: '../fixtures'
-
   EmpireDesAmis\Tasting\Application\Projection\CreateTastingProjection:
     tags: [kernel.event_listener]
 
@@ -93,11 +90,157 @@ services:
 
 when@dev:
   services:
+    _defaults:
+      autowire: true
+      autoconfigure: true
+      bind:
+        $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
+        $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
+
+    EmpireDesAmis\Tasting\:
+      resource: '../src/'
+
+    EmpireDesAmis\Tasting\DataFixtures\:
+      resource: '../fixtures'
+
+    EmpireDesAmis\Tasting\Application\Projection\CreateTastingProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\DeleteTastingProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\CreateInvitationProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\DeleteInvitationProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\CreateSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\AddEyeToSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\UpdateEyeToSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\AddNoseToSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\UpdateNoseToSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\AddMouthToSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\UpdateMouthToSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\Projection\DeleteSheetProjection:
+      tags: [kernel.event_listener]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnInvitationCreated:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnInvitationAccepted:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnInvitationRejected:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\CreateSheetWhenInvitationIsAccepted:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\CreateSheetWhenTastingIsCreated:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnTastingDeleted:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\DuplicationBottleWhenInvitationIsAccepted:
+      tags: [ kernel.event_listener ]
+
     EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFirebaseInterface:
       alias: EmpireDesAmis\SecurityAuthenticatorBundle\Firebase\Security\Authenticator\AuthenticateUserFromProviderFakeFirebase
 
 when@test:
   services:
+    _defaults:
+      autowire: true
+      autoconfigure: true
+      bind:
+        $emailTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_LOGIN)%'
+        $passwordTastingUserService: '%env(SERVICE_ACCOUNT_TASTING_PASSWORD)%'
+
+    EmpireDesAmis\Tasting\:
+      resource: '../src/'
+
+    EmpireDesAmis\Tasting\DataFixtures\:
+      resource: '../fixtures'
+
+    EmpireDesAmis\Tasting\Application\Projection\CreateTastingProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\DeleteTastingProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\CreateInvitationProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\DeleteInvitationProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\CreateSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\AddEyeToSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\UpdateEyeToSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\AddNoseToSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\UpdateNoseToSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\AddMouthToSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\UpdateMouthToSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\Projection\DeleteSheetProjection:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnInvitationCreated:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnInvitationAccepted:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnInvitationRejected:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnTargetSetFullNameEventOnEachInvitationEventListener:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\CreateSheetWhenInvitationIsAccepted:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\CreateSheetWhenTastingIsCreated:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\OnTastingDeleted:
+      tags: [ kernel.event_listener ]
+
+    EmpireDesAmis\Tasting\Application\EventListener\DuplicationBottleWhenInvitationIsAccepted:
+      tags: [ kernel.event_listener ]
+
     EmpireDesAmis\Tasting\Infrastructure\User\Repository\ParticipantRepositoryInterface:
       alias: EmpireDesAmis\Tasting\Infrastructure\User\Repository\ParticipantFakeRepository
 
